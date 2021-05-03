@@ -1,5 +1,5 @@
 const userGateway = 'http://202.78.227.202:31753/api';
-const testApi = 'https://jsonplaceholder.typicode.com/';
+const testApi = 'https://jsonplaceholder.typicode.com';
 
 const apiLinks = {
   auth: {

@@ -1,7 +1,8 @@
 import React from 'react';
+import { PostListCard } from './components';
 
 const PostPage: React.FC = () => {
-  return <>PostPage</>;
+  return <PostListCard />;
 };
 
 export default PostPage;

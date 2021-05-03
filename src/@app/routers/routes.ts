@@ -16,6 +16,7 @@ interface Route {
 const routes: Route[] = [
   {
     component: HomePage,
+    layout: AppLayout,
     path: '/',
     exact: true,
   },

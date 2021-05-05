@@ -11,7 +11,7 @@ const StyleWrapperInput = styled.div`
     height: 48px;
     font-size: 18px;
     text-transform: initial;
-    box-shadow: 1px 8px 8px 0px
+    box-shadow: 1px 3px 3px 0px rgba(0, 0, 0, 0.2)
 `;
 const StyledInput = styled(IonInput)`
     color: black;
@@ -27,37 +27,45 @@ const StyleText = styled.div`
 `;
 const StyledButton = styled(IonButton)`
     width: 300px;
-    --background: #001a80;
+    --background: #293978;
     
+`
+const StyledHeader = styled.h1`
+    font-size: 35px;
+    font-weight: 700;
+    color: #010100;
+    padding-left: 35px;
+    margin-top: 50px;
 `
 const StyledIcon = styled(IonIcon)`
    margin-right: 20px;
    color:#808080;
     
 `
+
 const RegisterPage: React.FC = () => {
     const [text, setText] = useState<string>();
     const [number, setNumber] = useState<number>();
     return (
         < >
             <IonContent >
-                <IonRow>
-                    <IonCol>
+                <IonRow >
+                    <IonCol >
                         <div style={{ textAlign: 'center', marginTop: '50px' }}>
                             <img width='300px' src={logo} alt="logo" />
                         </div>
                     </IonCol>
                 </IonRow>
-                <IonRow>
-                    <IonCol>
-                        <h1 style={{ fontSize: '35px', fontWeight: 700, color: '#010100', paddingLeft: '35px', marginTop: '50px' }}>Đăng Kí</h1>
+                <IonRow className="ion-justify-content-center">
+                    <IonCol size="12" size-sm='3'>
+                        <StyledHeader >Đăng Kí</StyledHeader>
                         <div style={{ fontSize: '14px', color: '#666666', paddingLeft: '35px', marginBottom: '-15px' }}> Vui lòng điền đầy đủ thông tin</div>
                     </IonCol>
                 </IonRow>
 
                 <form style={{ paddingLeft: '30px', paddingRight: '30px' }}>
-                    <IonRow>
-                        <IonCol size="12" size-md>
+                    <IonRow className="ion-justify-content-center">
+                        <IonCol size="12" size-sm='3'>
                             <StyleWrapperInput>
                                 <StyledInput placeholder="Tên của bạn">
                                     <StyledIcon icon={person} />
@@ -65,8 +73,8 @@ const RegisterPage: React.FC = () => {
                             </StyleWrapperInput>
                         </IonCol>
                     </IonRow>
-                    <IonRow>
-                        <IonCol size="12" size-md>
+                    <IonRow className="ion-justify-content-center">
+                        <IonCol size="12" size-sm='3'>
                             <StyleWrapperInput>
                                 <StyledInput placeholder="Số điện thoại">
                                     <StyledIcon icon={phonePortraitOutline} />
@@ -74,8 +82,8 @@ const RegisterPage: React.FC = () => {
                             </StyleWrapperInput>
                         </IonCol>
                     </IonRow>
-                    <IonRow>
-                        <IonCol size="12" size-md>
+                    <IonRow className="ion-justify-content-center">
+                        <IonCol size="12" size-sm='3'>
                             <StyleWrapperInput>
                                 <StyledInput placeholder="Mật khẩu" type='password'>
                                     <StyledIcon icon={lockClosed} />
@@ -85,13 +93,13 @@ const RegisterPage: React.FC = () => {
                     </IonRow>
 
                 </form>
-                <IonRow>
-                    <IonCol size="12" size-md>
-                        <StyleText>Đã có tài khoản? <b>Đăng nhập ngay</b></StyleText>
+                <IonRow className="ion-justify-content-center">
+                    <IonCol size="12" size-sm='3'>
+                        <StyleText >Đã có tài khoản? <b style={{ cursor: 'pointer' }}>Đăng nhập ngay</b></StyleText>
                     </IonCol>
                 </IonRow>
-                <IonRow>
-                    <IonCol size="12" size-md>
+                <IonRow className="ion-justify-content-center">
+                    <IonCol size="12" size-sm='3'>
                         <div style={{ textAlign: 'center', marginTop: '20px' }}>
                             <StyledButton>Đăng kí</StyledButton>
                         </div>

@@ -4,6 +4,7 @@ import HomePage from '@app/pages/HomePage';
 import PageNotFound from '@app/pages/PageNotFound';
 import AppLayout from '@app/components/app-layout';
 import PostPage from 'post';
+import RegisterPage from '@app/pages/RegisterPage';
 
 interface Route {
   component: React.FC;
@@ -29,6 +30,10 @@ const routes: Route[] = [
     component: PostPage,
     layout: AppLayout,
     path: '/post',
+  },
+  {
+    component: RegisterPage,
+    path: '/register',
   },
   {
     component: PageNotFound,

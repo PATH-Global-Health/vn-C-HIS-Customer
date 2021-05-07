@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { IonIcon, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton, IonGrid, IonRow, IonCol } from '@ionic/react';
-import { person, call, lockClosed, phonePortraitOutline } from 'ionicons/icons';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol } from '@ionic/react';
+import { person, lockClosed, phonePortraitOutline } from 'ionicons/icons';
 import logo from '../assets/img/logo.png';
 import styled from 'styled-components';
 const StyleWrapperInput = styled.div`
@@ -29,7 +29,7 @@ const StyledButton = styled(IonButton)`
     width: 300px;
     --background: #293978;
     
-`
+`;
 const StyledHeader = styled.h1`
     font-size: 35px;
     font-weight: 700;
@@ -41,11 +41,9 @@ const StyledIcon = styled(IonIcon)`
    margin-right: 20px;
    color:#808080;
     
-`
+`;
 
 const RegisterPage: React.FC = () => {
-    const [text, setText] = useState<string>();
-    const [number, setNumber] = useState<number>();
     return (
         < >
             <IonContent >

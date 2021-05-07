@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { IonIcon, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton, IonGrid, IonRow, IonCol, IonCheckbox } from '@ionic/react';
-import { person, call, lockClosed, phonePortraitOutline, mailOutline, logoFacebook } from 'ionicons/icons';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox } from '@ionic/react';
+import { lockClosed, phonePortraitOutline, mailOutline, logoFacebook } from 'ionicons/icons';
 import logo from '../assets/img/logo.png';
 import styled from 'styled-components';
 const StyleWrapperInput = styled.div`
     background-color: white;
     border: 1px solid #d6d6c2;
-    margin-top: 20px;
+    margin-top: 10px;
     border-radius: 10px;
     height: 48px;
     font-size: 18px;
@@ -23,7 +23,7 @@ const StyleText = styled.div`
     color: #010100;
     text-align: end;
     margin-right: 35px;
-    margin-top: 20px;
+    margin-top: 10px;
     font-weight: 500;
     cursor:pointer;
 `;
@@ -31,31 +31,28 @@ const StyledButton = styled(IonButton)`
     width: 300px;
     --background: #293978;
     
-`
+`;
+
 const StyledSocialButton = styled(IonButton)`
     border: 0.5px solid #d6d6c2;
     width: 250px;
     --background: white;
-`
+`;
+
 const StyledHeader = styled.h1`
     font-size: 35px;
     font-weight: 700;
     color: #010100;
     padding-left: 35px;
-    margin-top: 30px;
-`
+    margin-top: 10px;
+`;
+
 const StyledIcon = styled(IonIcon)`
    margin-right: 20px;
-   color:#808080;
-    
-`
-const StyledWrapper = styled.div`
-    padding-left: 35px;
-    padding-right: 35px;
-`
+   color: #808080;
+`;
+
 const LoginPage: React.FC = () => {
-    const [text, setText] = useState<string>();
-    const [number, setNumber] = useState<number>();
     return (
         <>
             <IonContent >
@@ -95,16 +92,16 @@ const LoginPage: React.FC = () => {
 
                 </form>
                 <IonRow className="ion-justify-content-round">
-                    <IonCol offset="1" size='6' size-sm='5'>
-                        <StyleText ><IonCheckbox style={{ marginTop: '-15px', marginRight: '10px' }} checked={true}></IonCheckbox>Nhớ mật khẩu</StyleText>
+                    <IonCol size='6' size-sm='6'>
+                        <StyleText ><IonCheckbox style={{ margin: '-25px 10px 0px 5px' }} checked={true}></IonCheckbox>Nhớ mật khẩu</StyleText>
                     </IonCol>
-                    <IonCol size="5" size-sm='2'>
+                    <IonCol size="6" size-sm='2'>
                         <StyleText >QUÊN MẬT KHẨU?</StyleText>
                     </IonCol>
                 </IonRow>
                 <IonRow className="ion-justify-content-center">
                     <IonCol size="12" size-sm='3'>
-                        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                        <div style={{ textAlign: 'center', marginTop: '10px' }}>
                             <StyledButton>ĐĂNG NHẬP</StyledButton>
                         </div>
                     </IonCol>
@@ -116,11 +113,11 @@ const LoginPage: React.FC = () => {
                         </div>
                     </IonCol>
                 </IonRow>
-                <StyledWrapper>
+                <div>
                     <IonRow className="ion-justify-content-center">
                         <IonCol size="12" size-sm='3'>
                             <div style={{ textAlign: 'center' }}>
-                                <StyledSocialButton >
+                                <StyledSocialButton>
                                     <StyledIcon icon={mailOutline} />
                                     <span style={{ color: 'black' }}>Tiếp tục bằng Gmail</span>
                                 </StyledSocialButton>
@@ -137,7 +134,7 @@ const LoginPage: React.FC = () => {
                             </div>
                         </IonCol>
                     </IonRow>
-                </StyledWrapper>
+                </div>
 
             </IonContent >
         </>

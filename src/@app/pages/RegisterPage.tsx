@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
+
+import styled from 'styled-components';
+
 import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol } from '@ionic/react';
 import { person, lockClosed, phonePortraitOutline } from 'ionicons/icons';
+
 import logo from '../assets/img/logo.png';
-import styled from 'styled-components';
+
 const StyleWrapperInput = styled.div`
     background-color: white;
     border: 1px solid #d6d6c2;
@@ -44,69 +48,69 @@ const StyledIcon = styled(IonIcon)`
 `;
 
 const RegisterPage: React.FC = () => {
-    return (
-        < >
-            <IonContent >
-                <IonRow >
-                    <IonCol >
-                        <div style={{ textAlign: 'center', marginTop: '50px' }}>
-                            <img width='300px' src={logo} alt="logo" />
-                        </div>
-                    </IonCol>
-                </IonRow>
-                <IonRow className="ion-justify-content-center">
-                    <IonCol size="12" size-sm='3'>
-                        <StyledHeader >Đăng Kí</StyledHeader>
-                        <div style={{ fontSize: '14px', color: '#666666', paddingLeft: '35px', marginBottom: '-15px' }}> Vui lòng điền đầy đủ thông tin</div>
-                    </IonCol>
-                </IonRow>
+  return (
+    < >
+      <IonContent >
+        <IonRow >
+          <IonCol >
+            <div style={{ textAlign: 'center', marginTop: '50px' }}>
+              <img width='300px' src={logo} alt="logo" />
+            </div>
+          </IonCol>
+        </IonRow>
+        <IonRow className="ion-justify-content-center">
+          <IonCol size="12" size-sm='3'>
+            <StyledHeader >Đăng Kí</StyledHeader>
+            <div style={{ fontSize: '14px', color: '#666666', paddingLeft: '35px', marginBottom: '-15px' }}> Vui lòng điền đầy đủ thông tin</div>
+          </IonCol>
+        </IonRow>
 
-                <form style={{ paddingLeft: '30px', paddingRight: '30px' }}>
-                    <IonRow className="ion-justify-content-center">
-                        <IonCol size="12" size-sm='3'>
-                            <StyleWrapperInput>
-                                <StyledInput placeholder="Tên của bạn">
-                                    <StyledIcon icon={person} />
-                                </StyledInput>
-                            </StyleWrapperInput>
-                        </IonCol>
-                    </IonRow>
-                    <IonRow className="ion-justify-content-center">
-                        <IonCol size="12" size-sm='3'>
-                            <StyleWrapperInput>
-                                <StyledInput placeholder="Số điện thoại">
-                                    <StyledIcon icon={phonePortraitOutline} />
-                                </StyledInput>
-                            </StyleWrapperInput>
-                        </IonCol>
-                    </IonRow>
-                    <IonRow className="ion-justify-content-center">
-                        <IonCol size="12" size-sm='3'>
-                            <StyleWrapperInput>
-                                <StyledInput placeholder="Mật khẩu" type='password'>
-                                    <StyledIcon icon={lockClosed} />
-                                </StyledInput>
-                            </StyleWrapperInput>
-                        </IonCol>
-                    </IonRow>
+        <form style={{ paddingLeft: '30px', paddingRight: '30px' }}>
+          <IonRow className="ion-justify-content-center">
+            <IonCol size="12" size-sm='3'>
+              <StyleWrapperInput>
+                <StyledInput placeholder="Tên của bạn">
+                  <StyledIcon icon={person} />
+                </StyledInput>
+              </StyleWrapperInput>
+            </IonCol>
+          </IonRow>
+          <IonRow className="ion-justify-content-center">
+            <IonCol size="12" size-sm='3'>
+              <StyleWrapperInput>
+                <StyledInput placeholder="Số điện thoại">
+                  <StyledIcon icon={phonePortraitOutline} />
+                </StyledInput>
+              </StyleWrapperInput>
+            </IonCol>
+          </IonRow>
+          <IonRow className="ion-justify-content-center">
+            <IonCol size="12" size-sm='3'>
+              <StyleWrapperInput>
+                <StyledInput placeholder="Mật khẩu" type='password'>
+                  <StyledIcon icon={lockClosed} />
+                </StyledInput>
+              </StyleWrapperInput>
+            </IonCol>
+          </IonRow>
 
-                </form>
-                <IonRow className="ion-justify-content-center">
-                    <IonCol size="12" size-sm='3'>
-                        <StyleText >Đã có tài khoản? <b style={{ cursor: 'pointer' }}>Đăng nhập ngay</b></StyleText>
-                    </IonCol>
-                </IonRow>
-                <IonRow className="ion-justify-content-center">
-                    <IonCol size="12" size-sm='3'>
-                        <div style={{ textAlign: 'center', marginTop: '20px' }}>
-                            <StyledButton>Đăng kí</StyledButton>
-                        </div>
-                    </IonCol>
-                </IonRow>
+        </form>
+        <IonRow className="ion-justify-content-center">
+          <IonCol size="12" size-sm='3'>
+            <StyleText >Đã có tài khoản? <b style={{ cursor: 'pointer' }}>Đăng nhập ngay</b></StyleText>
+          </IonCol>
+        </IonRow>
+        <IonRow className="ion-justify-content-center">
+          <IonCol size="12" size-sm='3'>
+            <div style={{ textAlign: 'center', marginTop: '20px' }}>
+              <StyledButton>Đăng kí</StyledButton>
+            </div>
+          </IonCol>
+        </IonRow>
 
-            </IonContent>
-        </>
-    );
+      </IonContent>
+    </>
+  );
 };
 
 export default RegisterPage;

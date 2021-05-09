@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 
 import styled from 'styled-components';
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox, IonToast } from '@ionic/react';
-import { lockClosed, phonePortraitOutline, mailOutline, logoFacebook, logoInstagram } from 'ionicons/icons';
 
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox, IonToast } from '@ionic/react';
+import { lockClosed, phonePortraitOutline, mailOutline, logoFacebook } from 'ionicons/icons';
+
+import useAuth from '@app/hooks/use-auth';
+import { useHistory } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 
 import logo from '../assets/img/logo.png';
-import useAuth from '@app/hooks/use-auth';
+
 
 const StyleWrapperInput = styled.div`
     background-color: white;
@@ -28,6 +31,7 @@ const StyleText = styled.div`
     font-size: 15px;
     color: #010100;
     text-align: end;
+    margin-right: 20px;
     margin-top: 10px;
     font-weight: 500;
     cursor:pointer;
@@ -89,6 +93,7 @@ const formFields: InputProps[] = [
 ];
 
 const LoginPage: React.FC = () => {
+  const history = useHistory();
   const { control, handleSubmit } = useForm();
   const { login } = useAuth();
   const permissionQuery = {};
@@ -100,6 +105,7 @@ const LoginPage: React.FC = () => {
       const { username, password } = data;
       await login(username, password, remember, permissionQuery);
       setShowSuccessToast(true);
+      setTimeout(() => history.push('/home'), 1500);
     } catch (error) {
       setShowFailedToast(true);
     }
@@ -133,13 +139,13 @@ const LoginPage: React.FC = () => {
           </IonCol>
         </IonRow>
         <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='3'>
+          <IonCol size="12" size-sm='4' size-md='5' size-lg='4'>
             <StyledHeader >ĐĂNG NHẬP</StyledHeader>
-            <StyleText style={{ marginRight: '20px' }}>Chưa có tài khoản? <b>Đăng kí ngay</b></StyleText>
+            <StyleText >Chưa có tài khoản? <b onClick={() => { history.push('/register') }}>Đăng kí ngay</b></StyleText>
           </IonCol>
         </IonRow>
 
-        <form onSubmit={handleSubmit(handleLogin)} style={{ paddingLeft: '25px', paddingRight: '25px' }}>
+        <form onSubmit={handleSubmit(handleLogin)} style={{ paddingLeft: '30px', paddingRight: '30px' }}>
           {formFields.map(({ label, name, fieldType, ...otherProps }) => {
             switch (fieldType) {
               case 'input': {
@@ -148,11 +154,13 @@ const LoginPage: React.FC = () => {
                     key={name}
                     name={name}
                     control={control}
+
                     render={({ field: { onChange, onBlur, value } }) => (
                       <IonRow className="ion-justify-content-center">
-                        <IonCol size="12" size-sm='3'>
+                        <IonCol size="12" size-sm='4' size-lg='3'>
                           <StyleWrapperInput>
                             <StyledInput
+                              required={true}
                               onIonBlur={onBlur}
                               value={value}
                               onIonChange={onChange}
@@ -175,7 +183,7 @@ const LoginPage: React.FC = () => {
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                       <IonRow className="ion-justify-content-center">
-                        <IonCol size="12" size-sm='3'>
+                        <IonCol size="12" size-sm='4' size-lg='3'>
                           <StyleWrapperInput>
                             <StyledInput
                               onIonBlur={onBlur}
@@ -196,7 +204,7 @@ const LoginPage: React.FC = () => {
           })}
 
           <IonRow className="ion-justify-content-center">
-            <IonCol size="12" size-sm='3'>
+            <IonCol size="12" size-sm='4' size-lg='3'>
               <div style={{ textAlign: 'center', marginTop: '10px' }}>
                 <StyledButton type='submit'>ĐĂNG NHẬP</StyledButton>
               </div>
@@ -214,7 +222,7 @@ const LoginPage: React.FC = () => {
           </IonCol>
         </IonRow>
         <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='3'>
+          <IonCol size="12" size-sm='4'>
             <div style={{ textAlign: 'center', marginTop: '10px', color: 'black' }}>
               Hoặc
                         </div>
@@ -222,7 +230,7 @@ const LoginPage: React.FC = () => {
         </IonRow>
         <div>
           <IonRow className="ion-justify-content-center">
-            <IonCol size="12" size-sm='3'>
+            <IonCol size="12" size-sm='4'>
               <div style={{ textAlign: 'center' }}>
                 <StyledSocialButton>
                   <StyledIcon icon={mailOutline} />
@@ -232,7 +240,7 @@ const LoginPage: React.FC = () => {
             </IonCol>
           </IonRow>
           <IonRow className="ion-justify-content-center">
-            <IonCol size="12" size-sm='3'>
+            <IonCol size="12" size-sm='4'>
               <div style={{ textAlign: 'center' }}>
                 <StyledSocialButton >
                   <StyledIcon icon={logoFacebook} style={{ color: '#4267B2' }} />
@@ -242,10 +250,6 @@ const LoginPage: React.FC = () => {
             </IonCol>
           </IonRow>
         </div>
-
-
-
-
       </IonContent >
     </>
   );

@@ -4,12 +4,11 @@ import {
   IonIcon,
   IonItem,
   IonLabel,
-  IonThumbnail,
 } from '@ionic/react';
 import { home } from 'ionicons/icons';
-import logo from '../assets/img/logo.png';
-
-const HomePage: React.FC = () => {
+import Input from '@app/components/InputForm/input';
+import logo from '@app/assets/img/logo.png'
+const Home: React.FC = () => {
   return (
     <IonContent>
       <IonItem button onClick={() => { }}>
@@ -17,12 +16,13 @@ const HomePage: React.FC = () => {
           <img width='200px' src={logo} alt="logo" />
         </div>
         <IonLabel>
-          <p>Try to resize to mobile bruh 💻 👉 📱 </p>
+          <h3> Home Page</h3>
         </IonLabel>
         <IonIcon icon={home} slot="end" />
       </IonItem>
+      <div style={{ color: 'black', textAlign: "center" }}> Welcomeeeee.......</div>
     </IonContent>
   );
 };
 
-export default HomePage;
+export default Home;

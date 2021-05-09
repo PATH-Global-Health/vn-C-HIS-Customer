@@ -15,7 +15,30 @@ const login = async (username: string, password: string, remember: boolean, perm
   });
   return response.data as Token;
 };
-
+const createAccount = async ({
+  userName,
+  password,
+  email,
+  phoneNumber,
+  fullName
+}: {
+  userName: string;
+  password: string;
+  email: string;
+  phoneNumber: string;
+  fullName: string;
+}): Promise<void> => {
+  await httpClient.post({
+    url: apiLinks.manageAccount.create,
+    data: {
+      userName,
+      password,
+      email,
+      phoneNumber,
+      fullName
+    },
+  });
+};
 /* const getUserInfo = async (): Promise<UserInfo> => {
   const response = await httpClient.get({
     url: apiLinks.auth.userInfo,
@@ -25,6 +48,7 @@ const login = async (username: string, password: string, remember: boolean, perm
 
 const authService = {
   login,
+  createAccount
 };
 
 export default authService;

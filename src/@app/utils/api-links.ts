@@ -5,6 +5,9 @@ const apiLinks = {
   auth: {
     token: `${userGateway}/api/Users/Login`,
   },
+  manageAccount: {
+    create: `${userGateway}/api/Users`,
+  },
   post: {
     get: `${testApi}/posts`,
     create: `${testApi}/posts`,

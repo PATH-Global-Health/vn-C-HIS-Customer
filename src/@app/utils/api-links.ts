@@ -1,9 +1,9 @@
-const userGateway = 'http://202.78.227.202:31753/api';
+const userGateway = 'https://auth.vkhealth.vn';
 const testApi = 'https://jsonplaceholder.typicode.com';
 
 const apiLinks = {
   auth: {
-    token: `${userGateway}/Users/Login`,
+    token: `${userGateway}/api/Users/Login`,
   },
   post: {
     get: `${testApi}/posts`,

@@ -7,6 +7,7 @@ import PostPage from 'post';
 import RegisterPage from '@app/pages/RegisterPage';
 import LoginPage from '@app/pages/LoginPage';
 import Home from 'pages';
+import ChangePasswordPage from '@app/pages/ChangePasswordPage';
 
 interface Route {
   component: React.FC;
@@ -33,6 +34,11 @@ const routes: Route[] = [
   {
     component: RegisterPage,
     path: '/register',
+  },
+  {
+    component: ChangePasswordPage,
+    path: '/change-password',
+    exact: true,
   },
   {
     component: PostPage,

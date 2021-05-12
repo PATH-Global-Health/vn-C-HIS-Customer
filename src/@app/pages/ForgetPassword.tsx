@@ -10,19 +10,12 @@ import {
   IonIcon,
   IonItem,
   IonLabel,
-  IonNote,
-  IonPage,
-  IonRouterOutlet,
   IonRow,
 } from '@ionic/react';
 import {
-  person,
-  chevronForwardOutline,
-  logOutOutline,
-  linkOutline,
-  qrCodeOutline,
-  lockClosed,
-  shieldCheckmark,
+  informationCircleOutline,
+  mailOutline,
+  phonePortraitOutline,
   chevronBackOutline,
 } from 'ionicons/icons';
 
@@ -31,61 +24,59 @@ import { useHistory } from "react-router-dom";
 import logo from '@app/assets/img/logo.png'
 
 const StyledItem = styled(IonItem)`
-  margin: 0px 15px;
-  --min-height: 20px;
+  margin: 15px 15px;
+  border: 1px solid #b3aeae;
+  border-radius: 10px;
+  --min-height: 40px;
   
 `;
-const StyledSocialButton = styled(IonButton)`
-    border: 0.5px solid #d6d6c2;
-    color: #7b7b7b;
-    font-weight: 600;
-    width: 300px;
-    --background: white;
-`;
+
 const StyledIcon = styled(IonIcon)`
-  margin: 25px 30px 15px 0px;
-  padding: 11px 11px;
-  font-size: 15px;
+  margin: 20px 40px 20px 0px;
+  padding: 10px 12px;
+  font-size: 35px;
   border-radius: 10px;
   color: white;
   align-item: center;
 `;
-const StyledText = styled(IonLabel)`
-  font-size: 22px;
+const StyledLabel = styled(IonLabel)`
+  font-size: 35px;
+  font-weight: 50;
+  margin-bottom: 15px;
+`;
+const StyledText = styled.div`
+  color: black;
+  text-align: center;
+  font-size: 30px;
   font-weight: 600;
-`
+  margin: 30px 15px
+`;
 interface OptionProps {
   icon: string;
   label: string;
+  content: string;
   color: string;
   [otherProps: string]: unknown;
 };
 
 const optionFields: OptionProps[] = [
   {
-    icon: "person",
-    label: "Thông tin cá nhân",
-    color: "#409f4e",
+    icon: "sms",
+    label: "Qua SMS",
+    content: "+ 8498822233",
+    color: "rgb(91 153 255)",
   },
   {
-    icon: "update",
-    label: "Cập nhật thông tin",
-    color: "#6f3391"
+    icon: "gmail",
+    label: "Qua Gmail",
+    content: "hoang@gmail.com",
+    color: "rgb(91 153 255)"
   },
   {
-    icon: "change",
-    label: "Đổi mật khẩu",
-    color: "#e13b3b"
-  },
-  {
-    icon: "security",
-    label: "Cài đặt bảo mật",
-    color: "#f1c248"
-  },
-  {
-    icon: "qr",
-    label: "Mã QR của tôi",
-    color: "#3ac6e1"
+    icon: "question",
+    label: "Câu hỏi bảo mật :",
+    content: "Ngày tháng năm sinh",
+    color: "rgb(91 153 255)"
   },
 ];
 const ForgetPassword: React.FC = () => {
@@ -100,37 +91,39 @@ const ForgetPassword: React.FC = () => {
         </IonHeader>
         <IonRow className="ion-justify-content-center">
           <IonCol size='12' size-sm='6'>
-            <div style={{ color: 'black', textAlign: 'center' }} >
+            <StyledText >
               CHỌN PHƯƠNG THỨC LẤY LẠI MẬT KHẨU
-            </div>
+            </StyledText>
           </IonCol>
 
         </IonRow>
         <div>
           {
-            optionFields.map(({ icon, label, color, ...otherProps }) => {
+            optionFields.map(({ icon, label, content, color, ...otherProps }) => {
               return (
                 <IonRow >
                   <IonCol size="12" size-sm='3'>
                     <StyledItem color='light'
                     //onClick={() => { icon === 'change' ? history.push('/change-password') : history.push('/ForgetPassword') }}
-
                     >
                       <StyledIcon
                         icon={
-                          icon === 'person' ? person
-                            : icon === 'update' ? linkOutline
-                              : icon === 'change' ? lockClosed
-                                : icon === 'security' ? shieldCheckmark
-                                  : qrCodeOutline
+                          icon === 'sms' ? phonePortraitOutline
+                            : icon === 'gmail' ? mailOutline
+                              : informationCircleOutline
                         }
                         style={{ backgroundColor: color }}>
                       </StyledIcon>
-                      <StyledText >
+                      <StyledLabel >
                         {label}
-                      </StyledText>
-                      <IonIcon icon={chevronForwardOutline} color='medium'>
-                      </IonIcon>
+                        <br />
+                        {
+                          icon === 'question' ? <b>{content}<br /><b>của bạn?</b></b> : <b>{content}</b>
+                        }
+
+                      </StyledLabel>
+
+
                     </StyledItem>
                   </IonCol>
                 </IonRow>
@@ -139,16 +132,6 @@ const ForgetPassword: React.FC = () => {
             })
           }
         </div>
-        <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='4' size-lg='3'>
-            <div style={{ textAlign: 'center', marginTop: '10px' }}>
-              <StyledSocialButton type='submit' onClick={() => console.log('123123')} >
-                <IonIcon icon={logOutOutline} style={{ marginRight: '20px' }} ></IonIcon>
-              ĐĂNG XUẤT
-              </StyledSocialButton>
-            </div>
-          </IonCol>
-        </IonRow>
       </IonContent>
     </>
   );

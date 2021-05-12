@@ -6,6 +6,7 @@ import {
   IonButton,
   IonCol,
   IonContent,
+  IonHeader,
   IonIcon,
   IonItem,
   IonLabel,
@@ -22,6 +23,7 @@ import {
   qrCodeOutline,
   lockClosed,
   shieldCheckmark,
+  chevronBackOutline,
 } from 'ionicons/icons';
 
 import { useHistory } from "react-router-dom";
@@ -86,39 +88,24 @@ const optionFields: OptionProps[] = [
     color: "#3ac6e1"
   },
 ];
-const Home: React.FC = () => {
+const ForgetPassword: React.FC = () => {
   const history = useHistory();
   return (
     <>
       <IonContent>
-        <IonRow className="ion-justify-content-center " >
-          <IonCol size="4" size-sm="3">
-            <div>
-              <img src={logo} alt="logo" width='150px' />
+        <IonHeader className='ion-margin-bottom' >
+          <IonItem color='light' style={{ margin: '15px 20px 0px 10px' }}>
+            <IonIcon icon={chevronBackOutline} color='dark'></IonIcon>
+          </IonItem>
+        </IonHeader>
+        <IonRow className="ion-justify-content-center">
+          <IonCol size='12' size-sm='6'>
+            <div style={{ color: 'black', textAlign: 'center' }} >
+              CHỌN PHƯƠNG THỨC LẤY LẠI MẬT KHẨU
             </div>
           </IonCol>
-        </IonRow>
-        <IonRow className="ion-justify-content-center">
-          <IonCol size="6" size-sm="4" offset='4'>
-            <IonAvatar style={{
-              '--border-radius': '50px'
-            }}>
-              <img src="https://icons-for-free.com/iconfiles/png/512/business+face+people+icon-1320086457520622872.png" />
-            </IonAvatar>
-          </IonCol>
-        </IonRow>
-        <div style={{ textAlign: 'center', color: 'black' }}>
-          <div>
-            <StyledText>
-              Đoàn Thanh Hoàng
-        </StyledText>
-          </div>
-          <div></div>
-          <IonNote>
-            0909090812
-        </IonNote>
-        </div>
 
+        </IonRow>
         <div>
           {
             optionFields.map(({ icon, label, color, ...otherProps }) => {
@@ -126,7 +113,7 @@ const Home: React.FC = () => {
                 <IonRow >
                   <IonCol size="12" size-sm='3'>
                     <StyledItem color='light'
-                      onClick={() => { icon === 'change' ? history.push('/change-password') : history.push('/home') }}
+                    //onClick={() => { icon === 'change' ? history.push('/change-password') : history.push('/ForgetPassword') }}
 
                     >
                       <StyledIcon
@@ -155,7 +142,7 @@ const Home: React.FC = () => {
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='4' size-lg='3'>
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
-              <StyledSocialButton type='submit' onClick={() => history.push('/login')} >
+              <StyledSocialButton type='submit' onClick={() => console.log('123123')} >
                 <IonIcon icon={logOutOutline} style={{ marginRight: '20px' }} ></IonIcon>
               ĐĂNG XUẤT
               </StyledSocialButton>
@@ -167,4 +154,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default ForgetPassword;

@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import {
   IonTabs,
   IonTabBar,
@@ -7,9 +6,10 @@ import {
   IonIcon,
   IonLabel,
   IonRouterOutlet,
-  IonTab,
+  IonRouterLink,
 } from '@ionic/react';
 import { home, newspaper, notifications, person } from 'ionicons/icons';
+import Home from 'pages';
 
 export const AppMenu: React.FC = () => (
 
@@ -41,7 +41,8 @@ export const AppMenu: React.FC = () => (
         <IonLabel>Tài khoản</IonLabel>
       </IonTabButton>
     </IonTabBar>
-    <IonRouterOutlet >
+    <IonRouterOutlet>
+      <Home></Home>
     </IonRouterOutlet>
   </IonTabs>
 );

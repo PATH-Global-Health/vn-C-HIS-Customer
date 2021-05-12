@@ -7,6 +7,7 @@ import RegisterPage from '@app/pages/RegisterPage';
 import LoginPage from '@app/pages/LoginPage';
 import Home from 'pages';
 import ChangePasswordPage from '@app/pages/ChangePasswordPage';
+import ForgetPassword from '@app/pages/ForgetPassword';
 
 interface Route {
   component: React.FC;
@@ -33,6 +34,10 @@ const routes: Route[] = [
   {
     component: RegisterPage,
     path: '/register',
+  },
+  {
+    component: ForgetPassword,
+    path: '/forget-password',
   },
   {
     component: ChangePasswordPage,

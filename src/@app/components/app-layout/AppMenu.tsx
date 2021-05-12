@@ -7,18 +7,21 @@ import {
   IonIcon,
   IonLabel,
   IonRouterOutlet,
+  IonTab,
 } from '@ionic/react';
 import { home, newspaper, notifications, person } from 'ionicons/icons';
 
 export const AppMenu: React.FC = () => (
+
   <IonTabs>
     <IonTabBar
       slot="bottom"
       style={{
         '--border': '1px solid #b4b4b4'
+
       }}
     >
-      <IonTabButton tab="home" selected={false} href="/home">
+      <IonTabButton tab="home" href="/home">
         <IonIcon icon={home} />
         <IonLabel>Trang chủ</IonLabel>
       </IonTabButton>
@@ -38,8 +41,8 @@ export const AppMenu: React.FC = () => (
         <IonLabel>Tài khoản</IonLabel>
       </IonTabButton>
     </IonTabBar>
-    <IonRouterOutlet></IonRouterOutlet>
+    <IonRouterOutlet >
+    </IonRouterOutlet>
   </IonTabs>
 );
-
 export default AppMenu;

@@ -1,9 +1,8 @@
 import { ReactNode } from 'react';
 
-import HomePage from '@app/pages/HomePage';
+import AuthPage from '@app/pages/AuthPage';
 import PageNotFound from '@app/pages/PageNotFound';
 import AppLayout from '@app/components/app-layout';
-import PostPage from 'post';
 import RegisterPage from '@app/pages/RegisterPage';
 import LoginPage from '@app/pages/LoginPage';
 import Home from 'pages';
@@ -19,13 +18,13 @@ interface Route {
 
 const routes: Route[] = [
   {
-    component: HomePage,
-    layout: AppLayout,
+    component: AuthPage,
     path: '/',
     exact: true,
   },
   {
-    component: PageNotFound,
+    component: AuthPage,
+    path: '/auth',
   },
   {
     component: LoginPage,
@@ -38,20 +37,17 @@ const routes: Route[] = [
   {
     component: ChangePasswordPage,
     path: '/change-password',
-    exact: true,
+    isPrivate: true,
   },
-  {
-    component: PostPage,
-    layout: AppLayout,
-    path: '/post',
-  },
-
   {
     component: Home,
     layout: AppLayout,
     path: '/home',
+    isPrivate: true,
   },
-
+  {
+    component: PageNotFound,
+  },
 ];
 
 export default routes;

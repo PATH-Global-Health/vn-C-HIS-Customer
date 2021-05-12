@@ -39,7 +39,6 @@ const StyleText = styled.div`
 const StyledButton = styled(IonButton)`
     width: 300px;
     --background: #293978;
-    
 `;
 
 const StyledSocialButton = styled(IonButton)`

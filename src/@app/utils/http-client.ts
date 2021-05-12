@@ -35,13 +35,12 @@ const request = (arg: FullOptions): Promise<AxiosResponse> => {
     });
   }
 
-  // const { token } = store.getState().auth;
-
+  const { token } = store.getState().auth;
   return axios.request({
     method,
     headers: {
       'content-type': contentType,
-      // Authorization: `bearer ${token?.access_token ?? ''}`,
+      Authorization: `bearer ${token?.access_token ?? ''}`,
     },
     url: typeof url === 'string' ? url : url(apiLinks),
     data,

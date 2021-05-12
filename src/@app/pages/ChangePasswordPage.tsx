@@ -47,12 +47,10 @@ interface InputProps {
   label?: string;
   [otherProps: string]: unknown;
 };
-interface RegisterModal {
-  username: string;
-  password: string;
-  email: string;
-  phoneNumber: string;
-  fullName: string;
+interface ChangePasswordModal {
+  oldPassword: string,
+  newPassword: string,
+  confirmNewPassword: string,
 }
 const formFields: InputProps[] = [
   {
@@ -81,22 +79,29 @@ const formFields: InputProps[] = [
 const ChangePasswordPage: React.FC = () => {
   const history = useHistory();
   const { control, handleSubmit } = useForm();
+
+  const [newPassword, setNewPassword] = useState(null);
+  const [confirmNewPassword, setConfirmNewPassword] = useState(null);
   const [oldPasswordVisible, setOldPasswordVisible] = useState(false);
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
   const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
-  const handeToggle = (e: any) => {
-    console.log(e);
-  }
-  const handleLogin = async (data: RegisterModal): Promise<void> => {
-    try {
-      const { fullName, phoneNumber, password } = data;
-      const params = { userName: phoneNumber, password: password, email: '', phoneNumber: phoneNumber, fullName: fullName }
-      await authService.createAccount(params);
-      setShowSuccessToast(true);
-      setTimeout(() => history.push('/login'), 1500);
+  const [showMatchPasswordFailedToast, setShowMatchPasswordFailedToast] = useState(false);
 
+  const handleChangePassword = async (data: ChangePasswordModal): Promise<void> => {
+    try {
+      const { oldPassword, newPassword, confirmNewPassword } = data;
+      if (newPassword && confirmNewPassword && newPassword !== confirmNewPassword) {
+        console.log('fa', showMatchPasswordFailedToast);
+        setShowMatchPasswordFailedToast(true);
+      }
+      else {
+        const params = { oldPassword: oldPassword, newPassword: newPassword };
+        await authService.changePassword(params);
+        setShowSuccessToast(true);
+        setTimeout(() => history.push('/login'), 1500);
+      }
     } catch (error) {
       setShowFailedToast(true);
     }
@@ -114,7 +119,7 @@ const ChangePasswordPage: React.FC = () => {
           isOpen={showSuccessToast}
           onDidDismiss={() => setShowSuccessToast(false)}
           color='success'
-          message="Đăng kí thành công !"
+          message="Đổi mật khẩu thành công !"
           duration={1000}
           position="top"
           animated={true}
@@ -123,13 +128,22 @@ const ChangePasswordPage: React.FC = () => {
           isOpen={showFailedToast}
           onDidDismiss={() => setShowFailedToast(false)}
           color='danger'
-          message="Đăng kí thất bại !"
+          message="Mật khẩu cũ không đúng !"
+          duration={1000}
+          position="top"
+          animated={true}
+        />
+        <IonToast
+          isOpen={showMatchPasswordFailedToast}
+          onDidDismiss={() => setShowMatchPasswordFailedToast(false)}
+          color='danger'
+          message="Mật khẩu mới không khớp !"
           duration={1000}
           position="top"
           animated={true}
         />
 
-        <form onSubmit={handleSubmit(handleLogin)} style={{ paddingLeft: '10px', paddingRight: '25px' }}>
+        <form onSubmit={handleSubmit(handleChangePassword)} style={{ paddingLeft: '10px', paddingRight: '25px' }}>
           {formFields.map(({ label, name, fieldType, ...otherProps }) => {
             switch (fieldType) {
               case 'input': {

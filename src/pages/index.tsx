@@ -10,6 +10,8 @@ import {
   IonItem,
   IonLabel,
   IonNote,
+  IonPage,
+  IonRouterOutlet,
   IonRow,
 } from '@ionic/react';
 import {
@@ -21,7 +23,11 @@ import {
   lockClosed,
   shieldCheckmark,
 } from 'ionicons/icons';
+
+import { useHistory } from "react-router-dom";
+
 import logo from '@app/assets/img/logo.png'
+import AppMenu from '@app/components/app-layout/AppMenu';
 
 const StyledItem = styled(IonItem)`
   margin: 0px 15px;
@@ -82,9 +88,10 @@ const optionFields: OptionProps[] = [
   },
 ];
 const Home: React.FC = () => {
+  const history = useHistory();
   return (
     <IonContent>
-      <IonRow className="ion-justify-content-center ">
+      <IonRow className="ion-justify-content-center " >
         <IonCol size="4" size-sm="3">
           <div>
             <img src={logo} alt="logo" width='150px' />
@@ -118,7 +125,10 @@ const Home: React.FC = () => {
             return (
               <IonRow >
                 <IonCol size="12" size-sm='3'>
-                  <StyledItem color='light'>
+                  <StyledItem color='light'
+                  //onClick={() => { icon === 'change' ? history.push('/change-password') : history.push('/home') }}
+
+                  >
                     <StyledIcon
                       icon={
                         icon === 'person' ? person
@@ -145,15 +155,15 @@ const Home: React.FC = () => {
       <IonRow className="ion-justify-content-center">
         <IonCol size="12" size-sm='4' size-lg='3'>
           <div style={{ textAlign: 'center', marginTop: '10px' }}>
-            <StyledSocialButton type='submit'>
+            <StyledSocialButton type='submit' onClick={() => console.log('123123')} >
               <IonIcon icon={logOutOutline} style={{ marginRight: '20px' }} ></IonIcon>
               ĐĂNG XUẤT
               </StyledSocialButton>
           </div>
         </IonCol>
       </IonRow>
-
     </IonContent>
+
   );
 };
 

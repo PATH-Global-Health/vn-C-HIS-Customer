@@ -39,6 +39,22 @@ const createAccount = async ({
     },
   });
 };
+const changePassword = async ({
+  oldPassword,
+  newPassword
+}: {
+  oldPassword: string;
+  newPassword: string;
+}): Promise<void> => {
+  await httpClient.put({
+    url: apiLinks.manageAccount.changePassword,
+    data: {
+      oldPassword,
+      newPassword
+    },
+  });
+};
+
 /* const getUserInfo = async (): Promise<UserInfo> => {
   const response = await httpClient.get({
     url: apiLinks.auth.userInfo,
@@ -48,7 +64,8 @@ const createAccount = async ({
 
 const authService = {
   login,
-  createAccount
+  createAccount,
+  changePassword,
 };
 
 export default authService;

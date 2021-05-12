@@ -7,6 +7,7 @@ const apiLinks = {
   },
   manageAccount: {
     create: `${userGateway}/api/Users`,
+    changePassword: `${userGateway}/api/Users/ChangePassword`,
   },
   post: {
     get: `${testApi}/posts`,

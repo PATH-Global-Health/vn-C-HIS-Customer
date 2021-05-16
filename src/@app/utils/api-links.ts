@@ -1,13 +1,13 @@
-const userGateway = 'https://auth.vkhealth.vn';
+const authUrl = 'https://auth.vkhealth.vn';
 const testApi = 'https://jsonplaceholder.typicode.com';
 
 const apiLinks = {
   auth: {
-    token: `${userGateway}/api/Users/Login`,
+    token: `${authUrl}/api/Users/Login`,
   },
   manageAccount: {
-    create: `${userGateway}/api/Users`,
-    changePassword: `${userGateway}/api/Users/ChangePassword`,
+    create: `${authUrl}/api/Users`,
+    changePassword: `${authUrl}/api/Users/ChangePassword`,
   },
   post: {
     get: `${testApi}/posts`,

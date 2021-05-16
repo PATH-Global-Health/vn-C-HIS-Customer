@@ -10,6 +10,7 @@ import authService from '@app/services/auth';
 import { Token } from '@app/models/token';
 import { UserInfo } from '@app/models/user-info';
 import { Permission } from '@app/models/permission';
+import { Method } from 'ionicons/dist/types/stencil-public-runtime';
 
 interface State {
   token: Token | null;
@@ -18,6 +19,8 @@ interface State {
   userInfo: UserInfo | null;
   getUserInfoLoading: boolean;
   permissionList: Permission[];
+  methodForgotPassword: string | null;
+  tokenForgotPassword: string | null;
 }
 
 const initialState: State = {
@@ -34,6 +37,8 @@ const initialState: State = {
     // { code: 'CSYT_VACCINATION' },
     // { code: 'CSYT_TELEMEDICINE' },
   ],
+  methodForgotPassword: null,
+  tokenForgotPassword: null,
 };
 
 type CR<T> = CaseReducer<State, PayloadAction<T>>;
@@ -66,12 +71,24 @@ const logoutCR: CR<void> = () => ({
   ...initialState,
 });
 
+const setMethodForgotPasswordCR: CR<string | null> = (state, action) => ({
+  ...state,
+  methodForgotPassword: action.payload,
+});
+
+const setTokenForgotPasswordCR: CR<string | null> = (state, action) => ({
+  ...state,
+  tokenForgotPassword: action.payload,
+})
+
 const slice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     setToken: setTokenCR,
     logout: logoutCR,
+    setMethodForgotPassword: setMethodForgotPasswordCR,
+    setTokenForgotPassword: setTokenForgotPasswordCR,
   },
   extraReducers: (builder) => {
     // login
@@ -117,6 +134,11 @@ const slice = createSlice({
 });
 
 export { login };
-export const { setToken, logout } = slice.actions;
+export const {
+  logout,
+  setToken,
+  setMethodForgotPassword,
+  setTokenForgotPassword,
+} = slice.actions;
 
 export default slice.reducer;

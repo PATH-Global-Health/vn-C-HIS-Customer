@@ -7,7 +7,7 @@ import RegisterPage from '@app/pages/RegisterPage';
 import LoginPage from '@app/pages/LoginPage';
 import Home from 'pages';
 import ChangePasswordPage from '@app/pages/ChangePasswordPage';
-import ForgetPassword from '@app/pages/ForgetPassword';
+import ForgetPassword from '@app/pages/ForgetPasswordPage';
 
 interface Route {
   component: React.FC;

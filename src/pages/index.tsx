@@ -10,8 +10,6 @@ import {
   IonItem,
   IonLabel,
   IonNote,
-  IonPage,
-  IonRouterOutlet,
   IonRow,
 } from '@ionic/react';
 import {
@@ -27,11 +25,11 @@ import {
 import { useHistory } from "react-router-dom";
 
 import logo from '@app/assets/img/logo.png'
+import avatar from '@app/assets/img/avatar.png';
 
 const StyledItem = styled(IonItem)`
   margin: 0px 15px;
   --min-height: 20px;
-  
 `;
 const StyledSocialButton = styled(IonButton)`
     border: 0.5px solid #d6d6c2;
@@ -103,7 +101,7 @@ const Home: React.FC = () => {
             <IonAvatar style={{
               '--border-radius': '50px'
             }}>
-              <img src="https://icons-for-free.com/iconfiles/png/512/business+face+people+icon-1320086457520622872.png" />
+              <img src={avatar} width='100px' />
             </IonAvatar>
           </IonCol>
         </IonRow>

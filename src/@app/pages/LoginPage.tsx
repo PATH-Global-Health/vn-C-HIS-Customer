@@ -153,7 +153,6 @@ const LoginPage: React.FC = () => {
                     key={name}
                     name={name}
                     control={control}
-
                     render={({ field: { onChange, onBlur, value } }) => (
                       <IonRow className="ion-justify-content-center">
                         <IonCol size="12" size-sm='4' size-lg='3'>
@@ -217,7 +216,7 @@ const LoginPage: React.FC = () => {
             Nhớ mật khẩu</StyleText>
           </IonCol>
           <IonCol size="6" size-sm='2'>
-            <StyleText >QUÊN MẬT KHẨU?</StyleText>
+            <StyleText onClick={() => history.push('/forget-password')}>QUÊN MẬT KHẨU?</StyleText>
           </IonCol>
         </IonRow>
         <IonRow className="ion-justify-content-center">

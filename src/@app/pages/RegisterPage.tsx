@@ -36,7 +36,6 @@ const StyleText = styled.div`
 const StyledButton = styled(IonButton)`
     width: 300px;
     --background: #293978;
-    
 `;
 const StyledHeader = styled.h1`
     font-size: 35px;

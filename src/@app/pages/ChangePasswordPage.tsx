@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonItem, IonLabel, IonHeader, IonToolbar, IonTitle, IonPage, IonNote } from '@ionic/react';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonNote } from '@ionic/react';
 import { eyeSharp, eyeOffSharp, chevronBackOutline } from 'ionicons/icons';
 
 import { useHistory } from 'react-router-dom';
 import { Controller, useForm } from "react-hook-form";
 
-import logo from '../assets/img/logo.png';
 import authService from '@app/services/auth';
 
 const StyledInput = styled(IonInput)`
@@ -16,13 +15,7 @@ const StyledInput = styled(IonInput)`
     margin-top: 2px;
     margin-left: 15px
 `;
-const StyleText = styled.div`
-    font-size: 15px;
-    color: #010100;
-    text-align: end;
-    margin-right: 35px;
-    margin-top: 20px;
-`;
+
 const StyledButton = styled(IonButton)`
     margin-left: 20px;
     width: 300px;
@@ -80,8 +73,6 @@ const ChangePasswordPage: React.FC = () => {
   const history = useHistory();
   const { control, handleSubmit } = useForm();
 
-  const [newPassword, setNewPassword] = useState(null);
-  const [confirmNewPassword, setConfirmNewPassword] = useState(null);
   const [oldPasswordVisible, setOldPasswordVisible] = useState(false);
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
   const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] = useState(false);

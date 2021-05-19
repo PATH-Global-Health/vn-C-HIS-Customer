@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { IonButton, IonContent, IonCol, IonInput, IonItem, IonRow, IonToast } from '@ionic/react';
+import { IonButton, IonContent, IonCol, IonInput, IonItem, IonRow, IonToast, IonIcon } from '@ionic/react';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom'
 
@@ -9,6 +9,7 @@ import authService from '@app/services/auth';
 
 import { useDispatch } from '@app/hooks';
 import { setDataForgotPassword } from '@app/slices/auth';
+import { mailOutline, phonePortraitOutline } from 'ionicons/icons';
 
 const StyledText = styled.div`
   color: black;
@@ -106,6 +107,7 @@ const MailMethod: React.FC = () => {
                     onIonChange={onChange}
                   >
                   </StyledInput>
+                  <IonIcon icon={mailOutline} color='medium' slot='start'></IonIcon>
                 </StyleWrapperInput>
               </IonCol>
             </IonRow>
@@ -122,12 +124,13 @@ const MailMethod: React.FC = () => {
                   <StyledInput
                     required={true}
                     type='number'
-                    placeholder="Nhập tên người dùng"
+                    placeholder="Nhập số điện thoại"
                     onIonBlur={onBlur}
                     value={value}
                     onIonChange={onChange}
                   >
                   </StyledInput>
+                  <IonIcon icon={phonePortraitOutline} color='medium' slot='start'></IonIcon>
                 </StyleWrapperInput>
               </IonCol>
             </IonRow>

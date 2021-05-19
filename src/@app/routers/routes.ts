@@ -51,6 +51,12 @@ const routes: Route[] = [
     isPrivate: true,
   },
   {
+    component: Home,
+    layout: AppLayout,
+    path: '/account',
+    isPrivate: true,
+  },
+  {
     component: PageNotFound,
   },
 ];

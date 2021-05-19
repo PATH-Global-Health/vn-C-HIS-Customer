@@ -62,8 +62,9 @@ const MethodCard: React.FC<Props> = ({ methods }) => {
             <StyledItem color="light" onClick={() => handeChange(name)}>
               <StyledIcon icon={icon} style={{ backgroundColor: color }} />
               <StyledLabel style={{ fontSize: '18px' }}>
-                {label}<br />
-                <b>{content}</b>
+                <b>{label}</b>
+                <br />
+                {content}
               </StyledLabel>
             </StyledItem>
           </IonCol>

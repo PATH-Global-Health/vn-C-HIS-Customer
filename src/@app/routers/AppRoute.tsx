@@ -2,6 +2,8 @@ import React, { ReactNode, useMemo } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useAuth } from '@app/hooks';
 
+import DefaultLayout from '@app/components/default-layout';
+
 interface Props {
   component: React.FC;
   layout?: React.FC<{ children: ReactNode }>;
@@ -35,7 +37,12 @@ const AppRoute: React.FC<Props> = (props) => {
               </Layout>
             );
           }
-          return <Component />;
+
+          return (
+            <DefaultLayout>
+              <Component />
+            </DefaultLayout>
+          );
         }
         return (
           <Redirect

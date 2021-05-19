@@ -50,6 +50,7 @@ const BirthdayMethod: React.FC = () => {
   const { control, handleSubmit } = useForm();
   const handleData = (data: any) => {
     console.log(data);
+    dispatch(setDataForgotPassword({ method: 'confirmOTP' }));
   }
   const back = () => {
     dispatch(setDataForgotPassword({}));

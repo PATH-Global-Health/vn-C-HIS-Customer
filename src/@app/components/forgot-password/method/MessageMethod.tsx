@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { IonButton, IonContent, IonCol, IonInput, IonItem, IonRow, IonNote, IonToast } from '@ionic/react';
+import { IonButton, IonContent, IonCol, IonInput, IonItem, IonRow, IonNote, IonToast, IonIcon } from '@ionic/react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useDispatch } from '@app/hooks';
 import { setDataForgotPassword } from '@app/slices/auth';
 import authService from '@app/services/auth';
 import { useHistory } from 'react-router';
+import { phonePortraitOutline } from 'ionicons/icons';
 
 const StyledText = styled.div`
   color: #56575c;
@@ -102,6 +103,7 @@ const MessageMethod: React.FC = () => {
                     onIonChange={onChange}
                   >
                   </StyledInput>
+                  <IonIcon icon={phonePortraitOutline} color='medium' slot='start'></IonIcon>
                 </StyleWrapperInput>
               </IonCol>
             </IonRow>

@@ -10,6 +10,7 @@ import {
 } from '@ionic/react';
 import { home, newspaper, notifications, person } from 'ionicons/icons';
 import Home from 'pages';
+import { Route } from 'react-router';
 
 export const AppMenu: React.FC = () => (
 
@@ -42,7 +43,7 @@ export const AppMenu: React.FC = () => (
       </IonTabButton>
     </IonTabBar>
     <IonRouterOutlet>
-      <Home></Home>
+      <Route exact path="/home" component={Home} />
     </IonRouterOutlet>
   </IonTabs>
 );

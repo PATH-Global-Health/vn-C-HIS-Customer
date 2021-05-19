@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { IonButton, IonCol, IonContent, IonDatetime, IonIcon, IonItem, IonRow } from '@ionic/react';
+import { IonButton, IonContent, IonCol, IonInput, IonItem, IonRow, IonToast } from '@ionic/react';
 import { Controller, useForm } from 'react-hook-form';
-import { useDispatch } from '@app/hooks';
-import { setDataForgotPassword } from '@app/slices/auth';
 
-import { calendar } from 'ionicons/icons';
+import { useDispatch, useSelector } from '@app/hooks';
+import { setDataForgotPassword } from '@app/slices/auth';
+import authService from '@app/services/auth';
 
 const StyledText = styled.div`
-  color: black;
+  color: #56575c;
   text-align: center;
   font-size: 20px;
-  font-weight: 600;
   margin: 20% 15px 10% 15px;
 `;
 const StyleWrapperInput = styled(IonItem)`
@@ -25,7 +24,7 @@ const StyleWrapperInput = styled(IonItem)`
     text-transform: initial;
     box-shadow: 1px 3px 3px 0px rgba(0, 0, 0, 0.2)
 `;
-const StyledInput = styled(IonDatetime)`
+const StyledInput = styled(IonInput)`
     color: black;
     margin-top: 2px;
     margin-left: 15px;
@@ -42,50 +41,74 @@ const StyleNoteText = styled.div`
     margin-right: 40px;
     margin-top: 20px;
 `;
-const StyledIcon = styled(IonIcon)`
-   font-size: 20px;
-`;
-const BirthdayMethod: React.FC = () => {
+
+interface confirmOTP {
+  username: string,
+  otp: string,
+}
+const ConfirmOTP: React.FC = () => {
   const dispatch = useDispatch();
+  const { forgotPasswordData: { inputData } } = useSelector((state) => state.auth);
   const { control, handleSubmit } = useForm();
-  const handleData = (data: any) => {
-    console.log(data);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showFailedToast, setShowFailedToast] = useState(false);
+  const handleData = async (data: confirmOTP): Promise<void> => {
+    try {
+      const { otp } = data;
+      const params = { username: inputData, otp: otp };
+      await authService.confirmOTP(params);
+      setShowSuccessToast(true);
+      setTimeout(() => dispatch(setDataForgotPassword({ method: 'confirmed' })), 1500);
+    } catch (error) {
+      setShowFailedToast(true);
+    }
   }
   const back = () => {
-    dispatch(setDataForgotPassword({}));
+    dispatch(setDataForgotPassword({}))
   }
   return (
     <IonContent >
+      <IonToast
+        isOpen={showSuccessToast}
+        onDidDismiss={() => setShowSuccessToast(false)}
+        color='success'
+        message="Xác thực thành công !"
+        duration={1000}
+        position="top"
+        animated={true}
+      />
+      <IonToast
+        isOpen={showFailedToast}
+        onDidDismiss={() => setShowFailedToast(false)}
+        color='danger'
+        message="Mã xác thực không đúng !"
+        duration={1000}
+        position="top"
+        animated={true}
+      />
       <IonRow className="ion-justify-content-center">
         <IonCol size='12' size-sm='6'>
           <StyledText >
-            Câu hỏi bảo mật :
-            <br />
-            ngày tháng năm sinh của bạn?
+            Nhập mã OTP để xác thực tài khoản
           </StyledText>
         </IonCol>
       </IonRow>
       <form onSubmit={handleSubmit(handleData)}>
         <Controller
-          key={'date'}
-          name={'date'}
+          key={'otp'}
+          name={'otp'}
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <IonRow className="ion-justify-content-center">
               <IonCol size="12" size-sm='3'>
-                <StyleWrapperInput color='light'>
+                <StyleWrapperInput color='light' lines='none'>
                   <StyledInput
-                    pickerFormat="DDDDD MMMM YYYY"
-                    placeholder="ngày/tháng/năm"
-                    displayFormat="MM/DD/YYYY"
-                    min="1994-03-14"
+                    placeholder=""
                     onIonBlur={onBlur}
                     value={value}
                     onIonChange={onChange}
                   >
-
                   </StyledInput>
-                  <StyledIcon slot="end" icon={calendar} />
                 </StyleWrapperInput>
               </IonCol>
             </IonRow>
@@ -93,13 +116,13 @@ const BirthdayMethod: React.FC = () => {
         />
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
-            <StyleNoteText >Không xác định? <b onClick={() => back()} style={{ cursor: 'pointer' }} >Chọn phương thức khác</b></StyleNoteText>
+            <StyleNoteText >Không nhận được mã code? <b onClick={() => back()} style={{ cursor: 'pointer' }} >Gửi lại mã</b></StyleNoteText>
           </IonCol>
         </IonRow>
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
-              <StyledButton type='submit'>XÁC NHẬN</StyledButton>
+              <StyledButton type='submit' > XÁC NHẬN</StyledButton>
             </div>
           </IonCol>
         </IonRow>
@@ -110,4 +133,4 @@ const BirthdayMethod: React.FC = () => {
   );
 };
 
-export default BirthdayMethod;
+export default ConfirmOTP;

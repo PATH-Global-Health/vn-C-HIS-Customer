@@ -1,5 +1,6 @@
 const authUrl = 'https://auth.vkhealth.vn';
 const testApi = 'https://jsonplaceholder.typicode.com';
+const userUrl = 'https://user.bakco.vn';
 
 const apiLinks = {
   auth: {
@@ -8,6 +9,10 @@ const apiLinks = {
   manageAccount: {
     create: `${authUrl}/api/Users`,
     changePassword: `${authUrl}/api/Users/ChangePassword`,
+  },
+  forgetPassword: {
+    generateOTP: `${userUrl}/api/Users/ResetPassword/GenerateOTP`,
+    confirmOTP: `${userUrl}/api/Users/ResetPassword/ConfirmOTP`,
   },
   post: {
     get: `${testApi}/posts`,

@@ -19,7 +19,10 @@ interface State {
   userInfo: UserInfo | null;
   getUserInfoLoading: boolean;
   permissionList: Permission[];
-  methodForgotPassword: string | null;
+  forgotPasswordData: {
+    inputData?: string,
+    method?: string,
+  }
   tokenForgotPassword: string | null;
 }
 
@@ -37,7 +40,10 @@ const initialState: State = {
     // { code: 'CSYT_VACCINATION' },
     // { code: 'CSYT_TELEMEDICINE' },
   ],
-  methodForgotPassword: null,
+  forgotPasswordData: {
+    inputData: undefined,
+    method: undefined,
+  },
   tokenForgotPassword: null,
 };
 
@@ -71,9 +77,12 @@ const logoutCR: CR<void> = () => ({
   ...initialState,
 });
 
-const setMethodForgotPasswordCR: CR<string | null> = (state, action) => ({
+const setDataForgotPasswordCR: CR<{
+  inputData?: string,
+  method?: string,
+}> = (state, action) => ({
   ...state,
-  methodForgotPassword: action.payload,
+  forgotPasswordData: action.payload,
 });
 
 const setTokenForgotPasswordCR: CR<string | null> = (state, action) => ({
@@ -87,7 +96,7 @@ const slice = createSlice({
   reducers: {
     setToken: setTokenCR,
     logout: logoutCR,
-    setMethodForgotPassword: setMethodForgotPasswordCR,
+    setDataForgotPassword: setDataForgotPasswordCR,
     setTokenForgotPassword: setTokenForgotPasswordCR,
   },
   extraReducers: (builder) => {
@@ -137,7 +146,7 @@ export { login };
 export const {
   logout,
   setToken,
-  setMethodForgotPassword,
+  setDataForgotPassword,
   setTokenForgotPassword,
 } = slice.actions;
 

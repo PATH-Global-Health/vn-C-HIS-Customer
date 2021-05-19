@@ -21,9 +21,11 @@ import {
 import MethodCard, { MethodField } from '@app/components/forgot-password/method/MethodCard';
 import MessageMethod from '@app/components/forgot-password/method/MessageMethod';
 import { useDispatch, useSelector } from '@app/hooks';
-import { setMethodForgotPassword } from '@app/slices/auth';
+import { setDataForgotPassword } from '@app/slices/auth';
 import BirthdayMethod from '@app/components/forgot-password/method/BirthdayMethod';
 import CreatePassword from '@app/components/forgot-password/create-password/CreatePassword';
+import MailMethod from '@app/components/forgot-password/method/MailMethod';
+import ConfirmOTP from '@app/components/forgot-password/create-password/ConfirmOTP';
 
 const StyledText = styled.div`
   color: black;
@@ -37,15 +39,15 @@ const methodField: MethodField[] = [
     name: 'message',
     icon: phonePortraitOutline,
     color: 'rgb(91 153 255)',
-    label: 'Tin nhắn',
-    content: '(+84) 98822233',
+    label: 'Qua SMS',
+    content: '',
   },
   {
     name: 'mail',
     icon: mailOutline,
     color: 'rgb(91 153 255)',
-    label: 'Hộp thư điện tử',
-    content: 'hoang@gmail.com',
+    label: 'Qua gmail',
+    content: '',
   },
   {
     name: 'question',
@@ -57,15 +59,15 @@ const methodField: MethodField[] = [
 ];
 
 const ForgetPassword: React.FC = () => {
-  const { methodForgotPassword } = useSelector((state) => state.auth);
+  const { forgotPasswordData: { method } } = useSelector((state) => state.auth);
   const history = useHistory();
   const dispatch = useDispatch();
 
   const back = () => {
-    if (methodForgotPassword === null) {
+    if (method === undefined) {
       history.push('/login');
     } else {
-      dispatch(setMethodForgotPassword(null));
+      dispatch(setDataForgotPassword({}));
     }
   }
 
@@ -76,7 +78,7 @@ const ForgetPassword: React.FC = () => {
           <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
         </IonItem>
       </IonHeader>
-      {(methodForgotPassword === null &&
+      {(method !== undefined ||
         <div>
           <IonRow className="ion-justify-content-center">
             <IonCol size='12' size-sm='6'>
@@ -88,10 +90,11 @@ const ForgetPassword: React.FC = () => {
           <MethodCard methods={methodField} />
         </div>
       )}
-      {(methodForgotPassword === 'question' && <BirthdayMethod />)}
-      {(methodForgotPassword === 'message' && <MessageMethod />)}
-      {(methodForgotPassword === 'mail' && <CreatePassword />)}
-      {(methodForgotPassword === 'confirmed' && <CreatePassword />)}
+      {(method === 'question' && <BirthdayMethod />)}
+      {(method === 'message' && <MessageMethod />)}
+      {(method === 'mail' && <MailMethod />)}
+      {(method === 'confirmed' && <CreatePassword />)}
+      {(method === 'confirmOTP' && <ConfirmOTP />)}
     </IonContent>
   );
 };

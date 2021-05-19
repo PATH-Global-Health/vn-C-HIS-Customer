@@ -69,7 +69,10 @@ const CreatePassword: React.FC = () => {
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
   const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] = useState(false);
   const handleCreatePassword = (data: PasswordModel) => {
-    console.log(data);
+    try {
+
+    } catch (error) {
+    }
   }
 
   return (

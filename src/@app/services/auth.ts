@@ -1,7 +1,7 @@
 import { httpClient, apiLinks } from '@app/utils';
 
 import { Token } from '@app/models/token';
-import { UserInfo } from '@app/models/user-info';
+//import { UserInfo } from '@app/models/user-info';
 
 const login = async (username: string, password: string, remember: boolean, permissionQuery: {}): Promise<Token> => {
   const response = await httpClient.post({
@@ -39,6 +39,7 @@ const createAccount = async ({
     },
   });
 };
+
 const changePassword = async ({
   oldPassword,
   newPassword
@@ -55,6 +56,45 @@ const changePassword = async ({
   });
 };
 
+const generateOTP = async ({
+  username,
+  phoneNumber,
+  email,
+  question,
+}: {
+  username: string;
+  phoneNumber?: string;
+  email?: string,
+  question?: {
+    id: string,
+    answer: string,
+  }
+}): Promise<void> => {
+  await httpClient.post({
+    url: apiLinks.forgetPassword.generateOTP,
+    data: {
+      username,
+      phoneNumber,
+      email,
+      question
+    },
+  });
+};
+const confirmOTP = async ({
+  username,
+  otp
+}: {
+  username?: string;
+  otp: string;
+}): Promise<void> => {
+  await httpClient.post({
+    url: apiLinks.forgetPassword.confirmOTP,
+    data: {
+      username,
+      otp,
+    },
+  });
+};
 /* const getUserInfo = async (): Promise<UserInfo> => {
   const response = await httpClient.get({
     url: apiLinks.auth.userInfo,
@@ -66,6 +106,8 @@ const authService = {
   login,
   createAccount,
   changePassword,
+  generateOTP,
+  confirmOTP,
 };
 
 export default authService;

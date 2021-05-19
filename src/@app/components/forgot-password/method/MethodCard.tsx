@@ -9,7 +9,7 @@ import {
   IonLabel,
 } from '@ionic/react';
 import { useDispatch } from '@app/hooks';
-import { setMethodForgotPassword } from '@app/slices/auth';
+import { setDataForgotPassword } from '@app/slices/auth';
 
 export interface MethodField {
   name: string;
@@ -50,8 +50,8 @@ const StyledIcon = styled(IonIcon)`
 const MethodCard: React.FC<Props> = ({ methods }) => {
   const dispatch = useDispatch();
 
-  const onChange = useCallback((method: string) => {
-    dispatch(setMethodForgotPassword(method));
+  const handeChange = useCallback((method: string) => {
+    dispatch(setDataForgotPassword({ method }));
   }, [dispatch]);
 
   return (
@@ -59,9 +59,9 @@ const MethodCard: React.FC<Props> = ({ methods }) => {
       {(methods || []).map(({ name, icon, color, label, content }, index) => (
         <IonRow key={index}>
           <IonCol size="12" size-sm="3">
-            <StyledItem color="light" onClick={() => onChange(name)}>
+            <StyledItem color="light" onClick={() => handeChange(name)}>
               <StyledIcon icon={icon} style={{ backgroundColor: color }} />
-              <StyledLabel>
+              <StyledLabel style={{ fontSize: '18px' }}>
                 {label}<br />
                 <b>{content}</b>
               </StyledLabel>

@@ -163,7 +163,7 @@ const LoginPage: React.FC = () => {
                               value={value}
                               onIonChange={onChange}
                               {...otherProps}>
-                              {name === 'phoneNumber' ? <StyledIcon icon={phonePortraitOutline} /> : <StyledIcon icon={lockClosed} />}
+                              {name === 'username' ? <StyledIcon icon={phonePortraitOutline} /> : <StyledIcon icon={lockClosed} />}
                             </StyledInput>
                           </StyleWrapperInput>
                         </IonCol>

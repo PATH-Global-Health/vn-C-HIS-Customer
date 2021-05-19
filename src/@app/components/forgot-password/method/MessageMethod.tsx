@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { IonButton, IonContent, IonCol, IonInput, IonItem, IonRow } from '@ionic/react';
+import { IonButton, IonContent, IonCol, IonInput, IonItem, IonRow, IonNote, IonToast } from '@ionic/react';
 import { Controller, useForm } from 'react-hook-form';
+
 import { useDispatch } from '@app/hooks';
-import { setMethodForgotPassword } from '@app/slices/auth';
+import { setDataForgotPassword } from '@app/slices/auth';
+import authService from '@app/services/auth';
+import { useHistory } from 'react-router';
 
 const StyledText = styled.div`
   color: #56575c;
@@ -32,46 +35,68 @@ const StyledButton = styled(IonButton)`
     width: 300px;
     --background: #293978;
 `;
-const StyleNoteText = styled.div`
-    font-size: 14px;
-    color: #010100;
-    text-align: end;
-    margin-right: 40px;
-    margin-top: 20px;
-`;
-
-const MailMethod: React.FC = () => {
+interface generateOtpModal {
+  username: string,
+  phoneNumber: string,
+}
+const MessageMethod: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { control, handleSubmit } = useForm();
-  const handleData = (data: any) => {
-    console.log(data);
-  }
-  const back = () => {
-    dispatch(setMethodForgotPassword(null))
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showFailedToast, setShowFailedToast] = useState(false);
+  const handleData = async (data: generateOtpModal): Promise<void> => {
+    try {
+      const { phoneNumber } = data;
+      const params = { username: phoneNumber, phoneNumber: phoneNumber }
+      await authService.generateOTP(params);
+      setShowSuccessToast(true);
+      setTimeout(() => dispatch(setDataForgotPassword({ inputData: phoneNumber, method: 'confirmOTP' })), 1500);
+    } catch (error) {
+      setShowFailedToast(true);
+    }
   }
   return (
     <IonContent >
+      <IonToast
+        isOpen={showSuccessToast}
+        onDidDismiss={() => setShowSuccessToast(false)}
+        color='success'
+        message="Kiểm tra tin nhắn điện thoại để nhận mã xác thực !"
+        duration={1000}
+        position="top"
+        animated={true}
+      />
+      <IonToast
+        isOpen={showFailedToast}
+        onDidDismiss={() => setShowFailedToast(false)}
+        color='danger'
+        message="Tài khoản không tồn tại !"
+        duration={1000}
+        position="top"
+        animated={true}
+      />
       <IonRow className="ion-justify-content-center">
         <IonCol size='12' size-sm='6'>
           <StyledText >
-            Nhập mã code đã được gửi qua số điện thoại:
+            Nhập số điện thoại nhận mã xác thực
             <br />
-            <b style={{ color: '#000000' }}>(+84) 988108345</b>
+            <IonNote style={{ fontSize: '13px', color: '#9c9999' }}>Số điện thoại phải trùng với số đã đăng kí tài khoản</IonNote>
           </StyledText>
-
         </IonCol>
       </IonRow>
       <form onSubmit={handleSubmit(handleData)}>
         <Controller
-          key={'date'}
-          name={'date'}
+          key={'phoneNumber'}
+          name={'phoneNumber'}
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <IonRow className="ion-justify-content-center">
               <IonCol size="12" size-sm='3'>
-                <StyleWrapperInput color='light'>
+                <StyleWrapperInput color='light' lines='none'>
                   <StyledInput
-                    placeholder=""
+                    required={true}
+                    placeholder="Số điện thoại"
                     onIonBlur={onBlur}
                     value={value}
                     onIonChange={onChange}
@@ -82,15 +107,11 @@ const MailMethod: React.FC = () => {
             </IonRow>
           )}
         />
-        <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='3'>
-            <StyleNoteText >Không nhận được mã code? <b onClick={() => back()} style={{ cursor: 'pointer' }} >Gửi lại mã</b></StyleNoteText>
-          </IonCol>
-        </IonRow>
+
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
-              <StyledButton type='submit' onClick={() => dispatch(setMethodForgotPassword('confirmed'))}> XÁC NHẬN</StyledButton>
+              <StyledButton type='submit' > XÁC NHẬN</StyledButton>
             </div>
           </IonCol>
         </IonRow>
@@ -101,4 +122,4 @@ const MailMethod: React.FC = () => {
   );
 };
 
-export default MailMethod;
+export default MessageMethod;

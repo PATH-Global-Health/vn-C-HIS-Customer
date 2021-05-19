@@ -101,7 +101,7 @@ const ChangePasswordPage: React.FC = () => {
     <IonPage >
       <IonHeader className='ion-margin-bottom' >
         <IonItem color='light' style={{ margin: '15px 20px 0px 10px' }}>
-          <StyledIcon icon={chevronBackOutline}></StyledIcon>
+          <StyledIcon icon={chevronBackOutline} onClick={() => history.push('/login')}></StyledIcon>
           <IonTitle style={{ fontSize: '20px', textAlign: 'center' }}>Đổi Mật Khẩu</IonTitle>
         </IonItem>
       </IonHeader>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox, IonToast } from '@ionic/react';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox, IonToast, IonItem } from '@ionic/react';
 import { lockClosed, phonePortraitOutline, mailOutline, logoFacebook } from 'ionicons/icons';
 
 import useAuth from '@app/hooks/use-auth';
@@ -12,10 +12,11 @@ import { Controller, useForm } from "react-hook-form";
 import logo from '../assets/img/logo.png';
 
 
-const StyleWrapperInput = styled.div`
+const StyleWrapperInput = styled(IonItem)`
     background-color: white;
     border: 1px solid #d6d6c2;
-    margin-top: 10px;
+    padding-left: 5px;
+    margin: 10px 0px 0px 0px;
     border-radius: 10px;
     height: 48px;
     font-size: 18px;
@@ -25,7 +26,6 @@ const StyleWrapperInput = styled.div`
 const StyledInput = styled(IonInput)`
     color: black;
     margin-top: 2px;
-    margin-left: 15px
 `;
 const StyleText = styled.div`
     font-size: 15px;
@@ -68,6 +68,7 @@ interface InputProps {
   name: string;
   fieldType: string;
   label?: string;
+  icon: string;
   [otherProps: string]: unknown;
 };
 interface LoginModel {
@@ -77,12 +78,14 @@ interface LoginModel {
 }
 const formFields: InputProps[] = [
   {
+    icon: phonePortraitOutline,
     name: "username",
     fieldType: "input",
     label: "Số điện thoại",
     placeholder: "Số điện thoại",
   },
   {
+    icon: lockClosed,
     name: "password",
     fieldType: "input",
     type: "password",
@@ -145,7 +148,7 @@ const LoginPage: React.FC = () => {
         </IonRow>
 
         <form onSubmit={handleSubmit(handleLogin)} style={{ paddingLeft: '30px', paddingRight: '30px' }}>
-          {formFields.map(({ label, name, fieldType, ...otherProps }) => {
+          {formFields.map(({ label, name, fieldType, icon, ...otherProps }) => {
             switch (fieldType) {
               case 'input': {
                 return (
@@ -156,18 +159,19 @@ const LoginPage: React.FC = () => {
                     render={({ field: { onChange, onBlur, value } }) => (
                       <IonRow className="ion-justify-content-center">
                         <IonCol size="12" size-sm='4' size-lg='3'>
-                          <StyleWrapperInput>
+                          <StyleWrapperInput color='light' lines='none'>
                             <StyledInput
                               required={true}
                               onIonBlur={onBlur}
                               value={value}
                               onIonChange={onChange}
                               {...otherProps}>
-                              {name === 'username' ? <StyledIcon icon={phonePortraitOutline} /> : <StyledIcon icon={lockClosed} />}
                             </StyledInput>
+                            <IonIcon icon={icon} color='medium' slot='start'></IonIcon>
                           </StyleWrapperInput>
                         </IonCol>
                       </IonRow>
+
                     )}
                   />
 

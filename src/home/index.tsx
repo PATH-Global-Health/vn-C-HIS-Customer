@@ -31,6 +31,10 @@ const StyledItem = styled(IonItem)`
   margin: 0px 15px;
   --min-height: 20px;
 `;
+const StyledHeader = styled.div`
+  margin-left: 10%;
+  margin-top: 7%;
+`;
 const StyledSocialButton = styled(IonButton)`
     border: 0.5px solid #d6d6c2;
     color: #7b7b7b;
@@ -96,26 +100,12 @@ const Home: React.FC = () => {
             </div>
           </IonCol>
         </IonRow>
-        <IonRow className="ion-justify-content-center">
-          <IonCol size="6" size-sm="4" offset='4'>
-            <IonAvatar style={{
-              '--border-radius': '50px'
-            }}>
-              <img src={avatar} width='100px' />
-            </IonAvatar>
-          </IonCol>
-        </IonRow>
-        <div style={{ textAlign: 'center', color: 'black' }}>
+        <StyledHeader>
           <div>
-            <StyledText>
-              Đoàn Thanh Hoàng
-        </StyledText>
+            Xin chào!<b> &nbsp; Đoàn Hoàng</b>
           </div>
           <div></div>
-          <IonNote>
-            0909090812
-        </IonNote>
-        </div>
+        </StyledHeader>
 
         <div>
           {

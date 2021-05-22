@@ -5,9 +5,10 @@ import PageNotFound from '@app/pages/PageNotFound';
 import AppLayout from '@app/components/app-layout';
 import RegisterPage from '@app/pages/RegisterPage';
 import LoginPage from '@app/pages/LoginPage';
-import Home from 'pages';
 import ChangePasswordPage from '@app/pages/ChangePasswordPage';
 import ForgetPassword from '@app/pages/ForgetPasswordPage';
+import Account from 'account';
+import Home from 'home';
 
 interface Route {
   component: React.FC;
@@ -51,7 +52,7 @@ const routes: Route[] = [
     isPrivate: true,
   },
   {
-    component: Home,
+    component: Account,
     layout: AppLayout,
     path: '/account',
     isPrivate: true,

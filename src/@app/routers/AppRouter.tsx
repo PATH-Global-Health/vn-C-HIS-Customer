@@ -13,56 +13,6 @@ const AppRouter: React.FC = () => {
   return (
     <IonApp>
       <IonReactRouter>
-        {/* {appMenu && (
-          <IonTabs>
-            <IonRouterOutlet>
-              {routes.map((r) => (
-                <AppRoute
-                  key={r.path || '404'}
-                  path={r.path}
-                  exact={r.exact}
-                  component={r.component}
-                  isPrivate={r.isPrivate}
-                  layout={r.layout}
-                />
-              ))}
-            </IonRouterOutlet>
-            <IonTabBar slot="bottom" style={{ '--border': '1px solid #b4b4b4' }}>
-              <IonTabButton tab="home" href="/home">
-                <IonIcon icon={home} />
-                <IonLabel>Trang chủ</IonLabel>
-              </IonTabButton>
-              <IonTabButton tab="news" href="/news">
-                <IonIcon icon={newspaper} />
-                <IonLabel>Tin tức</IonLabel>
-              </IonTabButton>
-
-              <IonTabButton tab="notify" href="/notify">
-                <IonIcon icon={notifications} />
-                <IonLabel>Thông báo</IonLabel>
-              </IonTabButton>
-
-              <IonTabButton tab="acount" selected={true} href="/account">
-                <IonIcon icon={person} />
-                <IonLabel>Tài khoản</IonLabel>
-              </IonTabButton>
-            </IonTabBar>
-          </IonTabs>
-        )}
-        {appMenu || (
-          <IonRouterOutlet>
-            {routes.map((r) => (
-              <AppRoute
-                key={r.path || '404'}
-                path={r.path}
-                exact={r.exact}
-                component={r.component}
-                isPrivate={r.isPrivate}
-                layout={r.layout}
-              />
-            ))}
-          </IonRouterOutlet>
-        )} */}
         <IonTabs>
           <IonRouterOutlet>
             {routes.map((r) => (
@@ -91,7 +41,7 @@ const AppRouter: React.FC = () => {
               <IonLabel>Thông báo</IonLabel>
             </IonTabButton>
 
-            <IonTabButton tab="acount" selected={true} href="/account">
+            <IonTabButton tab="acount" href="/account">
               <IonIcon icon={person} />
               <IonLabel>Tài khoản</IonLabel>
             </IonTabButton>

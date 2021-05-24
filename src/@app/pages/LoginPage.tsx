@@ -11,7 +11,6 @@ import { Controller, useForm } from "react-hook-form";
 
 import logo from '../assets/img/logo.png';
 
-
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
     border: 1px solid #d6d6c2;

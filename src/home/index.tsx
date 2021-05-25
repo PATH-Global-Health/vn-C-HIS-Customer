@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
-  IonButton,
   IonCard,
   IonCardHeader,
+  IonCardTitle,
   IonCol,
   IonContent,
   IonIcon,
@@ -26,6 +26,8 @@ import {
 import { useHistory } from "react-router-dom";
 
 import logo from '@app/assets/img/logo.png'
+import img from '@app/assets/img/virus.jpg'
+
 import Slider from 'react-slick';
 
 import "slick-carousel/slick/slick.css";
@@ -93,12 +95,12 @@ const ResultIcon = styled(IonIcon)`
 const CardSlider = styled(IonRow)`
   ion-card {
     width: 80%;
-    height: 150px;
+    height: 180px;
     background-color: white;
   }
 `;
 const Menu = styled(IonRow)`
-  padding: 0 20px 0 20px;
+  padding: 0 10px 0 20px;
   ion-item {
     width: 100%;
   }
@@ -146,9 +148,7 @@ const optionFields: OptionProps[] = [
   },
 ];
 const Home: React.FC = () => {
-  const history = useHistory();
   const [searchData, setSearchData] = useState('');
-  console.log(searchData);
   return (
     <>
       <IonContent>
@@ -183,7 +183,7 @@ const Home: React.FC = () => {
         </Menu>
         <IonRow className='ion-margin-end'>
           {
-            optionFields.map(({ icon, label, color, note, ...otherProps }) => {
+            optionFields.map(({ icon, label, color, note }) => {
               return (
                 <IonCol size='4' size-sm='3'>
                   <Card style={{ backgroundColor: color }}>
@@ -245,8 +245,14 @@ const Home: React.FC = () => {
               return (
                 <CardSlider >
                   <IonCard>
-                    <IonCardHeader>
-                      <img src={`https://placeimg.com/133/200/any?rand=${idx}`} alt="" />
+                    <IonItem color='light'>
+                      <img src={img} alt="" height='110px' width='100%' />
+                    </IonItem>
+
+
+                    <IonCardHeader >
+                      <IonCardTitle style={{ color: 'black', fontSize: '15px' }}>Tiêu đề tin tức</IonCardTitle>
+                      <IonNote >Người đăng</IonNote>
                     </IonCardHeader>
                   </IonCard>
                 </CardSlider>

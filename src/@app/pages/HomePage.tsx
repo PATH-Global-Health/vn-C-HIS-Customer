@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   IonContent,
   IonIcon,
@@ -7,23 +7,28 @@ import {
   IonThumbnail,
 } from '@ionic/react';
 import { home } from 'ionicons/icons';
+import logo from '../assets/img/logo.png';
+import { getUnitTypes } from '../../booking/slices/unitType';
+import { useDispatch} from '@app/hooks';
+
 
 const HomePage: React.FC = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // dispatch(getUserInfo(`Profiles?userId=cd176cb7-21bf-43e0-e592-08d88a021d74`));
+    dispatch(getUnitTypes());
+  }, [dispatch])
   return (
     <IonContent>
-      <IonItem button onClick={() => {}}>
-        <IonThumbnail slot="start">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1280px-React-icon.svg.png"
-            alt="react-logo"
-          />
-        </IonThumbnail>
+      <IonItem button onClick={() => { }}>
+        <div >
+          <img width='200px' src={logo} alt="logo" />
+        </div>
         <IonLabel>
-          <h3>Home Page</h3>
-          <p>Try to resize to mobile bruh 💻 👉 📱 </p>
-          <p>Happy hacking from QM with 🥲</p>
+          <p>Try to resize to mobile bruh 💻 👉 📱  </p>
+          
         </IonLabel>
-        <IonIcon icon={home} slot="end" />
+        <IonIcon icon={home} />
       </IonItem>
     </IonContent>
   );

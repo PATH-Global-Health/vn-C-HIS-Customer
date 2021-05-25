@@ -7,12 +7,12 @@ import {
   IonLabel,
   IonRouterOutlet,
 } from '@ionic/react';
-import { home, newspaper } from 'ionicons/icons';
+import { home, newspaper, people } from 'ionicons/icons';
 
 export const AppMenu: React.FC = () => (
   <IonTabs>
     <IonTabBar slot="bottom">
-      <IonTabButton tab="home" href="/home">
+      <IonTabButton tab="home" href="/">
         <IonIcon icon={home} />
         <IonLabel>Home</IonLabel>
       </IonTabButton>
@@ -20,6 +20,10 @@ export const AppMenu: React.FC = () => (
       <IonTabButton tab="post" href="/post">
         <IonIcon icon={newspaper} />
         <IonLabel>Post</IonLabel>
+      </IonTabButton>
+      <IonTabButton tab="user" href="/user">
+        <IonIcon icon={people} />
+        <IonLabel>User</IonLabel>
       </IonTabButton>
     </IonTabBar>
     <IonRouterOutlet></IonRouterOutlet>

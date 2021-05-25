@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import {
   IonBadge,
   IonCard,
-  IonCardContent,
   IonCardHeader,
-  IonCardSubtitle,
   IonCardTitle,
   IonCol,
   IonContent,
@@ -17,20 +15,15 @@ import {
   IonRow,
 } from '@ionic/react';
 import {
-  chevronForwardOutline,
   searchOutline,
-  calendarOutline,
-  alarmOutline,
-  arrowForwardOutline,
-  eyedropOutline,
-  newspaperOutline,
-  person,
+
 } from 'ionicons/icons';
 import { useDispatch, useSelector } from '@app/hooks';
 import { getPosts } from 'news/post/post.slice';
 
 import logo from '@app/assets/img/logo.png';
 import img from '@app/assets/img/virus.jpg';
+import img_small from '@app/assets/img/virus2.jpg';
 import moment from 'moment';
 
 const StyleWrapperInput = styled(IonItem)`
@@ -52,18 +45,6 @@ const StyledHeader = styled.div`
   font-size: 20px;
   margin-left: 5%;
   margin-top: 5%;
-`;
-const StyledItem = styled(IonItem)`
-  margin: 0px 15px;
-  --min-height: 20px;
-`;
-const StyledIcon = styled(IonIcon)`
-  margin: 25px 30px 15px 0px;
-  padding: 11px 11px;
-  font-size: 15px;
-  border-radius: 10px;
-  color: white;
-  align-item: center;
 `;
 const SearchNote = styled(IonNote)`
   font-size: 13px;
@@ -90,23 +71,32 @@ const Card = styled(IonRow)`
     display: block;
   }
 `;
-const StyledText = styled(IonLabel)`
-  font-size: 22px;
-  font
+const ChildCard = styled(IonRow)`
+  ion-item{
+    border: 1px solid #bcbcbc;
+    border-radius: 10px;
+    margin: 5px 3%;
+    background-color:white;
+  }
+  img{
+    margin: 20px 20px 20px 0px;
+    border-radius: 5px;
+  }
+  ion-label{
+    margin-top: 8px;
+  }
+  .main-title  {
+    color: black;
+    font-size: 22px;
+  }
+  .main-card {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #646464;
+    display: block;
+  }
 `;
-const ChildCard = styled(IonItem)`
-  border: 1px solid #bcbcbc;
-  border-radius: 5px;
-  margin: 0px 15px;
-`
-const CardLabel = styled(IonLabel)`
-  font-size: 22px;
-  font-weight: 500;
-`
-const CardImage = styled(IonIcon)`
-  color: #4c9fc8;
-  margin-right: 30px;
-`
+
 const WrapperKeyword = styled.div`
   margin: 5px 0px 10px 10px;
 `;
@@ -168,17 +158,19 @@ const PostListCard: React.FC = () => {
         </IonCard> 
 
       ))} */}
-      {postList.slice(0, 5).map((p) => (
-        <IonRow >
+      {postList.slice(0, 4).map((p, idx) => (
+        <ChildCard key={idx}>
           <IonCol size="12" size-sm='12'>
-            <ChildCard color='light' lines='none'>
-              <CardImage icon={newspaperOutline} />
-              <CardLabel >
-                {p.title}
-              </CardLabel>
-            </ChildCard>
+            <IonItem color='light' lines='none' className='item-content'>
+              <img src={img_small} slot='start' width='60px' height='60px' />
+              <IonLabel>
+                <b className="main-title">Tiêu đề tin</b>
+                <IonNote className='main-card'>Vào lúc {date}</IonNote>
+                <IonNote className='main-card'>Người đăng</IonNote>
+              </IonLabel>
+            </IonItem>
           </IonCol>
-        </IonRow>
+        </ChildCard>
       ))}
     </IonContent>
   );

@@ -57,7 +57,8 @@ const StyledHeader = styled.div`
 const Card = styled(IonCard)`
   height: 110px;
   background-color: blue;
-  width: 90%;
+  margin-inline: 0 !important;
+  width: 100%;
 `;
 const CardIcon = styled(IonIcon)`
   font-size: 20px;
@@ -69,15 +70,15 @@ const CardIcon = styled(IonIcon)`
   align-item: center;
 `;
 const CardLabel = styled(IonLabel)`
-  margin: -30px 0px 10px 10px;
-  font-size: 20px;
+  margin: -30px 0px 10px 6px;
+  font-size: 21px;
   font-weight: 300;
   color: white;
 `;
 const CardNote = styled(IonNote)`
-  font-size: 10px;
+  font-size: 12px;
   color: #2e2d2d;
-  margin-left: 12px;
+  margin-left: 7px;
 `
 const ResultButton = styled(IonItem)`
   border: 1px solid #bcbcbc;
@@ -118,7 +119,6 @@ const Menu = styled(IonRow)`
   }
 `;
 
-
 interface OptionProps {
   icon: string;
   label: string;
@@ -152,7 +152,7 @@ const Home: React.FC = () => {
   return (
     <>
       <IonContent>
-        <IonRow className="ion-justify-content-center " >
+        <IonRow className="ion-justify-content-center" >
           <IonCol size="4" size-sm="3">
             <div>
               <img src={logo} alt="logo" width='150px' />
@@ -181,12 +181,12 @@ const Home: React.FC = () => {
             <IonIcon className="ion-align-self-center" slot="end" size="small" icon={chevronForwardOutline} />
           </IonItem>
         </Menu>
-        <IonRow className='ion-margin-end'>
+        <IonRow className="ion-justify-content-center">
           {
-            optionFields.map(({ icon, label, color, note }) => {
+            optionFields.map(({ icon, label, color, note }, idx) => {
               return (
-                <IonCol size='4' size-sm='3'>
-                  <Card style={{ backgroundColor: color }}>
+                <IonCol key={idx}>
+                  <Card style={{ backgroundColor: color }} >
                     <div>
                       <CardIcon icon={icon} slot='start' />
                     </div>
@@ -209,8 +209,8 @@ const Home: React.FC = () => {
           </IonItem>
         </Menu>
         <IonRow className='ion-margin-top'>
-          <IonCol size="12" size-sm='3'>
-            <ResultButton color='light'>
+          <IonCol size="12" size-sm='12'>
+            <ResultButton color='light' lines='none'>
               <ResultIcon icon={eyedropOutline} />
               <ResultLabel >
                 Xem kết quả xét nghiệm
@@ -221,8 +221,8 @@ const Home: React.FC = () => {
           </IonCol>
         </IonRow>
         <IonRow >
-          <IonCol size="12" size-sm='3'>
-            <ResultButton color='light'>
+          <IonCol size="12" size-sm='12'>
+            <ResultButton color='light' lines='none'>
               <ResultIcon icon={newspaperOutline} />
               <ResultLabel >
                 Cập nhật kết quả xét nghiệm
@@ -239,17 +239,15 @@ const Home: React.FC = () => {
             <IonIcon className="ion-align-self-center" slot="end" size="small" icon={chevronForwardOutline} />
           </IonItem>
         </Menu>
-        <Slider className="" infinite={false} dots={true} slidesToShow={1.4} slidesToScroll={1} swipeToSlide={true} >
+        <Slider infinite={false} dots={true} slidesToShow={1.4} slidesToScroll={1} swipeToSlide={true} >
           {
             optionFields.map((item, idx) => {
               return (
-                <CardSlider >
+                <CardSlider key={idx} >
                   <IonCard>
                     <IonItem color='light'>
                       <img src={img} alt="" height='110px' width='100%' />
                     </IonItem>
-
-
                     <IonCardHeader >
                       <IonCardTitle style={{ color: 'black', fontSize: '15px' }}>Tiêu đề tin tức</IonCardTitle>
                       <IonNote >Người đăng</IonNote>

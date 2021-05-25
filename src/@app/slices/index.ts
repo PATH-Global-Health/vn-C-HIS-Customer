@@ -2,7 +2,7 @@
 
 import auth from '@app/slices/auth';
 import global from '@app/slices/global';
-import post from 'post/post.slice';
+import post from 'news/post/post.slice';
 
 export default {
   auth,

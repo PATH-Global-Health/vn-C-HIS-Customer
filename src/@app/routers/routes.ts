@@ -9,6 +9,7 @@ import ChangePasswordPage from '@app/pages/ChangePasswordPage';
 import ForgetPassword from '@app/pages/ForgetPasswordPage';
 import Account from 'account';
 import Home from 'home';
+import PostPage from 'news/post';
 
 interface Route {
   component: React.FC;
@@ -49,6 +50,12 @@ const routes: Route[] = [
     component: Home,
     layout: AppLayout,
     path: '/home',
+    isPrivate: true,
+  },
+  {
+    component: PostPage,
+    layout: AppLayout,
+    path: '/post',
     isPrivate: true,
   },
   {

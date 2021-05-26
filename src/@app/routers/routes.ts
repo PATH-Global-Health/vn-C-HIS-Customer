@@ -10,6 +10,7 @@ import ForgetPassword from '@app/pages/ForgetPasswordPage';
 import Account from 'account';
 import Home from 'home';
 import PostPage from 'news/post';
+import PostDetail from 'news/PostDetail';
 
 interface Route {
   component: React.FC;
@@ -56,6 +57,11 @@ const routes: Route[] = [
     component: PostPage,
     layout: AppLayout,
     path: '/post',
+    isPrivate: true,
+  },
+  {
+    component: PostDetail,
+    path: '/post-detail',
     isPrivate: true,
   },
   {

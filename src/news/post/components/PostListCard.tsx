@@ -25,6 +25,7 @@ import logo from '@app/assets/img/logo.png';
 import img from '@app/assets/img/virus.jpg';
 import img_small from '@app/assets/img/virus2.jpg';
 import moment from 'moment';
+import { useHistory } from 'react-router';
 
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
@@ -75,7 +76,7 @@ const ChildCard = styled(IonRow)`
   ion-item{
     border: 1px solid #bcbcbc;
     border-radius: 10px;
-    margin: 5px 3%;
+    margin: 5px 1%;
     background-color:white;
   }
   img{
@@ -101,10 +102,10 @@ const WrapperKeyword = styled.div`
   margin: 5px 0px 10px 10px;
 `;
 const PostListCard: React.FC = () => {
+  const history = useHistory();
   const [searchData, setSearchData] = useState('');
   const dispatch = useDispatch();
   const date = moment().format();
-  console.log(date);
   const postList = useSelector((s) => s.post.postList);
   useEffect(() => {
     dispatch(getPosts());
@@ -139,12 +140,12 @@ const PostListCard: React.FC = () => {
         </WrapperKeyword>
       </StyledHeader>
       <Card>
-        <IonCard>
+        <IonCard onClick={() => history.push('/post-detail')}>
           <img src={img} alt="" height='180px' width='100%' />
           <IonCardHeader >
             <IonCardTitle className="main-title">Tiêu đề tin tức</IonCardTitle>
-            <IonNote className='main-card'>Vào lúc {date}</IonNote>
-            <IonNote className='main-card'>Người đăng</IonNote>
+            <IonNote className='main-card'>{date}</IonNote>
+            <IonNote className='main-card'>Đoàn Hoàng</IonNote>
           </IonCardHeader>
         </IonCard>
       </Card>
@@ -159,14 +160,14 @@ const PostListCard: React.FC = () => {
 
       ))} */}
       {postList.slice(0, 4).map((p, idx) => (
-        <ChildCard key={idx}>
+        <ChildCard key={idx} onClick={() => history.push('/post-detail')}>
           <IonCol size="12" size-sm='12'>
             <IonItem color='light' lines='none' className='item-content'>
               <img src={img_small} slot='start' width='60px' height='60px' />
               <IonLabel>
                 <b className="main-title">Tiêu đề tin</b>
-                <IonNote className='main-card'>Vào lúc {date}</IonNote>
-                <IonNote className='main-card'>Người đăng</IonNote>
+                <IonNote className='main-card'>{date}</IonNote>
+                <IonNote className='main-card'>Đoàn Hoàng</IonNote>
               </IonLabel>
             </IonItem>
           </IonCol>

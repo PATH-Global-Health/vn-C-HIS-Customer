@@ -31,7 +31,7 @@ const AppRouter: React.FC = () => {
               <IonIcon icon={home} />
               <IonLabel>Trang chủ</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="news" href="/news">
+            <IonTabButton tab="post" href="/post">
               <IonIcon icon={newspaper} />
               <IonLabel>Tin tức</IonLabel>
             </IonTabButton>

@@ -119,9 +119,9 @@ const Account: React.FC = () => {
 
         <div>
           {
-            optionFields.map(({ icon, label, color, ...otherProps }) => {
+            optionFields.map(({ icon, label, color, ...otherProps }, idx) => {
               return (
-                <IonRow >
+                <IonRow key={idx}>
                   <IonCol size="12" size-sm='3'>
                     <StyledItem color='light'
                       onClick={() => { icon === 'change' ? history.push('/change-password') : history.push('/account') }}

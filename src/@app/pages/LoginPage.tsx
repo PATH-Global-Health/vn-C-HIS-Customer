@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox, IonToast, IonItem } from '@ionic/react';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox, IonToast, IonItem, IonText } from '@ionic/react';
 import { lockClosed, phonePortraitOutline, mailOutline, logoFacebook } from 'ionicons/icons';
 
 import useAuth from '@app/hooks/use-auth';
@@ -12,15 +12,15 @@ import { Controller, useForm } from "react-hook-form";
 import logo from '../assets/img/logo.png';
 
 const StyleWrapperInput = styled(IonItem)`
-    background-color: white;
-    border: 1px solid #d6d6c2;
-    padding-left: 5px;
-    margin: 10px 0px 0px 0px;
-    border-radius: 10px;
-    height: 48px;
-    font-size: 18px;
-    text-transform: initial;
-    box-shadow: 1px 3px 3px 0px rgba(0, 0, 0, 0.2)
+  background-color: white;
+  border: 1px solid #d6d6c2;
+  padding-left: 5px;
+  margin: 12px 0px 3px 0px;
+  border-radius: 10px;
+  height: 48px;
+  font-size: 18px;
+  text-transform: initial;
+  box-shadow: 1px 3px 3px 0px rgba(0, 0, 0, 0.2)
 `;
 const StyledInput = styled(IonInput)`
     color: black;
@@ -63,6 +63,11 @@ const StyledSocialText = styled.span`
   color:#010100;
   text-transform: capitalize;
 `;
+const ErrorText = styled(IonText)`
+   color: #f46a6a;
+   margin-left: 5px;
+   font-size: 15px;
+`
 interface InputProps {
   name: string;
   fieldType: string;
@@ -95,7 +100,7 @@ const formFields: InputProps[] = [
 
 const LoginPage: React.FC = () => {
   const history = useHistory();
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, register, formState: { errors }, trigger } = useForm();
   const { login } = useAuth();
   const permissionQuery = {};
   const [remember, setRemember] = useState(true)
@@ -111,6 +116,23 @@ const LoginPage: React.FC = () => {
       setShowFailedToast(true);
     }
   };
+  useEffect(() => {
+    register(
+      'username',
+      {
+        required: { value: true, message: "Chưa nhập số điện thoại. " },
+        maxLength: { value: 10, message: "Số điện thoại tối đa 10 số. " },
+        pattern: { value: /^[0-9\b]+$/, message: "Số điện thoại không đúng định dạng. " }
+      }
+    );
+    register(
+      'password',
+      {
+        required: { value: true, message: "Chưa nhập mật khẩu. " },
+        minLength: { value: 5, message: "Mật khẩu tối thiểu 5 kí tự. " },
+      }
+    );
+  }, [register]);
   return (
     <>
       <IonContent >
@@ -160,14 +182,17 @@ const LoginPage: React.FC = () => {
                         <IonCol size="12" size-sm='4' size-lg='3'>
                           <StyleWrapperInput color='light' lines='none'>
                             <StyledInput
-                              required={true}
-                              onIonBlur={onBlur}
                               value={value}
+                              onIonBlur={() => {
+                                trigger(name);
+                              }}
                               onIonChange={onChange}
                               {...otherProps}>
                             </StyledInput>
                             <IonIcon icon={icon} color='medium' slot='start'></IonIcon>
                           </StyleWrapperInput>
+                          {(errors?.username?.message && name === 'username') && <ErrorText >{(errors?.username?.message)}</ErrorText>}
+                          {(errors?.password?.message && name === 'password') && <ErrorText >{(errors?.password?.message)}</ErrorText>}
                         </IonCol>
                       </IonRow>
 

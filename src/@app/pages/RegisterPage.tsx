@@ -10,7 +10,6 @@ import { Controller, useForm } from "react-hook-form";
 
 import logo from '../assets/img/logo.png';
 import authService from '@app/services/auth';
-import { register } from 'serviceWorkerRegistration';
 
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
@@ -31,8 +30,13 @@ const StyleText = styled.div`
     font-size: 15px;
     color: #010100;
     text-align: end;
-    margin-right: 35px;
-    margin-top: 20px;
+    margin: 15px 15px;
+`;
+const StyleNote = styled.div`
+  font-size: 14px; 
+  color: #666666;
+  padding-left: 35px;
+  margin-bottom: -15px
 `;
 const StyledButton = styled(IonButton)`
     width: 300px;
@@ -43,7 +47,7 @@ const StyledHeader = styled.h1`
     font-weight: 700;
     color: #010100;
     padding-left: 35px;
-    margin-top: 50px;
+    margin-top: 30px;
 `;
 const StyledIcon = styled(IonIcon)`
    margin-right: 30px;
@@ -124,7 +128,7 @@ const RegisterPage: React.FC = () => {
     register(
       'phoneNumber',
       {
-        required: { value: true, message: "Chưa nhập số điện thoại. " },
+        required: { value: true, message: "Chưa nhập mật khẩu. " },
         maxLength: { value: 10, message: "Số điện thoại tối đa 10 số. " },
         pattern: { value: /^[0-9\b]+$/, message: "Số điện thoại không đúng định dạng. " }
       }
@@ -153,7 +157,7 @@ const RegisterPage: React.FC = () => {
         />
         <IonRow >
           <IonCol >
-            <div style={{ textAlign: 'center', marginTop: '50px' }}>
+            <div style={{ textAlign: 'center', marginTop: '30px' }}>
               <img width='300px' src={logo} alt="logo" />
             </div>
           </IonCol>
@@ -161,7 +165,7 @@ const RegisterPage: React.FC = () => {
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
             <StyledHeader >Đăng Kí</StyledHeader>
-            <div style={{ fontSize: '14px', color: '#666666', paddingLeft: '35px', marginBottom: '-15px' }}> Vui lòng điền đầy đủ thông tin</div>
+            <StyleNote> Vui lòng điền đầy đủ thông tin</StyleNote>
           </IonCol>
         </IonRow>
 
@@ -179,8 +183,6 @@ const RegisterPage: React.FC = () => {
                         <IonCol size="12" size-sm='3'>
                           <StyleWrapperInput color='light' lines='none'>
                             <StyledInput
-                              required={true}
-                              autofocus={true}
                               onIonChange={onChange}
                               onIonBlur={() => {
                                 trigger(name);
@@ -229,7 +231,11 @@ const RegisterPage: React.FC = () => {
               }
             }
           })}
-
+          <IonRow className="ion-justify-content-center">
+            <IonCol size="12" size-sm='3'>
+              <StyleText >Đã có tài khoản? <b onClick={() => { history.push('/login') }} style={{ cursor: 'pointer' }} >Đăng nhập ngay</b></StyleText>
+            </IonCol>
+          </IonRow>
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" size-sm='3'>
               <div style={{ textAlign: 'center', marginTop: '10px' }}>
@@ -238,11 +244,6 @@ const RegisterPage: React.FC = () => {
             </IonCol>
           </IonRow>
         </form>
-        <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='3'>
-            <StyleText >Đã có tài khoản? <b onClick={() => { history.push('/login') }} style={{ cursor: 'pointer' }} >Đăng nhập ngay</b></StyleText>
-          </IonCol>
-        </IonRow>
 
       </IonContent>
     </>

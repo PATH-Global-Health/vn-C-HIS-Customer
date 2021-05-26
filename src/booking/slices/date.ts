@@ -7,12 +7,14 @@ import bookingServices from '../services/index';
 interface State {
     dateBookings: string[];
     dateBooking: string;
+    typeChoosing: string;
     loading: boolean;
 }
 
 const initialState: State = {
     dateBookings: [],
     dateBooking: "",
+    typeChoosing: "",
     loading: false,
 };
 
@@ -32,7 +34,10 @@ const slice = createSlice({
     reducers: {
         getDateBooking: (state, action) => {
             state.dateBooking = action.payload;
-        }
+        },
+        getTypeChoosing: (state, action) => {
+            state.typeChoosing = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(getDateByServiceId.pending, (state) => ({
@@ -54,6 +59,6 @@ const slice = createSlice({
 });
 
 export { getDateByServiceId };
-export const {getDateBooking} = slice.actions;
+export const {getDateBooking, getTypeChoosing} = slice.actions;
 
 export default slice.reducer;

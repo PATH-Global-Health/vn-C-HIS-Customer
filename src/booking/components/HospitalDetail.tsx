@@ -6,16 +6,18 @@ import { arrowBack } from 'ionicons/icons';
 import { Hospital } from 'booking/models/hospital';
 import { useDispatch, useSelector } from '@app/hooks';
 import { getIntervals } from '../slices/workingCalendar';
+import { type } from 'node:os';
+import { getDateByUnitAndService, getWorkingCalendarBooking } from '../slices/workingCalendar';
 
 const HospitalDetail: React.FC = () => {
     const history = useHistory();
-    const hospital = useLocation<Hospital>().state;
+    // const hospital = useLocation<Hospital>().state;
     const dispatch = useDispatch();
     let dayId = "";
+    const hospital = useSelector((h) => h.hospital.hospitalBooking);
     const d = useSelector((d) => d.dateBooking.dateBooking);
-    // const da = Date.parse(useSelector((d) => d.dateBooking.dateBooking));
     const dateByUnitAndServices = useSelector((s) => s.workingCaledar.workingCalendars);
-
+    const typeChoosing = useSelector((d) => d.dateBooking.typeChoosing);
     const getInterval = () => {
         dateByUnitAndServices.map((date) => {
             if (
@@ -24,6 +26,7 @@ const HospitalDetail: React.FC = () => {
                 && new Date(date.date).getFullYear() === new Date(d).getFullYear()
             ) {
                 console.log(date.id);
+                dispatch(getWorkingCalendarBooking(date));
                 dispatch(getIntervals(date.id));
             }
         }
@@ -77,8 +80,13 @@ margin: 16px;
 margin-bottom: 80px;
 `
     useEffect(() => {
-        console.log(hospital)
-    })
+        const arg = {
+            unitId: hospital.id,
+            serviceId: "f2490f62-1d28-4edd-362a-08d8a7232229",
+        }
+        dispatch(getDateByUnitAndService(arg));
+    }, [hospital.id])
+    
     return (
         <IonPage>
             <StyledHeader>
@@ -133,8 +141,12 @@ margin-bottom: 80px;
                 </IonContent>
             }
             <StyledButtonNext onClick={() => {
-                getInterval()
-                history.push("/choosingTime")
+                if (typeChoosing === "apointmentDate") {
+                    getInterval()
+                    history.push("/choosingTime")
+                } else if (typeChoosing === "choosingHospital") {
+                    history.push("/apointmentDate")
+                }
             }}>Bước tiếp theo</StyledButtonNext>
 
         </IonPage>

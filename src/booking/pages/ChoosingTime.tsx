@@ -11,8 +11,11 @@ import {
   IonItemDivider,
   IonLabel,
   IonList,
+  IonListHeader,
   IonModal,
   IonPage,
+  IonRadio,
+  IonRadioGroup,
   IonRedirect,
   IonSelect,
   IonSelectOption,
@@ -27,10 +30,14 @@ import { getDateByServiceId } from '../slices/date';
 import { arrowBack, arrowBackCircle, arrowBackOutline, arrowBackSharp, arrowDown, arrowForward, arrowRedo, arrowUndo, backspace, build, calendar, chatbubble, flag, flash, home, newspaper, people, podium, returnDownBack } from 'ionicons/icons';
 import HospitalDetail from 'booking/components/HospitalDetail';
 import moment from 'moment';
+import { Interval } from 'booking/models/interval';
+import { IntervalModel } from 'booking/models/IntervalModel';
+import { getInterBooking } from 'booking/slices/workingCalendar';
 
 const StyledButton = styled(IonButton)`{
     ::after{content: ""}
-    width: 335px;
+    width: 68px;
+    height: 28px;
     --background: white;
     text-align: center;
     color: black;
@@ -40,7 +47,7 @@ const StyledButton = styled(IonButton)`{
     position: relative;
     font-family: system-ui;
     font-size: 18px;
-    margin-top: 10px;
+    margin: 10px;
 }
 `;
 
@@ -95,7 +102,7 @@ const StyledLabelContent = styled(IonLabel)`
     {
         font-weight: bold;
         font-size: px;
-        color: #293978;
+        color: #a09b9b;
         // margin-left: 16px;
         
     }
@@ -107,15 +114,37 @@ const StyledButtonNext = styled(IonButton)`
     // bottom: 5px;
     // width: 
     margin: 16px;
-    margin-bottom: 80px;
+    margin-bottom: 200px;
+    `
+const StyledItem = styled(IonItem)`
+    width: 67px;
+    height: 28px;
+    display: inline-block;
+    border: 1px solid black;
+    margin: 13px;
+    border-radius: 36px;
+    --color-checked: black;
+    `
+const StyledLabel = styled(IonLabel)`
+    position: absolute;
+    left: -10px;
     `
 
 const ChoosingTime: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const serviceIdTest = 'f2490f62-1d28-4edd-362a-08d8a7232229';
   const interval = useSelector((w) => w.workingCaledar.interval);
-
+  const [intervalSelected, setIntervalSelected] = useState<IntervalModel>();
+  const w = useSelector((w) => w.workingCaledar.workingCalendar);
+  let result = false;
+  interval.map((interval) => {
+    interval.intervals.map((item) => {
+      if (item.isAvailable) result = true;
+    });
+    if (result) {
+      <StyledButton>Lieu</StyledButton>
+    }
+  })
   return (
     <IonPage>
       <StyledHeader>
@@ -124,21 +153,28 @@ const ChoosingTime: React.FC = () => {
       </StyledHeader>
       <StyledContent>
         <StyledLabelContent>Vui lòng chọn thời gian phù hợp với bạn</StyledLabelContent>
+        {interval.map((interval) => {
+          const intervalAvailable = interval.intervals.filter((inter) => inter.isAvailable)
+          if (intervalAvailable.length > 0) {
+            return (
+              <StyledButton
+                onClick={() => {
+                  setIntervalSelected(intervalAvailable[0])
 
-        {interval === undefined ? "" : interval.map((interval) => (
-          <StyledButton
-            onClick={() => history.push('/hospitalDetail')}
-          >
-            <StyledIconRight icon={arrowForward}></StyledIconRight>
-            <StyledIconLeft icon={podium}></StyledIconLeft>
-          </StyledButton>
+                  // console.log(intervalSelected);
+                }}
+              >
+                {interval.from}
+              </StyledButton>)
+          }
 
-        ))}
+
+        })}
       </StyledContent>
-      {/* <IonLabel>{new Date(d).getFullYear()}</IonLabel> */}
-
-      {/* <IonLabel>{dateByUnitAndServices.length}</IonLabel> */}
-      <StyledButtonNext onClick={() => history.push("/confirmProfile")}>Bước tiếp theo</StyledButtonNext>
+      <StyledButtonNext onClick={() => {
+        dispatch(getInterBooking(intervalSelected))
+        history.push("/confirmProfile")
+      }}>Xác nhận</StyledButtonNext>
     </IonPage>
   );
 };

@@ -31,6 +31,9 @@ import { useHistory } from "react-router-dom";
 import hospitalServices from '../services/hospitals';
 import { arrowBack, text } from 'ionicons/icons';
 import moment from 'moment';
+import { userInfo } from 'node:os';
+import { BookingModel } from 'booking/models/bookingModel';
+import { getBookingModel } from 'booking/slices/workingCalendar';
 
 const StyledButton = styled(IonButton)`
     width: 300px;
@@ -120,7 +123,7 @@ const ConfirmProfile: React.FC = () => {
     }
     `
 
-   
+
 
     const StyledButtonSubmit = styled(IonButton)`
     // width: 300px;
@@ -131,13 +134,13 @@ const ConfirmProfile: React.FC = () => {
     margin: 16px;
     margin-top: 50px;
 `
-const StyledLabelHeader = styled(IonLabel)`
+    const StyledLabelHeader = styled(IonLabel)`
 {
   font-weight: bold;
     font-size: 23px;
 }
 `
-const StyledButtonNext = styled(IonButton)`
+    const StyledButtonNext = styled(IonButton)`
 // width: 300px;
 --background: #293978;
 // position: absolute;
@@ -146,7 +149,74 @@ const StyledButtonNext = styled(IonButton)`
 margin: 16px;
 margin-bottom: 80px;
 `
-const userProfile = useSelector((u) => u.auth.userInfo)
+    const userProfile = useSelector((u) => u.auth.userInfo);
+    const interval = useSelector((i) => i.workingCaledar.intervalBooking);
+    const unitBooking = useSelector((u) => u.hospital.hospitalBooking);
+    const workingCalendarBooking = useSelector((w) => w.workingCaledar.workingCalendar);
+    let bookingModel = {}
+    if (userProfile !== null) {
+        bookingModel = {
+            interval: {
+                id: interval.id,
+                from: interval.from,
+                to: interval.to,
+                numId: interval.numId,
+            },
+            unit: {
+                id: unitBooking.id,
+                name: unitBooking.name,
+                information: unitBooking.introduction,
+                addressUnit: unitBooking.address,
+                username: unitBooking.username,
+            },
+            doctor: {
+                id: workingCalendarBooking.doctor.id,
+                fullname: workingCalendarBooking.doctor.description,
+            },
+            room: {
+                id: workingCalendarBooking.room.id,
+                name: workingCalendarBooking.room.description,
+            },
+            service: {
+                id: workingCalendarBooking.service[0].id,
+                name: workingCalendarBooking.service[0].description,
+            },
+            customer: {
+                id: userProfile.id,
+                fullname: userProfile.fullname,
+                phone: userProfile.phoneNumber,
+                email: userProfile.email,
+                address: userProfile.address,
+                birthDate: "",
+                gender: true,
+                provinceCode: userProfile.province,
+                districtCode: userProfile.district,
+                wardCode: userProfile.ward,
+                ic: "",
+                nation: "",
+                passportNumber: "",
+                vaccinationCode: ""
+            },
+            contacts: [
+                {
+                    fullname: "",
+                    phone: "",
+                    relationship: ""
+                }
+            ],
+            note: "",
+            date: new Date(),
+            bookedByUser: "",
+            exitInformation: {
+                destination: "",
+                exitingDate: "",
+                entryingDate: ""
+            }
+        }
+    }
+
+    // bookingModel.customer.id = userProfile?.id;
+    // bookingModel.customer.address = userProfile?.name;
     return (
         <IonPage>
             <StyledHeader>
@@ -164,10 +234,6 @@ const userProfile = useSelector((u) => u.auth.userInfo)
                             <StyledLabel position="stacked">Số điện thoại</StyledLabel>
                             <IonInput value={userProfile?.phoneNumber}> </IonInput>
                         </IonItem>
-                        {/* <IonItem>
-                        <StyledLabel position="stacked">Tỉnh/Thành phố</StyledLabel>
-                        <IonInput value={hospital.province}> </IonInput>
-                    </IonItem> */}
                         <IonItem>
                             <StyledLabel position="stacked">Địa chỉ</StyledLabel>
                             <IonInput value={userProfile?.address}> </IonInput>
@@ -188,19 +254,15 @@ const userProfile = useSelector((u) => u.auth.userInfo)
                             <StyledLabel position="stacked">Province</StyledLabel>
                             <IonInput value={userProfile?.province}> </IonInput>
                         </IonItem>
-                        {/* <IonItem>
-                            <StyledLabel position="stacked">Phone</StyledLabel>
-                            <IonInput value={userProfile?.introduction}> </IonInput>
-                        </IonItem> */}
-                        {/* <IonItem>
-                        <StyledLabel position="stacked">Cơ sở gần bạn</StyledLabel>
-                        <IonInput value={text}> </IonInput>
-                    </IonItem> */}
+
                     </IonList>
-                    
+
                 </IonContent>
             }
-                <StyledButtonNext onClick={() => history.push("/apointmentInfo")}>Đặt lịch</StyledButtonNext>
+            <StyledButtonNext onClick={() => {
+                dispatch(getBookingModel(bookingModel));
+                history.push("/apointmentInfo")
+            }}>Đặt lịch</StyledButtonNext>
 
         </IonPage>
     )

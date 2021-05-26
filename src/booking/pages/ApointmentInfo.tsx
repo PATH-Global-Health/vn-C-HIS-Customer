@@ -53,6 +53,8 @@ const ApointmentInfo: React.FC = () => {
 
     const history = useHistory();
 
+    const bookingModel = useSelector((b) => b.workingCaledar.bookingModel);
+
     const StyledIconRight = styled(IonIcon)`
     {
         color: #b3b3b3;
@@ -146,6 +148,9 @@ const StyledButtonCancel = styled(IonButton)`
 margin: 16px;
 margin-bottom: 80px;
 `
+useEffect(()=> {
+    console.log(bookingModel);
+})
 const ApointmentInfo = useSelector((u) => u.auth.userInfo)
     return (
         <IonPage>
@@ -158,11 +163,11 @@ const ApointmentInfo = useSelector((u) => u.auth.userInfo)
                     <IonList>
                         <IonItem>
                             <StyledLabel position="stacked">Tên dịch vụ</StyledLabel>
-                            {/* <IonInput value={userProfile?.fullname}> </IonInput> */}
+                            <IonInput value={bookingModel.service.name}> </IonInput>
                         </IonItem>
                         <IonItem>
                             <StyledLabel position="stacked">Ngày hẹn</StyledLabel>
-                            {/* <IonInput value={userProfile?.phoneNumber}> </IonInput> */}
+                            <IonInput value={new Date(bookingModel.date).toDateString()}> </IonInput>
                         </IonItem>
                         {/* <IonItem>
                         <StyledLabel position="stacked">Tỉnh/Thành phố</StyledLabel>
@@ -170,11 +175,11 @@ const ApointmentInfo = useSelector((u) => u.auth.userInfo)
                     </IonItem> */}
                         <IonItem>
                             <StyledLabel position="stacked">Thời gian hẹn</StyledLabel>
-                            {/* <IonInput value={userProfile?.address}> </IonInput> */}
+                            <IonInput value={bookingModel.interval.from}> </IonInput>
                         </IonItem>
                         <IonItem>
                             <StyledLabel position="stacked">Cơ sở dịch vụ</StyledLabel>
-                            {/* <IonInput value={userProfile?.district}> </IonInput> */}
+                            <IonInput value={bookingModel.unit.name}> </IonInput>
                         </IonItem>
                        
                     </IonList>

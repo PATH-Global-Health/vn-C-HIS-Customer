@@ -27,6 +27,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { getDateByServiceId } from '../slices/date';
 import { arrowBack, arrowBackCircle, arrowBackOutline, arrowBackSharp, arrowDown, arrowForward, arrowRedo, arrowUndo, backspace, build, calendar, chatbubble, flag, flash, home, newspaper, people, podium, returnDownBack } from 'ionicons/icons';
 import HospitalDetail from 'booking/components/HospitalDetail';
+import { getHospitalBooking } from 'booking/slices/hospital';
 
 const StyledButton = styled(IonButton)`{
     ::after{content: ""}
@@ -106,34 +107,30 @@ const ChoosingHospital: React.FC = () => {
   const dispatch = useDispatch();
   const serviceIdTest = 'f2490f62-1d28-4edd-362a-08d8a7232229';
   const hospitals = useSelector((h) => h.hospital.hospitals);
-  
+
   const date = useLocation().state;
   return (
     <IonPage>
       <StyledHeader>
         <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
         <StyledLabelHeader>Danh sách cơ sở</StyledLabelHeader>
+        {/* <StyledHeader>{typeChoosing}</StyledHeader> */}
       </StyledHeader>
       <StyledContent>
         {hospitals.map(hospital => (
           <StyledButton
-            onClick={() => history.push('/hospitalDetail', hospital)}
+            onClick={() => {
+              dispatch(getHospitalBooking(hospital));
+              history.push('/hospitalDetail', hospital)
+            }}
           >{hospital.name}
-            <StyledIconRight icon={arrowForward}></StyledIconRight> 
+            <StyledIconRight icon={arrowForward}></StyledIconRight>
             <StyledIconLeft icon={podium}></StyledIconLeft>
             <StyledImg src={`https://smapi.vkhealth.vn/api/Hospitals/Logo/${hospital.id}`}></StyledImg>
           </StyledButton>
-          // <HospitalDetail ></HospitalDetail>
-          // <IonButton onClick={() => history.push('/hospitalDetail', hospital)}></IonButton>
-
         ))}
 
-        <StyledButton
-          onClick={() => history.push('/hospitalDetail', date)}
-        >
-          <StyledIconRight icon={arrowForward}></StyledIconRight>
-          <StyledIconLeft icon={podium}></StyledIconLeft>
-        </StyledButton>
+
       </StyledContent>
     </IonPage>
   );

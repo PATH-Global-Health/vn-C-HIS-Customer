@@ -3,10 +3,12 @@ import post from 'post/post.slice';
 import auth from './auth';
 import { unitType } from '../../booking/slices';
 import { hospital } from '../../booking/slices';
-import {dateBooking} from '../../booking/slices';
-import {workingCaledar} from '../../booking/slices';
+import { dateBooking } from '../../booking/slices';
+import { workingCaledar } from '../../booking/slices';
+// import { typeChoosing } from '../../booking/slices'
 
 export default {
+  // typeChoosing,
   workingCaledar,
   dateBooking,
   hospital,

@@ -20,7 +20,7 @@ import {
 import styled from 'styled-components';
 import { useDispatch, useSelector } from '@app/hooks';
 import hospital, { getHospitalByServiceIdAndDate } from '../slices/hospital';
-import { getDateByUnitAndService } from '../slices/workingCalendar';
+import { getDateByUnitAndService, getWorkingCalendarBooking } from '../slices/workingCalendar';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import DatePicker from "react-datepicker";
@@ -34,8 +34,8 @@ import hospitalServices from '../services/hospitals';
 import { arrowBack, text } from 'ionicons/icons';
 import moment from 'moment';
 import { WorkingCalendar } from 'booking/models/workingCalendar';
-import {getDateBooking} from '../slices/date';
-
+import { getDateBooking } from '../slices/date';
+import { getIntervals } from '../slices/workingCalendar';
 const StyledButton = styled(IonButton)`
     width: 300px;
     --background: #293978;
@@ -43,30 +43,33 @@ const StyledButton = styled(IonButton)`
 `;
 const ApointmentDate: React.FC = () => {
     const [date, setDate] = useState<string>("none");
+    const [workingCalendar, setWorkingCalendar] = useState<WorkingCalendar>();
     const dispatch = useDispatch();
-    const getHospital = () => {
-        dispatch(getHospitalByServiceIdAndDate(date + ""));
-        dispatch(getDateBooking(date));
-        history.push("/choosingHospital");
-    }
 
-    const getByUnitAndService = () => {
-        const arg = {
-            unitId: "c12b3f73-e73b-4a5e-27df-08d8f26accab",
-            serviceId: "f2490f62-1d28-4edd-362a-08d8a7232229",
-        }
-        dispatch(getDateByUnitAndService(arg));
-        // history.push("/choosingHospital");
-    }
+
+
 
     const dateBookings = useSelector((d) => d.dateBooking.dateBookings);
-
-
+    const workingCalendars = useSelector((w) => w.workingCaledar.workingCalendars);
 
     const [value, onChange] = useState(new Date(2021, 5, 22));
 
     const history = useHistory();
+    const typeChoosing = useSelector((d) => d.dateBooking.typeChoosing);
+    const getInterval = () => {
+        workingCalendars.map((d) => {
+            if (
+                new Date(d.date).getDate() === new Date(date).getDate()
+                && new Date(d.date).getMonth() === new Date(date).getMonth()
+                && new Date(d.date).getFullYear() === new Date(date).getFullYear()
+            ) {
+                console.log(d.id);
+                dispatch(getIntervals(d.id));
+            }
+        }
+        )
 
+    }
     const StyledIconRight = styled(IonIcon)`
     {
         color: #b3b3b3;
@@ -155,15 +158,34 @@ const ApointmentDate: React.FC = () => {
                 <StyledLabelContent>Chọn ngày xét nghiệm</StyledLabelContent>
                 <StyledDatePicker>
 
-                    <DatePickerInput ></DatePickerInput>
-                    <DayPicker
-                        // onDayMouseEnter
-
-                        onDayClick={(day) => { setDate(day+""); console.log(day) }}
-                        disabledDays={(day: Date) => !dateBookings.map(ad => moment(ad).format('YYYY-MM-DD')).includes(moment(day).format('YYYY-MM-DD'))}>
-                    </DayPicker>
+                    {typeChoosing === "apointmentDate" ?
+                        <DayPicker
+                            onDayClick={(day) => { setDate(day + ""); console.log(day) }}
+                            disabledDays={(day: Date) => !dateBookings.map(ad => moment(ad).format('YYYY-MM-DD')).includes(moment(day).format('YYYY-MM-DD'))}>
+                        </DayPicker>
+                        : <DayPicker
+                            onDayClick={(day) => { setDate(day + ""); console.log(day) }}
+                            disabledDays={(day: Date) => !workingCalendars.map(ad => moment(ad.date).format('YYYY-MM-DD')).includes(moment(day).format('YYYY-MM-DD'))}>
+                        </DayPicker>
+                    }
                 </StyledDatePicker>
-                {date === "none" ? "" : <StyledButtonSubmit onClick={() => { getHospital(); getByUnitAndService() }} expand="block">Bước tiếp theo</StyledButtonSubmit>}
+                {date === "none" ? "" : <StyledButtonSubmit onClick={() => {
+                    if (typeChoosing === "apointmentDate") {
+                        dispatch(getHospitalByServiceIdAndDate(date + ""));
+                        dispatch(getDateBooking(date));
+                        history.push("/choosingHospital");
+                    } else {
+                        const w = workingCalendars.filter((wor) =>
+                            new Date(wor.date).getDate() === new Date(date).getDate()
+                            && new Date(wor.date).getMonth() === new Date(date).getMonth()
+                            && new Date(wor.date).getMonth() === new Date(date).getMonth()
+                        )
+                        dispatch(getWorkingCalendarBooking(w[0]));
+                        // console.log(w);
+                        getInterval();
+                        history.push("/choosingTime");
+                    }
+                }} expand="block">Bước tiếp theo</StyledButtonSubmit>}
             </StyledContent>
 
         </IonPage>

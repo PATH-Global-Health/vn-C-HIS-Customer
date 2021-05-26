@@ -1,30 +1,32 @@
 import React, { useEffect, useState } from 'react';
 // import { useDispatch, useSelector } from '../../@app/hooks';
 import {
-    IonButton,
-    IonContent,
-    IonDatetime,
-    IonHeader,
-    IonIcon,
-    IonInput,
-    IonItem,
-    IonItemDivider,
-    IonLabel,
-    IonList,
-    IonModal,
-    IonPage,
-    IonRedirect,
-    IonSelect,
-    IonSelectOption,
-    IonTitle,
-    IonToolbar,
+  IonButton,
+  IonContent,
+  IonDatetime,
+  IonHeader,
+  IonIcon,
+  IonInput,
+  IonItem,
+  IonItemDivider,
+  IonLabel,
+  IonList,
+  IonModal,
+  IonPage,
+  IonRedirect,
+  IonSelect,
+  IonSelectOption,
+  IonTitle,
+  IonToolbar,
 } from '@ionic/react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from '@app/hooks';
 import { getUserInfo } from '../../@app/slices/auth';
 import { useHistory } from "react-router-dom";
 import { getDateByServiceId } from '../slices/date';
+import { getHospitalByServiceId } from '../slices/hospital';
 import { arrowBack, arrowBackCircle, arrowBackOutline, arrowBackSharp, arrowDown, arrowForward, arrowRedo, arrowUndo, backspace, build, calendar, chatbubble, flag, flash, home, newspaper, people, podium, returnDownBack } from 'ionicons/icons';
+import { getTypeChoosing } from 'booking/slices/date';
 
 const StyledButton = styled(IonButton)`{
     ::after{content: ""}
@@ -91,30 +93,37 @@ const StyledContent = styled(IonContent)`
 `
 
 const TestingApointment: React.FC = () => {
-    const history = useHistory();
-    const dispatch = useDispatch();
-    const serviceIdTest = 'f2490f62-1d28-4edd-362a-08d8a7232229'
-    return (
-        <IonPage>
-            <StyledHeader>
-                <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
-                <StyledLabelHeader>Đặt Lịch Xét nghiệm</StyledLabelHeader>
-            </StyledHeader>
-            <StyledContent>
-                <StyledButton onClick={() => {
-                    history.push('/apointmentDate')
-                }
-                }>Thời gian
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const serviceIdTest = 'f2490f62-1d28-4edd-362a-08d8a7232229'
+  return (
+    <IonPage>
+      <StyledHeader>
+        <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
+        <StyledLabelHeader>Đặt Lịch Xét nghiệm</StyledLabelHeader>
+      </StyledHeader>
+      <StyledContent>
+        <StyledButton onClick={() => {
+          dispatch(getDateByServiceId(serviceIdTest));
+          dispatch(getTypeChoosing("apointmentDate"));
+          history.push('/apointmentDate')
+        }
+        }>Thời gian
           <StyledIconRight icon={arrowForward}></StyledIconRight>
-                    <StyledIconLeft icon={calendar}></StyledIconLeft>
-                </StyledButton>
-                <StyledButton>Cơ sở dịch vụ
+          <StyledIconLeft icon={calendar}></StyledIconLeft>
+        </StyledButton>
+        <StyledButton onClick={() => {
+          dispatch(getHospitalByServiceId(serviceIdTest));
+          dispatch(getTypeChoosing("choosingHospital"));
+          history.push('/choosingHospital')
+        }}
+        >Cơ sở dịch vụ
       <StyledIconRight icon={arrowForward}></StyledIconRight>
-                    <StyledIconLeft icon={podium}></StyledIconLeft>
-                </StyledButton>
-            </StyledContent>
-        </IonPage>
-    );
+          <StyledIconLeft icon={podium}></StyledIconLeft>
+        </StyledButton>
+      </StyledContent>
+    </IonPage>
+  );
 };
 
 export default TestingApointment;

@@ -1,4 +1,5 @@
 import { httpClient, apiLinks } from '@app/utils';
+import { Interval } from 'booking/models/interval';
 import { WorkingCalendar } from 'booking/models/workingCalendar';
 // import { UnitType } from '../models/unitType';
 
@@ -14,7 +15,7 @@ const getDateByUnitAndService = async (unitId: string, serviceId: string): Promi
   }
 };
 
-  const getIntervals = async (dayId: string): Promise<object[]> => {
+  const getIntervals = async (dayId: string): Promise<Interval[]> => {
     try {
       const result = await httpClient.get({
         url: apiLinks.manageSchedule.workingCalendar.getInterval + `/${dayId}`,

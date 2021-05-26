@@ -107,10 +107,7 @@ const MakingApointment: React.FC = () => {
           <StyledIconLeft icon={chatbubble}></StyledIconLeft>
         </StyledButton>
         <StyledButton onClick={() => {
-          dispatch(
-            getDateByServiceId(serviceIdTest)
-            
-            );
+         
           history.push('/testingApointment')
         }
         }>Đặt Lịch xét nghiệm

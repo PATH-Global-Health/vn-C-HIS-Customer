@@ -76,7 +76,7 @@ const useAuth = (): UseAuth => {
     }
     dispatch(getUnitTypes());
     dispatch(getServiceForms());
-    dispatch(getHospitalByServiceId());
+    // dispatch(getHospitalByServiceId());
     // dispatch(getDateByUnitAndService("", ""));
     dispatch(getUserInfo(`Profiles?userId=` + `cd176cb7-21bf-43e0-e592-08d88a021d74`));
   };

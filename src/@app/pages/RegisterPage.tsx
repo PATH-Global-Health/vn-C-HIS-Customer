@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast } from '@ionic/react';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonText, IonItem } from '@ionic/react';
 import { person, lockClosed, phonePortraitOutline } from 'ionicons/icons';
 
 import { useHistory } from 'react-router-dom';
@@ -10,11 +10,13 @@ import { Controller, useForm } from "react-hook-form";
 
 import logo from '../assets/img/logo.png';
 import authService from '@app/services/auth';
+import { register } from 'serviceWorkerRegistration';
 
-const StyleWrapperInput = styled.div`
+const StyleWrapperInput = styled(IonItem)`
     background-color: white;
     border: 1px solid #d6d6c2;
-    margin-top: 20px;
+    padding-left: 5px;
+    margin: 12px 0px 3px 0px;
     border-radius: 10px;
     height: 48px;
     font-size: 18px;
@@ -24,7 +26,6 @@ const StyleWrapperInput = styled.div`
 const StyledInput = styled(IonInput)`
     color: black;
     margin-top: 2px;
-    margin-left: 15px
 `;
 const StyleText = styled.div`
     font-size: 15px;
@@ -45,10 +46,14 @@ const StyledHeader = styled.h1`
     margin-top: 50px;
 `;
 const StyledIcon = styled(IonIcon)`
-   margin-right: 20px;
+   margin-right: 30px;
    color:#808080;
-    
 `;
+const ErrorText = styled(IonText)`
+   color: #f46a6a;
+   margin-left: 5px;
+   font-size: 15px;
+`
 
 interface InputProps {
   name: string;
@@ -74,6 +79,7 @@ const formFields: InputProps[] = [
     name: "phoneNumber",
     fieldType: "input",
     label: "Số điện thoại",
+    type: 'tel',
     placeholder: "Số điện thoại",
   },
   {
@@ -87,7 +93,7 @@ const formFields: InputProps[] = [
 
 const RegisterPage: React.FC = () => {
   const history = useHistory();
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, register, formState: { errors }, trigger } = useForm();
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
   const handleLogin = async (data: RegisterModal): Promise<void> => {
@@ -97,11 +103,33 @@ const RegisterPage: React.FC = () => {
       await authService.createAccount(params);
       setShowSuccessToast(true);
       setTimeout(() => history.push('/login'), 1500);
-
     } catch (error) {
       setShowFailedToast(true);
     }
   };
+  useEffect(() => {
+    register(
+      'fullName',
+      {
+        required: { value: true, message: "Chưa nhập tên người dùng. " },
+      }
+    );
+    register(
+      'password',
+      {
+        required: { value: true, message: "Chưa nhập số điện thoại. " },
+        minLength: { value: 5, message: "Mật khẩu tối thiểu 5 kí tự. " },
+      }
+    );
+    register(
+      'phoneNumber',
+      {
+        required: { value: true, message: "Chưa nhập số điện thoại. " },
+        maxLength: { value: 10, message: "Số điện thoại tối đa 10 số. " },
+        pattern: { value: /^[0-9\b]+$/, message: "Số điện thoại không đúng định dạng. " }
+      }
+    );
+  }, [register]);
   return (
     < >
       <IonContent >
@@ -109,7 +137,7 @@ const RegisterPage: React.FC = () => {
           isOpen={showSuccessToast}
           onDidDismiss={() => setShowSuccessToast(false)}
           color='success'
-          message="Đăng kí thành công !"
+          message="Đăng kí thành công!"
           duration={1000}
           position="top"
           animated={true}
@@ -118,7 +146,7 @@ const RegisterPage: React.FC = () => {
           isOpen={showFailedToast}
           onDidDismiss={() => setShowFailedToast(false)}
           color='danger'
-          message="Đăng kí thất bại !"
+          message="Đăng kí thất bại. Số điện thoại đã được đăng kí!"
           duration={1000}
           position="top"
           animated={true}
@@ -149,12 +177,14 @@ const RegisterPage: React.FC = () => {
                     render={({ field: { onChange, onBlur, value } }) => (
                       <IonRow className="ion-justify-content-center">
                         <IonCol size="12" size-sm='3'>
-                          <StyleWrapperInput>
+                          <StyleWrapperInput color='light' lines='none'>
                             <StyledInput
                               required={true}
-                              onIonBlur={onBlur}
-                              value={value}
+                              autofocus={true}
                               onIonChange={onChange}
+                              onIonBlur={() => {
+                                trigger(name);
+                              }}
                               {...otherProps}>
                               {
                                 name === 'phoneNumber' ? <StyledIcon icon={phonePortraitOutline} />
@@ -163,11 +193,13 @@ const RegisterPage: React.FC = () => {
                               }
                             </StyledInput>
                           </StyleWrapperInput>
+                          {(errors?.fullName?.message && name === 'fullName') && <ErrorText color='danger'>{(errors?.fullName?.message)}</ErrorText>}
+                          {(errors?.phoneNumber?.message && name === 'phoneNumber') && <ErrorText color='danger'>{(errors?.phoneNumber?.message)}</ErrorText>}
+                          {(errors?.password?.message && name === 'password') && <ErrorText color='danger'>{(errors?.password?.message)}</ErrorText>}
                         </IonCol>
                       </IonRow>
                     )}
                   />
-
                 )
               }
               default: {
@@ -179,7 +211,7 @@ const RegisterPage: React.FC = () => {
                     render={({ field: { onChange, onBlur, value } }) => (
                       <IonRow className="ion-justify-content-center">
                         <IonCol size="12" size-sm='3'>
-                          <StyleWrapperInput>
+                          <StyleWrapperInput color='light' lines='none'>
                             <StyledInput
                               onIonBlur={onBlur}
                               value={value}

@@ -205,7 +205,7 @@ margin-bottom: 80px;
                 }
             ],
             note: "",
-            date: new Date(),
+            date: workingCalendarBooking.date,
             bookedByUser: "",
             exitInformation: {
                 destination: "",

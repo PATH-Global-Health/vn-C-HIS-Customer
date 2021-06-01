@@ -14,7 +14,6 @@ export interface UserInfo {
   logo: string;
   id: string;
   name: string;
-  fullname: string;
   unitTypeId: string;
   address: string;
   province: string;
@@ -22,7 +21,6 @@ export interface UserInfo {
   ward: string;
   website: string;
   phone: string;
-  phoneNumber: string;
   email: string;
   introduction: string;
   username: string;

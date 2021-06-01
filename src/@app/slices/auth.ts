@@ -10,6 +10,7 @@ import authService from '@app/services/auth';
 import { Token } from '@app/models/token';
 import { UserInfo } from '@app/models/user-info';
 import { Permission } from '@app/models/permission';
+import { Method } from 'ionicons/dist/types/stencil-public-runtime';
 
 interface State {
   token: Token | null;
@@ -18,6 +19,11 @@ interface State {
   userInfo: UserInfo | null;
   getUserInfoLoading: boolean;
   permissionList: Permission[];
+  forgotPasswordData: {
+    inputData?: string,
+    method?: string,
+  }
+  tokenForgotPassword: string | null;
 }
 
 const initialState: State = {
@@ -34,6 +40,11 @@ const initialState: State = {
     // { code: 'CSYT_VACCINATION' },
     // { code: 'CSYT_TELEMEDICINE' },
   ],
+  forgotPasswordData: {
+    inputData: undefined,
+    method: undefined,
+  },
+  tokenForgotPassword: null,
 };
 
 type CR<T> = CaseReducer<State, PayloadAction<T>>;
@@ -56,16 +67,28 @@ const setTokenCR: CR<{
   tokenExpiredTime: action.payload.tokenExpiredTime,
 });
 
-const getUserInfo = createAsyncThunk('auth/getUserInfo', async (userId: string) => {
+/* const getUserInfo = createAsyncThunk('auth/getUserInfo', async () => {
   const result = await authService.getUserInfo();
   window.document.title = result.name || result.username;
-  console.log(result)
   return result;
-});
+}); */
 
 const logoutCR: CR<void> = () => ({
   ...initialState,
 });
+
+const setDataForgotPasswordCR: CR<{
+  inputData?: string,
+  method?: string,
+}> = (state, action) => ({
+  ...state,
+  forgotPasswordData: action.payload,
+});
+
+const setTokenForgotPasswordCR: CR<string | null> = (state, action) => ({
+  ...state,
+  tokenForgotPassword: action.payload,
+})
 
 const slice = createSlice({
   name: 'auth',
@@ -73,6 +96,8 @@ const slice = createSlice({
   reducers: {
     setToken: setTokenCR,
     logout: logoutCR,
+    setDataForgotPassword: setDataForgotPasswordCR,
+    setTokenForgotPassword: setTokenForgotPasswordCR,
   },
   extraReducers: (builder) => {
     // login
@@ -101,23 +126,28 @@ const slice = createSlice({
     }));
 
     // get user info
-    builder.addCase(getUserInfo.pending, (state) => ({
-      ...state,
-      getUserInfoLoading: true,
-    }));
-    builder.addCase(getUserInfo.fulfilled, (state, { payload }) => ({
-      ...state,
-      userInfo: payload,
-      getUserInfoLoading: false,
-    }));
-    builder.addCase(getUserInfo.rejected, (state) => ({
-      ...state,
-      getUserInfoLoading: false,
-    }));
+    /*   builder.addCase(getUserInfo.pending, (state) => ({
+        ...state,
+        getUserInfoLoading: true,
+      }));
+      builder.addCase(getUserInfo.fulfilled, (state, { payload }) => ({
+        ...state,
+        userInfo: payload,
+        getUserInfoLoading: false,
+      }));
+      builder.addCase(getUserInfo.rejected, (state) => ({
+        ...state,
+        getUserInfoLoading: false,
+      })); */
   },
 });
 
-export { login, getUserInfo };
-export const { setToken, logout } = slice.actions;
+export { login };
+export const {
+  logout,
+  setToken,
+  setDataForgotPassword,
+  setTokenForgotPassword,
+} = slice.actions;
 
 export default slice.reducer;

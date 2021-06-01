@@ -1,20 +1,16 @@
 import { ReactNode } from 'react';
 
-import HomePage from '@app/pages/HomePage';
+import AuthPage from '@app/pages/AuthPage';
 import PageNotFound from '@app/pages/PageNotFound';
 import AppLayout from '@app/components/app-layout';
-import PostPage from 'post';
 import RegisterPage from '@app/pages/RegisterPage';
 import LoginPage from '@app/pages/LoginPage';
-import HomeBooking from '../../booking/pages/HomeBooking';
-import TestingApointment from '../../booking/pages/TestingApointment';
-import MakingApointment from '../../booking/pages/MakingApointment';
-import ApointmentDate from '../../booking/pages/ApointmentDate';
-import ChoosingHospital from '../../booking/pages/ChoosingHospital';
-import HospitalDetail from 'booking/components/HospitalDetail';
-import ChoosingTime from 'booking/pages/ChoosingTime';
-import ConfirmProfile from 'booking/pages/ConfirmProfile';
-import ApointmentInfo from 'booking/pages/ApointmentInfo';
+import ChangePasswordPage from '@app/pages/ChangePasswordPage';
+import ForgetPassword from '@app/pages/ForgetPasswordPage';
+import Account from 'account';
+import Home from 'home';
+import PostPage from 'news/post';
+import PostDetail from 'news/PostDetail';
 
 interface Route {
   component: React.FC;
@@ -26,13 +22,13 @@ interface Route {
 
 const routes: Route[] = [
   {
-    component: HomePage,
-    layout: AppLayout,
+    component: AuthPage,
     path: '/',
     exact: true,
   },
   {
-    component: PageNotFound,
+    component: AuthPage,
+    path: '/auth',
   },
   {
     component: LoginPage,
@@ -43,50 +39,40 @@ const routes: Route[] = [
     path: '/register',
   },
   {
+    component: ForgetPassword,
+    path: '/forget-password',
+  },
+  {
+    component: ChangePasswordPage,
+    path: '/change-password',
+    isPrivate: true,
+  },
+  {
+    component: Home,
+    layout: AppLayout,
+    path: '/home',
+    isPrivate: true,
+  },
+  {
     component: PostPage,
     layout: AppLayout,
     path: '/post',
-  },
-
-  {
-    component: HomeBooking,
-    path: '/homeBooking',
+    isPrivate: true,
   },
   {
-    component: TestingApointment,
-    // layout: AppLayout,
-    path: '/testingApointment',
+    component: PostDetail,
+    path: '/post-detail',
+    isPrivate: true,
   },
   {
-    component: MakingApointment,
-    path: '/makingApointment',
-  },
-
-  {
-    component: ApointmentDate,
-    path: '/apointmentDate'
+    component: Account,
+    layout: AppLayout,
+    path: '/account',
+    isPrivate: true,
   },
   {
-    component: ChoosingHospital,
-    path: '/choosingHospital'
+    component: PageNotFound,
   },
-  {
-    component: HospitalDetail,
-    path: '/hospitalDetail'
-  },
-  {
-    component: ChoosingTime,
-    path: '/choosingTime'
-  },
-  {
-    component: ConfirmProfile,
-    path: '/confirmProfile'
-  },
-  {
-    component: ApointmentInfo,
-    path: '/apointmentInfo'
-  }
-
 ];
 
 export default routes;

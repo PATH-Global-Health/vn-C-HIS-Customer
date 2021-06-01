@@ -1,23 +1,49 @@
+const userGateway = 'https://auth.vkhealth.vn';
 const testApi = 'https://jsonplaceholder.typicode.com';
-const userUrl = 'https://user.bakco.vn';
+const smapi = 'https://localhost:44353';
+const testAPiBooking = 'https://localhost:44353/api/';
+const apiBookingService = 'https://localhost:44308'
 
 const apiLinks = {
   auth: {
-    token: `${userUrl}/api/Users/Login`,
+    token: `${userGateway}/api/Users/Login`,
   },
   manageAccount: {
-    create: `${userUrl}/api/Users`,
-    changePassword: `${userUrl}/api/Users/ChangePassword`,
+    create: `${userGateway}/api/Users`,
   },
-  forgetPassword: {
-    generateOTP: `${userUrl}/api/Users/ResetPassword/GenerateOTP`,
-    confirmOTP: `${userUrl}/api/Users/ResetPassword/ConfirmOTP`,
+  manageSchedule: {
+    unitTypes: {
+      get: `${smapi}/api/UnitTypes`,
+    },
+    serviceForms: {
+      get: `${smapi}/api/ServiceForms`,
+    },
+    hospital: {
+      get: `${smapi}/api/Hospitals/f2490f62-1d28-4edd-362a-08d8a7232229`,
+    },
+    workingCalendar: {
+      getDaysByUnitAndService: `${smapi}/api/WorkingCalendars/GetDaysByUnitAndService`,
+      getInterval: `${smapi}/api/WorkingCalendars/GetIntervals`,
+    },
+    days: {
+      get: `${smapi}/api/Days/WorkingDate`,
+      getDateByServiceId: `${smapi}/api/Days/Available/`,
+    },
+    profile: {
+      get: `${smapi}/api/Profiles`
+    }
+
+
+  },
+  bookingService: {
+    postExaminations: `${apiBookingService}/api/Examinations`
   },
   post: {
     get: `${testApi}/posts`,
     create: `${testApi}/posts`,
     update: `${testApi}/posts/`,
     delete: `${testApi}/posts/`,
+    getBooking: testAPiBooking,
   },
 };
 

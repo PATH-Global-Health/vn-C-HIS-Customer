@@ -106,7 +106,7 @@ const ApointmentDate: React.FC = () => {
     const StyledLabelContent = styled(IonLabel)`
     {
         font-weight: bold;
-        font-size: px;
+        // font-size: px;
         color: #293978;
         margin-left: 16px;
         

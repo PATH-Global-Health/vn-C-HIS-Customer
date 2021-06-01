@@ -2,6 +2,7 @@ const userGateway = 'https://auth.vkhealth.vn';
 const testApi = 'https://jsonplaceholder.typicode.com';
 const smapi = 'https://localhost:44353';
 const testAPiBooking = 'https://localhost:44353/api/';
+const apiBookingService = 'https://localhost:44308'
 
 const apiLinks = {
   auth: {
@@ -33,6 +34,9 @@ const apiLinks = {
     }
 
 
+  },
+  bookingService: {
+    postExaminations: `${apiBookingService}/api/Examinations`
   },
   post: {
     get: `${testApi}/posts`,

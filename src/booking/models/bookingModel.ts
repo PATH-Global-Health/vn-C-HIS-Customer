@@ -3,7 +3,7 @@ export interface BookingModel {
         id: string,
         from: string,
         to: string,
-        numId: 0
+        numId: number
     },
     unit: {
         id: string,

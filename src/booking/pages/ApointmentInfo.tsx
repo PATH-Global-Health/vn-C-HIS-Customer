@@ -31,6 +31,8 @@ import { useHistory } from "react-router-dom";
 import hospitalServices from '../services/hospitals';
 import { arrowBack, text } from 'ionicons/icons';
 import moment from 'moment';
+import examinationServices from '../services/examinations';
+import { BookingModel } from 'booking/models/bookingModel';
 
 const StyledButton = styled(IonButton)`
     width: 300px;
@@ -53,7 +55,7 @@ const ApointmentInfo: React.FC = () => {
 
     const history = useHistory();
 
-    const bookingModel = useSelector((b) => b.workingCaledar.bookingModel);
+    const bookingModel = useSelector((b) => b.workingCaledar.bookingModelResponse);
 
     const StyledIconRight = styled(IonIcon)`
     {
@@ -122,7 +124,7 @@ const ApointmentInfo: React.FC = () => {
     }
     `
 
-   
+
 
     const StyledButtonSubmit = styled(IonButton)`
     // width: 300px;
@@ -133,13 +135,13 @@ const ApointmentInfo: React.FC = () => {
     margin: 16px;
     margin-top: 50px;
 `
-const StyledLabelHeader = styled(IonLabel)`
+    const StyledLabelHeader = styled(IonLabel)`
 {
   font-weight: bold;
     font-size: 23px;
 }
 `
-const StyledButtonCancel = styled(IonButton)`
+    const StyledButtonCancel = styled(IonButton)`
 // width: 300px;
 --background: #eb445a;
 // position: absolute;
@@ -148,10 +150,10 @@ const StyledButtonCancel = styled(IonButton)`
 margin: 16px;
 margin-bottom: 80px;
 `
-useEffect(()=> {
-    console.log(bookingModel);
-})
-const ApointmentInfo = useSelector((u) => u.auth.userInfo)
+    useEffect(() => {
+        console.log(bookingModel);
+    }, [])
+
     return (
         <IonPage>
             <StyledHeader>
@@ -159,34 +161,34 @@ const ApointmentInfo = useSelector((u) => u.auth.userInfo)
                 <StyledLabelHeader>Thông tin lịch hẹn</StyledLabelHeader>
             </StyledHeader>
             {/* {userProfile === undefined ? "" : */}
-                <IonContent>
-                    <IonList>
-                        <IonItem>
-                            <StyledLabel position="stacked">Tên dịch vụ</StyledLabel>
-                            <IonInput value={bookingModel.service.name}> </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <StyledLabel position="stacked">Ngày hẹn</StyledLabel>
-                            <IonInput value={new Date(bookingModel.date).toDateString()}> </IonInput>
-                        </IonItem>
-                        {/* <IonItem>
+            <IonContent>
+                <IonList>
+                    <IonItem>
+                        <StyledLabel position="stacked">Tên dịch vụ</StyledLabel>
+                        <IonInput value={bookingModel.data.service.name}> </IonInput>
+                    </IonItem>
+                    <IonItem>
+                        <StyledLabel position="stacked">Ngày hẹn</StyledLabel>
+                        {/* <IonInput value={new Date(bookingModel.date).toDateString()}> </IonInput> */}
+                    </IonItem>
+                    {/* <IonItem>
                         <StyledLabel position="stacked">Tỉnh/Thành phố</StyledLabel>
                         <IonInput value={hospital.province}> </IonInput>
                     </IonItem> */}
-                        <IonItem>
-                            <StyledLabel position="stacked">Thời gian hẹn</StyledLabel>
-                            <IonInput value={bookingModel.interval.from}> </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <StyledLabel position="stacked">Cơ sở dịch vụ</StyledLabel>
-                            <IonInput value={bookingModel.unit.name}> </IonInput>
-                        </IonItem>
-                       
-                    </IonList>
-                    
-                </IonContent>
+                    <IonItem>
+                        <StyledLabel position="stacked">Thời gian hẹn</StyledLabel>
+                        <IonInput value={bookingModel.data.interval.from}> </IonInput>
+                    </IonItem>
+                    <IonItem>
+                        <StyledLabel position="stacked">Cơ sở dịch vụ</StyledLabel>
+                        <IonInput value={bookingModel.data.unit.name}> </IonInput>
+                    </IonItem>
+
+                </IonList>
+
+            </IonContent>
             {/* } */}
-                <StyledButtonCancel onClick={() => history.push("/choosingTime")}>Hủy lịch hẹn</StyledButtonCancel>
+            <StyledButtonCancel>Hủy lịch hẹn</StyledButtonCancel>
 
         </IonPage>
     )

@@ -34,6 +34,7 @@ import moment from 'moment';
 import { userInfo } from 'node:os';
 import { BookingModel } from 'booking/models/bookingModel';
 import { getBookingModel } from 'booking/slices/workingCalendar';
+import { postExaminations } from 'booking/slices/workingCalendar'
 
 const StyledButton = styled(IonButton)`
     width: 300px;
@@ -153,70 +154,106 @@ margin-bottom: 80px;
     const interval = useSelector((i) => i.workingCaledar.intervalBooking);
     const unitBooking = useSelector((u) => u.hospital.hospitalBooking);
     const workingCalendarBooking = useSelector((w) => w.workingCaledar.workingCalendar);
-    let bookingModel = {}
-    if (userProfile !== null) {
-        bookingModel = {
-            interval: {
-                id: interval.id,
-                from: interval.from,
-                to: interval.to,
-                numId: interval.numId,
-            },
-            unit: {
-                id: unitBooking.id,
-                name: unitBooking.name,
-                information: unitBooking.introduction,
-                addressUnit: unitBooking.address,
-                username: unitBooking.username,
-            },
-            doctor: {
-                id: workingCalendarBooking.doctor.id,
-                fullname: workingCalendarBooking.doctor.description,
-            },
-            room: {
-                id: workingCalendarBooking.room.id,
-                name: workingCalendarBooking.room.description,
-            },
-            service: {
-                id: workingCalendarBooking.service[0].id,
-                name: workingCalendarBooking.service[0].description,
-            },
-            customer: {
-                id: userProfile.id,
-                fullname: userProfile.fullname,
-                phone: userProfile.phoneNumber,
-                email: userProfile.email,
-                address: userProfile.address,
-                birthDate: "",
-                gender: true,
-                provinceCode: userProfile.province,
-                districtCode: userProfile.district,
-                wardCode: userProfile.ward,
-                ic: "",
-                nation: "",
-                passportNumber: "",
-                vaccinationCode: ""
-            },
-            contacts: [
-                {
-                    fullname: "",
-                    phone: "",
-                    relationship: ""
-                }
-            ],
-            note: "",
-            date: workingCalendarBooking.date,
-            bookedByUser: "",
-            exitInformation: {
-                destination: "",
-                exitingDate: "",
-                entryingDate: ""
+    const bookingModel = {
+        interval: {
+            id: "",
+            from: "",
+            to: "",
+            numId: 0
+        },
+        unit: {
+            id: "",
+            name: "",
+            information: "",
+            address: "",
+            username: "",
+        },
+        doctor: {
+            id: "",
+            fullname: "",
+        },
+        room: {
+            id: "",
+            name: ""
+        },
+        service: {
+            id: "",
+            name: ""
+        },
+        customer: {
+            id: "",
+            fullname: "",
+            phone: "",
+            email: "",
+            address: "",
+            birthDate: "",
+            gender: true,
+            provinceCode: "",
+            districtCode: "",
+            wardCode: "",
+            ic: "",
+            nation: "",
+            passportNumber: "",
+            vaccinationCode: ""
+        },
+        contacts: [
+            {
+                fullname: "",
+                phone: "",
+                relationship: ""
             }
+        ],
+        note: "",
+        date: "",
+        bookedByUser: "",
+        exitInformation: {
+            destination: "",
+            exitingDate: "",
+            entryingDate: ""
         }
+    } as BookingModel;
+    if (userProfile !== null && interval !== null && unitBooking !== null && workingCalendarBooking !== null) {
+        bookingModel.interval.id = interval.id;
+        bookingModel.interval.from = interval.from;
+        bookingModel.interval.to = interval.to;
+        bookingModel.interval.numId = interval.numId;
+        bookingModel.unit.id = unitBooking.id;
+        bookingModel.unit.name = unitBooking.name;
+        bookingModel.unit.information = unitBooking.introduction;
+        bookingModel.unit.address = unitBooking.address;
+        bookingModel.unit.username = unitBooking.username;
+        bookingModel.doctor.id = workingCalendarBooking.doctor.id;
+        bookingModel.doctor.fullname = workingCalendarBooking.doctor.description;
+        bookingModel.room.id = workingCalendarBooking.room.id;
+        bookingModel.room.name = workingCalendarBooking.room.description;
+
+        bookingModel.service.id = workingCalendarBooking.service[0].id;
+        bookingModel.service.name = workingCalendarBooking.service[0].description;
+        bookingModel.customer.id = userProfile.id;
+        bookingModel.customer.fullname = userProfile.fullname;
+        bookingModel.customer.phone = userProfile.phoneNumber;
+        bookingModel.customer.email = userProfile.email;
+        bookingModel.customer.address = userProfile.address;
+        bookingModel.customer.birthDate = "2021-06-01T00:58:27.530Z";
+        bookingModel.customer.gender = true;
+        bookingModel.customer.provinceCode = userProfile.province;
+        bookingModel.customer.districtCode = userProfile.district;
+        bookingModel.customer.wardCode = userProfile.ward;
+        bookingModel.customer.ic = "";
+        bookingModel.customer.nation = "";
+        bookingModel.customer.passportNumber = "";
+        bookingModel.customer.vaccinationCode = "";
+        bookingModel.contacts[0].fullname = "";
+        bookingModel.contacts[0].phone = "";
+        bookingModel.contacts[0].relationship = "";
+        bookingModel.note = "";
+        bookingModel.date = workingCalendarBooking.date;
+        bookingModel.bookedByUser = "";
+        bookingModel.exitInformation.destination = "lieu";
+        bookingModel.exitInformation.exitingDate = "2021-06-01T00:58:27.530Z";
+        bookingModel.exitInformation.entryingDate = "2021-06-01T00:58:27.530Z";
     }
 
-    // bookingModel.customer.id = userProfile?.id;
-    // bookingModel.customer.address = userProfile?.name;
     return (
         <IonPage>
             <StyledHeader>
@@ -259,8 +296,8 @@ margin-bottom: 80px;
 
                 </IonContent>
             }
-            <StyledButtonNext onClick={() => {
-                dispatch(getBookingModel(bookingModel));
+            <StyledButtonNext onClick={async () => {
+                await dispatch(postExaminations(bookingModel));
                 history.push("/apointmentInfo")
             }}>Đặt lịch</StyledButtonNext>
 

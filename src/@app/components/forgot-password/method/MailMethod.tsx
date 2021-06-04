@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { IonButton, IonContent, IonCol, IonInput, IonItem, IonRow, IonToast, IonIcon } from '@ionic/react';
+import { IonButton, IonContent, IonCol, IonInput, IonItem, IonRow, IonToast, IonIcon, IonText } from '@ionic/react';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom'
 
@@ -19,7 +19,7 @@ const StyledText = styled.div`
 `;
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
-    margin: 0px 10% 0px 10%;
+    margin: 0px 10% 10px 10%;
     border: 1px solid #d6d6c2;
     border-radius: 10px;
     height: 48px;
@@ -30,20 +30,24 @@ const StyleWrapperInput = styled(IonItem)`
 const StyledInput = styled(IonInput)`
     color: black;
     margin-top: 2px;
-    margin-left: 15px;
     --placeholder-color:#91969c;
 `;
 const StyledButton = styled(IonButton)`
     width: 300px;
     --background: #293978;
 `;
+const ErrorText = styled(IonText)`
+   color: #f46a6a;
+   margin-left: 40px;
+   font-size: 15px;
+`
 interface generateOtpModal {
   username: string,
   email: string,
 }
 const MailMethod: React.FC = () => {
   const dispatch = useDispatch();
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, register, formState: { errors }, trigger } = useForm();
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
   const handleData = async (data: generateOtpModal): Promise<void> => {
@@ -60,6 +64,23 @@ const MailMethod: React.FC = () => {
   const back = () => {
     dispatch(setDataForgotPassword({}))
   }
+  useEffect(() => {
+    register(
+      'email',
+      {
+        required: { value: true, message: "Chưa nhập email. " },
+        pattern: { value: /\S+@\S+\.\S+/, message: "Email không đúng định dạng. " }
+      }
+    );
+    register(
+      'username',
+      {
+        required: { value: true, message: "Chưa nhập số điện thoại. " },
+        maxLength: { value: 10, message: "Số điện thoại tối đa 10 số. " },
+        pattern: { value: /^[0-9\b]+$/, message: "Số điện thoại không đúng định dạng. " }
+      }
+    );
+  }, [register]);
   return (
     <IonContent >
       <IonToast
@@ -98,10 +119,11 @@ const MailMethod: React.FC = () => {
               <IonCol size="12" size-sm='3'>
                 <StyleWrapperInput color='light' lines='none'>
                   <StyledInput
-                    required={true}
                     type='email'
                     placeholder="Nhập email"
-                    onIonBlur={onBlur}
+                    onIonBlur={() => {
+                      trigger('email');
+                    }}
                     inputmode='email'
                     value={value}
                     onIonChange={onChange}
@@ -109,6 +131,7 @@ const MailMethod: React.FC = () => {
                   </StyledInput>
                   <IonIcon icon={mailOutline} color='medium' slot='start'></IonIcon>
                 </StyleWrapperInput>
+                {(errors?.email?.message) && <ErrorText >{(errors?.email?.message)}</ErrorText>}
               </IonCol>
             </IonRow>
           )}
@@ -122,16 +145,18 @@ const MailMethod: React.FC = () => {
               <IonCol size="12" size-sm='3'>
                 <StyleWrapperInput color='light' lines='none'>
                   <StyledInput
-                    required={true}
                     type='number'
                     placeholder="Nhập số điện thoại"
-                    onIonBlur={onBlur}
+                    onIonBlur={() => {
+                      trigger('username');
+                    }}
                     value={value}
                     onIonChange={onChange}
                   >
                   </StyledInput>
                   <IonIcon icon={phonePortraitOutline} color='medium' slot='start'></IonIcon>
                 </StyleWrapperInput>
+                {(errors?.username?.message) && <ErrorText >{(errors?.username?.message)}</ErrorText>}
               </IonCol>
             </IonRow>
           )}

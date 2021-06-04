@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { IonButton, IonContent, IonCol, IonInput, IonItem, IonRow, IonNote, IonToast, IonIcon } from '@ionic/react';
+import { IonButton, IonContent, IonCol, IonInput, IonItem, IonRow, IonNote, IonToast, IonIcon, IonText } from '@ionic/react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useDispatch } from '@app/hooks';
@@ -18,7 +18,7 @@ const StyledText = styled.div`
 `;
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
-    margin: 0px 10% 0px 10%;
+    margin: 0px 10% 10px 10%;
     border: 1px solid #d6d6c2;
     border-radius: 10px;
     height: 48px;
@@ -36,6 +36,11 @@ const StyledButton = styled(IonButton)`
     width: 300px;
     --background: #293978;
 `;
+const ErrorText = styled(IonText)`
+   color: #f46a6a;
+   margin-left: 40px;
+   font-size: 15px;
+`
 interface generateOtpModal {
   username: string,
   phoneNumber: string,
@@ -43,7 +48,7 @@ interface generateOtpModal {
 const MessageMethod: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, register, formState: { errors }, trigger } = useForm();
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
   const handleData = async (data: generateOtpModal): Promise<void> => {
@@ -57,6 +62,16 @@ const MessageMethod: React.FC = () => {
       setShowFailedToast(true);
     }
   }
+  useEffect(() => {
+    register(
+      'phoneNumber',
+      {
+        required: { value: true, message: "Chưa nhập số điện thoại. " },
+        maxLength: { value: 10, message: "Số điện thoại tối đa 10 số. " },
+        pattern: { value: /^[0-9\b]+$/, message: "Số điện thoại không đúng định dạng. " }
+      }
+    );
+  }, [register]);
   return (
     <IonContent >
       <IonToast
@@ -98,13 +113,16 @@ const MessageMethod: React.FC = () => {
                   <StyledInput
                     required={true}
                     placeholder="Số điện thoại"
-                    onIonBlur={onBlur}
+                    onIonBlur={() => {
+                      trigger('phoneNumber');
+                    }}
                     value={value}
                     onIonChange={onChange}
                   >
                   </StyledInput>
                   <IonIcon icon={phonePortraitOutline} color='medium' slot='start'></IonIcon>
                 </StyleWrapperInput>
+                {(errors?.phoneNumber?.message) && <ErrorText >{(errors?.phoneNumber?.message)}</ErrorText>}
               </IonCol>
             </IonRow>
           )}

@@ -9,13 +9,13 @@ import {
   IonPage,
 } from '@ionic/react';
 import { home } from 'ionicons/icons';
-import Input from '@app/components/InputForm/input';
+// import Input from '@app/components/InputForm/input';
 import logo from '@app/assets/img/logo.png';
-import { useSelector } from '@app/hooks';
-import authService from '@app/services/auth';
-import { useDispatch } from "@app/hooks";
-import { getBookings } from '@app/services/slice';
-import { HomeBooking } from './components';
+// import { useSelector } from '@app/hooks';
+// import authService from '@app/services/auth';
+// import { useDispatch } from "@app/hooks";
+// import { getBookings } from '@app/services/slice';
+// import { HomeBooking } from './components';
 const User: React.FC = () => {
   return (
     <IonContent>
@@ -28,7 +28,7 @@ const User: React.FC = () => {
         </IonLabel>
         <IonIcon icon={home} slot="end" />
       </IonItem>
-      <HomeBooking></HomeBooking>
+      {/* <HomeBooking></HomeBooking> */}
     </IonContent>
   );
 };

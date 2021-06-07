@@ -1,7 +1,7 @@
 import { httpClient, apiLinks } from '@app/utils';
 
 import { Token } from '@app/models/token';
-import { UserInfo } from '@app/models/user-info';
+//import { UserInfo } from '@app/models/user-info';
 
 const login = async (username: string, password: string, remember: boolean, permissionQuery: {}): Promise<Token> => {
   const response = await httpClient.post({
@@ -28,7 +28,7 @@ const createAccount = async ({
   phoneNumber: string;
   fullName: string;
 }): Promise<void> => {
-  var result = await httpClient.post({
+  await httpClient.post({
     url: apiLinks.manageAccount.create,
     data: {
       userName,
@@ -38,32 +38,76 @@ const createAccount = async ({
       fullName
     },
   });
-  console.log(result.data)
 };
 
-const getUserInfo = async (): Promise<UserInfo> => {
+const changePassword = async ({
+  oldPassword,
+  newPassword
+}: {
+  oldPassword: string;
+  newPassword: string;
+}): Promise<void> => {
+  await httpClient.put({
+    url: apiLinks.manageAccount.changePassword,
+    data: {
+      oldPassword,
+      newPassword
+    },
+  });
+};
+
+const generateOTP = async ({
+  username,
+  phoneNumber,
+  email,
+  question,
+}: {
+  username: string;
+  phoneNumber?: string;
+  email?: string,
+  question?: {
+    id: string,
+    answer: string,
+  }
+}): Promise<void> => {
+  await httpClient.post({
+    url: apiLinks.forgetPassword.generateOTP,
+    data: {
+      username,
+      phoneNumber,
+      email,
+      question
+    },
+  });
+};
+const confirmOTP = async ({
+  username,
+  otp
+}: {
+  username?: string;
+  otp: string;
+}): Promise<void> => {
+  await httpClient.post({
+    url: apiLinks.forgetPassword.confirmOTP,
+    data: {
+      username,
+      otp,
+    },
+  });
+};
+/* const getUserInfo = async (): Promise<UserInfo> => {
   const response = await httpClient.get({
-    url: apiLinks.manageSchedule.profile.get,
+    url: apiLinks.auth.userInfo,
   });
   return response.data as UserInfo;
-};
-
-const testApi = async () => {
-  try {
-    const result = await httpClient.get({
-      url: apiLinks.post.getBooking
-    });
-    console.log(result.data);
-  } catch (error) {
-    console.log(error);
-  }
-}
+}; */
 
 const authService = {
-  testApi,
   login,
   createAccount,
-  getUserInfo,
+  changePassword,
+  generateOTP,
+  confirmOTP,
 };
 
 export default authService;

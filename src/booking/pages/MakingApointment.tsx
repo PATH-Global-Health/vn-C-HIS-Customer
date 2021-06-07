@@ -3,29 +3,15 @@ import React, { useEffect, useState } from 'react';
 import {
   IonButton,
   IonContent,
-  IonDatetime,
   IonHeader,
   IonIcon,
-  IonInput,
-  IonItem,
-  IonItemDivider,
   IonLabel,
-  IonList,
-  IonModal,
   IonPage,
-  IonRedirect,
-  IonSelect,
-  IonSelectOption,
-  IonTitle,
-  IonToolbar,
 } from '@ionic/react';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from '@app/hooks';
-import { getUserInfo } from '../../@app/slices/auth';
+import { useDispatch } from '@app/hooks';
 import { useHistory } from "react-router-dom";
-import { getDateByServiceId } from '../slices/date';
-// import workingCalendars from '../services/workingCalendars';
-import { arrowBack, arrowBackCircle, arrowBackOutline, arrowBackSharp, arrowDown, arrowForward, arrowRedo, arrowUndo, backspace, chatbubble, flag, flash, home, newspaper, people, returnDownBack } from 'ionicons/icons';
+import { arrowBack, arrowForward, chatbubble, flash} from 'ionicons/icons';
 
 const StyledButton = styled(IonButton)`{
     ::after{content: ""}

@@ -3,34 +3,20 @@ import React, { useEffect, useState } from 'react';
 import {
   IonButton,
   IonContent,
-  IonDatetime,
   IonHeader,
   IonIcon,
-  IonInput,
   IonItem,
-  IonItemDivider,
   IonLabel,
-  IonList,
-  IonListHeader,
-  IonModal,
   IonPage,
-  IonRadio,
-  IonRadioGroup,
-  IonRedirect,
-  IonSelect,
-  IonSelectOption,
-  IonTitle,
-  IonToolbar,
 } from '@ionic/react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from '@app/hooks';
-import { getUserInfo } from '../../@app/slices/auth';
+// import { getUserInfo } from '../../@app/slices/auth';
 import { useHistory } from "react-router-dom";
-import { getDateByServiceId } from '../slices/date';
 import { arrowBack, arrowBackCircle, arrowBackOutline, arrowBackSharp, arrowDown, arrowForward, arrowRedo, arrowUndo, backspace, build, calendar, chatbubble, flag, flash, home, newspaper, people, podium, returnDownBack } from 'ionicons/icons';
-import HospitalDetail from 'booking/components/HospitalDetail';
-import moment from 'moment';
-import { Interval } from 'booking/models/interval';
+// import HospitalDetail from 'booking/components/HospitalDetail';
+// import moment from 'moment';
+// import { Interval } from 'booking/models/interval';
 import { IntervalModel } from 'booking/models/IntervalModel';
 import { getInterBooking } from 'booking/slices/workingCalendar';
 
@@ -145,6 +131,7 @@ const ChoosingTime: React.FC = () => {
       <StyledButton>Lieu</StyledButton>
     }
   })
+
   return (
     <IonPage>
       <StyledHeader>

@@ -1,5 +1,4 @@
 import { httpClient, apiLinks } from '@app/utils';
-import { DateBooking } from '../models/dateBooking';
 
 const getDateBookingByServiceId = async (serviceId: string): Promise<string[]> => {
     try {

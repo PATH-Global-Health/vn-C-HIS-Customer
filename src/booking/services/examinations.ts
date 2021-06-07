@@ -1,7 +1,6 @@
 import { httpClient, apiLinks } from '@app/utils';
 import { BookingModel } from 'booking/models/bookingModel';
 import { BookingModelResponse } from 'booking/models/bookingModelResponse';
-import { Interval } from '../models/interval';
 
 const postExaminations = async (da: BookingModel): Promise<BookingModelResponse> => {
     const response = await httpClient.post({

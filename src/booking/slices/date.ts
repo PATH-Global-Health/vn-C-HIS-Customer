@@ -1,7 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import moment from 'moment';
-import { dateBooking } from '.';
-import { DateBooking } from '../models/dateBooking';
 import bookingServices from '../services/index';
 
 interface State {

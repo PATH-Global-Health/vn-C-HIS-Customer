@@ -6,7 +6,7 @@ import { arrowBack } from 'ionicons/icons';
 import { Hospital } from 'booking/models/hospital';
 import { useDispatch, useSelector } from '@app/hooks';
 import { getIntervals } from '../slices/workingCalendar';
-// import { type } from 'node:os';
+import { type } from 'node:os';
 import { getDateByUnitAndService, getWorkingCalendarBooking } from '../slices/workingCalendar';
 
 const HospitalDetail: React.FC = () => {
@@ -18,7 +18,6 @@ const HospitalDetail: React.FC = () => {
     const d = useSelector((d) => d.dateBooking.dateBooking);
     const dateByUnitAndServices = useSelector((s) => s.workingCaledar.workingCalendars);
     const typeChoosing = useSelector((d) => d.dateBooking.typeChoosing);
-    const serviceId = useSelector((w) => w.workingCaledar.serviceId);
     const getInterval = () => {
         dateByUnitAndServices.map((date) => {
             if (
@@ -50,6 +49,7 @@ const HospitalDetail: React.FC = () => {
       font-size: 23px;
   }
   `
+
     const StyledButtonHeader = styled(IonButton)`
   {
     --background: white;
@@ -64,6 +64,7 @@ const HospitalDetail: React.FC = () => {
     position: absolute;
   }
 `
+
     const StyledLabel = styled(IonLabel)`
 {
     font-size: 20px;
@@ -81,7 +82,7 @@ margin-bottom: 80px;
     useEffect(() => {
         const arg = {
             unitId: hospital.id,
-            serviceId: serviceId,
+            serviceId: "f2490f62-1d28-4edd-362a-08d8a7232229",
         }
         dispatch(getDateByUnitAndService(arg));
     }, [hospital.id])

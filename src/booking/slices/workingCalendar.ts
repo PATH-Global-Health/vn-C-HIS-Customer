@@ -14,7 +14,6 @@ interface State {
     intervalBooking: IntervalModel;
     bookingModel: BookingModel;
     bookingModelResponse: BookingModelResponse;
-    serviceId: "";
     loading: boolean;
 }
 
@@ -172,7 +171,6 @@ const initialState: State = {
             entryingDate: ""
         }
     },
-    serviceId: "",
     loading: false,
 };
 
@@ -192,6 +190,7 @@ const postExaminations = createAsyncThunk('Examination/postExamination', async (
     return result;
 });
 
+
 const slice = createSlice({
     name: 'workingCaledar',
     initialState,
@@ -204,9 +203,6 @@ const slice = createSlice({
         },
         getBookingModel: (state, action) => {
             state.bookingModel = action.payload;
-        },
-        getServiceId: (state, action) => {
-            state.serviceId = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -259,6 +255,6 @@ const slice = createSlice({
 });
 
 export { getDateByUnitAndService, getIntervals, postExaminations };
-export const { getWorkingCalendarBooking, getInterBooking, getBookingModel, getServiceId } = slice.actions;
+export const { getWorkingCalendarBooking, getInterBooking, getBookingModel } = slice.actions;
 
 export default slice.reducer;

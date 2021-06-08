@@ -1,18 +1,30 @@
 import React, { useEffect, useState } from 'react';
+// import { useDispatch, useSelector } from '../../@app/hooks';
 import {
   IonButton,
   IonContent,
+  IonDatetime,
   IonHeader,
   IonIcon,
+  IonInput,
+  IonItem,
+  IonItemDivider,
   IonLabel,
+  IonList,
+  IonModal,
   IonPage,
+  IonRedirect,
+  IonSelect,
+  IonSelectOption,
+  IonTitle,
+  IonToolbar,
 } from '@ionic/react';
 import styled from 'styled-components';
-import { useDispatch } from '@app/hooks';
+import { useDispatch, useSelector } from '@app/hooks';
+import { getUserInfo } from '../../@app/slices/auth';
 import { useHistory } from "react-router-dom";
 import { getDateByServiceId } from '../../booking/slices/date';
-import { arrowBack, arrowForward, chatbubble, flash } from 'ionicons/icons';
-import { getServiceId } from 'booking/slices/workingCalendar';
+import { arrowBack, arrowBackCircle, arrowBackOutline, arrowBackSharp, arrowDown, arrowForward, arrowRedo, arrowUndo, backspace, chatbubble, flag, flash, home, newspaper, people, returnDownBack } from 'ionicons/icons';
 
 const StyledButton = styled(IonButton)`{
     ::after{content: ""}
@@ -81,8 +93,7 @@ const StyledContent = styled(IonContent)`
 const HomeBooking: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  // const serviceIdTest = 'f2490f62-1d28-4edd-362a-08d8a7232229'
-  // c1b7411c-52ba-46e4-9a09-08d8b860e829
+  const serviceIdTest = 'f2490f62-1d28-4edd-362a-08d8a7232229'
   return (
     <IonPage>
       <StyledHeader>
@@ -95,8 +106,8 @@ const HomeBooking: React.FC = () => {
           <StyledIconLeft icon={chatbubble}></StyledIconLeft>
         </StyledButton>
         <StyledButton onClick={() => {
-          dispatch(getServiceId('f2490f62-1d28-4edd-362a-08d8a7232229'));
-          history.push('/testingAppointment')
+          dispatch(getDateByServiceId(serviceIdTest));
+          history.push('/testingApointment')
         }
         }>Đặt Lịch xét nghiệm
       <StyledIconRight icon={arrowForward}></StyledIconRight>

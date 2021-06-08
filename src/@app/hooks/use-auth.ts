@@ -1,14 +1,18 @@
 import { useCallback } from 'react';
 import { unwrapResult } from '@reduxjs/toolkit';
 import moment from 'moment';
+import { getUnitTypes } from '../../booking/slices/unitType';
+import { getServiceForms } from '../../booking/slices/serviceForm';
+import { getHospitalByServiceId } from '../../booking/slices/hospital';
+import { getDateByUnitAndService } from '../../booking/slices/workingCalendar';
 
 import {
   login as li,
   logout as lo,
+  getUserInfo,
   setToken,
 } from '../slices/auth';
 
-import useSelector from './use-selector';
 import useDispatch from './use-dispatch';
 
 import { Token } from '../models/token';
@@ -70,7 +74,11 @@ const useAuth = (): UseAuth => {
           .toString(),
       );
     }
-    /*  dispatch(getUserInfo()); */
+    dispatch(getUnitTypes());
+    dispatch(getServiceForms());
+    // dispatch(getHospitalByServiceId());
+    // dispatch(getDateByUnitAndService("", ""));
+    dispatch(getUserInfo(`Profiles?userId=` + `cd176cb7-21bf-43e0-e592-08d88a021d74`));
   };
 
   const logout = useCallback((): void => {

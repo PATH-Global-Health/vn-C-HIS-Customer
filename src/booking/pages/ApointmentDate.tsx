@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import {
     IonButton,
     IonContent,
@@ -9,22 +9,36 @@ import {
 } from '@ionic/react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from '@app/hooks';
-import { getHospitalByServiceId, getHospitalByServiceIdAndDate } from '../slices/hospital';
+import { getHospitalByServiceIdAndDate } from '../slices/hospital';
 import { getWorkingCalendarBooking } from '../slices/workingCalendar';
+import 'react-calendar/dist/Calendar.css';
+import "react-datepicker/dist/react-datepicker.css";
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import { useHistory } from "react-router-dom";
 import { arrowBack, text } from 'ionicons/icons';
 import moment from 'moment';
+import { WorkingCalendar } from 'booking/models/workingCalendar';
 import { getDateBooking } from '../slices/date';
 import { getIntervals } from '../slices/workingCalendar';
-
+const StyledButton = styled(IonButton)`
+    width: 300px;
+    --background: #293978;
+    text-align: center;
+`;
 const ApointmentDate: React.FC = () => {
     const [date, setDate] = useState<string>("none");
+    const [workingCalendar, setWorkingCalendar] = useState<WorkingCalendar>();
     const dispatch = useDispatch();
+
+
+
+
     const dateBookings = useSelector((d) => d.dateBooking.dateBookings);
     const workingCalendars = useSelector((w) => w.workingCaledar.workingCalendars);
-    const serviceId = useSelector((w) => w.workingCaledar.serviceId);
+
+    const [value, onChange] = useState(new Date(2021, 5, 22));
+
     const history = useHistory();
     const typeChoosing = useSelector((d) => d.dateBooking.typeChoosing);
     const getInterval = () => {
@@ -45,6 +59,14 @@ const ApointmentDate: React.FC = () => {
     {
         color: #b3b3b3;
         right: -9px;
+        position: absolute;
+      }
+    `;
+
+    const StyledIconLeft = styled(IonIcon)`
+    {
+        color: #b3b3b3;
+        left: 5px;
         position: absolute;
       }
     `;
@@ -100,6 +122,8 @@ const ApointmentDate: React.FC = () => {
     }
     `
 
+
+
     const StyledButtonSubmit = styled(IonButton)`
     // width: 300px;
     --background: #293978;
@@ -132,8 +156,7 @@ const ApointmentDate: React.FC = () => {
                 </StyledDatePicker>
                 {date === "none" ? "" : <StyledButtonSubmit onClick={() => {
                     if (typeChoosing === "apointmentDate") {
-                        // dispatch(getHospitalByServiceIdAndDate(date + ""));
-                        dispatch(getHospitalByServiceId(serviceId));
+                        dispatch(getHospitalByServiceIdAndDate(date + ""));
                         dispatch(getDateBooking(date));
                         history.push("/choosingHospital");
                     } else {
@@ -143,6 +166,7 @@ const ApointmentDate: React.FC = () => {
                             && new Date(wor.date).getMonth() === new Date(date).getMonth()
                         )
                         dispatch(getWorkingCalendarBooking(w[0]));
+                        // console.log(w);
                         getInterval();
                         history.push("/choosingTime");
                     }

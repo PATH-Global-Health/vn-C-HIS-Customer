@@ -2,32 +2,73 @@ import React, { useEffect, useState } from 'react';
 import {
     IonButton,
     IonContent,
+    IonDatetime,
     IonHeader,
     IonIcon,
     IonInput,
     IonItem,
+    IonItemDivider,
     IonLabel,
     IonList,
+    IonModal,
     IonPage,
     IonSelect,
     IonSelectOption,
+    IonTitle,
+    IonToolbar,
 } from '@ionic/react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from '@app/hooks';
+import hospital, { getHospitalByServiceIdAndDate } from '../slices/hospital';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import { useHistory } from "react-router-dom";
+
+import hospitalServices from '../services/hospitals';
 import { arrowBack, text } from 'ionicons/icons';
+import moment from 'moment';
+import { userInfo } from 'node:os';
 import { BookingModel } from 'booking/models/bookingModel';
-import location from '../../@app/mock/locations.json';
+import { getBookingModel } from 'booking/slices/workingCalendar';
 import { postExaminations } from 'booking/slices/workingCalendar'
 
+const StyledButton = styled(IonButton)`
+    width: 300px;
+    --background: #293978;
+    text-align: center;
+`;
 const ConfirmProfile: React.FC = () => {
+    const [date, setDate] = useState<string>("none");
     const dispatch = useDispatch();
+    const getHospital = () => {
+        dispatch(getHospitalByServiceIdAndDate(date + ""));
+        history.push("/choosingHospital");
+    }
+
+    const dateBookings = useSelector((d) => d.dateBooking.dateBookings);
+
+
+
+    const [value, onChange] = useState(new Date(2021, 5, 22));
+
     const history = useHistory();
+
     const StyledIconRight = styled(IonIcon)`
     {
         color: #b3b3b3;
         right: -9px;
+        position: absolute;
+      }
+    `;
+
+    const StyledIconLeft = styled(IonIcon)`
+    {
+        color: #b3b3b3;
+        left: 5px;
         position: absolute;
       }
     `;
@@ -49,6 +90,16 @@ const ConfirmProfile: React.FC = () => {
         font-size: 23px;
     }
     `
+    const StyledLabelContent = styled(IonLabel)`
+    {
+        font-weight: bold;
+        font-size: px;
+        color: #293978;
+        margin-left: 16px;
+        
+    }
+    `
+
     const StyledButtonHeader = styled(IonButton)`
     {
       --background: white;
@@ -56,6 +107,34 @@ const ConfirmProfile: React.FC = () => {
       position: absolute;
     }
     `
+
+    const StyledContent = styled(IonContent)`
+    {
+       text-align: center;
+    }
+    `
+
+    const StyledDatePicker = styled.div`
+    {
+        border: 1px solid #b3b3b3;
+        border-radius: 17px;
+        margin: 16px;
+        margin-bottom: 150px;
+        // position: relative;
+    }
+    `
+
+
+
+    const StyledButtonSubmit = styled(IonButton)`
+    // width: 300px;
+    --background: #293978;
+    // position: absolute;
+    // bottom: 5px;
+    // width: 
+    margin: 16px;
+    margin-top: 50px;
+`
     const StyledLabelHeader = styled(IonLabel)`
 {
   font-weight: bold;
@@ -63,29 +142,18 @@ const ConfirmProfile: React.FC = () => {
 }
 `
     const StyledButtonNext = styled(IonButton)`
-width: 90%;
+// width: 300px;
 --background: #293978;
 // position: absolute;
 // bottom: 5px;
 // width: 
- margin: 18px;
-// margin-bottom: 80px;
+margin: 16px;
+margin-bottom: 80px;
 `
-    // const userProfile = useSelector((u) => u.auth.userInfo);
+    const userProfile = useSelector((u) => u.auth.userInfo);
     const interval = useSelector((i) => i.workingCaledar.intervalBooking);
     const unitBooking = useSelector((u) => u.hospital.hospitalBooking);
     const workingCalendarBooking = useSelector((w) => w.workingCaledar.workingCalendar);
-    const userId = useSelector((t) => t.auth.token?.userId);
-    const [fullName, setFullName] = useState<string>("");
-    const [phoneNumber, setPhoneNumber] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [address, setAddress] = useState<string>("");
-    const [dateOfBirth, setDateOfBirth] = useState<string>("");
-    const [gender, setGender] = useState<boolean>(false);
-    const [city, setCity] = useState<string>("79");
-    const [districts, setDistricts] = useState<string>("760");
-    const [wards, setWards] = useState<string>("26740");
-
     const bookingModel = {
         interval: {
             id: "",
@@ -113,16 +181,16 @@ width: 90%;
             name: ""
         },
         customer: {
-            id: userId,
-            fullname: fullName,
-            phone: phoneNumber,
-            email: email,
-            address: address,
-            birthDate: dateOfBirth,
-            gender: gender,
-            provinceCode: city,
-            districtCode: districts,
-            wardCode: wards,
+            id: "",
+            fullname: "",
+            phone: "",
+            email: "",
+            address: "",
+            birthDate: "",
+            gender: true,
+            provinceCode: "",
+            districtCode: "",
+            wardCode: "",
             ic: "",
             nation: "",
             passportNumber: "",
@@ -144,7 +212,7 @@ width: 90%;
             entryingDate: ""
         }
     } as BookingModel;
-    if (interval !== null && unitBooking !== null && workingCalendarBooking !== null) {
+    if (userProfile !== null && interval !== null && unitBooking !== null && workingCalendarBooking !== null) {
         bookingModel.interval.id = interval.id;
         bookingModel.interval.from = interval.from;
         bookingModel.interval.to = interval.to;
@@ -161,20 +229,16 @@ width: 90%;
 
         bookingModel.service.id = workingCalendarBooking.service[0].id;
         bookingModel.service.name = workingCalendarBooking.service[0].description;
-
-
-        // bookingModel.customer.id = userProfile.id;
-        // bookingModel.customer.fullname = userProfile.fullname;
-        // bookingModel.customer.phone = userProfile.phoneNumber;
-        // bookingModel.customer.email = userProfile.email;
-        // bookingModel.customer.address = userProfile.address;
-        // bookingModel.customer.birthDate = "2021-06-01T00:58:27.530Z";
-        // bookingModel.customer.gender = true;
-        // bookingModel.customer.provinceCode = userProfile.province;
-        // bookingModel.customer.districtCode = userProfile.district;
-        // bookingModel.customer.wardCode = userProfile.ward;
-
-
+        bookingModel.customer.id = userProfile.id;
+        bookingModel.customer.fullname = userProfile.fullname;
+        bookingModel.customer.phone = userProfile.phoneNumber;
+        bookingModel.customer.email = userProfile.email;
+        bookingModel.customer.address = userProfile.address;
+        bookingModel.customer.birthDate = "2021-06-01T00:58:27.530Z";
+        bookingModel.customer.gender = true;
+        bookingModel.customer.provinceCode = userProfile.province;
+        bookingModel.customer.districtCode = userProfile.district;
+        bookingModel.customer.wardCode = userProfile.ward;
         bookingModel.customer.ic = "";
         bookingModel.customer.nation = "";
         bookingModel.customer.passportNumber = "";
@@ -196,100 +260,47 @@ width: 90%;
                 <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
                 <StyledLabelHeader>Thông tin người dùng</StyledLabelHeader>
             </StyledHeader>
-            <IonContent>
-                <form
-                    onSubmit={
-                        () => {
-                            dispatch(postExaminations(bookingModel));
-                            history.push("/apointmentInfo")
-                        }}
-                >
+            {userProfile === undefined ? "" :
+                <IonContent>
                     <IonList>
                         <IonItem>
                             <StyledLabel position="stacked">Tên người dùng</StyledLabel>
-                            <IonInput
-                                required
-                                placeholder="Tên người dùng"
-                                onIonChange={(e) => setFullName(e.detail.value!)}
-                            > </IonInput>
+                            <IonInput value={userProfile?.fullname}> </IonInput>
                         </IonItem>
                         <IonItem>
                             <StyledLabel position="stacked">Số điện thoại</StyledLabel>
-                            <IonInput
-                                required
-                                placeholder="Số điện thoại"
-                                onIonChange={(e) => setPhoneNumber(e.detail.value!)}
-                            > </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <StyledLabel position="stacked">Email</StyledLabel>
-                            <IonInput
-                                required
-                                type="email"
-                                placeholder="Email"
-                                onIonChange={(e) => setEmail(e.detail.value!)}
-                            > </IonInput>
+                            <IonInput value={userProfile?.phoneNumber}> </IonInput>
                         </IonItem>
                         <IonItem>
                             <StyledLabel position="stacked">Địa chỉ</StyledLabel>
-                            <IonInput
-                                required
-                                placeholder="Địa chỉ"
-                                onIonChange={(e) => setAddress(e.detail.value!)}
-                            > </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <StyledLabel position="stacked">Ngày sinh</StyledLabel>
-                            <IonInput
-                                required
-                                type="date"
-                                placeholder="Ngày sinh"
-                                onIonChange={(e) => { setDateOfBirth(e.detail.value!); console.log(dateOfBirth) }}
-                            > </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <StyledLabel position="stacked">Giới tính</StyledLabel>
-                            <IonSelect onIonChange={e => setGender(e.detail.value)}>
-                                <IonSelectOption value={true}>Nam</IonSelectOption>
-                                <IonSelectOption value={false}>Nữ</IonSelectOption>
-                            </IonSelect>
-                        </IonItem>
-                        <IonItem>
-                            <StyledLabel position="stacked">Tỉnh/Thành phố</StyledLabel>
-                            <IonSelect
-                                onIonChange={e => {
-                                    setCity(e.detail.value);
-                                }}>
-                                {location.map((lo) => (
-                                    <IonSelectOption value={lo.value}>{lo.label}</IonSelectOption>
-                                ))}
-                            </IonSelect>
+                            <IonInput value={userProfile?.address}> </IonInput>
                         </IonItem>
                         <IonItem>
                             <StyledLabel position="stacked">Quận/Huyện</StyledLabel>
-                            <IonSelect
-                                onIonChange={e => {
-                                    setDistricts(e.detail.value);
-                                }}>
-                                {location.filter((lo) => lo.value === city)[0].districts.map((districts) => (
-                                    <IonSelectOption value={districts.value}>{districts.label}</IonSelectOption>
-                                ))}
-                            </IonSelect>
+                            <IonInput value={userProfile?.district}> </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">Phường/Xã</StyledLabel>
-                            <IonSelect
-                                onIonChange={e => setWards(e.detail.value)}>
-                                {location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0] !== undefined ?
-                                    location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0].wards.map((ward) => (
-                                        <IonSelectOption value={ward.value}>{ward.label}</IonSelectOption>
-                                    )) : ""}
-                            </IonSelect>
+                            <StyledLabel position="stacked">Email</StyledLabel>
+                            <IonInput value={userProfile?.ward}> </IonInput>
                         </IonItem>
+                        <IonItem>
+                            <StyledLabel position="stacked">Email</StyledLabel>
+                            <IonInput value={userProfile?.email}> </IonInput>
+                        </IonItem>
+                        <IonItem>
+                            <StyledLabel position="stacked">Province</StyledLabel>
+                            <IonInput value={userProfile?.province}> </IonInput>
+                        </IonItem>
+
                     </IonList>
-                    <StyledButtonNext type="submit">Đặt lịch</StyledButtonNext>
-                </form>
-            </IonContent>
+
+                </IonContent>
+            }
+            <StyledButtonNext onClick={async () => {
+                await dispatch(postExaminations(bookingModel));
+                history.push("/apointmentInfo")
+            }}>Đặt lịch</StyledButtonNext>
+
         </IonPage>
     )
 };

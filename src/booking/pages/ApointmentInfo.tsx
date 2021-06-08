@@ -11,7 +11,7 @@ import {
     IonPage,
 } from '@ionic/react';
 import styled from 'styled-components';
-import {useSelector } from '@app/hooks';
+import { useSelector } from '@app/hooks';
 import 'react-day-picker/lib/style.css';
 import { useHistory } from "react-router-dom";
 import { arrowBack, text } from 'ionicons/icons';
@@ -91,7 +91,7 @@ margin-bottom: 80px;
                             </IonItem>
                             <IonItem>
                                 <StyledLabel position="stacked">Ngày hẹn</StyledLabel>
-                                {/* <IonInput value={new Date(bookingModel.date).toDateString()}> </IonInput> */}
+                                <IonInput value={new Date(bookingModel.data.date).toDateString()}> </IonInput>
                             </IonItem>
                             {/* <IonItem>
                         <StyledLabel position="stacked">Tỉnh/Thành phố</StyledLabel>

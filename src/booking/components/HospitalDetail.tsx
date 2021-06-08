@@ -85,7 +85,7 @@ margin-bottom: 80px;
         }
         dispatch(getDateByUnitAndService(arg));
     }, [hospital.id])
-
+    
     return (
         <IonPage>
             <StyledHeader>

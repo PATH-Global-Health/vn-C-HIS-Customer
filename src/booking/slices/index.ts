@@ -1,4 +1,3 @@
-
 import unitType from './unitType';
 import hospital from './hospital';
 import dateBooking from './date';

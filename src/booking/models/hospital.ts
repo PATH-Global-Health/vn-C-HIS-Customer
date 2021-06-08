@@ -1,0 +1,16 @@
+export interface Hospital {
+    dateCreated: string,
+    dateUpdated: string,
+    id: string,
+    username: string,
+    name: string,
+    unitTypeId: string,
+    address: string,
+    province: string,
+    district: string,
+    ward: string,
+    website: string,
+    phone: string,
+    email: string,
+    introduction: string,
+}

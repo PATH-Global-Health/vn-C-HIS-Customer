@@ -25,10 +25,7 @@
     "ionicons": "^5.4.0",
     "moment": "^2.29.1",
     "react": "^17.0.1",
-<<<<<<< HEAD
-=======
     "react-day-picker": "^7.4.10",
->>>>>>> feature-booking
     "react-dom": "^17.0.1",
     "react-hook-form": "^7.3.5",
     "react-icons": "^4.2.0",

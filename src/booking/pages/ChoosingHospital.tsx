@@ -197,12 +197,14 @@ const ChoosingHospital: React.FC = () => {
             <IonSelectOption value={unitType.id}>{unitType.typeName}</IonSelectOption>
           ))}
         </StyledSelect>
-          <StyledSelect placeholder="Thành phố" onIonChange={e => {
-            setCity(e.detail.value);
-            setDistricts(undefined);
-            setTypeSearch("unitTypeCity");
-            console.log(districts);
-          }}>
+          <StyledSelect
+            placeholder="Thành phố"
+            onIonChange={e => {
+              setCity(e.detail.value);
+              setDistricts(undefined);
+              setTypeSearch("unitTypeCity");
+              console.log(districts);
+            }}>
             {location.map((lo) => (
               <IonSelectOption value={lo.value}>{lo.label}</IonSelectOption>
             ))}
@@ -303,7 +305,7 @@ const ChoosingHospital: React.FC = () => {
 
 
         </StyledDiv>
-        <div style={{margin: "30px 0px"}}>
+        <div style={{ margin: "30px 0px" }}>
 
 
           {typeSearch === "name" ? searchByName.map((hos) => (

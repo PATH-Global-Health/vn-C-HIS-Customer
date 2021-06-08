@@ -95,7 +95,7 @@ const HomeBooking: React.FC = () => {
           <StyledIconLeft icon={chatbubble}></StyledIconLeft>
         </StyledButton>
         <StyledButton onClick={() => {
-          dispatch(getServiceId('c1b7411c-52ba-46e4-9a09-08d8b860e829'));
+          dispatch(getServiceId('f2490f62-1d28-4edd-362a-08d8a7232229'));
           history.push('/testingAppointment')
         }
         }>Đặt Lịch xét nghiệm

@@ -1,8 +1,10 @@
 const testApi = 'https://jsonplaceholder.typicode.com';
 const userUrl = 'https://user.bakco.vn';
 const smapi = 'http://202.78.227.94:30111';
+// const smapi = ' https://localhost:44353';
 // https://localhost:44353
 const apiBookingService = 'http://202.78.227.94:30207';
+// const apiBookingService = 'https://localhost:44308';
 // https://localhost:44308/
 
 const apiLinks = {

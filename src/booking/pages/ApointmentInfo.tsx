@@ -91,7 +91,7 @@ margin-bottom: 80px;
                             </IonItem>
                             <IonItem>
                                 <StyledLabel position="stacked">Ngày hẹn</StyledLabel>
-                                {/* <IonInput value={new Date(bookingModel.date).toDateString()}> </IonInput> */}
+                                <IonInput value={new Date(bookingModel.data.date).toDateString()}> </IonInput>
                             </IonItem>
                             {/* <IonItem>
                         <StyledLabel position="stacked">Tỉnh/Thành phố</StyledLabel>

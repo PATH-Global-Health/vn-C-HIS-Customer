@@ -1,25 +1,36 @@
 import React, { useEffect, useState } from 'react';
+// import { useDispatch, useSelector } from '../../@app/hooks';
 import {
   IonButton,
   IonContent,
+  IonDatetime,
   IonHeader,
   IonIcon,
   IonImg,
   IonInput,
+  IonItem,
+  IonItemDivider,
+  IonItemOption,
   IonLabel,
+  IonList,
   IonModal,
   IonPage,
+  IonRedirect,
   IonSelect,
   IonSelectOption,
+  IonTitle,
+  IonToolbar,
 } from '@ionic/react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from '@app/hooks';
+import { getUserInfo } from '../../@app/slices/auth';
 import { useHistory, useLocation } from "react-router-dom";
-import { arrowBack, arrowForward, menu, podium, search } from 'ionicons/icons';
+import { getDateByServiceId } from '../slices/date';
+import { arrowBack, arrowBackCircle, arrowBackOutline, arrowBackSharp, arrowDown, arrowForward, arrowRedo, arrowUndo, backspace, build, calendar, chatbubble, flag, flash, home, menu, newspaper, people, podium, returnDownBack, search } from 'ionicons/icons';
+import HospitalDetail from 'booking/components/HospitalDetail';
 import { getHospitalBooking } from 'booking/slices/hospital';
 import location from '../../@app/mock/locations.json';
 import { deburr } from '../../@app/utils/helpers';
-import { getUnitTypes } from 'booking/slices/unitType';
 
 const StyledButton = styled(IonButton)`{
     ::after{content: ""}
@@ -96,7 +107,7 @@ const StyledContent = styled(IonContent)`
 const StyledInput = styled(IonInput)`
 {
   // width: 75%;
-  height: 37px;
+  height: 34px;
   border: 1px solid #b3b3b3;
   border-radius: 10px;
   margin-left: 10px;
@@ -135,7 +146,7 @@ const StyledButtonMenu = styled(IonButton)`
       border-radius: 10px;
       // width: 15%;
       margin: 0px 17px;
-      height: 37px;
+      height: 34px;
     width: 50px;
     }
     `
@@ -151,28 +162,18 @@ const StyledIconMenu = styled(IonIcon)`
     `
 const StyledSelect = styled(IonSelect)`
     {
-      margin: 10px 32px;
+      margin: 0px 32px;
     }
     `
-const StyleModal = styled(IonModal)`
-    {
-      padding: 10px;
-    }
-`
-const StyledButtonCloseModal = styled(IonButton)`
-// width: 300px;
---background: #293978;
-// position: absolute;
-// bottom: 5px;
-// width: 
-// margin: 16px;
-// margin-top: 50px;
-`
 const ChoosingHospital: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const serviceIdTest = 'f2490f62-1d28-4edd-362a-08d8a7232229';
   const hospitals = useSelector((h) => h.hospital.hospitals);
+  let hospitalDeburr: string[];
+
   const [show, setShow] = useState<boolean>(false);
+  const date = useLocation().state;
   const unitTypes = useSelector((u) => u.unitType.unitTypes);
   const [unitType, setUnitType] = useState<string>("");
   const [typeSearch, setTypeSearch] = useState<string>("name");
@@ -185,35 +186,37 @@ const ChoosingHospital: React.FC = () => {
   const searchByUnitTypeAndCity = hospitals.filter((hos) => deburr(hos.unitTypeId + hos.province).includes(deburr(unitType + city)));
   const searchByUnitTypeAndCityAndDistrict = hospitals.filter((hos) => deburr(hos.unitTypeId + hos.province + hos.district).includes(deburr(unitType + city + districts)));
   const searchByUnitTypeAndCityAndDistrictAndWard = hospitals.filter((hos) => deburr(hos.unitTypeId + hos.province + hos.district + hos.ward).includes(deburr(unitType + city + districts + wards)));
-  const [showModal, setShowModal] = useState(false);
-  useEffect(() => {
-    dispatch(getUnitTypes());
-  }, [])
   return (
     <IonPage>
-      <StyleModal isOpen={showModal} cssClass='my-custom-class'>
+      <StyledHeader>
+        <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
+        <StyledLabelHeader>Danh sách cơ sở </StyledLabelHeader>
+        {/* <StyledHeader>{typeChoosing}</StyledHeader> */}
+      </StyledHeader>
+
+      <StyledContent>
+        <></>
+        <StyledDiv>
+          <StyledInput onIonChange={e => {
+            setTypeSearch("name")
+            setHospitalName(e.detail.value!)
+          }} placeholder="Search"><StyledIcon icon={search}></StyledIcon></StyledInput>
+          <StyledButtonMenu
+            onClick={() => { setShow(!show) }}
+          ><StyledIconMenu icon={menu}></StyledIconMenu></StyledButtonMenu>
+        </StyledDiv>
         {show === true ? <div><StyledSelect placeholder="Loại cơ sở" onIonChange={e => { setUnitType(e.detail.value); setTypeSearch("unitType") }}>
           {unitTypes.map((unitType) => (
             <IonSelectOption value={unitType.id}>{unitType.typeName}</IonSelectOption>
           ))}
         </StyledSelect>
-          <StyledSelect
-            placeholder="Thành phố"
-            onIonChange={e => {
-              setCity(e.detail.value);
-              setDistricts(undefined);
-              setTypeSearch("unitTypeCity");
-              console.log(districts);
-            }}>
+          <StyledSelect placeholder="Thành phố" onIonChange={e => { setCity(e.detail.value); setTypeSearch("unitTypeCity") }}>
             {location.map((lo) => (
               <IonSelectOption value={lo.value}>{lo.label}</IonSelectOption>
             ))}
           </StyledSelect>
           {city === undefined ? "" :
-            <StyledSelect placeholder="Quận/Huyện" onIonChange={e => {
-              setDistricts(e.detail.value);
-              setTypeSearch("unitTypeCityDistrict")
-            }}>
+            <StyledSelect placeholder="Quận/Huyện" onIonChange={e => { setDistricts(e.detail.value); setTypeSearch("unitTypeCityDistrict") }}>
               {location.filter((lo) => lo.value === city)[0].districts.map((districts) => (
                 <IonSelectOption value={districts.value}>{districts.label}</IonSelectOption>
               ))}
@@ -221,10 +224,9 @@ const ChoosingHospital: React.FC = () => {
           }
           {districts === undefined ? "" :
             <StyledSelect placeholder="Phường/Xã" onIonChange={e => { setWards(e.detail.value); setTypeSearch("unitTypeCityDistrictWard") }}>
-              {location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0] !== undefined ?
-                location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0].wards.map((ward) => (
-                  <IonSelectOption value={ward.value}>{ward.label}</IonSelectOption>
-                )) : ""}
+              {location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0].wards.map((ward) => (
+                <IonSelectOption value={ward.value}>{ward.label}</IonSelectOption>
+              ))}
             </StyledSelect>
           }
         </div> : ""}
@@ -245,6 +247,18 @@ const ChoosingHospital: React.FC = () => {
 
           )) : ""}
 
+          {typeSearch === "name" ? searchByName.map((hos) => (
+            <StyledButton
+              onClick={() => {
+                dispatch(getHospitalBooking(hos));
+                history.push('/hospitalDetail', hos)
+              }}
+            >{hos.name}
+              <StyledIconRight icon={arrowForward}></StyledIconRight>
+              <StyledIconLeft icon={podium}></StyledIconLeft>
+              <StyledImg src={`https://smapi.vkhealth.vn/api/Hospitals/Logo/${hos.id}`}></StyledImg>
+            </StyledButton>
+          )) : ""}
 
           {typeSearch === "unitTypeCity" ? searchByUnitTypeAndCity.map((hos) => (
             <StyledButton
@@ -285,43 +299,6 @@ const ChoosingHospital: React.FC = () => {
             </StyledButton>
           )) : ""}
         </StyledDivRender>
-        <StyledButtonCloseModal onClick={() => setShowModal(false)}>Đóng</StyledButtonCloseModal>
-      </StyleModal>
-      <StyledHeader>
-        <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
-        <StyledLabelHeader>Danh sách cơ sở </StyledLabelHeader>
-      </StyledHeader>
-
-      <StyledContent>
-        <StyledDiv>
-          <StyledInput onIonChange={e => {
-            setTypeSearch("name")
-            setHospitalName(e.detail.value!)
-          }} placeholder="Search"><StyledIcon icon={search}></StyledIcon></StyledInput>
-          <StyledButtonMenu
-            onClick={() => { setShow(true); setShowModal(true) }}
-          ><StyledIconMenu icon={menu}></StyledIconMenu></StyledButtonMenu>
-
-
-
-        </StyledDiv>
-        <div style={{ margin: "30px 0px" }}>
-
-
-          {typeSearch === "name" ? searchByName.map((hos) => (
-            <StyledButton
-              onClick={() => {
-                dispatch(getHospitalBooking(hos));
-                history.push('/hospitalDetail', hos)
-              }}
-            >{hos.name}
-              <StyledIconRight icon={arrowForward}></StyledIconRight>
-              <StyledIconLeft icon={podium}></StyledIconLeft>
-              <StyledImg src={`https://smapi.vkhealth.vn/api/Hospitals/Logo/${hos.id}`}></StyledImg>
-            </StyledButton>
-          )) : ""}
-        </div>
-
         {/* {hospitals.map(hospital => (
           <StyledButton
             onClick={() => {

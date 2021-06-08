@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Post } from './post.model';
-import postService from 'news/post/post.service';
+import postService from 'post/post.service';
 
 interface State {
   postList: Post[];

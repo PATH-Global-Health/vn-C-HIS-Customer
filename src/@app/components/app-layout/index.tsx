@@ -1,19 +1,14 @@
-import React, { ReactNode, useEffect } from 'react';
-import { useDispatch } from '@app/hooks';
-import { setAppMenu } from '@app/slices/global';
+import React, { ReactNode } from 'react';
+import AppMenu from './AppMenu';
 
 const AppLayout: React.FC<{
   children: ReactNode;
 }> = (props) => {
   const { children } = props;
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(setAppMenu(true));
-  }, []);
 
   return (
     <>
+      <AppMenu />
       {children}
     </>
   );

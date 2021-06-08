@@ -24,8 +24,9 @@ import { useDispatch, useSelector } from '@app/hooks';
 import { getUserInfo } from '../../@app/slices/auth';
 import { useHistory } from "react-router-dom";
 import { getDateByServiceId } from '../slices/date';
-// import workingCalendars from '../services/workingCalendars';
-import { arrowBack, arrowBackCircle, arrowBackOutline, arrowBackSharp, arrowDown, arrowForward, arrowRedo, arrowUndo, backspace, chatbubble, flag, flash, home, newspaper, people, returnDownBack } from 'ionicons/icons';
+import { getHospitalByServiceId } from '../slices/hospital';
+import { arrowBack, arrowBackCircle, arrowBackOutline, arrowBackSharp, arrowDown, arrowForward, arrowRedo, arrowUndo, backspace, build, calendar, chatbubble, flag, flash, home, newspaper, people, podium, returnDownBack } from 'ionicons/icons';
+import { getTypeChoosing } from 'booking/slices/date';
 
 const StyledButton = styled(IonButton)`{
     ::after{content: ""}
@@ -91,7 +92,7 @@ const StyledContent = styled(IonContent)`
 }
 `
 
-const MakingApointment: React.FC = () => {
+const TestingApointment: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const serviceIdTest = 'f2490f62-1d28-4edd-362a-08d8a7232229'
@@ -99,24 +100,30 @@ const MakingApointment: React.FC = () => {
     <IonPage>
       <StyledHeader>
         <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
-        <StyledLabelHeader>Đặt lịch</StyledLabelHeader>
+        <StyledLabelHeader>Đặt Lịch Xét nghiệm</StyledLabelHeader>
       </StyledHeader>
       <StyledContent>
-        <StyledButton>Đặt Lịch tư vấn
+        <StyledButton onClick={() => {
+          dispatch(getDateByServiceId(serviceIdTest));
+          dispatch(getTypeChoosing("apointmentDate"));
+          history.push('/apointmentDate')
+        }
+        }>Thời gian
           <StyledIconRight icon={arrowForward}></StyledIconRight>
-          <StyledIconLeft icon={chatbubble}></StyledIconLeft>
+          <StyledIconLeft icon={calendar}></StyledIconLeft>
         </StyledButton>
         <StyledButton onClick={() => {
-         
-          history.push('/testingApointment')
-        }
-        }>Đặt Lịch xét nghiệm
+          dispatch(getHospitalByServiceId(serviceIdTest));
+          dispatch(getTypeChoosing("choosingHospital"));
+          history.push('/choosingHospital')
+        }}
+        >Cơ sở dịch vụ
       <StyledIconRight icon={arrowForward}></StyledIconRight>
-          <StyledIconLeft icon={flash}></StyledIconLeft>
+          <StyledIconLeft icon={podium}></StyledIconLeft>
         </StyledButton>
       </StyledContent>
     </IonPage>
   );
 };
 
-export default MakingApointment;
+export default TestingApointment;

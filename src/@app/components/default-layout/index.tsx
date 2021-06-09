@@ -2,14 +2,14 @@ import React, { ReactNode, useEffect } from 'react';
 import { useDispatch } from '@app/hooks';
 import { setAppMenu } from '@app/slices/global';
 
-const AppLayout: React.FC<{
+const DefaultLayout: React.FC<{
   children: ReactNode;
 }> = (props) => {
   const { children } = props;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setAppMenu(true));
+    dispatch(setAppMenu(false));
   }, []);
 
   return (
@@ -19,4 +19,4 @@ const AppLayout: React.FC<{
   );
 };
 
-export default AppLayout;
+export default DefaultLayout;

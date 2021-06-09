@@ -1,18 +1,29 @@
 import { createSlice, PayloadAction, CaseReducer } from '@reduxjs/toolkit';
 
+type CR<T> = CaseReducer<State, PayloadAction<T>>;
+
 interface State {
+  appMenu: boolean;
   confirmation?: {
     message: string;
     callback: () => void;
   };
 }
 
-type CR<T> = CaseReducer<State, PayloadAction<T>>;
-
 interface AddConfirmCallback {
   message: string;
   callback: () => void;
 }
+
+const initialState: State = {
+  appMenu: false,
+}
+
+const setAppMenuCR: CR<boolean> = (state, action) => ({
+  ...state,
+  appMenu: action.payload,
+})
+
 const addConfirmCallbackCR: CR<AddConfirmCallback> = (state, action) => ({
   ...state,
   confirmation: {
@@ -27,13 +38,14 @@ const clearConfirmCallbackCR: CR<void> = (state) => ({
 
 const slice = createSlice({
   name: 'global',
-  initialState: {},
+  initialState,
   reducers: {
+    setAppMenu: setAppMenuCR,
     addConfirmCallback: addConfirmCallbackCR,
     clearConfirmCallback: clearConfirmCallbackCR,
   },
 });
 
-export const { addConfirmCallback, clearConfirmCallback } = slice.actions;
+export const { setAppMenu, addConfirmCallback, clearConfirmCallback } = slice.actions;
 
 export default slice.reducer;

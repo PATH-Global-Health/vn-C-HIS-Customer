@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
     IonButton,
     IonContent,
@@ -11,33 +11,12 @@ import {
     IonPage,
 } from '@ionic/react';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from '@app/hooks';
-import { getHospitalByServiceIdAndDate } from '../slices/hospital';
-import 'react-calendar/dist/Calendar.css';
-import "react-datepicker/dist/react-datepicker.css";
+import {useSelector } from '@app/hooks';
 import 'react-day-picker/lib/style.css';
 import { useHistory } from "react-router-dom";
 import { arrowBack, text } from 'ionicons/icons';
 
-const StyledButton = styled(IonButton)`
-    width: 300px;
-    --background: #293978;
-    text-align: center;
-`;
 const ApointmentInfo: React.FC = () => {
-    const [date, setDate] = useState<string>("none");
-    const dispatch = useDispatch();
-    const getHospital = () => {
-        dispatch(getHospitalByServiceIdAndDate(date + ""));
-        history.push("/choosingHospital");
-    }
-
-    const dateBookings = useSelector((d) => d.dateBooking.dateBookings);
-
-
-
-    const [value, onChange] = useState(new Date(2021, 5, 22));
-
     const history = useHistory();
 
     const bookingModel = useSelector((b) => b.workingCaledar.bookingModelResponse);
@@ -46,14 +25,6 @@ const ApointmentInfo: React.FC = () => {
     {
         color: #b3b3b3;
         right: -9px;
-        position: absolute;
-      }
-    `;
-
-    const StyledIconLeft = styled(IonIcon)`
-    {
-        color: #b3b3b3;
-        left: 5px;
         position: absolute;
       }
     `;
@@ -68,23 +39,12 @@ const ApointmentInfo: React.FC = () => {
       margin-bottom: 10px;
     }
     `
-
     const StyledLabel = styled(IonLabel)`
     {
         font-weight: bold;
         font-size: 23px;
     }
     `
-    const StyledLabelContent = styled(IonLabel)`
-    {
-        font-weight: bold;
-        font-size: px;
-        color: #293978;
-        margin-left: 16px;
-        
-    }
-    `
-
     const StyledButtonHeader = styled(IonButton)`
     {
       --background: white;
@@ -92,34 +52,6 @@ const ApointmentInfo: React.FC = () => {
       position: absolute;
     }
     `
-
-    const StyledContent = styled(IonContent)`
-    {
-       text-align: center;
-    }
-    `
-
-    const StyledDatePicker = styled.div`
-    {
-        border: 1px solid #b3b3b3;
-        border-radius: 17px;
-        margin: 16px;
-        margin-bottom: 150px;
-        // position: relative;
-    }
-    `
-
-
-
-    const StyledButtonSubmit = styled(IonButton)`
-    // width: 300px;
-    --background: #293978;
-    // position: absolute;
-    // bottom: 5px;
-    // width: 
-    margin: 16px;
-    margin-top: 50px;
-`
     const StyledLabelHeader = styled(IonLabel)`
 {
   font-weight: bold;
@@ -135,46 +67,52 @@ const ApointmentInfo: React.FC = () => {
 margin: 16px;
 margin-bottom: 80px;
 `
-    useEffect(() => {
-        console.log(bookingModel);
-    }, [])
+    // useEffect(() => {
+    //     console.log(bookingModel);
+    // }, [])
 
     return (
         <IonPage>
-            <StyledHeader>
+            {bookingModel.data.interval.id === "" ? <StyledHeader>
                 <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
-                <StyledLabelHeader>Thông tin lịch hẹn</StyledLabelHeader>
-            </StyledHeader>
-            {/* {userProfile === undefined ? "" : */}
-            <IonContent>
-                <IonList>
-                    <IonItem>
-                        <StyledLabel position="stacked">Tên dịch vụ</StyledLabel>
-                        <IonInput value={bookingModel.data.service.name}> </IonInput>
-                    </IonItem>
-                    <IonItem>
-                        <StyledLabel position="stacked">Ngày hẹn</StyledLabel>
-                        {/* <IonInput value={new Date(bookingModel.date).toDateString()}> </IonInput> */}
-                    </IonItem>
-                    {/* <IonItem>
+                <StyledLabelHeader>Đặt lịch thất bại</StyledLabelHeader>
+            </StyledHeader> :
+                <>
+                    <StyledHeader>
+                        <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
+                        <StyledLabelHeader>Thông tin lịch hẹn</StyledLabelHeader>
+                    </StyledHeader>
+                    {/* {userProfile === undefined ? "" : */}
+                    <IonContent>
+                        <IonList>
+                            <IonItem>
+                                <StyledLabel position="stacked">Tên dịch vụ</StyledLabel>
+                                <IonInput value={bookingModel.data.service.name}> </IonInput>
+                            </IonItem>
+                            <IonItem>
+                                <StyledLabel position="stacked">Ngày hẹn</StyledLabel>
+                                <IonInput value={new Date(bookingModel.data.date).toDateString()}> </IonInput>
+                            </IonItem>
+                            {/* <IonItem>
                         <StyledLabel position="stacked">Tỉnh/Thành phố</StyledLabel>
                         <IonInput value={hospital.province}> </IonInput>
                     </IonItem> */}
-                    <IonItem>
-                        <StyledLabel position="stacked">Thời gian hẹn</StyledLabel>
-                        <IonInput value={bookingModel.data.interval.from}> </IonInput>
-                    </IonItem>
-                    <IonItem>
-                        <StyledLabel position="stacked">Cơ sở dịch vụ</StyledLabel>
-                        <IonInput value={bookingModel.data.unit.name}> </IonInput>
-                    </IonItem>
+                            <IonItem>
+                                <StyledLabel position="stacked">Thời gian hẹn</StyledLabel>
+                                <IonInput value={bookingModel.data.interval.from}> </IonInput>
+                            </IonItem>
+                            <IonItem>
+                                <StyledLabel position="stacked">Cơ sở dịch vụ</StyledLabel>
+                                <IonInput value={bookingModel.data.unit.name}> </IonInput>
+                            </IonItem>
 
-                </IonList>
+                        </IonList>
 
-            </IonContent>
-            {/* } */}
-            <StyledButtonCancel>Hủy lịch hẹn</StyledButtonCancel>
-
+                    </IonContent>
+                    {/* } */}
+                    <StyledButtonCancel>Hủy lịch hẹn</StyledButtonCancel>
+                </>
+            }
         </IonPage>
     )
 };

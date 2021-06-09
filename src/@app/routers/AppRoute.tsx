@@ -1,5 +1,8 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { useAuth } from '@app/hooks';
+
+import DefaultLayout from '@app/components/default-layout';
 
 interface Props {
   component: React.FC;
@@ -18,12 +21,15 @@ const AppRoute: React.FC<Props> = (props) => {
     isPrivate = false,
   } = props;
 
+  const { isAuthenticated } = useAuth();
+  const isAuth = useMemo(() => isAuthenticated(), [isAuthenticated]);
+
   return (
     <Route
       path={path}
       exact={exact}
       render={(componentProps): JSX.Element => {
-        if (isPrivate || !isPrivate) {
+        if ((isPrivate && isAuth) || !isPrivate) {
           if (Layout) {
             return (
               <Layout>
@@ -31,7 +37,12 @@ const AppRoute: React.FC<Props> = (props) => {
               </Layout>
             );
           }
-          return <Component />;
+
+          return (
+            <DefaultLayout>
+              <Component />
+            </DefaultLayout>
+          );
         }
         return (
           <Redirect

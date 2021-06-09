@@ -28,7 +28,7 @@ import { useHistory } from "react-router-dom";
 import logo from '@app/assets/img/logo.png'
 import img from '@app/assets/img/virus.jpg'
 
-import Slider from 'react-slicknpm';
+import Slider from 'react-slick';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -129,18 +129,21 @@ interface OptionProps {
 
 const optionFields: OptionProps[] = [
   {
+    name: "booking",
     icon: calendarOutline,
     label: "Đặt lịch",
     note: "Tư vấn, xét nghiệm",
     color: "#4c8dff",
   },
   {
+    name: "appointment",
     icon: alarmOutline,
     label: "Lịch hẹn",
     note: "Kiểm tra lịch hẹn ",
     color: "#409f4e"
   },
   {
+    name: "risk",
     icon: searchOutline,
     label: "Nguy cơ",
     note: "Kiểm tra nguy cơ",
@@ -149,6 +152,12 @@ const optionFields: OptionProps[] = [
 ];
 const Home: React.FC = () => {
   const [searchData, setSearchData] = useState('');
+  const history = useHistory();
+  const handleTypeService = (name: string) => {
+    name === "booking" ? history.push("/homeBooking") 
+    : name === "appointment" ? history.push("/appointment")
+    :history.push("/risk")
+  }
   return (
     <>
       <IonContent>
@@ -183,10 +192,13 @@ const Home: React.FC = () => {
         </Menu>
         <IonRow className="ion-justify-content-center">
           {
-            optionFields.map(({ icon, label, color, note }, idx) => {
+            optionFields.map(({ name, icon, label, color, note }, idx) => {
               return (
                 <IonCol key={idx}>
-                  <Card style={{ backgroundColor: color }} >
+                  <Card
+                    style={{ backgroundColor: color }}
+                    onClick={() => { handleTypeService(name+"") }}
+                  >
                     <div>
                       <CardIcon icon={icon} slot='start' />
                     </div>

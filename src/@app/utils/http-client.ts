@@ -36,14 +36,10 @@ const request = (arg: FullOptions): Promise<AxiosResponse> => {
   }
 
   const { token } = store.getState().auth;
-
   return axios.request({
     method,
     headers: {
       'content-type': contentType,
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'GET, POST, OPTIONS, PUT, DELETE, Authorization',
-      // 'Access-Control-Allow-Headers': 'Authorization',
       Authorization: `bearer ${token?.access_token ?? ''}`,
     },
     url: typeof url === 'string' ? url : url(apiLinks),

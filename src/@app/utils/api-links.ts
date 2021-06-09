@@ -1,15 +1,29 @@
-const userGateway = 'https://auth.vkhealth.vn';
 const testApi = 'https://jsonplaceholder.typicode.com';
-const smapi = 'https://localhost:44353';
-const testAPiBooking = 'https://localhost:44353/api/';
-const apiBookingService = 'https://localhost:44308'
+const userUrl = 'https://user.bakco.vn';
+const smapi = 'http://202.78.227.94:30111';
+// const smapi = ' https://localhost:44353';
+// https://localhost:44353
+const apiBookingService = 'http://202.78.227.94:30207';
+// const apiBookingService = 'https://localhost:44308';
+// https://localhost:44308/
 
 const apiLinks = {
   auth: {
-    token: `${userGateway}/api/Users/Login`,
+    token: `${userUrl}/api/Users/Login`,
   },
   manageAccount: {
-    create: `${userGateway}/api/Users`,
+    create: `${userUrl}/api/Users`,
+    changePassword: `${userUrl}/api/Users/ChangePassword`,
+  },
+  forgetPassword: {
+    generateOTP: `${userUrl}/api/Users/ResetPassword/GenerateOTP`,
+    confirmOTP: `${userUrl}/api/Users/ResetPassword/ConfirmOTP`,
+  },
+  post: {
+    get: `${testApi}/posts`,
+    create: `${testApi}/posts`,
+    update: `${testApi}/posts/`,
+    delete: `${testApi}/posts/`,
   },
   manageSchedule: {
     unitTypes: {
@@ -19,7 +33,7 @@ const apiLinks = {
       get: `${smapi}/api/ServiceForms`,
     },
     hospital: {
-      get: `${smapi}/api/Hospitals/f2490f62-1d28-4edd-362a-08d8a7232229`,
+      get: `${smapi}/api/Hospitals`,
     },
     workingCalendar: {
       getDaysByUnitAndService: `${smapi}/api/WorkingCalendars/GetDaysByUnitAndService`,
@@ -35,13 +49,6 @@ const apiLinks = {
   },
   bookingService: {
     postExaminations: `${apiBookingService}/api/Examinations`
-  },
-  post: {
-    get: `${testApi}/posts`,
-    create: `${testApi}/posts`,
-    update: `${testApi}/posts/`,
-    delete: `${testApi}/posts/`,
-    getBooking: testAPiBooking,
   },
 };
 

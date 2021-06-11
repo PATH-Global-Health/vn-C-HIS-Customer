@@ -24,6 +24,8 @@ import { Provider } from 'react-redux';
 import store from './store';
 import AppRouter from './routers/AppRouter';
 
+import './i18n/i18n';
+
 const App: React.FC = () => {
   return (
     <Provider store={store}>

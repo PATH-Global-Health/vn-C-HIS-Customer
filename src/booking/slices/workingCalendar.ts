@@ -1,11 +1,14 @@
+import { UserInfo } from 'booking/models/userInfoModel';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { BookingModel } from 'booking/models/bookingModel';
 import { BookingModelResponse } from 'booking/models/bookingModelResponse';
+import { ExaminationListModel } from 'booking/models/examinationListModel';
 // import { Hospital } from 'booking/models/hospital';
 import { Interval } from 'booking/models/interval';
 import { IntervalModel } from 'booking/models/IntervalModel';
 import { WorkingCalendar } from '../models/workingCalendar';
 import bookingServices from '../services/index';
+import { UserProfile } from 'booking/models/userProfile';
 
 interface State {
     workingCalendars: WorkingCalendar[];
@@ -15,6 +18,10 @@ interface State {
     bookingModel: BookingModel;
     bookingModelResponse: BookingModelResponse;
     serviceId: "";
+    examinationList: ExaminationListModel,
+    userInfo: UserInfo,
+    userProfile: UserProfile,
+    examinationSuccess: boolean,
     loading: boolean;
 }
 
@@ -173,6 +180,39 @@ const initialState: State = {
         }
     },
     serviceId: "",
+    examinationList: {
+        data: [],
+        errorMessage: null,
+        succeed: false,
+    },
+    userInfo: {
+        data: {
+            id: "",
+            username: "",
+            email: "",
+            phoneNumber: "",
+            fullName: "",
+        },
+        errorMessage: null,
+        succeed: false,
+    },
+    userProfile: {
+        fullname: "",
+        gender: false,
+        dateOfBirth: "",
+        phoneNumber: "",
+        email: "",
+        vaccinationCode: "",
+        identityCard: "",
+        address: "",
+        province: "",
+        district: "",
+        ward: "",
+        passportNumber: "",
+        nation: "",
+        id: "",
+    },
+    examinationSuccess: false,
     loading: false,
 };
 
@@ -187,8 +227,23 @@ const getIntervals = createAsyncThunk('workingCalendar/getInterval', async (dayI
     return result;
 });
 
-const postExaminations = createAsyncThunk('Examination/postExamination', async (da: BookingModel) => {
+const getExaminationList = createAsyncThunk('examination/getExaminationList', async () => {
+    const result = await bookingServices.examinationService.getExaminationList();
+    return result;
+});
+
+const postExaminations = createAsyncThunk('examination/postExamination', async (da: BookingModel) => {
     const result = await bookingServices.examinationService.postExaminations(da);
+    return result;
+});
+
+const getUserInfo = createAsyncThunk('examination/getUserInfo', async () => {
+    const result = await bookingServices.examinationService.getUserInfo();
+    return result;
+});
+
+const putUserProfile = createAsyncThunk('examination/putUserProfile', async (da: UserProfile) => {
+    const result = await bookingServices.examinationService.putUserProfile(da);
     return result;
 });
 
@@ -248,17 +303,64 @@ const slice = createSlice({
             ...state,
             loading: false,
             bookingModelResponse: payload,
+            examinationSuccess: true,
             // workingCalendars: payload,
             // workingCalendars 
         }));
         builder.addCase(postExaminations.rejected, (state) => ({
             ...state,
+            examinationSuccess: false,
             loading: false,
+        }));
+
+        //getExaminationList
+        builder.addCase(getExaminationList.pending, (state) => ({
+            ...state,
+            loading: true,
+        }));
+        builder.addCase(getExaminationList.fulfilled, (state, { payload }) => ({
+            ...state,
+            loading: false,
+            examinationList: payload,
+        }));
+        builder.addCase(getExaminationList.rejected, (state) => ({
+            ...state,
+            loading: false,
+        }));
+
+        //getUserInfo
+        builder.addCase(getUserInfo.pending, (state) => ({
+            ...state,
+            getUserInfoLoading: true,
+        }));
+        builder.addCase(getUserInfo.fulfilled, (state, { payload }) => ({
+            ...state,
+            userProfile: payload,
+            getUserInfoLoading: false,
+        }));
+        builder.addCase(getUserInfo.rejected, (state) => ({
+            ...state,
+            getUserInfoLoading: false,
+        }));
+
+        //putUserProfile
+        builder.addCase(putUserProfile.pending, (state) => ({
+            ...state,
+            getUserInfoLoading: true,
+        }));
+        builder.addCase(putUserProfile.fulfilled, (state, { payload }) => ({
+            ...state,
+            // userProfile: payload,
+            getUserInfoLoading: false,
+        }));
+        builder.addCase(putUserProfile.rejected, (state) => ({
+            ...state,
+            getUserInfoLoading: false,
         }));
     },
 });
 
-export { getDateByUnitAndService, getIntervals, postExaminations };
+export { getDateByUnitAndService, getIntervals, postExaminations, getExaminationList, getUserInfo, putUserProfile };
 export const { getWorkingCalendarBooking, getInterBooking, getBookingModel, getServiceId } = slice.actions;
 
 export default slice.reducer;

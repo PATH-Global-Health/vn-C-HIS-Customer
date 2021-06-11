@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonNote, IonText } from '@ionic/react';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonNote } from '@ionic/react';
 import { eyeSharp, eyeOffSharp, chevronBackOutline } from 'ionicons/icons';
 
 import { useHistory } from 'react-router-dom';
@@ -32,11 +32,6 @@ const StyledLabel = styled(IonLabel)`
 const StyledIcon = styled(IonIcon)`
    font-size: 20px;
 `;
-const ErrorText = styled(IonText)`
-   color: #f46a6a;
-   margin-left: 20px;
-   font-size: 15px;
-`
 
 
 interface InputProps {
@@ -76,7 +71,7 @@ const formFields: InputProps[] = [
 
 const ChangePasswordPage: React.FC = () => {
   const history = useHistory();
-  const { control, handleSubmit, register, formState: { errors }, trigger } = useForm();
+  const { control, handleSubmit } = useForm();
 
   const [oldPasswordVisible, setOldPasswordVisible] = useState(false);
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
@@ -102,28 +97,6 @@ const ChangePasswordPage: React.FC = () => {
       setShowFailedToast(true);
     }
   };
-  useEffect(() => {
-    register(
-      'oldPassword',
-      {
-        required: { value: true, message: "Chưa nhập mật khẩu cũ. " },
-      }
-    );
-    register(
-      'newPassword',
-      {
-        required: { value: true, message: "Chưa nhập mật khẩu mới. " },
-        minLength: { value: 5, message: "Mật khẩu tối thiểu 5 kí tự. " },
-      }
-    );
-    register(
-      'confirmNewPassword',
-      {
-        required: { value: true, message: "Chưa nhập mật khẩu. " },
-        minLength: { value: 5, message: "Mật khẩu tối thiểu 5 kí tự. " },
-      }
-    );
-  }, [register]);
   return (
     <IonPage >
       <IonHeader className='ion-margin-bottom' >
@@ -178,9 +151,8 @@ const ChangePasswordPage: React.FC = () => {
                         <IonCol size="12" size-sm='3'>
                           <IonItem color='light'>
                             <StyledInput
-                              onIonBlur={() => {
-                                trigger(name);
-                              }}
+                              required={true}
+                              onIonBlur={onBlur}
                               value={value}
                               onIonChange={onChange}
                               type={
@@ -197,10 +169,8 @@ const ChangePasswordPage: React.FC = () => {
                                   <StyledIcon slot="end" icon={newPasswordVisible === true ? eyeOffSharp : eyeSharp} onClick={() => setNewPasswordVisible(!newPasswordVisible)} />
                                   : <StyledIcon slot="end" icon={confirmNewPasswordVisible === true ? eyeOffSharp : eyeSharp} onClick={() => setConfirmNewPasswordVisible(!confirmNewPasswordVisible)} />
                             }
+
                           </IonItem>
-                          {(errors?.oldPassword?.message && name === 'oldPassword') && <ErrorText >{(errors?.oldPassword?.message)}</ErrorText>}
-                          {(errors?.newPassword?.message && name === 'newPassword') && <ErrorText >{(errors?.newPassword?.message)}</ErrorText>}
-                          {(errors?.confirmNewPassword?.message && name === 'confirmNewPassword') && <ErrorText >{(errors?.confirmNewPassword?.message)}</ErrorText>}
                         </IonCol>
                       </IonRow>
                     )}

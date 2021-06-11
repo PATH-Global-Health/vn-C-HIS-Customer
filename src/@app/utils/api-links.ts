@@ -10,6 +10,7 @@ const apiBookingService = 'http://202.78.227.94:30207';
 const apiLinks = {
   auth: {
     token: `${userUrl}/api/Users/Login`,
+    userInfo: `${userUrl}/api/Users/GetUserInfo`
   },
   manageAccount: {
     create: `${userUrl}/api/Users`,
@@ -48,7 +49,7 @@ const apiLinks = {
     }
   },
   bookingService: {
-    postExaminations: `${apiBookingService}/api/Examinations`
+    postExaminations: `${apiBookingService}/api/Examinations`,
   },
 };
 

@@ -19,7 +19,11 @@ import { useHistory } from "react-router-dom";
 import { arrowBack, text } from 'ionicons/icons';
 import { BookingModel } from 'booking/models/bookingModel';
 import location from '../../@app/mock/locations.json';
-import { postExaminations } from 'booking/slices/workingCalendar'
+import { postExaminations } from 'booking/slices/workingCalendar';
+import { useTranslation } from 'react-i18next';
+import { getUserInfo, putUserProfile } from '../slices/workingCalendar';
+import { UserProfile } from 'booking/models/userProfile';
+import moment from 'moment';
 
 const ConfirmProfile: React.FC = () => {
     const dispatch = useDispatch();
@@ -72,20 +76,37 @@ width: 90%;
 // margin-bottom: 80px;
 `
     // const userProfile = useSelector((u) => u.auth.userInfo);
+    const userInfo = useSelector((w) => w.workingCaledar.userProfile);
     const interval = useSelector((i) => i.workingCaledar.intervalBooking);
     const unitBooking = useSelector((u) => u.hospital.hospitalBooking);
     const workingCalendarBooking = useSelector((w) => w.workingCaledar.workingCalendar);
     const userId = useSelector((t) => t.auth.token?.userId);
-    const [fullName, setFullName] = useState<string>("");
-    const [phoneNumber, setPhoneNumber] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [address, setAddress] = useState<string>("");
-    const [dateOfBirth, setDateOfBirth] = useState<string>("");
-    const [gender, setGender] = useState<boolean>(false);
-    const [city, setCity] = useState<string>("");
-    const [districts, setDistricts] = useState<string>("");
-    const [wards, setWards] = useState<string>("");
-
+    const [fullName, setFullName] = useState<string>(userInfo.fullname);
+    const [phoneNumber, setPhoneNumber] = useState<string>(userInfo.phoneNumber);
+    const [email, setEmail] = useState<string>(userInfo.email);
+    const [address, setAddress] = useState<string>(userInfo.address);
+    const [dateOfBirth, setDateOfBirth] = useState<string>(userInfo.dateOfBirth);
+    const [gender, setGender] = useState<boolean>(userInfo.gender);
+    const [city, setCity] = useState<string>(userInfo.province);
+    const [districts, setDistricts] = useState<string>(userInfo.district);
+    const [wards, setWards] = useState<string>(userInfo.ward);
+    const { t, i18n } = useTranslation();
+    const userProfile = {
+        fullname: fullName,
+        gender: gender,
+        dateOfBirth: dateOfBirth,
+        phoneNumber: phoneNumber,
+        email: email,
+        vaccinationCode: "",
+        identityCard: "",
+        address: address,
+        province: city,
+        district: districts,
+        ward: wards,
+        passportNumber: "",
+        nation: "",
+        id: userInfo.id,
+    } as UserProfile
     const bookingModel = {
         interval: {
             id: "",
@@ -190,72 +211,83 @@ width: 90%;
         bookingModel.exitInformation.entryingDate = "2021-06-01T00:58:27.530Z";
     }
 
+    useEffect(() => {
+        dispatch(getUserInfo())
+    }, [])
     return (
         <IonPage>
             <StyledHeader>
                 <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
-                <StyledLabelHeader>Thông tin người dùng</StyledLabelHeader>
+                <StyledLabelHeader>{t('User information')}</StyledLabelHeader>
             </StyledHeader>
             <IonContent>
                 <form
                     onSubmit={
                         () => {
+                            dispatch(putUserProfile(userProfile));
                             dispatch(postExaminations(bookingModel));
+                            // dispatch(getUserInfo());
                             history.push("/apointmentInfo")
                         }}
                 >
                     <IonList>
                         <IonItem>
-                            <StyledLabel position="stacked">Tên người dùng</StyledLabel>
+                            <StyledLabel position="stacked">{t('Full name')}</StyledLabel>
                             <IonInput
                                 required
-                                placeholder="Tên người dùng"
+                                placeholder={t('Full name')}
+                                value={fullName}
                                 onIonChange={(e) => setFullName(e.detail.value!)}
                             > </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">Số điện thoại</StyledLabel>
+                            <StyledLabel position="stacked">{t('PhoneNumber')}</StyledLabel>
                             <IonInput
                                 required
-                                placeholder="Số điện thoại"
+                                placeholder={t('PhoneNumber')}
                                 onIonChange={(e) => setPhoneNumber(e.detail.value!)}
+                                value={phoneNumber}
                             > </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">Email</StyledLabel>
+                            <StyledLabel position="stacked">{t('Email')}</StyledLabel>
                             <IonInput
                                 required
                                 type="email"
-                                placeholder="Email"
+                                placeholder={t('Email')}
                                 onIonChange={(e) => setEmail(e.detail.value!)}
+                                value={email}
                             > </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">Địa chỉ</StyledLabel>
+                            <StyledLabel position="stacked">{t('Address')}</StyledLabel>
                             <IonInput
                                 required
-                                placeholder="Địa chỉ"
+                                placeholder={t('Address')}
                                 onIonChange={(e) => setAddress(e.detail.value!)}
+                                value={address}
                             > </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">Ngày sinh</StyledLabel>
+                            <StyledLabel position="stacked">{t('Date of birth')}</StyledLabel>
                             <IonInput
+                                value={moment(dateOfBirth).format('YYYY-MM-DD') + ""}
+                                // value={dateOfBirth + ""}
                                 required
                                 type="date"
                                 onIonChange={(e) => { setDateOfBirth(e.detail.value!); console.log(dateOfBirth) }}
                             > </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">Giới tính</StyledLabel>
-                            <IonSelect onIonChange={e => setGender(e.detail.value)}>
-                                <IonSelectOption value={true}>Nam</IonSelectOption>
-                                <IonSelectOption value={false}>Nữ</IonSelectOption>
+                            <StyledLabel position="stacked">{t('Gender')}</StyledLabel>
+                            <IonSelect value={gender} onIonChange={e => setGender(e.detail.value)}>
+                                <IonSelectOption value={true}>{t('Male')}</IonSelectOption>
+                                <IonSelectOption value={false}>{t('Female')}</IonSelectOption>
                             </IonSelect>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">Tỉnh/Thành phố</StyledLabel>
-                            <IonSelect
+                            <StyledLabel position="stacked">{t('City')}</StyledLabel>
+                            <IonSelect value={city}
                                 onIonChange={e => {
                                     setCity(e.detail.value);
                                     setDistricts("");
@@ -267,24 +299,26 @@ width: 90%;
                             </IonSelect>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">Quận/Huyện</StyledLabel>
-                            {city === "" ? "" :
-                                <IonSelect
-                                    onIonChange={e => {
-                                        setDistricts(e.detail.value);
-                                        setWards("");
-                                    }}>
-                                    {location.filter((lo) => lo.value === city)[0].districts.map((districts) => (
-                                        <IonSelectOption value={districts.value}>{districts.label}</IonSelectOption>
-                                    ))}
+                            <StyledLabel position="stacked">{t('District')}</StyledLabel>
+                            {city === "" || city === undefined ? "" :
+                                // districts === undefined ? "" :
+                                    <IonSelect
+                                        value={districts}
+                                        onIonChange={e => {
+                                            setDistricts(e.detail.value);
+                                            setWards("");
+                                        }}>
+                                        {location.filter((lo) => lo.value === city)[0].districts.map((districts) => (
+                                            <IonSelectOption value={districts.value}>{districts.label}</IonSelectOption>
+                                        ))}
 
-                                </IonSelect>
+                                    </IonSelect>
                             }
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">Phường/Xã</StyledLabel>
+                            <StyledLabel position="stacked">{t('Ward')}</StyledLabel>
                             {districts === "" ? "" :
-                                <IonSelect
+                                <IonSelect value={wards}
                                     onIonChange={e => setWards(e.detail.value)}>
                                     {location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0] !== undefined ?
                                         location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0].wards.map((ward) => (
@@ -295,8 +329,9 @@ width: 90%;
                         </IonItem>
                     </IonList>
                     {/* {wards === "" ? "" : */}
-                        <StyledButtonNext disabled={!(Boolean(wards))} type="submit">Đặt lịch</StyledButtonNext>
+                    <StyledButtonNext disabled={!(Boolean(wards))} type="submit">{t('Make an appointment')}</StyledButtonNext>
                 </form>
+                {/* <IonInput value="Lieu"></IonInput> */}
             </IonContent>
         </IonPage>
     )

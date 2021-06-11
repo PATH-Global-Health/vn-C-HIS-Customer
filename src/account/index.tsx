@@ -11,6 +11,8 @@ import {
   IonLabel,
   IonNote,
   IonRow,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/react';
 import {
   person,
@@ -20,12 +22,14 @@ import {
   qrCodeOutline,
   lockClosed,
   shieldCheckmark,
+  language,
 } from 'ionicons/icons';
 
 import { useHistory } from "react-router-dom";
 
 import logo from '@app/assets/img/logo.png'
 import avatar from '@app/assets/img/avatar.png';
+import { useTranslation } from 'react-i18next';
 
 const StyledItem = styled(IonItem)`
   margin: 0px 15px;
@@ -86,6 +90,7 @@ const optionFields: OptionProps[] = [
 ];
 const Account: React.FC = () => {
   const history = useHistory();
+  const { t, i18n } = useTranslation();
   return (
     <>
       <IonContent>
@@ -149,6 +154,25 @@ const Account: React.FC = () => {
 
             })
           }
+          <IonRow >
+            <IonCol size="12" size-sm='3'>
+              <StyledItem color='light'
+              // onClick={() => { icon === 'change' ? history.push('/change-password') : history.push('/account') }}
+              >
+                <StyledIcon
+                  icon={language}
+                  style={{ backgroundColor: "#293978" }}>
+                </StyledIcon>
+                <StyledText >
+                  {t("Language")}
+                      </StyledText>
+                <IonSelect onIonChange={(e) => i18n.changeLanguage(e.detail.value)}>
+                  <IonSelectOption value='en'>En</IonSelectOption>
+                  <IonSelectOption value='vn'>Vi</IonSelectOption>
+                </IonSelect>
+              </StyledItem>
+            </IonCol>
+          </IonRow>
         </div>
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='4' size-lg='3'>

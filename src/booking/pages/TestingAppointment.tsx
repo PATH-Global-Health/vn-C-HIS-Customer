@@ -14,6 +14,8 @@ import { getDateByServiceId } from '../slices/date';
 import { getHospitalByServiceId } from '../slices/hospital';
 import { arrowBack, arrowForward, calendar, podium, } from 'ionicons/icons';
 import { getTypeChoosing } from 'booking/slices/date';
+import { useTranslation } from 'react-i18next';
+
 
 const StyledButton = styled(IonButton)`{
     ::after{content: ""}
@@ -80,14 +82,16 @@ const StyledContent = styled(IonContent)`
 `
 
 const TestingAppointment: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
-  const serviceId = useSelector((w) => w.workingCaledar.serviceId)
+  const serviceId = useSelector((w) => w.workingCaledar.serviceId);
   return (
     <IonPage>
       <StyledHeader>
         <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
-        <StyledLabelHeader>Đặt Lịch Xét nghiệm</StyledLabelHeader>
+        {serviceId + "" === 'f2490f62-1d28-4edd-362a-08d8a7232229' ? 
+        <StyledLabelHeader>{t('Schedule a test')}</StyledLabelHeader> : <StyledLabelHeader>{t('Schedule a consultation')}</StyledLabelHeader>}
       </StyledHeader>
       <StyledContent>
         <StyledButton onClick={() => {
@@ -95,7 +99,7 @@ const TestingAppointment: React.FC = () => {
           dispatch(getTypeChoosing("apointmentDate"));
           history.push('/apointmentDate')
         }
-        }>Thời gian
+        }>{t('Time')}
           <StyledIconRight icon={arrowForward}></StyledIconRight>
           <StyledIconLeft icon={calendar}></StyledIconLeft>
         </StyledButton>
@@ -104,7 +108,7 @@ const TestingAppointment: React.FC = () => {
           dispatch(getTypeChoosing("choosingHospital"));
           history.push('/choosingHospital')
         }}
-        >Cơ sở dịch vụ
+        >{t('Service Unit')}
       <StyledIconRight icon={arrowForward}></StyledIconRight>
           <StyledIconLeft icon={podium}></StyledIconLeft>
         </StyledButton>

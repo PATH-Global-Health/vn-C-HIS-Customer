@@ -85,7 +85,6 @@ const formFields: InputProps[] = [
     icon: phonePortraitOutline,
     name: "username",
     fieldType: "input",
-    type: "number",
     label: "Số điện thoại",
     placeholder: "Số điện thoại",
   },
@@ -196,8 +195,10 @@ const LoginPage: React.FC = () => {
                           {(errors?.password?.message && name === 'password') && <ErrorText >{(errors?.password?.message)}</ErrorText>}
                         </IonCol>
                       </IonRow>
+
                     )}
                   />
+
                 )
               }
               default: {

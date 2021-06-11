@@ -11,16 +11,18 @@ import {
     IonPage,
 } from '@ionic/react';
 import styled from 'styled-components';
-import {useSelector } from '@app/hooks';
+import { useSelector, useDispatch } from '@app/hooks';
 import 'react-day-picker/lib/style.css';
 import { useHistory } from "react-router-dom";
 import { arrowBack, text } from 'ionicons/icons';
-
+import { useTranslation } from 'react-i18next';
+import { getUserInfo } from '../slices/workingCalendar';
 const ApointmentInfo: React.FC = () => {
     const history = useHistory();
-
+    const dispatch = useDispatch();
     const bookingModel = useSelector((b) => b.workingCaledar.bookingModelResponse);
-
+    const examinationSuccess = useSelector((b) => b.workingCaledar.examinationSuccess);
+    const { t, i18n } = useTranslation();
     const StyledIconRight = styled(IonIcon)`
     {
         color: #b3b3b3;
@@ -67,30 +69,29 @@ const ApointmentInfo: React.FC = () => {
 margin: 16px;
 margin-bottom: 80px;
 `
-    // useEffect(() => {
-    //     console.log(bookingModel);
-    // }, [])
-
+    useEffect(() => {
+        dispatch(getUserInfo())
+    }, [])
     return (
         <IonPage>
-            {bookingModel.data.interval.id === "" ? <StyledHeader>
+            {examinationSuccess === false ? <StyledHeader>
                 <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
-                <StyledLabelHeader>Đặt lịch thất bại</StyledLabelHeader>
+                <StyledLabelHeader>{t('Make an appointment failed')}</StyledLabelHeader>
             </StyledHeader> :
                 <>
                     <StyledHeader>
                         <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
-                        <StyledLabelHeader>Thông tin lịch hẹn</StyledLabelHeader>
+                        <StyledLabelHeader>{t('Appointment information')}</StyledLabelHeader>
                     </StyledHeader>
                     {/* {userProfile === undefined ? "" : */}
                     <IonContent>
                         <IonList>
                             <IonItem>
-                                <StyledLabel position="stacked">Tên dịch vụ</StyledLabel>
+                                <StyledLabel position="stacked">{t('Service name')}</StyledLabel>
                                 <IonInput value={bookingModel.data.service.name}> </IonInput>
                             </IonItem>
                             <IonItem>
-                                <StyledLabel position="stacked">Ngày hẹn</StyledLabel>
+                                <StyledLabel position="stacked">{t('Appointment date')}</StyledLabel>
                                 <IonInput value={new Date(bookingModel.data.date).toDateString()}> </IonInput>
                             </IonItem>
                             {/* <IonItem>
@@ -98,11 +99,11 @@ margin-bottom: 80px;
                         <IonInput value={hospital.province}> </IonInput>
                     </IonItem> */}
                             <IonItem>
-                                <StyledLabel position="stacked">Thời gian hẹn</StyledLabel>
+                                <StyledLabel position="stacked">{t('Appointment time')}</StyledLabel>
                                 <IonInput value={bookingModel.data.interval.from}> </IonInput>
                             </IonItem>
                             <IonItem>
-                                <StyledLabel position="stacked">Cơ sở dịch vụ</StyledLabel>
+                                <StyledLabel position="stacked">{t('Service Unit')}</StyledLabel>
                                 <IonInput value={bookingModel.data.unit.name}> </IonInput>
                             </IonItem>
 
@@ -110,7 +111,7 @@ margin-bottom: 80px;
 
                     </IonContent>
                     {/* } */}
-                    <StyledButtonCancel>Hủy lịch hẹn</StyledButtonCancel>
+                    <StyledButtonCancel>{t('Cancel appointment')}</StyledButtonCancel>
                 </>
             }
         </IonPage>

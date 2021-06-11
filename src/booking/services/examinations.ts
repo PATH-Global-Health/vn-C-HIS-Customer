@@ -1,6 +1,9 @@
+import { UserInfo } from 'booking/models/userInfoModel';
 import { httpClient, apiLinks } from '@app/utils';
 import { BookingModel } from 'booking/models/bookingModel';
 import { BookingModelResponse } from 'booking/models/bookingModelResponse';
+import { ExaminationListModel } from 'booking/models/examinationListModel';
+import { UserProfile } from 'booking/models/userProfile';
 
 const postExaminations = async (da: BookingModel): Promise<BookingModelResponse> => {
     const response = await httpClient.post({
@@ -68,10 +71,52 @@ const postExaminations = async (da: BookingModel): Promise<BookingModelResponse>
     return response.data as BookingModelResponse;
 };
 
+const getExaminationList = async (): Promise<ExaminationListModel> => {
+    const result = await httpClient.get({
+        url: apiLinks.bookingService.postExaminations,
+    });
+    console.log(result.data);
+    return result.data as ExaminationListModel;
+};
+
+const getUserInfo = async (): Promise<UserProfile> => {
+    const result = await httpClient.get({
+        url: apiLinks.manageSchedule.profile.get,
+    });
+    console.log(result.data);
+    return result.data as UserProfile;
+};
+
+const putUserProfile = async (da: UserProfile): Promise<UserProfile> => {
+    const response = await httpClient.put({
+        url: apiLinks.manageSchedule.profile.get,
+        data: {
+            fullname: da.fullname,
+            gender: da.gender,
+            dateOfBirth: da.dateOfBirth,
+            phoneNumber: da.phoneNumber,
+            email: da.email,
+            vaccinationCode: da.vaccinationCode,
+            identityCard: da.identityCard,
+            address: da.address,
+            province: da.province,
+            district: da.district,
+            ward: da.ward,
+            passportNumber: da.passportNumber,
+            nation: da.nation,
+            id: da.id,
+        },
+    });
+    return response.data as UserProfile;
+};
+
 
 
 const examinationServices = {
     postExaminations,
+    getExaminationList,
+    getUserInfo,
+    putUserProfile
 };
 
 

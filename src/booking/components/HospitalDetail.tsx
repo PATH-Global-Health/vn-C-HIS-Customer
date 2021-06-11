@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton, IonIcon } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton, IonIcon, IonImg } from '@ionic/react';
 import styled from 'styled-components';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { arrowBack } from 'ionicons/icons';
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from '@app/hooks';
 import { getIntervals } from '../slices/workingCalendar';
 // import { type } from 'node:os';
 import { getDateByUnitAndService, getWorkingCalendarBooking } from '../slices/workingCalendar';
+import { useTranslation } from 'react-i18next';
 
 const HospitalDetail: React.FC = () => {
     const history = useHistory();
@@ -19,6 +20,7 @@ const HospitalDetail: React.FC = () => {
     const dateByUnitAndServices = useSelector((s) => s.workingCaledar.workingCalendars);
     const typeChoosing = useSelector((d) => d.dateBooking.typeChoosing);
     const serviceId = useSelector((w) => w.workingCaledar.serviceId);
+    const { t, i18n } = useTranslation();
     const getInterval = () => {
         dateByUnitAndServices.map((date) => {
             if (
@@ -78,6 +80,14 @@ const HospitalDetail: React.FC = () => {
 margin: 16px;
 margin-bottom: 80px;
 `
+    const StyledImg = styled(IonImg)`
+{
+    display: block;
+    margin: 0px auto;
+    width: 100%;
+  }
+`
+
     useEffect(() => {
         const arg = {
             unitId: hospital.id,
@@ -85,50 +95,53 @@ margin-bottom: 80px;
         }
         dispatch(getDateByUnitAndService(arg));
     }, [hospital.id])
-    
+
     return (
         <IonPage>
             <StyledHeader>
                 <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
-                <StyledLabelHeader>Cơ sở dịch vụ</StyledLabelHeader>
+                <StyledLabelHeader>{t('Service Unit')}</StyledLabelHeader>
             </StyledHeader>
             {hospital === undefined ? "" :
                 <IonContent>
                     <IonList>
                         <IonItem>
-                            <StyledLabel position="stacked">Tên cơ sở</StyledLabel>
+                            <StyledImg src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hospital.id}`}></StyledImg>
+                        </IonItem>
+                        <IonItem>
+                            <StyledLabel position="stacked">{t('Unit Name')}</StyledLabel>
                             <IonInput value={hospital.name}> </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">Mã cơ sở</StyledLabel>
+                            <StyledLabel position="stacked">{t('Unit Code')}</StyledLabel>
                             <IonInput value={hospital.province}> </IonInput>
                         </IonItem>
-                        {/* <IonItem>
-                        <StyledLabel position="stacked">Tỉnh/Thành phố</StyledLabel>
-                        <IonInput value={hospital.province}> </IonInput>
-                    </IonItem> */}
                         <IonItem>
-                            <StyledLabel position="stacked">Địa chỉ</StyledLabel>
+                            <StyledLabel position="stacked">{t('City')}</StyledLabel>
+                            <IonInput value={hospital.province}> </IonInput>
+                        </IonItem>
+                        <IonItem>
+                            <StyledLabel position="stacked">{t('Address')}</StyledLabel>
                             <IonInput value={hospital.address}> </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">Quận/Huyện</StyledLabel>
+                            <StyledLabel position="stacked">{t('District')}</StyledLabel>
                             <IonInput value={hospital.district}> </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">Phường/Xã</StyledLabel>
+                            <StyledLabel position="stacked">{t('Ward')}</StyledLabel>
                             <IonInput value={hospital.ward}> </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">Email</StyledLabel>
+                            <StyledLabel position="stacked">{t('Email')}</StyledLabel>
                             <IonInput value={hospital.email}> </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">Website</StyledLabel>
+                            <StyledLabel position="stacked">{t('Website')}</StyledLabel>
                             <IonInput value={hospital.website}> </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">Phone</StyledLabel>
+                            <StyledLabel position="stacked">{t('PhoneNumber')}</StyledLabel>
                             <IonInput value={hospital.phone}> </IonInput>
                         </IonItem>
                         {/* <IonItem>
@@ -146,7 +159,7 @@ margin-bottom: 80px;
                 } else if (typeChoosing === "choosingHospital") {
                     history.push("/apointmentDate")
                 }
-            }}>Bước tiếp theo</StyledButtonNext>
+            }}>{t('Next step')}</StyledButtonNext>
 
         </IonPage>
     );

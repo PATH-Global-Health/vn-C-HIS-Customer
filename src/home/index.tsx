@@ -136,7 +136,7 @@ const optionFields: OptionProps[] = [
     color: "#4c8dff",
   },
   {
-    name: "appointment",
+    name: "examinationList",
     icon: alarmOutline,
     label: "Lịch hẹn",
     note: "Kiểm tra lịch hẹn ",
@@ -155,7 +155,7 @@ const Home: React.FC = () => {
   const history = useHistory();
   const handleTypeService = (name: string) => {
     name === "booking" ? history.push("/homeBooking") 
-    : name === "appointment" ? history.push("/appointment")
+    : name === "examinationList" ? history.push("/examinationList")
     :history.push("/risk")
   }
   return (

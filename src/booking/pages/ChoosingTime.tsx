@@ -19,6 +19,7 @@ import { arrowBack, arrowBackCircle, arrowBackOutline, arrowBackSharp, arrowDown
 // import { Interval } from 'booking/models/interval';
 import { IntervalModel } from 'booking/models/IntervalModel';
 import { getInterBooking } from 'booking/slices/workingCalendar';
+import { useTranslation } from 'react-i18next';
 
 const StyledButton = styled(IonButton)`{
     ::after{content: ""}
@@ -122,6 +123,8 @@ const ChoosingTime: React.FC = () => {
   const interval = useSelector((w) => w.workingCaledar.interval);
   const [intervalSelected, setIntervalSelected] = useState<IntervalModel>();
   const w = useSelector((w) => w.workingCaledar.workingCalendar);
+  const serviceId = useSelector((w) => w.workingCaledar.serviceId);
+  const { t, i18n } = useTranslation();
   let result = false;
   interval.map((interval) => {
     interval.intervals.map((item) => {
@@ -136,10 +139,11 @@ const ChoosingTime: React.FC = () => {
     <IonPage>
       <StyledHeader>
         <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
-        <StyledLabelHeader>Thời gian xét nghiệm</StyledLabelHeader>
+        {serviceId + "" === 'f2490f62-1d28-4edd-362a-08d8a7232229' ?
+          <StyledLabelHeader>{t('Test time')}</StyledLabelHeader> : <StyledLabelHeader>{t('Consultation time')}</StyledLabelHeader>}
       </StyledHeader>
       <StyledContent>
-        <StyledLabelContent>Vui lòng chọn thời gian phù hợp với bạn</StyledLabelContent>
+        <StyledLabelContent>{t('Please choose a time that works for you')}</StyledLabelContent>
         {interval.map((interval) => {
           const intervalAvailable = interval.intervals.filter((inter) => inter.isAvailable)
           if (intervalAvailable.length > 0) {
@@ -162,7 +166,7 @@ const ChoosingTime: React.FC = () => {
         <StyledButtonNext onClick={() => {
           dispatch(getInterBooking(intervalSelected))
           history.push("/confirmProfile")
-        }}>Xác nhận</StyledButtonNext> : ""}
+        }}>{t('Confirm')}</StyledButtonNext> : ""}
     </IonPage>
   );
 };

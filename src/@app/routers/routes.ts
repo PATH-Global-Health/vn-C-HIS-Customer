@@ -20,6 +20,7 @@ import { HospitalDetail } from 'booking/components';
 import ChoosingTime from 'booking/pages/ChoosingTime';
 import ConfirmProfile from 'booking/pages/ConfirmProfile';
 import ApointmentInfo from 'booking/pages/ApointmentInfo';
+import ExaminationList from 'booking/pages/ExaminationList';
 
 interface Route {
   component: React.FC;
@@ -115,6 +116,10 @@ const routes: Route[] = [
   {
     component: ApointmentInfo,
     path: '/apointmentInfo'
+  },
+  {
+    component: ExaminationList,
+    path: '/examinationList'
   },
   {
     component: PageNotFound,

@@ -18,6 +18,7 @@ import { arrowBack, text } from 'ionicons/icons';
 import moment from 'moment';
 import { getDateBooking } from '../slices/date';
 import { getIntervals } from '../slices/workingCalendar';
+import { useTranslation } from 'react-i18next';
 
 const ApointmentDate: React.FC = () => {
     const [date, setDate] = useState<string>("none");
@@ -27,6 +28,7 @@ const ApointmentDate: React.FC = () => {
     const serviceId = useSelector((w) => w.workingCaledar.serviceId);
     const history = useHistory();
     const typeChoosing = useSelector((d) => d.dateBooking.typeChoosing);
+    const { t, i18n } = useTranslation();
     const getInterval = () => {
         workingCalendars.map((d) => {
             if (
@@ -113,10 +115,12 @@ const ApointmentDate: React.FC = () => {
         <IonPage>
             <StyledHeader>
                 <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
-                <StyledLabel>Đặt Lịch Xét nghiệm</StyledLabel>
+                {serviceId + "" === 'f2490f62-1d28-4edd-362a-08d8a7232229' ?
+                    <StyledLabel>{t('Schedule a test')}</StyledLabel> : <StyledLabel>{t('Schedule a consultation')}</StyledLabel>}
             </StyledHeader>
             <StyledContent>
-                <StyledLabelContent>Chọn ngày xét nghiệm</StyledLabelContent>
+                {serviceId + "" === 'f2490f62-1d28-4edd-362a-08d8a7232229' ?
+                    <StyledLabelContent>{t('Choose a test date')}</StyledLabelContent> : <StyledLabelContent>{t('Choose a consultation date')}</StyledLabelContent>}
                 <StyledDatePicker>
 
                     {typeChoosing === "apointmentDate" ?
@@ -146,7 +150,7 @@ const ApointmentDate: React.FC = () => {
                         getInterval();
                         history.push("/choosingTime");
                     }
-                }} expand="block">Bước tiếp theo</StyledButtonSubmit>}
+                }} expand="block">{t('Next step')}</StyledButtonSubmit>}
             </StyledContent>
 
         </IonPage>

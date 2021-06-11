@@ -6,13 +6,16 @@ import {
   IonIcon,
   IonLabel,
   IonPage,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/react';
 import styled from 'styled-components';
 import { useDispatch } from '@app/hooks';
 import { useHistory } from "react-router-dom";
-import { getDateByServiceId } from '../../booking/slices/date';
 import { arrowBack, arrowForward, chatbubble, flash } from 'ionicons/icons';
 import { getServiceId } from 'booking/slices/workingCalendar';
+import { useTranslation } from 'react-i18next';
+import { getUserInfo } from '../slices/workingCalendar';
 
 const StyledButton = styled(IonButton)`{
     ::after{content: ""}
@@ -54,6 +57,7 @@ const StyledHeader = styled(IonHeader)`
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
+  position: relative,
 }
 `
 
@@ -79,18 +83,23 @@ const StyledContent = styled(IonContent)`
 `
 
 const HomeBooking: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
-  // const serviceIdTest = 'f2490f62-1d28-4edd-362a-08d8a7232229'
-  // c1b7411c-52ba-46e4-9a09-08d8b860e829
+  useEffect(() => {
+    dispatch(getUserInfo())
+  }, [dispatch])
   return (
     <IonPage>
       <StyledHeader>
         <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
-        <StyledLabelHeader>Đặt lịch</StyledLabelHeader>
+        <StyledLabelHeader>{t('Booking')} </StyledLabelHeader>
       </StyledHeader>
       <StyledContent>
-        <StyledButton>Đặt Lịch tư vấn
+        <StyledButton onClick={() => {
+          dispatch(getServiceId('9f9e8dd3-890e-4ae5-2952-08d92b03ae12'));
+          history.push('/testingAppointment');
+        }}>{t('Schedule a consultation')}
           <StyledIconRight icon={arrowForward}></StyledIconRight>
           <StyledIconLeft icon={chatbubble}></StyledIconLeft>
         </StyledButton>
@@ -98,8 +107,8 @@ const HomeBooking: React.FC = () => {
           dispatch(getServiceId('f2490f62-1d28-4edd-362a-08d8a7232229'));
           history.push('/testingAppointment')
         }
-        }>Đặt Lịch xét nghiệm
-      <StyledIconRight icon={arrowForward}></StyledIconRight>
+        }>{t('Schedule a test')}
+          <StyledIconRight icon={arrowForward}></StyledIconRight>
           <StyledIconLeft icon={flash}></StyledIconLeft>
         </StyledButton>
       </StyledContent>

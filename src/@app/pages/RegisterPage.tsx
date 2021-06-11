@@ -83,7 +83,7 @@ const formFields: InputProps[] = [
     name: "phoneNumber",
     fieldType: "input",
     label: "Số điện thoại",
-    type: 'number',
+    type: 'tel',
     placeholder: "Số điện thoại",
   },
   {
@@ -121,14 +121,14 @@ const RegisterPage: React.FC = () => {
     register(
       'password',
       {
-        required: { value: true, message: "Chưa nhập mật khẩu. " },
+        required: { value: true, message: "Chưa nhập số điện thoại. " },
         minLength: { value: 5, message: "Mật khẩu tối thiểu 5 kí tự. " },
       }
     );
     register(
       'phoneNumber',
       {
-        required: { value: true, message: "Chưa nhập số điện thoại. " },
+        required: { value: true, message: "Chưa nhập mật khẩu. " },
         maxLength: { value: 10, message: "Số điện thoại tối đa 10 số. " },
         pattern: { value: /^[0-9\b]+$/, message: "Số điện thoại không đúng định dạng. " }
       }

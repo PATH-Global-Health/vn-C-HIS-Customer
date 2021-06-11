@@ -6,6 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useDispatch } from '@app/hooks';
 
 import { lockClosed, eyeOffSharp, eyeSharp } from 'ionicons/icons';
+import { useTranslation } from 'react-i18next';
 
 const StyledText = styled.div`
   color: black;
@@ -47,24 +48,26 @@ interface PasswordModel {
   newPassword: string;
   confirmNewPassword: string;
 }
-const formFields: InputProps[] = [
-  {
-    name: "newPassword",
-    fieldType: "input",
-    type: "password",
-    label: "Mật khẩu",
-    placeholder: "Mật khẩu mới",
-  },
-  {
-    name: "confirmNewPassword",
-    fieldType: "input",
-    type: "password",
-    label: "Mật khẩu",
-    placeholder: "Nhập lại mật khẩu mới",
-  },
-];
+
 const CreatePassword: React.FC = () => {
   const dispatch = useDispatch();
+  const { t, i18n } = useTranslation();
+  const formFields: InputProps[] = [
+    {
+      name: "newPassword",
+      fieldType: "input",
+      type: "password",
+      label: "Mật khẩu",
+      placeholder: t('New password'),
+    },
+    {
+      name: "confirmNewPassword",
+      fieldType: "input",
+      type: "password",
+      label: "Mật khẩu",
+      placeholder: t('Confirm new password'),
+    },
+  ];
   const { control, handleSubmit } = useForm();
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
   const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] = useState(false);
@@ -80,9 +83,9 @@ const CreatePassword: React.FC = () => {
       <IonRow className="ion-justify-content-center">
         <IonCol size='12' size-sm='6'>
           <StyledText >
-            VUI LÒNG ĐẶT LẠI MẬT KHẨU MỚI
+            {t('Please reset new password')}
             <br />
-            <IonNote className='ion-margin-end' color='medium' style={{ fontSize: '13px' }}>Tạo lại mật khẩu mới, không trùng với 3 mật khẩu gần nhất</IonNote>
+            <IonNote className='ion-margin-end' color='medium' style={{ fontSize: '13px' }}>{t('Generate a new password that does not match the last 3 passwords')}</IonNote>
           </StyledText>
         </IonCol>
       </IonRow>
@@ -157,7 +160,7 @@ const CreatePassword: React.FC = () => {
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
-              <StyledButton type='submit'>CẬP NHẬT</StyledButton>
+              <StyledButton type='submit'>{t('Update')}</StyledButton>
             </div>
           </IonCol>
         </IonRow>

@@ -10,6 +10,7 @@ import authService from '@app/services/auth';
 import { useDispatch } from '@app/hooks';
 import { setDataForgotPassword } from '@app/slices/auth';
 import { mailOutline, phonePortraitOutline } from 'ionicons/icons';
+import { useTranslation } from 'react-i18next';
 
 const StyledText = styled.div`
   color: black;
@@ -43,6 +44,7 @@ interface generateOtpModal {
 }
 const MailMethod: React.FC = () => {
   const dispatch = useDispatch();
+  const { t, i18n } = useTranslation();
   const { control, handleSubmit } = useForm();
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
@@ -66,7 +68,7 @@ const MailMethod: React.FC = () => {
         isOpen={showSuccessToast}
         onDidDismiss={() => setShowSuccessToast(false)}
         color='success'
-        message="Kiểm tra email để nhận mã khôi phục !"
+        message={t('Check your email to get the recovery code')}
         duration={1000}
         position="top"
         animated={true}
@@ -75,7 +77,7 @@ const MailMethod: React.FC = () => {
         isOpen={showFailedToast}
         onDidDismiss={() => setShowFailedToast(false)}
         color='danger'
-        message="Tài khoản không tồn tại !"
+        message={t('Account does not exist')}
         duration={1000}
         position="top"
         animated={true}
@@ -83,7 +85,7 @@ const MailMethod: React.FC = () => {
       <IonRow className="ion-justify-content-center">
         <IonCol size='12' size-sm='6'>
           <StyledText >
-            Nhập email để nhận mã khôi phục
+            {t('Enter email to receive the recovery code')}
           </StyledText>
 
         </IonCol>
@@ -100,7 +102,7 @@ const MailMethod: React.FC = () => {
                   <StyledInput
                     required={true}
                     type='email'
-                    placeholder="Nhập email"
+                    placeholder={t('Enter email')}
                     onIonBlur={onBlur}
                     inputmode='email'
                     value={value}
@@ -124,7 +126,7 @@ const MailMethod: React.FC = () => {
                   <StyledInput
                     required={true}
                     type='number'
-                    placeholder="Nhập số điện thoại"
+                    placeholder={t('Enter phone number')}
                     onIonBlur={onBlur}
                     value={value}
                     onIonChange={onChange}
@@ -140,7 +142,7 @@ const MailMethod: React.FC = () => {
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
-              <StyledButton type='submit' /* onClick={() => dispatch(setMethodForgotPassword('confirmed'))} */> XÁC NHẬN</StyledButton>
+              <StyledButton type='submit' /* onClick={() => dispatch(setMethodForgotPassword('confirmed'))} */>{t('Confirm')}</StyledButton>
             </div>
           </IonCol>
         </IonRow>

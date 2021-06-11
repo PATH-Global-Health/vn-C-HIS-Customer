@@ -7,6 +7,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from '@app/hooks';
 import { setDataForgotPassword } from '@app/slices/auth';
 import authService from '@app/services/auth';
+import { useTranslation } from 'react-i18next';
 
 const StyledText = styled.div`
   color: #56575c;
@@ -47,6 +48,7 @@ interface confirmOTP {
   otp: string,
 }
 const ConfirmOTP: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const { forgotPasswordData: { inputData } } = useSelector((state) => state.auth);
   const { control, handleSubmit } = useForm();
@@ -72,7 +74,7 @@ const ConfirmOTP: React.FC = () => {
         isOpen={showSuccessToast}
         onDidDismiss={() => setShowSuccessToast(false)}
         color='success'
-        message="Xác thực thành công !"
+        message={t('Authentication successful')}
         duration={1000}
         position="top"
         animated={true}
@@ -81,7 +83,7 @@ const ConfirmOTP: React.FC = () => {
         isOpen={showFailedToast}
         onDidDismiss={() => setShowFailedToast(false)}
         color='danger'
-        message="Mã xác thực không đúng !"
+        message={t('The verification code is not correct')}
         duration={1000}
         position="top"
         animated={true}
@@ -89,7 +91,7 @@ const ConfirmOTP: React.FC = () => {
       <IonRow className="ion-justify-content-center">
         <IonCol size='12' size-sm='6'>
           <StyledText >
-            Nhập mã OTP để xác thực tài khoản
+            {t('Enter the OTP code to verify the account')}
           </StyledText>
         </IonCol>
       </IonRow>
@@ -116,13 +118,13 @@ const ConfirmOTP: React.FC = () => {
         />
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
-            <StyleNoteText >Không nhận được mã code? <b onClick={() => back()} style={{ cursor: 'pointer' }} >Gửi lại mã</b></StyleNoteText>
+            <StyleNoteText >{t('Code not received') + '?'}<b onClick={() => back()} style={{ cursor: 'pointer' }} >{t('Resend code')}</b></StyleNoteText>
           </IonCol>
         </IonRow>
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
-              <StyledButton type='submit' > XÁC NHẬN</StyledButton>
+              <StyledButton type='submit' >{t('Confirm')}</StyledButton>
             </div>
           </IonCol>
         </IonRow>

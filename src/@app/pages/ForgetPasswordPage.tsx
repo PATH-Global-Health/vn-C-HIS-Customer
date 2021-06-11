@@ -26,7 +26,7 @@ import BirthdayMethod from '@app/components/forgot-password/method/BirthdayMetho
 import CreatePassword from '@app/components/forgot-password/create-password/CreatePassword';
 import MailMethod from '@app/components/forgot-password/method/MailMethod';
 import ConfirmOTP from '@app/components/forgot-password/create-password/ConfirmOTP';
-
+import { useTranslation } from 'react-i18next';
 const StyledText = styled.div`
   color: black;
   text-align: center;
@@ -34,35 +34,36 @@ const StyledText = styled.div`
   font-weight: 600;
   margin: 30px 15px
 `;
-const methodField: MethodField[] = [
-  {
-    name: 'message',
-    icon: phonePortraitOutline,
-    color: 'rgb(91 153 255)',
-    label: 'Qua SMS',
-    content: '',
-  },
-  {
-    name: 'mail',
-    icon: mailOutline,
-    color: 'rgb(91 153 255)',
-    label: 'Qua gmail',
-    content: '',
-  },
-  {
-    name: 'question',
-    icon: informationCircleOutline,
-    color: 'rgb(91 153 255)',
-    label: 'Câu hỏi bảo mật',
-    content: 'Ngày tháng năm sinh ?',
-  },
-];
+
 
 const ForgetPassword: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const { forgotPasswordData: { method } } = useSelector((state) => state.auth);
   const history = useHistory();
   const dispatch = useDispatch();
-
+  const methodField: MethodField[] = [
+    {
+      name: 'message',
+      icon: phonePortraitOutline,
+      color: 'rgb(91 153 255)',
+      label: 'SMS',
+      content: '',
+    },
+    {
+      name: 'mail',
+      icon: mailOutline,
+      color: 'rgb(91 153 255)',
+      label: 'GMAIL',
+      content: '',
+    },
+    {
+      name: 'question',
+      icon: informationCircleOutline,
+      color: 'rgb(91 153 255)',
+      label: t('Security question'),
+      content: t('Date of birth'),
+    },
+  ];
   const back = () => {
     if (method === undefined) {
       history.push('/login');
@@ -83,7 +84,7 @@ const ForgetPassword: React.FC = () => {
           <IonRow className="ion-justify-content-center">
             <IonCol size='12' size-sm='6'>
               <StyledText >
-                CHỌN PHƯƠNG THỨC LẤY LẠI MẬT KHẨU
+                {t('Choose password recovery method')}
             </StyledText>
             </IonCol>
           </IonRow>

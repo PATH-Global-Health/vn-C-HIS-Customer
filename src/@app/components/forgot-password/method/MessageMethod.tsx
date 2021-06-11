@@ -9,6 +9,7 @@ import { setDataForgotPassword } from '@app/slices/auth';
 import authService from '@app/services/auth';
 import { useHistory } from 'react-router';
 import { phonePortraitOutline } from 'ionicons/icons';
+import { useTranslation } from 'react-i18next';
 
 const StyledText = styled.div`
   color: #56575c;
@@ -42,6 +43,7 @@ interface generateOtpModal {
 }
 const MessageMethod: React.FC = () => {
   const dispatch = useDispatch();
+  const { t, i18n } = useTranslation();
   const history = useHistory();
   const { control, handleSubmit } = useForm();
   const [showSuccessToast, setShowSuccessToast] = useState(false);
@@ -63,7 +65,7 @@ const MessageMethod: React.FC = () => {
         isOpen={showSuccessToast}
         onDidDismiss={() => setShowSuccessToast(false)}
         color='success'
-        message="Kiểm tra tin nhắn điện thoại để nhận mã xác thực !"
+        message={t('Check your phone message to receive the verification code')}
         duration={1000}
         position="top"
         animated={true}
@@ -72,7 +74,7 @@ const MessageMethod: React.FC = () => {
         isOpen={showFailedToast}
         onDidDismiss={() => setShowFailedToast(false)}
         color='danger'
-        message="Tài khoản không tồn tại !"
+        message={t('Account does not exist')}
         duration={1000}
         position="top"
         animated={true}
@@ -80,9 +82,9 @@ const MessageMethod: React.FC = () => {
       <IonRow className="ion-justify-content-center">
         <IonCol size='12' size-sm='6'>
           <StyledText >
-            Nhập số điện thoại nhận mã xác thực
+            {t('Enter the phone number to receive the verification code')}
             <br />
-            <IonNote style={{ fontSize: '13px', color: '#9c9999' }}>Số điện thoại phải trùng với số đã đăng kí tài khoản</IonNote>
+            <IonNote style={{ fontSize: '13px', color: '#9c9999' }}>{t('The phone number must match the registered account number')}</IonNote>
           </StyledText>
         </IonCol>
       </IonRow>
@@ -97,7 +99,7 @@ const MessageMethod: React.FC = () => {
                 <StyleWrapperInput color='light' lines='none'>
                   <StyledInput
                     required={true}
-                    placeholder="Số điện thoại"
+                    placeholder={t('PhoneNumber')}
                     onIonBlur={onBlur}
                     value={value}
                     onIonChange={onChange}
@@ -113,7 +115,7 @@ const MessageMethod: React.FC = () => {
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
-              <StyledButton type='submit' > XÁC NHẬN</StyledButton>
+              <StyledButton type='submit' >{t('Confirm')}</StyledButton>
             </div>
           </IonCol>
         </IonRow>

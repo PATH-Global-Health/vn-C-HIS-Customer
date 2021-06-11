@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   IonButton,
   IonContent,
@@ -6,8 +6,6 @@ import {
   IonIcon,
   IonLabel,
   IonPage,
-  IonSelect,
-  IonSelectOption,
 } from '@ionic/react';
 import styled from 'styled-components';
 import { useDispatch } from '@app/hooks';

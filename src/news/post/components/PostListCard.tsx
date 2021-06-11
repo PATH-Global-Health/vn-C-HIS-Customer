@@ -26,6 +26,7 @@ import img from '@app/assets/img/virus.jpg';
 import img_small from '@app/assets/img/virus2.jpg';
 import moment from 'moment';
 import { useHistory } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
@@ -102,6 +103,7 @@ const WrapperKeyword = styled.div`
   margin: 5px 0px 10px 10px;
 `;
 const PostListCard: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const history = useHistory();
   const [searchData, setSearchData] = useState('');
   const dispatch = useDispatch();
@@ -123,7 +125,7 @@ const PostListCard: React.FC = () => {
         <div>
           <StyleWrapperInput color='light' lines='none'>
             <StyledInput
-              placeholder='Tìm kiếm'
+              placeholder={t('Search')}
               onIonChange={e => setSearchData(e.detail.value!)}
             >
             </StyledInput>
@@ -131,7 +133,7 @@ const PostListCard: React.FC = () => {
           </StyleWrapperInput>
         </div>
         <div className="ion-margin-top">
-          <SearchNote>TỪ KHÓA PHỔ BIẾN</SearchNote>
+          <SearchNote>{t('Popular keywords')}</SearchNote>
         </div>
         <WrapperKeyword>
           <IonBadge color='secondary' className='ion-margin-end'>keyword</IonBadge>
@@ -143,7 +145,7 @@ const PostListCard: React.FC = () => {
         <IonCard onClick={() => history.push('/post-detail')}>
           <img src={img} alt="" height='180px' width='100%' />
           <IonCardHeader >
-            <IonCardTitle className="main-title">Tiêu đề tin tức</IonCardTitle>
+            <IonCardTitle className="main-title">{t('News headlines')}</IonCardTitle>
             <IonNote className='main-card'>{date}</IonNote>
             <IonNote className='main-card'>Đoàn Hoàng</IonNote>
           </IonCardHeader>
@@ -165,7 +167,7 @@ const PostListCard: React.FC = () => {
             <IonItem color='light' lines='none' className='item-content'>
               <img src={img_small} slot='start' width='60px' height='60px' />
               <IonLabel>
-                <b className="main-title">Tiêu đề tin</b>
+                <b className="main-title">{t('News headlines')}</b>
                 <IonNote className='main-card'>{date}</IonNote>
                 <IonNote className='main-card'>Đoàn Hoàng</IonNote>
               </IonLabel>

@@ -10,6 +10,7 @@ import { Controller, useForm } from "react-hook-form";
 
 import logo from '../assets/img/logo.png';
 import authService from '@app/services/auth';
+import { useTranslation } from 'react-i18next';
 
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
@@ -72,31 +73,33 @@ interface RegisterModal {
   phoneNumber: string;
   fullName: string;
 }
-const formFields: InputProps[] = [
-  {
-    name: "fullName",
-    fieldType: "input",
-    label: "Tên người dùng",
-    placeholder: "Tên người dùng",
-  },
-  {
-    name: "phoneNumber",
-    fieldType: "input",
-    label: "Số điện thoại",
-    type: 'tel',
-    placeholder: "Số điện thoại",
-  },
-  {
-    name: "password",
-    fieldType: "input",
-    type: "password",
-    label: "Mật khẩu",
-    placeholder: "Mật khẩu",
-  },
-];
+
 
 const RegisterPage: React.FC = () => {
   const history = useHistory();
+  const { t, i18n } = useTranslation();
+  const formFields: InputProps[] = [
+    {
+      name: "fullName",
+      fieldType: "input",
+      label: "Tên người dùng",
+      placeholder: t('Full name'),
+    },
+    {
+      name: "phoneNumber",
+      fieldType: "input",
+      label: "Số điện thoại",
+      type: 'tel',
+      placeholder: t('PhoneNumber'),
+    },
+    {
+      name: "password",
+      fieldType: "input",
+      type: "password",
+      label: "Mật khẩu",
+      placeholder: t('Password'),
+    },
+  ];
   const { control, handleSubmit, register, formState: { errors }, trigger } = useForm();
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
@@ -115,22 +118,22 @@ const RegisterPage: React.FC = () => {
     register(
       'fullName',
       {
-        required: { value: true, message: "Chưa nhập tên người dùng. " },
+        required: { value: true, message: t('Username not enter')},
       }
     );
     register(
       'password',
       {
-        required: { value: true, message: "Chưa nhập số điện thoại. " },
-        minLength: { value: 5, message: "Mật khẩu tối thiểu 5 kí tự. " },
+        required: { value: true, message: t('Password not entered') },
+        minLength: { value: 5, message: t('Password minimum 5 characters')},
       }
     );
     register(
       'phoneNumber',
       {
-        required: { value: true, message: "Chưa nhập mật khẩu. " },
-        maxLength: { value: 10, message: "Số điện thoại tối đa 10 số. " },
-        pattern: { value: /^[0-9\b]+$/, message: "Số điện thoại không đúng định dạng. " }
+        required: { value: true, message: t('No phone number entered')},
+        maxLength: { value: 10, message: t('Phone numbers with up to 10 digits')},
+        pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format')}
       }
     );
   }, [register]);
@@ -141,7 +144,7 @@ const RegisterPage: React.FC = () => {
           isOpen={showSuccessToast}
           onDidDismiss={() => setShowSuccessToast(false)}
           color='success'
-          message="Đăng kí thành công!"
+          message={t('Sign Up Success')}
           duration={1000}
           position="top"
           animated={true}
@@ -150,7 +153,7 @@ const RegisterPage: React.FC = () => {
           isOpen={showFailedToast}
           onDidDismiss={() => setShowFailedToast(false)}
           color='danger'
-          message="Đăng kí thất bại. Số điện thoại đã được đăng kí!"
+          message={t('Registration failed. Registered phone number')}
           duration={1000}
           position="top"
           animated={true}
@@ -164,8 +167,8 @@ const RegisterPage: React.FC = () => {
         </IonRow>
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
-            <StyledHeader >Đăng Kí</StyledHeader>
-            <StyleNote> Vui lòng điền đầy đủ thông tin</StyleNote>
+            <StyledHeader >{t('Sign up')}</StyledHeader>
+            <StyleNote>{t('Please complete all information')}</StyleNote>
           </IonCol>
         </IonRow>
 
@@ -233,13 +236,13 @@ const RegisterPage: React.FC = () => {
           })}
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" size-sm='3'>
-              <StyleText >Đã có tài khoản? <b onClick={() => { history.push('/login') }} style={{ cursor: 'pointer' }} >Đăng nhập ngay</b></StyleText>
+              <StyleText >{t('Already have an account') +'?'}<b onClick={() => { history.push('/login') }} style={{ cursor: 'pointer' }} >{t('Login')}</b></StyleText>
             </IonCol>
           </IonRow>
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" size-sm='3'>
               <div style={{ textAlign: 'center', marginTop: '10px' }}>
-                <StyledButton type='submit'>ĐĂNG KÍ</StyledButton>
+                <StyledButton type='submit'>{t('Sign up')}</StyledButton>
               </div>
             </IonCol>
           </IonRow>

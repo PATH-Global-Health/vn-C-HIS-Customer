@@ -5,6 +5,7 @@ import { IonButton, IonCol, IonContent, IonDatetime, IonIcon, IonItem, IonRow } 
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch } from '@app/hooks';
 import { setDataForgotPassword } from '@app/slices/auth';
+import { useTranslation } from 'react-i18next';
 
 import { calendar } from 'ionicons/icons';
 
@@ -47,6 +48,7 @@ const StyledIcon = styled(IonIcon)`
 `;
 const BirthdayMethod: React.FC = () => {
   const dispatch = useDispatch();
+  const { t, i18n } = useTranslation();
   const { control, handleSubmit } = useForm();
   const handleData = (data: any) => {
     console.log(data);
@@ -60,9 +62,9 @@ const BirthdayMethod: React.FC = () => {
       <IonRow className="ion-justify-content-center">
         <IonCol size='12' size-sm='6'>
           <StyledText >
-            Câu hỏi bảo mật :
+            {t('Secret question') +' :'}
             <br />
-            ngày tháng năm sinh của bạn?
+           {t('Your date of birth ?')}
           </StyledText>
         </IonCol>
       </IonRow>
@@ -77,7 +79,7 @@ const BirthdayMethod: React.FC = () => {
                 <StyleWrapperInput color='light'>
                   <StyledInput
                     pickerFormat="DDDDD MMMM YYYY"
-                    placeholder="ngày/tháng/năm"
+                    placeholder={t('day/month/year')}
                     displayFormat="MM/DD/YYYY"
                     min="1994-03-14"
                     onIonBlur={onBlur}
@@ -94,13 +96,13 @@ const BirthdayMethod: React.FC = () => {
         />
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
-            <StyleNoteText >Không xác định? <b onClick={() => back()} style={{ cursor: 'pointer' }} >Chọn phương thức khác</b></StyleNoteText>
+            <StyleNoteText >{t('Unknown ?')} <b onClick={() => back()} style={{ cursor: 'pointer' }} >{t('Choose another method')}</b></StyleNoteText>
           </IonCol>
         </IonRow>
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
-              <StyledButton type='submit'>XÁC NHẬN</StyledButton>
+              <StyledButton type='submit'>{t('Confirm')}</StyledButton>
             </div>
           </IonCol>
         </IonRow>

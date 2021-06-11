@@ -32,7 +32,7 @@ import Slider from 'react-slick';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import { useTranslation } from 'react-i18next';
 
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
@@ -119,44 +119,46 @@ const Menu = styled(IonRow)`
   }
 `;
 
-interface OptionProps {
-  icon: string;
-  label: string;
-  note: string
-  color: string;
-  [otherProps: string]: unknown;
-};
 
-const optionFields: OptionProps[] = [
-  {
-    name: "booking",
-    icon: calendarOutline,
-    label: "Đặt lịch",
-    note: "Tư vấn, xét nghiệm",
-    color: "#4c8dff",
-  },
-  {
-    name: "examinationList",
-    icon: alarmOutline,
-    label: "Lịch hẹn",
-    note: "Kiểm tra lịch hẹn ",
-    color: "#409f4e"
-  },
-  {
-    name: "risk",
-    icon: searchOutline,
-    label: "Nguy cơ",
-    note: "Kiểm tra nguy cơ",
-    color: "#f1c248"
-  },
-];
 const Home: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  interface OptionProps {
+    icon: string;
+    label: string;
+    note: string
+    color: string;
+    [otherProps: string]: unknown;
+  };
+
+  const optionFields: OptionProps[] = [
+    {
+      name: "booking",
+      icon: calendarOutline,
+      label: t('Booking'),
+      note: t('Consultation') + ',' + t('Testing'),
+      color: "#4c8dff",
+    },
+    {
+      name: "examinationList",
+      icon: alarmOutline,
+      label: t('Schedule'),
+      note: t('Check appointment'),
+      color: "#409f4e"
+    },
+    {
+      name: "risk",
+      icon: searchOutline,
+      label: t('Risk'),
+      note: t('Risk check'),
+      color: "#f1c248"
+    },
+  ];
   const [searchData, setSearchData] = useState('');
   const history = useHistory();
   const handleTypeService = (name: string) => {
-    name === "booking" ? history.push("/homeBooking") 
-    : name === "examinationList" ? history.push("/examinationList")
-    :history.push("/risk")
+    name === "booking" ? history.push("/homeBooking")
+      : name === "examinationList" ? history.push("/examinationList")
+        : history.push("/risk")
   }
   return (
     <>
@@ -170,12 +172,12 @@ const Home: React.FC = () => {
         </IonRow>
         <StyledHeader>
           <div>
-            Xin chào!<b> &nbsp; Đoàn Hoàng</b>
+            {t('Hello')}<b> &nbsp; Đoàn Hoàng</b>
           </div>
           <div>
             <StyleWrapperInput color='light' lines='none'>
               <StyledInput
-                placeholder='Tìm kiếm'
+                placeholder={t('Search')}
                 onIonChange={e => setSearchData(e.detail.value!)}
               >
               </StyledInput>
@@ -185,8 +187,8 @@ const Home: React.FC = () => {
         </StyledHeader>
         <Menu>
           <IonItem className="ion-no-padding" color="light">
-            <IonLabel><span className="title">DỊCH VỤ NỔI BẬT</span></IonLabel>
-            <IonNote slot="end">Xem tất cả</IonNote>
+            <IonLabel><span className="title">{t('Featured Services')}</span></IonLabel>
+            <IonNote slot="end">{t('View all')}</IonNote>
             <IonIcon className="ion-align-self-center" slot="end" size="small" icon={chevronForwardOutline} />
           </IonItem>
         </Menu>
@@ -197,7 +199,7 @@ const Home: React.FC = () => {
                 <IonCol key={idx}>
                   <Card
                     style={{ backgroundColor: color }}
-                    onClick={() => { handleTypeService(name+"") }}
+                    onClick={() => { handleTypeService(name + "") }}
                   >
                     <div>
                       <CardIcon icon={icon} slot='start' />
@@ -217,7 +219,7 @@ const Home: React.FC = () => {
         </IonRow>
         <Menu>
           <IonItem className="ion-no-padding" color="light">
-            <IonLabel><span className="title">KẾT QUẢ XÉT NGHIỆM CỦA BẠN</span></IonLabel>
+            <IonLabel><span className="title">{t('Your test results')}</span></IonLabel>
           </IonItem>
         </Menu>
         <IonRow className='ion-margin-top'>
@@ -225,8 +227,8 @@ const Home: React.FC = () => {
             <ResultButton color='light' lines='none'>
               <ResultIcon icon={eyedropOutline} />
               <ResultLabel >
-                Xem kết quả xét nghiệm
-               </ResultLabel>
+                {t('View test results')}
+              </ResultLabel>
               <IonIcon icon={arrowForwardOutline} color='medium'>
               </IonIcon>
             </ResultButton>
@@ -237,8 +239,8 @@ const Home: React.FC = () => {
             <ResultButton color='light' lines='none'>
               <ResultIcon icon={newspaperOutline} />
               <ResultLabel >
-                Cập nhật kết quả xét nghiệm
-               </ResultLabel>
+                {t('Update test results')}
+              </ResultLabel>
               <IonIcon icon={arrowForwardOutline} color='medium'>
               </IonIcon>
             </ResultButton>
@@ -246,8 +248,8 @@ const Home: React.FC = () => {
         </IonRow>
         <Menu>
           <IonItem className="ion-no-padding" color="light">
-            <IonLabel><span className="title">BÀI VIẾT NỔI BẬT</span></IonLabel>
-            <IonNote slot="end">Xem tất cả</IonNote>
+            <IonLabel><span className="title">{t('Featured Posts')}</span></IonLabel>
+            <IonNote slot="end">{t('View all')}</IonNote>
             <IonIcon className="ion-align-self-center" slot="end" size="small" icon={chevronForwardOutline} />
           </IonItem>
         </Menu>
@@ -261,8 +263,8 @@ const Home: React.FC = () => {
                       <img src={img} alt="" height='110px' width='100%' />
                     </IonItem>
                     <IonCardHeader >
-                      <IonCardTitle style={{ color: 'black', fontSize: '15px' }}>Tiêu đề tin tức</IonCardTitle>
-                      <IonNote >Người đăng</IonNote>
+                      <IonCardTitle style={{ color: 'black', fontSize: '15px' }}>{t('News headlines')}</IonCardTitle>
+                      <IonNote >{t('Author')}</IonNote>
                     </IonCardHeader>
                   </IonCard>
                 </CardSlider>

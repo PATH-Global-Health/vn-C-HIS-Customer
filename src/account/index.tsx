@@ -31,6 +31,7 @@ import logo from '@app/assets/img/logo.png'
 import avatar from '@app/assets/img/avatar.png';
 import { useTranslation } from 'react-i18next';
 
+
 const StyledItem = styled(IonItem)`
   margin: 0px 15px;
   --min-height: 20px;
@@ -61,36 +62,37 @@ interface OptionProps {
   [otherProps: string]: unknown;
 };
 
-const optionFields: OptionProps[] = [
-  {
-    icon: "person",
-    label: "Thông tin cá nhân",
-    color: "#409f4e",
-  },
-  {
-    icon: "update",
-    label: "Cập nhật thông tin",
-    color: "#6f3391"
-  },
-  {
-    icon: "change",
-    label: "Đổi mật khẩu",
-    color: "#e13b3b"
-  },
-  {
-    icon: "security",
-    label: "Cài đặt bảo mật",
-    color: "#f1c248"
-  },
-  {
-    icon: "qr",
-    label: "Mã QR của tôi",
-    color: "#3ac6e1"
-  },
-];
+
 const Account: React.FC = () => {
-  const history = useHistory();
   const { t, i18n } = useTranslation();
+  const history = useHistory();
+  const optionFields: OptionProps[] = [
+    {
+      icon: "person",
+      label: t('Personal information'),
+      color: "#409f4e",
+    },
+    {
+      icon: "update",
+      label: t('Update information'),
+      color: "#6f3391"
+    },
+    {
+      icon: "change",
+      label: t('Change Password'),
+      color: "#e13b3b"
+    },
+    {
+      icon: "security",
+      label: t('Security Settings'),
+      color: "#f1c248"
+    },
+    {
+      icon: "qr",
+      label: t('My QR Code'),
+      color: "#3ac6e1"
+    },
+  ];
   return (
     <>
       <IonContent>
@@ -179,7 +181,7 @@ const Account: React.FC = () => {
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
               <StyledSocialButton type='submit' onClick={() => history.push('/login')} >
                 <IonIcon icon={logOutOutline} style={{ marginRight: '20px' }} ></IonIcon>
-              ĐĂNG XUẤT
+              {t('Logout')}
               </StyledSocialButton>
             </div>
           </IonCol>

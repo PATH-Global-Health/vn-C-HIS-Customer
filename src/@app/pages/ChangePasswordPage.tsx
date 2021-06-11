@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom';
 import { Controller, useForm } from "react-hook-form";
 
 import authService from '@app/services/auth';
+import { useTranslation } from 'react-i18next';
 
 const StyledInput = styled(IonInput)`
     color: black;
@@ -45,31 +46,10 @@ interface ChangePasswordModal {
   newPassword: string,
   confirmNewPassword: string,
 }
-const formFields: InputProps[] = [
-  {
-    name: "oldPassword",
-    fieldType: "input",
-    type: "password",
-    label: "Nhập mật khẩu cũ",
-    placeholder: "Mật khẩu cũ",
-  },
-  {
-    name: "newPassword",
-    fieldType: "input",
-    type: "password",
-    label: "Nhập mật khẩu mới",
-    placeholder: "Mật khẩu mới",
-  },
-  {
-    name: "confirmNewPassword",
-    fieldType: "input",
-    type: "password",
-    label: "Nhập lại mật khẩu mới",
-    placeholder: "Nhập lại mật khẩu mới",
-  },
-];
+
 
 const ChangePasswordPage: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const history = useHistory();
   const { control, handleSubmit } = useForm();
 
@@ -79,6 +59,30 @@ const ChangePasswordPage: React.FC = () => {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
   const [showMatchPasswordFailedToast, setShowMatchPasswordFailedToast] = useState(false);
+
+  const formFields: InputProps[] = [
+    {
+      name: "oldPassword",
+      fieldType: "input",
+      type: "password",
+      label: t('Enter old password'),
+      placeholder: "Mật khẩu cũ",
+    },
+    {
+      name: "newPassword",
+      fieldType: "input",
+      type: "password",
+      label: t('Enter new password'),
+      placeholder: "Mật khẩu mới",
+    },
+    {
+      name: "confirmNewPassword",
+      fieldType: "input",
+      type: "password",
+      label: t('Confirm new password'),
+      placeholder: "Nhập lại mật khẩu mới",
+    },
+  ];
 
   const handleChangePassword = async (data: ChangePasswordModal): Promise<void> => {
     try {
@@ -102,7 +106,7 @@ const ChangePasswordPage: React.FC = () => {
       <IonHeader className='ion-margin-bottom' >
         <IonItem color='light' style={{ margin: '15px 20px 0px 10px' }}>
           <StyledIcon icon={chevronBackOutline} onClick={() => history.push('/account')}></StyledIcon>
-          <IonTitle style={{ fontSize: '20px', textAlign: 'center' }}>Đổi Mật Khẩu</IonTitle>
+          <IonTitle style={{ fontSize: '20px', textAlign: 'center' }}>{t('Change Password')}</IonTitle>
         </IonItem>
       </IonHeader>
       <IonContent >
@@ -110,7 +114,7 @@ const ChangePasswordPage: React.FC = () => {
           isOpen={showSuccessToast}
           onDidDismiss={() => setShowSuccessToast(false)}
           color='success'
-          message="Đổi mật khẩu thành công !"
+          message={t('Change password successfully')}
           duration={1000}
           position="top"
           animated={true}
@@ -119,7 +123,7 @@ const ChangePasswordPage: React.FC = () => {
           isOpen={showFailedToast}
           onDidDismiss={() => setShowFailedToast(false)}
           color='danger'
-          message="Mật khẩu cũ không đúng !"
+          message={t('Old password is incorrect')}
           duration={1000}
           position="top"
           animated={true}
@@ -128,7 +132,7 @@ const ChangePasswordPage: React.FC = () => {
           isOpen={showMatchPasswordFailedToast}
           onDidDismiss={() => setShowMatchPasswordFailedToast(false)}
           color='danger'
-          message="Mật khẩu mới không khớp !"
+          message={t('New password is incorrect')}
           duration={1000}
           position="top"
           animated={true}
@@ -205,11 +209,11 @@ const ChangePasswordPage: React.FC = () => {
               }
             }
           })}
-          <IonNote style={{ fontSize: '10px', paddingLeft: '25px', color: '#a6a3a3' }}>Mật khẩu gồm 8 chữ số, bao gồm chữ hoa, chữ thường...</IonNote>
+          <IonNote style={{ fontSize: '10px', paddingLeft: '25px', color: '#a6a3a3' }}>{t('Password consists of 8 digits, including uppercase and lowercase letters')}</IonNote>
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" size-sm='3'>
               <div style={{ textAlign: 'center', marginTop: '50px' }}>
-                <StyledButton type='submit'>CẬP NHẬT</StyledButton>
+                <StyledButton type='submit'>{t('Update')}</StyledButton>
               </div>
             </IonCol>
           </IonRow>

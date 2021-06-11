@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox, IonToast, IonItem, IonText } from '@ionic/react';
-import { lockClosed, phonePortraitOutline, mailOutline, logoFacebook } from 'ionicons/icons';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox, IonToast, IonItem, IonText, IonSelect, IonSelectOption } from '@ionic/react';
+import { lockClosed, phonePortraitOutline, mailOutline, logoFacebook, language } from 'ionicons/icons';
 
 import useAuth from '@app/hooks/use-auth';
 import { useHistory } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 
 import logo from '../assets/img/logo.png';
+import { useTranslation } from 'react-i18next';
 
 const StyleWrapperInput = styled(IonItem)`
   background-color: white;
@@ -46,6 +47,13 @@ const StyledSocialButton = styled(IonButton)`
     --background: white;
 `;
 
+const StyledSocialSelect = styled(IonSelect)`
+    border: 0.5px solid #d6d6c2;
+    width: 250px;
+    --background: white;
+    margin: 0px auto;
+`;
+
 const StyledHeader = styled.h1`
     font-size: 35px;
     font-weight: 700;
@@ -80,26 +88,28 @@ interface LoginModel {
   password: string;
   remember: boolean;
 }
-const formFields: InputProps[] = [
-  {
-    icon: phonePortraitOutline,
-    name: "username",
-    fieldType: "input",
-    label: "Số điện thoại",
-    placeholder: "Số điện thoại",
-  },
-  {
-    icon: lockClosed,
-    name: "password",
-    fieldType: "input",
-    type: "password",
-    label: "Mật khẩu",
-    placeholder: "Mật khẩu",
-  },
-];
+
 
 const LoginPage: React.FC = () => {
   const history = useHistory();
+  const { t, i18n } = useTranslation();
+  const formFields: InputProps[] = [
+    {
+      icon: phonePortraitOutline,
+      name: "username",
+      fieldType: "input",
+      label: t('PhoneNumber'),
+      placeholder: t('PhoneNumber'),
+    },
+    {
+      icon: lockClosed,
+      name: "password",
+      fieldType: "input",
+      type: "password",
+      label: t('Password'),
+      placeholder: t('Password'),
+    },
+  ];
   const { control, handleSubmit, register, formState: { errors }, trigger } = useForm();
   const { login } = useAuth();
   const permissionQuery = {};
@@ -120,16 +130,16 @@ const LoginPage: React.FC = () => {
     register(
       'username',
       {
-        required: { value: true, message: "Chưa nhập số điện thoại. " },
-        maxLength: { value: 10, message: "Số điện thoại tối đa 10 số. " },
-        pattern: { value: /^[0-9\b]+$/, message: "Số điện thoại không đúng định dạng. " }
+        required: { value: true, message: t('No phone number entered')},
+        maxLength: { value: 10, message: t('Phone numbers with up to 10 digits')},
+        pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format')}
       }
     );
     register(
       'password',
       {
-        required: { value: true, message: "Chưa nhập mật khẩu. " },
-        minLength: { value: 5, message: "Mật khẩu tối thiểu 5 kí tự. " },
+        required: { value: true, message: t('Password not entered') },
+        minLength: { value: 5, message: t('Password minimum 5 characters') },
       }
     );
   }, [register]);
@@ -140,7 +150,7 @@ const LoginPage: React.FC = () => {
           isOpen={showSuccessToast}
           onDidDismiss={() => setShowSuccessToast(false)}
           color='success'
-          message="Đăng nhập thành công !"
+          message={t('Login successfully')}
           duration={1000}
           position="top"
           animated={true}
@@ -149,7 +159,7 @@ const LoginPage: React.FC = () => {
           isOpen={showFailedToast}
           onDidDismiss={() => setShowFailedToast(false)}
           color='danger'
-          message="Sai mật khẩu hoặc số điện thoại !"
+          message={t('Wrong password or phone number')}
           duration={1000}
           position="top"
           animated={true}
@@ -163,8 +173,8 @@ const LoginPage: React.FC = () => {
         </IonRow>
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='4' size-md='5' size-lg='4'>
-            <StyledHeader >ĐĂNG NHẬP</StyledHeader>
-            <StyleText >Chưa có tài khoản? <b onClick={() => { history.push('/register') }}>Đăng kí ngay</b></StyleText>
+            <StyledHeader >{t('Login')}</StyledHeader>
+            <StyleText >{t('No account') + '?'}<b onClick={() => { history.push('/register') }}>{t('Register now')}</b></StyleText>
           </IonCol>
         </IonRow>
 
@@ -232,7 +242,7 @@ const LoginPage: React.FC = () => {
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" size-sm='4' size-lg='3'>
               <div style={{ textAlign: 'center', marginTop: '10px' }}>
-                <StyledButton type='submit'>ĐĂNG NHẬP</StyledButton>
+                <StyledButton type='submit'>{t('Login')}</StyledButton>
               </div>
             </IonCol>
           </IonRow>
@@ -241,16 +251,16 @@ const LoginPage: React.FC = () => {
           <IonCol size='6' size-sm='6'>
             <StyleText >
               <IonCheckbox style={{ margin: '-25px 10px 0px 5px' }} checked={remember} onIonChange={e => setRemember(e.detail.checked)}></IonCheckbox>
-            Nhớ mật khẩu</StyleText>
+            {t('Remember password')}</StyleText>
           </IonCol>
           <IonCol size="6" size-sm='2'>
-            <StyleText onClick={() => history.push('/forget-password')}>QUÊN MẬT KHẨU?</StyleText>
+            <StyleText onClick={() => history.push('/forget-password')}>{t('Forgot password')}</StyleText>
           </IonCol>
         </IonRow>
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='4'>
             <div style={{ textAlign: 'center', marginTop: '10px', color: 'black' }}>
-              Hoặc
+              {t('Or')}
                         </div>
           </IonCol>
         </IonRow>
@@ -260,7 +270,7 @@ const LoginPage: React.FC = () => {
               <div style={{ textAlign: 'center' }}>
                 <StyledSocialButton>
                   <StyledIcon icon={mailOutline} />
-                  <StyledSocialText>Tiếp tục bằng Gmail</StyledSocialText>
+                  <StyledSocialText>{t('Continue with Gmail')}</StyledSocialText>
                 </StyledSocialButton>
               </div>
             </IonCol>
@@ -270,8 +280,22 @@ const LoginPage: React.FC = () => {
               <div style={{ textAlign: 'center' }}>
                 <StyledSocialButton >
                   <StyledIcon icon={logoFacebook} style={{ color: '#4267B2' }} />
-                  <StyledSocialText>Tiếp tục bằng facebook </StyledSocialText>
+                  <StyledSocialText>{t('Continue by facebook')}</StyledSocialText>
                 </StyledSocialButton>
+              </div>
+            </IonCol>
+          </IonRow>
+          <IonRow className="ion-justify-content-center">
+            <IonCol size="12" size-sm='4'>
+              <div style={{ textAlign: 'center' }}>
+                {/* <StyledIcon icon={language}></StyledIcon> */}
+              <StyledSocialSelect
+                  placeholder={t('Language')}
+                  onIonChange={(e) => i18n.changeLanguage(e.detail.value)}
+                >
+                  <IonSelectOption value='en'>En</IonSelectOption>
+                  <IonSelectOption value='vn'>Vi</IonSelectOption>
+                </StyledSocialSelect>
               </div>
             </IonCol>
           </IonRow>

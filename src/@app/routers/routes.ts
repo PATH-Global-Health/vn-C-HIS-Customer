@@ -10,7 +10,6 @@ import ForgetPassword from '@app/pages/ForgetPasswordPage';
 import Account from 'account';
 import Home from 'home';
 import PostPage from 'news/post';
-import PostDetail from 'news/PostDetail';
 import HomeBooking from 'booking/pages/HomeBooking';
 import TestingAppointment from 'booking/pages/TestingAppointment';
 import MakingApointment from 'booking/pages/MakingApointment';
@@ -20,6 +19,7 @@ import { HospitalDetail } from 'booking/components';
 import ChoosingTime from 'booking/pages/ChoosingTime';
 import ConfirmProfile from 'booking/pages/ConfirmProfile';
 import ApointmentInfo from 'booking/pages/ApointmentInfo';
+import PostDetailPage from 'news/PostDetail';
 
 interface Route {
   component: React.FC;
@@ -69,7 +69,7 @@ const routes: Route[] = [
     isPrivate: true,
   },
   {
-    component: PostDetail,
+    component: PostDetailPage,
     path: '/post-detail',
     isPrivate: true,
   },

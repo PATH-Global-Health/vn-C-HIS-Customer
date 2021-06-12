@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import {
   IonBadge,
@@ -19,13 +19,14 @@ import {
 
 } from 'ionicons/icons';
 import { useDispatch, useSelector } from '@app/hooks';
-import { getPosts } from 'news/post/post.slice';
+import { getPostDetail, getPosts, setParentPostData } from 'news/post/post.slice';
 
 import logo from '@app/assets/img/logo.png';
 import img from '@app/assets/img/virus.jpg';
 import img_small from '@app/assets/img/virus2.jpg';
 import moment from 'moment';
 import { useHistory } from 'react-router';
+import { Post } from '../post.model';
 
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
@@ -104,12 +105,26 @@ const WrapperKeyword = styled.div`
 const PostListCard: React.FC = () => {
   const history = useHistory();
   const [searchData, setSearchData] = useState('');
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(100);
   const dispatch = useDispatch();
   const date = moment().format();
-  const postList = useSelector((s) => s.post.postList);
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
+  const { data } = useSelector((s) => s.post.postList);
+  console.log(data);
+  const reverseArr = (arr: Post[]) => {
+    let result = [];
+    for (let i = arr.length - 1; i >= 0; i--) {
+      result.push(arr[i]);
+    }
+    return result;
+  }
+  const getData = useCallback(() => {
+    dispatch(getPosts({
+      pageIndex,
+      pageSize
+    }));
+  }, [pageIndex, pageSize, dispatch]);
+  useEffect(getData, [getData]);
   return (
     <IonContent>
       <IonRow className="ion-justify-content-center" >
@@ -139,39 +154,41 @@ const PostListCard: React.FC = () => {
           <IonBadge color='light'>keyword</IonBadge>
         </WrapperKeyword>
       </StyledHeader>
-      <Card>
-        <IonCard onClick={() => history.push('/post-detail')}>
-          <img src={img} alt="" height='180px' width='100%' />
-          <IonCardHeader >
-            <IonCardTitle className="main-title">Tiêu đề tin tức</IonCardTitle>
-            <IonNote className='main-card'>{date}</IonNote>
-            <IonNote className='main-card'>Đoàn Hoàng</IonNote>
-          </IonCardHeader>
-        </IonCard>
-      </Card>
-      {/*    {postList.slice(0, 5).map((p) => (
-         <IonCard key={p.id}>
-          <IonCardHeader>
-            <IonCardSubtitle>PostId: {p.title}</IonCardSubtitle>
-            <IonCardTitle>AuthorId: {p.userId}</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>{p.body}</IonCardContent>
-        </IonCard> 
 
-      ))} */}
-      {postList.slice(0, 4).map((p, idx) => (
-        <ChildCard key={idx} onClick={() => history.push('/post-detail')}>
-          <IonCol size="12" size-sm='12'>
-            <IonItem color='light' lines='none' className='item-content'>
-              <img src={img_small} slot='start' width='60px' height='60px' />
-              <IonLabel>
-                <b className="main-title">Tiêu đề tin</b>
-                <IonNote className='main-card'>{date}</IonNote>
-                <IonNote className='main-card'>Đoàn Hoàng</IonNote>
-              </IonLabel>
-            </IonItem>
-          </IonCol>
-        </ChildCard>
+      {reverseArr(data).slice(0, 7).map((p, idx) => (
+        <div key={idx} onClick={() => {
+          dispatch(getPostDetail({ postId: p.id }));
+          dispatch(setParentPostData({ data: p }));
+          history.push('/post-detail')
+        }
+        }>
+          {
+            idx === 0 ?
+              <Card>
+                <IonCard>
+                  <img src={img} alt="" height='180px' width='100%' />
+                  <IonCardHeader >
+                    <IonCardTitle className="main-title">{p?.name ?? '...'}</IonCardTitle>
+                    <IonNote className='main-card'>{moment(p?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
+                    <IonNote className='main-card'>{p?.writter ?? '...'}</IonNote>
+                  </IonCardHeader>
+                </IonCard>
+              </Card>
+              :
+              <ChildCard>
+                <IonCol size="12" size-sm='12'>
+                  <IonItem color='light' lines='none' className='item-content'>
+                    <img src={img_small} slot='start' width='60px' height='60px' alt='' />
+                    <IonLabel>
+                      <b className="main-title">{p?.name ?? '...'}</b>
+                      <IonNote className='main-card'>{moment(p?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
+                      <IonNote className='main-card'>{p?.writter ?? '...'}</IonNote>
+                    </IonLabel>
+                  </IonItem>
+                </IonCol>
+              </ChildCard>
+          }
+        </div>
       ))}
     </IonContent>
   );

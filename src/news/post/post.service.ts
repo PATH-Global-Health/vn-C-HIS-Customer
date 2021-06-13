@@ -1,5 +1,5 @@
 import { httpClient, apiLinks } from '@app/utils';
-import { PostDetail, PostResponse } from './post.model';
+import { Tag, PostDetail, PostResponse } from './post.model';
 
 const getPosts = async ({
   pageIndex = 0,
@@ -17,6 +17,16 @@ const getPosts = async ({
   });
   return response.data as PostResponse;
 };
+const getTags = async (): Promise<Tag[]> => {
+  try {
+    const result = await httpClient.get({
+      url: apiLinks.tag.get,
+    });
+    return result.data as Tag[];
+  } catch (error) {
+    return [];
+  }
+};
 const getPostDetail = async ({
   postId = '',
 }: {
@@ -31,6 +41,7 @@ const getPostDetail = async ({
 const postService = {
   getPosts,
   getPostDetail,
+  getTags,
 };
 
 export default postService;

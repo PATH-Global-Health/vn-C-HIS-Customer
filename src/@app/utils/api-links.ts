@@ -28,6 +28,9 @@ const apiLinks = {
     update: `${testApi}/posts/`,
     delete: `${testApi}/posts/`,
   },
+  tag: {
+    get: `${newsApi}/api/Tag`,
+  },
   manageSchedule: {
     unitTypes: {
       get: `${smapi}/api/UnitTypes`,

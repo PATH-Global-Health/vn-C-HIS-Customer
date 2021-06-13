@@ -6,32 +6,35 @@ import {
 } from '@ionic/react';
 
 import { useDispatch, useSelector } from '@app/hooks';
-import { getPostDetail, getPosts, setParentPostData } from 'news/post/post.slice';
+import { getTags } from 'news/post/post.slice';
 
 
 
 const WrapperKeyword = styled.div`
-  margin: 5px 0px 10px 10px;
+  margin: 10px 0px 0px 10px;
+  ion-badge{
+    background-color:#cdf2c6;
+    border-radius: 10px;
+    padding: 5px;
+  }
 `;
 const TagList: React.FC = () => {
 
   const dispatch = useDispatch();
-  /* const { data } = useSelector((s) => s.post.postList);
+  const tagList = useSelector((s) => s.post.tagList);
   const getData = useCallback(() => {
-    dispatch(getPosts({
-      pageIndex,
-      pageSize
-    }));
-  }, [pageIndex, pageSize, dispatch]);
-
-
-  useEffect(getData, [getData]); */
+    dispatch(getTags());
+  }, [dispatch]);
+  useEffect(getData, [getData]);
   return (
     <>
       <WrapperKeyword>
-        <IonBadge color='secondary' className='ion-margin-end'>keyword</IonBadge>
-        <IonBadge color='light' className='ion-margin-end'>long keyword</IonBadge>
-        <IonBadge color='light'>keyword</IonBadge>
+        {
+          (tagList || []).map((item, idx) => (
+            <IonBadge color='light' className='ion-margin-end'>{item?.description ?? ''}</IonBadge>
+          ))
+        }
+
       </WrapperKeyword>
     </>
   );

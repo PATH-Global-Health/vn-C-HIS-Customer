@@ -221,7 +221,7 @@ const PostListCard: React.FC = () => {
             loadingText="Loading more data..."
           >
             {console.log(loading)}
-            {loading === true ? <IonSpinner name='bubbles' color='medium' style={{ left: '50%' }}></IonSpinner> : null}
+            {loading === true ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%' }}></IonSpinner> : null}
           </IonInfiniteScrollContent>
         </IonInfiniteScroll>
       </div>

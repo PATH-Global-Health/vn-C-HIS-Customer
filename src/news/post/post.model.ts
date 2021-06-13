@@ -4,10 +4,9 @@ interface Category {
   isDeleted: boolean;
   dateCreated: string;
 }
-interface Tag {
+export interface Tag {
   id: string;
   description: string;
-  isDeleted: string;
   dateCreated: string;
 }
 export interface Post {

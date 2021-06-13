@@ -2,13 +2,15 @@ import {
   createSlice, createAsyncThunk, PayloadAction,
   CaseReducer,
 } from '@reduxjs/toolkit';
-import { Post, PostDetail, PostResponse } from './post.model';
+import { Post, PostDetail, PostResponse, Tag } from './post.model';
 import postService from 'news/post/post.service';
 
 interface State {
   postList: PostResponse;
+  tagList: Tag[],
   parentPostData: Post | null;
   postDetail: PostDetail[],
+  getTagLoading: boolean
   getPostLoading: boolean;
   getPostDetailLoading: boolean;
 }
@@ -19,8 +21,10 @@ const initialState: State = {
     pageSize: 0,
     data: [],
   },
+  tagList: [],
   parentPostData: null,
   postDetail: [],
+  getTagLoading: false,
   getPostLoading: false,
   getPostDetailLoading: false,
 };
@@ -30,6 +34,10 @@ const setParentPostDataCR: CR<{
 }> = (state, action) => ({
   ...state,
   parentPostData: action.payload.data,
+});
+const getTags = createAsyncThunk('post/getTags', async () => {
+  const result = await postService.getTags();
+  return result;
 });
 const getPosts = createAsyncThunk(
   'post/getPosts',
@@ -65,6 +73,7 @@ const slice = createSlice({
     setParentPostData: setParentPostDataCR,
   },
   extraReducers: (builder) => {
+    //get posts
     builder.addCase(getPosts.pending, (state) => ({
       ...state,
       getPostLoading: true,
@@ -78,6 +87,7 @@ const slice = createSlice({
       ...state,
       getPostLoading: false,
     }));
+    //get post detail
     builder.addCase(getPostDetail.pending, (state) => ({
       ...state,
       getPostDetailLoading: true,
@@ -91,10 +101,24 @@ const slice = createSlice({
       ...state,
       getPostDetailLoading: false,
     }));
+    //get tags
+    builder.addCase(getTags.pending, (state) => ({
+      ...state,
+      getTagLoading: true,
+    }));
+    builder.addCase(getTags.fulfilled, (state, { payload }) => ({
+      ...state,
+      tagList: payload,
+      getTagLoading: false,
+    }));
+    builder.addCase(getTags.rejected, (state) => ({
+      ...state,
+      getTagLoading: false,
+    }));
   },
 });
 
-export { getPosts, getPostDetail };
+export { getPosts, getPostDetail, getTags };
 export const { setParentPostData } = slice.actions;
 
 export default slice.reducer;

@@ -23,7 +23,6 @@ import { PostDetail } from '../post/post.model';
 
 
 const CardContent = styled.div`
-    position: absolute;
     margin: -5px -10px;
     img{
       height: 250px;
@@ -36,7 +35,7 @@ const CardContent = styled.div`
       margin-bottom: -10px;
     }
     ion-card{
-      height: 100%;
+      min-height: 700px;
     }
     ion-note{
       display: block;
@@ -107,9 +106,10 @@ const PostDetailPage: React.FC = () => {
           {
             (detailPostList || []).map((item, idx) => (
               <div key={idx}>
-
                 {
-                  item.type === 0 ? <IonCardContent>{item?.content ?? ''}</IonCardContent>
+                  item.type === 0
+                    ?
+                    <IonCardContent>{item?.content ? <div dangerouslySetInnerHTML={{ __html: item.content }} /> : ''}</IonCardContent>
                     :
                     <IonCardContent>
                       <img src={item.content} alt='' style={{ height: '200px' }} />

@@ -13,6 +13,10 @@ import {
   IonLabel,
   IonNote,
   IonRow,
+  useIonViewWillEnter,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonSpinner,
 } from '@ionic/react';
 import {
   searchOutline,
@@ -20,6 +24,7 @@ import {
 } from 'ionicons/icons';
 import { useDispatch, useSelector } from '@app/hooks';
 import { getPostDetail, getPosts, setParentPostData } from 'news/post/post.slice';
+import TagList from './TagList'
 
 import logo from '@app/assets/img/logo.png';
 import img from '@app/assets/img/virus.jpg';
@@ -56,7 +61,7 @@ const SearchNote = styled(IonNote)`
 const Card = styled(IonRow)`
   ion-card {
     width: 100%;
-    height: 300px;
+    min-height: 300px;
     border-radius: 5px;
     background-color: white;
   }
@@ -105,10 +110,11 @@ const WrapperKeyword = styled.div`
 const PostListCard: React.FC = () => {
   const history = useHistory();
   const [searchData, setSearchData] = useState('');
-  const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(100);
+  const [pageIndex, setPageIndex] = useState<number>(0);
+  const [pageSize, setPageSize] = useState<number>(50);
+  const [totalPostLoading, setTotalPostLoading] = useState<number>(5);
+  const [loading, setLoading] = useState<boolean>(true);
   const dispatch = useDispatch();
-  const date = moment().format();
   const { data } = useSelector((s) => s.post.postList);
   console.log(data);
   const reverseArr = (arr: Post[]) => {
@@ -124,9 +130,28 @@ const PostListCard: React.FC = () => {
       pageSize
     }));
   }, [pageIndex, pageSize, dispatch]);
+
+
+  async function fetchData() {
+
+    setTimeout(() => { setTotalPostLoading(totalPostLoading + 5); setLoading(false) }, 500);
+
+  }
+
+  useIonViewWillEnter(async () => {
+    await fetchData();
+  });
+
+  async function searchNext($event: CustomEvent<void>) {
+    await fetchData();
+    setLoading(true);
+    ($event.target as HTMLIonInfiniteScrollElement).complete();
+  }
+
   useEffect(getData, [getData]);
   return (
     <IonContent>
+
       <IonRow className="ion-justify-content-center" >
         <IonCol size="4" size-sm="3">
           <div>
@@ -148,14 +173,10 @@ const PostListCard: React.FC = () => {
         <div className="ion-margin-top">
           <SearchNote>TỪ KHÓA PHỔ BIẾN</SearchNote>
         </div>
-        <WrapperKeyword>
-          <IonBadge color='secondary' className='ion-margin-end'>keyword</IonBadge>
-          <IonBadge color='light' className='ion-margin-end'>long keyword</IonBadge>
-          <IonBadge color='light'>keyword</IonBadge>
-        </WrapperKeyword>
+        <TagList />
       </StyledHeader>
 
-      {reverseArr(data).slice(0, 7).map((p, idx) => (
+      {reverseArr(data).slice(0, totalPostLoading).map((p, idx) => (
         <div key={idx} onClick={() => {
           dispatch(getPostDetail({ postId: p.id }));
           dispatch(setParentPostData({ data: p }));
@@ -179,17 +200,31 @@ const PostListCard: React.FC = () => {
                 <IonCol size="12" size-sm='12'>
                   <IonItem color='light' lines='none' className='item-content'>
                     <img src={img_small} slot='start' width='60px' height='60px' alt='' />
-                    <IonLabel>
-                      <b className="main-title">{p?.name ?? '...'}</b>
+                    {/* <IonLabel></IonLabel> */}
+                    <IonCardHeader>
+                      {/* <b className="main-title">{p?.name ?? '...'}</b> */}
+                      <IonCardTitle className='main-card'>{p?.name ?? '...'}</IonCardTitle>
                       <IonNote className='main-card'>{moment(p?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
                       <IonNote className='main-card'>{p?.writter ?? '...'}</IonNote>
-                    </IonLabel>
+                    </IonCardHeader>
                   </IonItem>
                 </IonCol>
               </ChildCard>
           }
         </div>
       ))}
+      <div>
+        <IonInfiniteScroll threshold="100px"
+          onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
+          <IonInfiniteScrollContent
+            loadingSpinner="bubbles"
+            loadingText="Loading more data..."
+          >
+            {console.log(loading)}
+            {loading === true ? <IonSpinner name='bubbles' color='medium' style={{ left: '50%' }}></IonSpinner> : null}
+          </IonInfiniteScrollContent>
+        </IonInfiniteScroll>
+      </div>
     </IonContent>
   );
 };

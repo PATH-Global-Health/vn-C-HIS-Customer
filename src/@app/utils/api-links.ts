@@ -1,5 +1,6 @@
 const testApi = 'https://jsonplaceholder.typicode.com';
 const userUrl = 'https://user.bakco.vn';
+const newsApi = 'http://202.78.227.94:31545';
 const smapi = 'http://202.78.227.94:30111';
 // const smapi = ' https://localhost:44353';
 // https://localhost:44353
@@ -21,10 +22,15 @@ const apiLinks = {
     confirmOTP: `${userUrl}/api/Users/ResetPassword/ConfirmOTP`,
   },
   post: {
-    get: `${testApi}/posts`,
+    get: `${newsApi}/api/Post`,
+    getDetails: (id: string): string =>
+      `${newsApi}/api/Part/${id}`,
     create: `${testApi}/posts`,
     update: `${testApi}/posts/`,
     delete: `${testApi}/posts/`,
+  },
+  tag: {
+    get: `${newsApi}/api/Tag`,
   },
   manageSchedule: {
     unitTypes: {

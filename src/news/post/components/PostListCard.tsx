@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import {
   IonBadge,
@@ -13,20 +13,25 @@ import {
   IonLabel,
   IonNote,
   IonRow,
+  useIonViewWillEnter,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonSpinner,
 } from '@ionic/react';
 import {
   searchOutline,
 
 } from 'ionicons/icons';
 import { useDispatch, useSelector } from '@app/hooks';
-import { getPosts } from 'news/post/post.slice';
+import { getPostDetail, getPosts, setParentPostData } from 'news/post/post.slice';
+import TagList from './TagList'
 
 import logo from '@app/assets/img/logo.png';
-import img from '@app/assets/img/virus.jpg';
+import img from '@app/assets/img/khau_trang.jpg';
 import img_small from '@app/assets/img/virus2.jpg';
 import moment from 'moment';
 import { useHistory } from 'react-router';
-import { useTranslation } from 'react-i18next';
+import { Post } from '../post.model';
 
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
@@ -56,7 +61,7 @@ const SearchNote = styled(IonNote)`
 const Card = styled(IonRow)`
   ion-card {
     width: 100%;
-    height: 300px;
+    min-height: 300px;
     border-radius: 5px;
     background-color: white;
   }
@@ -103,17 +108,62 @@ const WrapperKeyword = styled.div`
   margin: 5px 0px 10px 10px;
 `;
 const PostListCard: React.FC = () => {
-  const { t, i18n } = useTranslation();
   const history = useHistory();
   const [searchData, setSearchData] = useState('');
+  const [pageIndex, setPageIndex] = useState<number>(0);
+  const [pageSize, setPageSize] = useState<number>(50);
+  const [tagId, setTagId] = useState<string>('');
+  const [totalPostLoading, setTotalPostLoading] = useState<number>(5);
+  const [loading, setLoading] = useState<boolean>(true);
   const dispatch = useDispatch();
-  const date = moment().format();
-  const postList = useSelector((s) => s.post.postList);
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
+  const { data } = useSelector((s) => s.post.postList);
+  const reverseArr = (arr: Post[]) => {
+    let result = [];
+    for (let i = arr.length - 1; i >= 0; i--) {
+      result.push(arr[i]);
+    }
+    return result;
+  }
+  const FilterByTagId = (arr: Post[], id?: string) => {
+    let result = []
+    if (id) {
+      result = arr.filter(item => item?.tags[0]?.id === id)
+      return reverseArr(result);
+    }
+    return reverseArr(arr);
+  }
+  const getData = useCallback(() => {
+    dispatch(getPosts({
+      pageIndex,
+      pageSize
+    }));
+  }, [pageIndex, pageSize, dispatch]);
+
+
+  async function fetchData() {
+
+    setTimeout(() => { setTotalPostLoading(totalPostLoading + 5); setLoading(false) }, 500);
+
+  }
+  const handleFilterTag = (id: string): void => {
+    if (id) {
+      setTagId(id);
+    }
+  }
+  useIonViewWillEnter(async () => {
+    await fetchData();
+  });
+
+  async function searchNext($event: CustomEvent<void>) {
+    await fetchData();
+    setLoading(true);
+    ($event.target as HTMLIonInfiniteScrollElement).complete();
+  }
+
+  useEffect(getData, [getData]);
   return (
     <IonContent>
+
       <IonRow className="ion-justify-content-center" >
         <IonCol size="4" size-sm="3">
           <div>
@@ -125,7 +175,7 @@ const PostListCard: React.FC = () => {
         <div>
           <StyleWrapperInput color='light' lines='none'>
             <StyledInput
-              placeholder={t('Search')}
+              placeholder={('Search')}
               onIonChange={e => setSearchData(e.detail.value!)}
             >
             </StyledInput>
@@ -133,48 +183,58 @@ const PostListCard: React.FC = () => {
           </StyleWrapperInput>
         </div>
         <div className="ion-margin-top">
-          <SearchNote>{t('Popular keywords')}</SearchNote>
+          <SearchNote>{('Popular keywords')}</SearchNote>
         </div>
-        <WrapperKeyword>
-          <IonBadge color='secondary' className='ion-margin-end'>keyword</IonBadge>
-          <IonBadge color='light' className='ion-margin-end'>long keyword</IonBadge>
-          <IonBadge color='light'>keyword</IonBadge>
-        </WrapperKeyword>
+        <TagList handleFilterTag={(id: string) => { handleFilterTag(id) }} />
       </StyledHeader>
-      <Card>
-        <IonCard onClick={() => history.push('/post-detail')}>
-          <img src={img} alt="" height='180px' width='100%' />
-          <IonCardHeader >
-            <IonCardTitle className="main-title">{t('News headlines')}</IonCardTitle>
-            <IonNote className='main-card'>{date}</IonNote>
-            <IonNote className='main-card'>Đoàn Hoàng</IonNote>
-          </IonCardHeader>
-        </IonCard>
-      </Card>
-      {/*    {postList.slice(0, 5).map((p) => (
-         <IonCard key={p.id}>
-          <IonCardHeader>
-            <IonCardSubtitle>PostId: {p.title}</IonCardSubtitle>
-            <IonCardTitle>AuthorId: {p.userId}</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>{p.body}</IonCardContent>
-        </IonCard> 
-
-      ))} */}
-      {postList.slice(0, 4).map((p, idx) => (
-        <ChildCard key={idx} onClick={() => history.push('/post-detail')}>
-          <IonCol size="12" size-sm='12'>
-            <IonItem color='light' lines='none' className='item-content'>
-              <img src={img_small} slot='start' width='60px' height='60px' />
-              <IonLabel>
-                <b className="main-title">{t('News headlines')}</b>
-                <IonNote className='main-card'>{date}</IonNote>
-                <IonNote className='main-card'>Đoàn Hoàng</IonNote>
-              </IonLabel>
-            </IonItem>
-          </IonCol>
-        </ChildCard>
+      {FilterByTagId(data, tagId).slice(0, totalPostLoading).map((p, idx) => (
+        <div key={idx} onClick={() => {
+          dispatch(getPostDetail({ postId: p.id }));
+          dispatch(setParentPostData({ data: p }));
+          history.push('/post-detail')
+        }
+        }>
+          {
+            idx === 0 ?
+              <Card>
+                <IonCard>
+                  <img src={img} alt="" height='180px' width='100%' />
+                  <IonCardHeader >
+                    <IonCardTitle className="main-title">{p?.name ?? '...'}</IonCardTitle>
+                    <IonNote className='main-card'>{moment(p?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
+                    <IonNote className='main-card'>{p?.writter ?? '...'}</IonNote>
+                  </IonCardHeader>
+                </IonCard>
+              </Card>
+              :
+              <ChildCard>
+                <IonCol size="12" size-sm='12'>
+                  <IonItem color='light' lines='none' className='item-content'>
+                    <img src={img_small} slot='start' width='60px' height='60px' alt='' />
+                    {/* <IonLabel></IonLabel> */}
+                    <IonCardHeader>
+                      {/* <b className="main-title">{p?.name ?? '...'}</b> */}
+                      <IonCardTitle className='main-card'>{p?.name ?? '...'}</IonCardTitle>
+                      <IonNote className='main-card'>{moment(p?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
+                      <IonNote className='main-card'>{p?.writter ?? '...'}</IonNote>
+                    </IonCardHeader>
+                  </IonItem>
+                </IonCol>
+              </ChildCard>
+          }
+        </div>
       ))}
+      <div>
+        <IonInfiniteScroll threshold="100px"
+          onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
+          <IonInfiniteScrollContent
+            loadingSpinner="bubbles"
+            loadingText="Loading more data..."
+          >
+            {loading === true ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%' }}></IonSpinner> : null}
+          </IonInfiniteScrollContent>
+        </IonInfiniteScroll>
+      </div>
     </IonContent>
   );
 };

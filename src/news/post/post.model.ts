@@ -16,7 +16,7 @@ export interface Post {
   name: string;
   writter: string;
   category: Category;
-  tag: Tag;
+  tags: Tag[];
 }
 export interface PostResponse {
   totalSize: number;

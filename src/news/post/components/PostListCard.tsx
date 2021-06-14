@@ -27,7 +27,7 @@ import { getPostDetail, getPosts, setParentPostData } from 'news/post/post.slice
 import TagList from './TagList'
 
 import logo from '@app/assets/img/logo.png';
-import img from '@app/assets/img/virus.jpg';
+import img from '@app/assets/img/khau_trang.jpg';
 import img_small from '@app/assets/img/virus2.jpg';
 import moment from 'moment';
 import { useHistory } from 'react-router';
@@ -112,17 +112,25 @@ const PostListCard: React.FC = () => {
   const [searchData, setSearchData] = useState('');
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(50);
+  const [tagId, setTagId] = useState<string>('');
   const [totalPostLoading, setTotalPostLoading] = useState<number>(5);
   const [loading, setLoading] = useState<boolean>(true);
   const dispatch = useDispatch();
   const { data } = useSelector((s) => s.post.postList);
-  console.log(data);
   const reverseArr = (arr: Post[]) => {
     let result = [];
     for (let i = arr.length - 1; i >= 0; i--) {
       result.push(arr[i]);
     }
     return result;
+  }
+  const FilterByTagId = (arr: Post[], id?: string) => {
+    let result = []
+    if (id) {
+      result = arr.filter(item => item?.tags[0]?.id === id)
+      return reverseArr(result);
+    }
+    return reverseArr(arr);
   }
   const getData = useCallback(() => {
     dispatch(getPosts({
@@ -137,7 +145,11 @@ const PostListCard: React.FC = () => {
     setTimeout(() => { setTotalPostLoading(totalPostLoading + 5); setLoading(false) }, 500);
 
   }
-
+  const handleFilterTag = (id: string): void => {
+    if (id) {
+      setTagId(id);
+    }
+  }
   useIonViewWillEnter(async () => {
     await fetchData();
   });
@@ -173,10 +185,9 @@ const PostListCard: React.FC = () => {
         <div className="ion-margin-top">
           <SearchNote>TỪ KHÓA PHỔ BIẾN</SearchNote>
         </div>
-        <TagList />
+        <TagList handleFilterTag={(id: string) => { handleFilterTag(id) }} />
       </StyledHeader>
-
-      {reverseArr(data).slice(0, totalPostLoading).map((p, idx) => (
+      {FilterByTagId(data, tagId).slice(0, totalPostLoading).map((p, idx) => (
         <div key={idx} onClick={() => {
           dispatch(getPostDetail({ postId: p.id }));
           dispatch(setParentPostData({ data: p }));
@@ -220,7 +231,6 @@ const PostListCard: React.FC = () => {
             loadingSpinner="bubbles"
             loadingText="Loading more data..."
           >
-            {console.log(loading)}
             {loading === true ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%' }}></IonSpinner> : null}
           </IonInfiniteScrollContent>
         </IonInfiniteScroll>

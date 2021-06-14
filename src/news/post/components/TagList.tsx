@@ -6,7 +6,7 @@ import {
 } from '@ionic/react';
 
 import { useDispatch, useSelector } from '@app/hooks';
-import { getTags } from 'news/post/post.slice';
+import { getTags, setFilter } from 'news/post/post.slice';
 
 
 
@@ -18,7 +18,12 @@ const WrapperKeyword = styled.div`
     padding: 5px;
   }
 `;
-const TagList: React.FC = () => {
+interface Props {
+  handleFilterTag: (id: string) => void;
+}
+const TagList: React.FC<Props> = ({
+  handleFilterTag
+}) => {
 
   const dispatch = useDispatch();
   const tagList = useSelector((s) => s.post.tagList);
@@ -31,7 +36,7 @@ const TagList: React.FC = () => {
       <WrapperKeyword>
         {
           (tagList || []).map((item, idx) => (
-            <IonBadge color='light' className='ion-margin-end'>{item?.description ?? ''}</IonBadge>
+            <IonBadge style={{ backgroundColor: '#cdf2c6' }} color='light' className='ion-margin-end' onClick={() => handleFilterTag(item.id)}>{item?.description ?? ''}</IonBadge>
           ))
         }
 

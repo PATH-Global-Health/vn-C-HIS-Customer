@@ -33,9 +33,10 @@ const CardContent = styled.div`
     }
     ion-card-content{
       margin-bottom: -10px;
+      font-size: 15px;
     }
     ion-card{
-      min-height: 700px;
+      min-height: 740px;
     }
     ion-note{
       display: block;
@@ -45,9 +46,6 @@ const CardContent = styled.div`
     }
     ion-card-title{
       font-size: 30px;
-    }
-    ion-card-content{
-      font-size: 15px;
     }
     .card-image{
       position: relative;
@@ -82,7 +80,6 @@ const WrapperKeyword = styled.div`
 const PostDetailPage: React.FC = () => {
   const parentPostData = useSelector((s) => s.post.parentPostData);
   const detailPostList = useSelector((s) => s.post.postDetail);
-  console.log(detailPostList);
   const contentRef = useRef<HTMLIonContentElement | null>(null);
   const history = useHistory();
   const scrollToTop = () => {

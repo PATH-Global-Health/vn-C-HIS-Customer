@@ -5,7 +5,12 @@ import {
 import { Post, PostDetail, PostResponse, Tag } from './post.model';
 import postService from 'news/post/post.service';
 
+interface Filter {
+  tagId?: string;
+}
+
 interface State {
+  filter: Filter;
   postList: PostResponse;
   tagList: Tag[],
   parentPostData: Post | null;
@@ -16,6 +21,7 @@ interface State {
 }
 
 const initialState: State = {
+  filter: {},
   postList: {
     totalSize: 0,
     pageSize: 0,
@@ -35,6 +41,12 @@ const setParentPostDataCR: CR<{
   ...state,
   parentPostData: action.payload.data,
 });
+
+const setFilterCR: CR<Filter> = (state, { payload }) => ({
+  ...state,
+  filter: payload
+})
+
 const getTags = createAsyncThunk('post/getTags', async () => {
   const result = await postService.getTags();
   return result;
@@ -71,6 +83,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     setParentPostData: setParentPostDataCR,
+    setFilter: setFilterCR,
   },
   extraReducers: (builder) => {
     //get posts
@@ -119,6 +132,6 @@ const slice = createSlice({
 });
 
 export { getPosts, getPostDetail, getTags };
-export const { setParentPostData } = slice.actions;
+export const { setParentPostData, setFilter } = slice.actions;
 
 export default slice.reducer;

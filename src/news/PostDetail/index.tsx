@@ -91,7 +91,7 @@ const PostDetailPage: React.FC = () => {
         <IonCard color='light'>
           <div className='card-image'>
             <IonIcon icon={chevronBackOutline} className='back-icon' onClick={() => { history.push('/post') }}></IonIcon>
-            <img src={img_small} alt='post_image' />
+            <img src={parentPostData?.description !== '' ? parentPostData?.description : img_small} alt='post_image' />
           </div>
           <div>
             <IonCardHeader>

@@ -124,16 +124,32 @@ const PostListCard: React.FC = () => {
     }
     return result;
   }
+  const formatArr = (arr: Post[]) => {
+    return arr.map((item) => {
+      const parse = /data:(.*)/i.exec(item.description);
+
+      return {
+        id: item.id,
+        name: item.name,
+        dateCreated: item.dateCreated,
+        writter: item.writter,
+        description: parse !== null ? parse[0] : '',
+        tags: item.tags,
+        category: item.category
+      }
+    })
+  }
   const FilterByTagId = (arr: Post[], id?: string) => {
     let result = []
     if (id) {
       if (id !== 'none') {
         result = arr.filter(item => item?.tags[0]?.id === id)
-        return reverseArr(result);
+        return formatArr(reverseArr(result));
       }
-      else return reverseArr(arr);
+      else return formatArr(reverseArr(arr));
     }
-    return reverseArr(arr);
+    console.log(formatArr((reverseArr(arr))));
+    return formatArr(reverseArr(arr));
   }
   const getData = useCallback(() => {
     dispatch(getPosts({
@@ -201,7 +217,7 @@ const PostListCard: React.FC = () => {
             idx === 0 ?
               <Card>
                 <IonCard>
-                  <img src={img} alt="" height='180px' width='100%' />
+                  <img src={p?.description !== '' ? p.description : logo} alt="" height='180px' width='100%' />
                   <IonCardHeader >
                     <IonCardTitle className="main-title">{p?.name ?? '...'}</IonCardTitle>
                     <IonNote className='main-card'>{moment(p?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
@@ -213,7 +229,7 @@ const PostListCard: React.FC = () => {
               <ChildCard>
                 <IonCol size="12" size-sm='12'>
                   <IonItem color='light' lines='none' className='item-content'>
-                    <img src={img_small} slot='start' width='60px' height='60px' alt='' />
+                    <img src={p?.description !== '' ? p.description : logo} slot='start' width='60px' height='60px' alt='' />
                     {/* <IonLabel></IonLabel> */}
                     <IonCardHeader>
                       {/* <b className="main-title">{p?.name ?? '...'}</b> */}

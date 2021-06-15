@@ -127,8 +127,11 @@ const PostListCard: React.FC = () => {
   const FilterByTagId = (arr: Post[], id?: string) => {
     let result = []
     if (id) {
-      result = arr.filter(item => item?.tags[0]?.id === id)
-      return reverseArr(result);
+      if (id !== 'none') {
+        result = arr.filter(item => item?.tags[0]?.id === id)
+        return reverseArr(result);
+      }
+      else return reverseArr(arr);
     }
     return reverseArr(arr);
   }

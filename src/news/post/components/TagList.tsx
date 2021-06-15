@@ -11,13 +11,20 @@ import { getTags, setFilter } from 'news/post/post.slice';
 
 const WrapperKeyword = styled.div`
   margin: 10px 0px 0px 10px;
+  # something:target {
+    display: none;
+  }
   ion-badge{
-    background-color:#cdf2c6;
-    hover: {
-      background-color: red
-    }
+    background-color:#e2efdf;
     border-radius: 10px;
     padding: 5px;
+  }
+`;
+const StyledIonBadge = styled(IonBadge).attrs(props => ({
+
+}))`
+  &:hover {
+    background-color: #0d90e1;  
   }
 `;
 interface Props {
@@ -36,12 +43,12 @@ const TagList: React.FC<Props> = ({
   return (
     <>
       <WrapperKeyword>
+        <StyledIonBadge color='light' className='ion-margin-end type' onClick={() => handleFilterTag('none')}>Mới nhất</StyledIonBadge>
         {
           (tagList || []).map((item, idx) => (
-            <IonBadge key={idx} color='light' className='ion-margin-end' onClick={() => handleFilterTag(item.id)}>{item?.description ?? ''}</IonBadge>
+            <StyledIonBadge key={idx} id="something" color='light' className='ion-margin-end type' onClick={() => handleFilterTag(item.id)}>{item?.description ?? ''}</StyledIonBadge>
           ))
         }
-
       </WrapperKeyword>
     </>
   );

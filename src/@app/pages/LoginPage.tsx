@@ -98,6 +98,7 @@ const LoginPage: React.FC = () => {
       icon: phonePortraitOutline,
       name: "username",
       fieldType: "input",
+      type: "number",
       label: t('PhoneNumber'),
       placeholder: t('PhoneNumber'),
     },
@@ -130,9 +131,9 @@ const LoginPage: React.FC = () => {
     register(
       'username',
       {
-        required: { value: true, message: t('No phone number entered')},
-        maxLength: { value: 10, message: t('Phone numbers with up to 10 digits')},
-        pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format')}
+        required: { value: true, message: t('No phone number entered') },
+        maxLength: { value: 10, message: t('Phone numbers with up to 10 digits') },
+        pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
       }
     );
     register(
@@ -251,7 +252,7 @@ const LoginPage: React.FC = () => {
           <IonCol size='6' size-sm='6'>
             <StyleText >
               <IonCheckbox style={{ margin: '-25px 10px 0px 5px' }} checked={remember} onIonChange={e => setRemember(e.detail.checked)}></IonCheckbox>
-            {t('Remember password')}</StyleText>
+              {t('Remember password')}</StyleText>
           </IonCol>
           <IonCol size="6" size-sm='2'>
             <StyleText onClick={() => history.push('/forget-password')}>{t('Forgot password')}</StyleText>
@@ -261,7 +262,7 @@ const LoginPage: React.FC = () => {
           <IonCol size="12" size-sm='4'>
             <div style={{ textAlign: 'center', marginTop: '10px', color: 'black' }}>
               {t('Or')}
-                        </div>
+            </div>
           </IonCol>
         </IonRow>
         <div>
@@ -289,7 +290,7 @@ const LoginPage: React.FC = () => {
             <IonCol size="12" size-sm='4'>
               <div style={{ textAlign: 'center' }}>
                 {/* <StyledIcon icon={language}></StyledIcon> */}
-              <StyledSocialSelect
+                <StyledSocialSelect
                   placeholder={t('Language')}
                   onIonChange={(e) => i18n.changeLanguage(e.detail.value)}
                 >

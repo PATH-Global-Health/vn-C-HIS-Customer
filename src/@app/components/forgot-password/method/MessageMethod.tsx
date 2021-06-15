@@ -100,6 +100,7 @@ const MessageMethod: React.FC = () => {
                   <StyledInput
                     required={true}
                     placeholder={t('PhoneNumber')}
+                    type="number"
                     onIonBlur={onBlur}
                     value={value}
                     onIonChange={onChange}

@@ -38,7 +38,7 @@
     "Cancel appointment": "Hủy lịch hẹn",
     "Examination List": "Danh sách lịch hẹn",
     "Language": "Ngôn ngữ",
-    "Hello": "Xin chào",
+    "Hello": "Xin chào!",
     "Featured Services": "Dịch vụ nổi bật",
     "Search": "Tìm kiếm",
     "View all": "Xem tất cả",
@@ -91,7 +91,7 @@
     "Continue by facebook": "Tiếp tục bằng Facebook",
     "No account": "Chưa có tài khoản",
     "Register now": "Đăng kí ngay",
-    "Username not entered": "Chưa nhập tên người dùng",
+    "Username not enter": "Chưa nhập tên người dùng",
     "Sign Up Success": "Đăng kí thành công",
     "Registration failed. Registered phone number": "Đăng ký thất bại. Số điện thoại đã được đăng ký",
     "Sign up": "ĐĂNG KÍ",
@@ -118,8 +118,4 @@
     "day/month/year": "ngày/tháng/năm",
     "Unknown ?": "Không xác định ?",
     "Choose another method": "Chọn phương thức khác"
-
-
-
-
 }

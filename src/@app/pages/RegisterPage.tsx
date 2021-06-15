@@ -89,7 +89,7 @@ const RegisterPage: React.FC = () => {
       name: "phoneNumber",
       fieldType: "input",
       label: "Số điện thoại",
-      type: 'tel',
+      type: 'number',
       placeholder: t('PhoneNumber'),
     },
     {
@@ -118,22 +118,22 @@ const RegisterPage: React.FC = () => {
     register(
       'fullName',
       {
-        required: { value: true, message: t('Username not enter')},
+        required: { value: true, message: t('Username not enter') },
       }
     );
     register(
       'password',
       {
         required: { value: true, message: t('Password not entered') },
-        minLength: { value: 5, message: t('Password minimum 5 characters')},
+        minLength: { value: 5, message: t('Password minimum 5 characters') },
       }
     );
     register(
       'phoneNumber',
       {
-        required: { value: true, message: t('No phone number entered')},
-        maxLength: { value: 10, message: t('Phone numbers with up to 10 digits')},
-        pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format')}
+        required: { value: true, message: t('No phone number entered') },
+        maxLength: { value: 10, message: t('Phone numbers with up to 10 digits') },
+        pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
       }
     );
   }, [register]);
@@ -236,7 +236,7 @@ const RegisterPage: React.FC = () => {
           })}
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" size-sm='3'>
-              <StyleText >{t('Already have an account') +'?'}<b onClick={() => { history.push('/login') }} style={{ cursor: 'pointer' }} >{t('Login')}</b></StyleText>
+              <StyleText >{t('Already have an account') + '?'}<b onClick={() => { history.push('/login') }} style={{ cursor: 'pointer' }} >{t('Login')}</b></StyleText>
             </IonCol>
           </IonRow>
           <IonRow className="ion-justify-content-center">

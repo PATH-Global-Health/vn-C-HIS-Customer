@@ -9,11 +9,13 @@ import { useDispatch, useSelector } from '@app/hooks';
 import { getTags, setFilter } from 'news/post/post.slice';
 
 
-
 const WrapperKeyword = styled.div`
   margin: 10px 0px 0px 10px;
   ion-badge{
     background-color:#cdf2c6;
+    hover: {
+      background-color: red
+    }
     border-radius: 10px;
     padding: 5px;
   }
@@ -36,7 +38,7 @@ const TagList: React.FC<Props> = ({
       <WrapperKeyword>
         {
           (tagList || []).map((item, idx) => (
-            <IonBadge style={{ backgroundColor: '#cdf2c6' }} color='light' className='ion-margin-end' onClick={() => handleFilterTag(item.id)}>{item?.description ?? ''}</IonBadge>
+            <IonBadge key={idx} color='light' className='ion-margin-end' onClick={() => handleFilterTag(item.id)}>{item?.description ?? ''}</IonBadge>
           ))
         }
 

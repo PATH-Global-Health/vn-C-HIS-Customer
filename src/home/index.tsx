@@ -52,7 +52,7 @@ const StyledHeader = styled.div`
   color: black;
   font-size: 20px;
   margin-left: 5%;
-  margin-top: 5%;
+  margin-top: 10%;
 `;
 const Card = styled(IonCard)`
   height: 110px;
@@ -163,13 +163,13 @@ const Home: React.FC = () => {
   return (
     <>
       <IonContent>
-        <IonRow className="ion-justify-content-center" >
+        {/*  <IonRow className="ion-justify-content-center" >
           <IonCol size="4" size-sm="3">
             <div>
               <img src={logo} alt="logo" width='150px' />
             </div>
           </IonCol>
-        </IonRow>
+        </IonRow> */}
         <StyledHeader>
           <div>
             {t('Hello')}<b> &nbsp; Đoàn Hoàng</b>

@@ -38,6 +38,7 @@ const StyleText = styled.div`
 `;
 const StyledButton = styled(IonButton)`
     width: 300px;
+    margin-top: 10px;
     --background: #293978;
 `;
 

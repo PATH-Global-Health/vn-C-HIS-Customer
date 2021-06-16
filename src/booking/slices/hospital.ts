@@ -34,7 +34,7 @@ const getHospitalByServiceId = createAsyncThunk('hospital/getHospitalByServiceId
     return result;
 });
 
-const getHospitalByServiceIdAndDate = createAsyncThunk('hospital/getHospitalByServiceIdAndDate', async (arg: {serviceId: string, date: string}) => {
+const getHospitalByServiceIdAndDate = createAsyncThunk('hospital/getHospitalByServiceIdAndDate', async (arg: { serviceId: string, date: string }) => {
     const result = await bookingServices.hospitalService.getHospitalByServiceIdAndDate(arg.serviceId, arg.date);
     return result;
 });

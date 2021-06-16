@@ -21,6 +21,7 @@ import ConfirmProfile from 'booking/pages/ConfirmProfile';
 import ApointmentInfo from 'booking/pages/ApointmentInfo';
 import ExaminationList from 'booking/pages/ExaminationList';
 import PostDetailPage from 'news/PostDetail';
+import BookingTest from 'home/test';
 
 interface Route {
   component: React.FC;
@@ -64,6 +65,12 @@ const routes: Route[] = [
     isPrivate: true,
   },
   {
+    component: BookingTest,
+    layout: AppLayout,
+    path: '/risk',
+    isPrivate: true,
+  },
+  {
     component: PostPage,
     layout: AppLayout,
     path: '/post',
@@ -83,6 +90,7 @@ const routes: Route[] = [
   {
     component: HomeBooking,
     path: '/homeBooking',
+    isPrivate: true,
   },
   {
     component: TestingAppointment,

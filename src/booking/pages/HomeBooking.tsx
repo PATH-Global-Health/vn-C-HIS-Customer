@@ -58,7 +58,7 @@ const StyledLabelHeader = styled(IonLabel)`
 `
 
 const StyledButtonHeader = styled(IonButton)`
-  --background: white;
+  --background: none;
   left: 10px;
   position: absolute;
 `

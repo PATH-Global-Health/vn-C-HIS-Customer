@@ -21,7 +21,7 @@ const HomeBooking: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getUserInfo())
+    dispatch(getUserInfo());
   }, [])
   return (
     <IonPage>

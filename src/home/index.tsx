@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   IonCard,
@@ -25,14 +25,18 @@ import {
 
 import { useHistory } from "react-router-dom";
 
-import logo from '@app/assets/img/logo.png'
-import img from '@app/assets/img/virus.jpg'
+import PostCard from "./components/PostCard";
+import logo from '@app/assets/img/logo.png';
+import img from '@app/assets/img/virus.jpg';
 
 import Slider from 'react-slick';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from '@app/hooks';
+import { getPosts } from 'news/post/post.slice';
+import { getUserInfo } from 'booking/slices/workingCalendar';
 
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
@@ -120,6 +124,7 @@ const Menu = styled(IonRow)`
 `;
 const Home: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const dispatch = useDispatch();
   interface OptionProps {
     icon: string;
     label: string;
@@ -152,12 +157,24 @@ const Home: React.FC = () => {
     },
   ];
   const [searchData, setSearchData] = useState('');
+  const [pageIndex, setPageIndex] = useState<number>(0);
+  const [pageSize, setPageSize] = useState<number>(50);
+  const { data } = useSelector((s) => s.post.postList);
+  const userInfo = useSelector((w) => w.workingCaledar.userProfile);
   const history = useHistory();
   const handleTypeService = (name: string) => {
     name === "booking" ? history.push("/homeBooking")
       : name === "examinationList" ? history.push("/examinationList")
         : history.push("/risk")
   }
+  const getData = useCallback(() => {
+    dispatch(getPosts({
+      pageIndex,
+      pageSize
+    }));
+    dispatch(getUserInfo());
+  }, [pageIndex, pageSize, dispatch]);
+  useEffect(getData, [getData]);
   return (
     <>
       <IonContent>
@@ -170,7 +187,7 @@ const Home: React.FC = () => {
         </IonRow>
         <StyledHeader>
           <div>
-            {t('Hello')}<b> &nbsp; Đoàn Hoàng</b>
+            {t('Hello')}<b> &nbsp;{userInfo.fullname}</b>
           </div>
           <div>
             <StyleWrapperInput color='light' lines='none'>
@@ -251,25 +268,7 @@ const Home: React.FC = () => {
             <IonIcon className="ion-align-self-center" slot="end" size="small" icon={chevronForwardOutline} />
           </IonItem>
         </Menu>
-        <Slider infinite={false} dots={true} slidesToShow={1.4} slidesToScroll={1} swipeToSlide={true} >
-          {
-            optionFields.map((item, idx) => {
-              return (
-                <CardSlider key={idx} >
-                  <IonCard>
-                    <IonItem color='light'>
-                      <img src={img} alt="" height='110px' width='100%' />
-                    </IonItem>
-                    <IonCardHeader >
-                      <IonCardTitle style={{ color: 'black', fontSize: '15px' }}>{t('News headlines')}</IonCardTitle>
-                      <IonNote >{t('Author')}</IonNote>
-                    </IonCardHeader>
-                  </IonCard>
-                </CardSlider>
-              )
-            })
-          }
-        </Slider>
+        <PostCard data={data} />
       </IonContent>
     </>
   );

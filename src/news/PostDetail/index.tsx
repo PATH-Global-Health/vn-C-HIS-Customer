@@ -85,6 +85,11 @@ const PostDetailPage: React.FC = () => {
   const scrollToTop = () => {
     contentRef.current && contentRef.current.scrollToTop();
   }
+  const sortByOrder = (arr: PostDetail[]) => {
+    return [...arr].sort((a, b) => {
+      return a.order - a.order;
+    })
+  }
   return (
     <IonContent ref={contentRef} scrollEvents={true}>
       <CardContent>
@@ -101,7 +106,7 @@ const PostDetailPage: React.FC = () => {
             </IonCardHeader>
           </div>
           {
-            (detailPostList || []).map((item, idx) => (
+            (sortByOrder(detailPostList) || []).map((item, idx) => (
               <div key={idx}>
                 {
                   item.type === 0

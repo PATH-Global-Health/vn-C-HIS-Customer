@@ -32,6 +32,7 @@ import img_small from '@app/assets/img/virus2.jpg';
 import moment from 'moment';
 import { useHistory } from 'react-router';
 import { Post } from '../post.model';
+import { useTranslation } from 'react-i18next';
 
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
@@ -73,22 +74,23 @@ const Card = styled(IonRow)`
   .main-card {
     margin-top: 8px;
     font-size: 15px;
-    color: #646464;
+    color: #000000;
     display: block;
   }
 `;
 const ChildCard = styled(IonRow)`
   ion-item{
-    border: 1px solid #bcbcbc;
+    border: 1px solid #d5c9c9;
+    box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     margin: 5px 1%;
     background-color:white;
   }
   img{
-    margin: 10px 0px 10px 0px;
-    max-width: 55px;
-    max-height: 55px;
+    max-width: 140px;
     border-radius: 5px;
+    margin: 0px 0px 0px -10px;
+    padding: 0
   }
   ion-label{
     margin-top: 8px;
@@ -100,7 +102,7 @@ const ChildCard = styled(IonRow)`
   .main-card {
     margin-top: 5px;
     font-size: 12px;
-    color: #646464;
+    color: #000000;
     display: block;
   }
 `;
@@ -110,6 +112,7 @@ const WrapperKeyword = styled.div`
 `;
 const PostListCard: React.FC = () => {
   const history = useHistory();
+  const { t, i18n } = useTranslation();
   const [searchData, setSearchData] = useState('');
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(50);
@@ -149,7 +152,6 @@ const PostListCard: React.FC = () => {
       }
       else return formatArr(reverseArr(arr));
     }
-    console.log(formatArr((reverseArr(arr))));
     return formatArr(reverseArr(arr));
   }
   const getData = useCallback(() => {
@@ -195,7 +197,7 @@ const PostListCard: React.FC = () => {
         <div>
           <StyleWrapperInput color='light' lines='none'>
             <StyledInput
-              placeholder={('Search')}
+              placeholder={t('Search')}
               onIonChange={e => setSearchData(e.detail.value!)}
             >
             </StyledInput>
@@ -203,7 +205,7 @@ const PostListCard: React.FC = () => {
           </StyleWrapperInput>
         </div>
         <div className="ion-margin-top">
-          <SearchNote>{('Popular keywords')}</SearchNote>
+          <SearchNote>{t('Popular keywords')}</SearchNote>
         </div>
         <TagList handleFilterTag={(id: string) => { handleFilterTag(id) }} />
       </StyledHeader>

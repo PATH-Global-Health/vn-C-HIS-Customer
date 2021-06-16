@@ -21,7 +21,7 @@ const StyleWrapperInput = styled(IonItem)`
   height: 48px;
   font-size: 18px;
   text-transform: initial;
-  box-shadow: 1px 3px 3px 0px rgba(0, 0, 0, 0.2)
+  box-shadow: 1px 3px 3px 0px rgba(0, 0, 0, 0.2);
 `;
 const StyledInput = styled(IonInput)`
     color: black;
@@ -41,8 +41,6 @@ const StyledButton = styled(IonButton)`
     margin-top: 10px;
     --background: #293978;
 `;
-
-
 const StyledSocialSelect = styled(IonSelect)`
     color: black;
     border: 0.5px solid #d6d6c2;

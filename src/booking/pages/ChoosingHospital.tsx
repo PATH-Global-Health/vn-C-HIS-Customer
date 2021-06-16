@@ -21,103 +21,11 @@ import location from '../../@app/mock/locations.json';
 import { deburr } from '../../@app/utils/helpers';
 import { getUnitTypes } from 'booking/slices/unitType';
 import { useTranslation } from 'react-i18next';
-
-const StyledButton = styled(IonButton)`{
-    ::after{content: ""}
-    width: 351px;
-    --background: white;
-    text-align: center;
-    color: black;
-    border: 1px solid #d7d8da;
-    border-radius: 11px;
-    // margin-left: 37px;
-    position: relative;
-    font-family: system-ui;
-    font-size: 18px;
-    margin-top: 10px;
-}
-`;
-
-const StyledButtonSearchName = styled(IonButton)`{
-  ::after{content: ""}
-  width: 70%;
-  --background: white;
-  text-align: center;
-  color: black;
-  border: 1px solid #d7d8da;
-  border-radius: 11px;
-  margin-left: -75px;
-  position: relative;
-  font-family: system-ui;
-  font-size: 18px;
-  // margin-top: 10px;
-}
-`;
-
-const StyledIconRight = styled(IonIcon)`
-{
-    color: #b3b3b3;
-    right: -9px;
-    position: absolute;
-  }
-`;
-
-const StyledImg = styled(IonImg)`
-{
-    left: -15px;
-    width: 50px;
-    height: 55px;
-    position: absolute;
-  }
-`;
-
-const StyledIconLeft = styled(IonIcon)`
-{
-    color: #b3b3b3;
-    left: 5px;
-    position: absolute;
-  }
-`;
-
-const StyledHeader = styled(IonHeader)`
-{
-  height: 60px;
-  border-bottom: 1px solid #b3b3b3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-`
-
-const StyledLabelHeader = styled(IonLabel)`
-{
-  font-weight: bold;
-    font-size: 23px;
-}
-`
-
-const StyledButtonHeader = styled(IonButton)`
-{
-  --background: white;
-  left: 10px;
-  position: absolute;
-}
-`
+import styles from '../css/choosingHospital.module.css';
 
 const StyledContent = styled(IonContent)`
 {
   text-align: center;
-}
-`
-const StyledInput = styled(IonInput)`
-{
-  // width: 75%;
-  height: 37px;
-  border: 1px solid #b3b3b3;
-  border-radius: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 `
 const StyledDiv = styled.div`
@@ -126,29 +34,7 @@ const StyledDiv = styled.div`
  justify-content: space-between;
 }
 `
-const StyledDivRender = styled.div`
-{
-  position: absolute;
-  top: 25%;
-  left: 9px;
-}
-`
 
-const StyledButtonMenu = styled(IonButton)`
-    {
-      --background: white;
-      // left: 10px;
-      // position: absolute;
-      // border: 1px solid #293978;
-      border-radius: 10px;
-      // width: 15%;
-      margin: 0px 17px;
-      height: 30px;
-      width: 50px;
-      position: absolute;
-      right: -16px;
-    }
-    `
 const StyledIconMenu = styled(IonIcon)`
     {
       // margin-right: 10px;
@@ -167,6 +53,7 @@ const StyledSelect = styled(IonSelect)`
 const StyleModal = styled(IonModal)`
     {
       padding-top: 20px;
+      padding-bottom: 20px;
     }
 `
 const StyledButtonCloseModal = styled(IonButton)`
@@ -203,12 +90,12 @@ const ChoosingHospital: React.FC = () => {
   return (
     <IonPage>
       <StyleModal isOpen={showModal} cssClass='my-custom-class'>
-        {show === true ? <div><StyledSelect placeholder={t('Unit Type')} onIonChange={e => { setUnitType(e.detail.value); setTypeSearch("unitType") }}>
+        {show === true ? <div><IonSelect className={styles.styledSelect} placeholder={t('Unit Type')} onIonChange={e => { setUnitType(e.detail.value); setTypeSearch("unitType") }}>
           {unitTypes.map((unitType) => (
             <IonSelectOption value={unitType.id}>{unitType.typeName}</IonSelectOption>
           ))}
-        </StyledSelect>
-          <StyledSelect
+        </IonSelect>
+          <IonSelect className={styles.styledSelect}
             placeholder={t('City')}
             onIonChange={e => {
               setCity(e.detail.value);
@@ -219,9 +106,9 @@ const ChoosingHospital: React.FC = () => {
             {hospitals.map((hos) => (
               location.filter((lo) => lo.value === hos.province).map(ci => (<IonSelectOption value={ci.value}>{ci.label}</IonSelectOption>))
             ))}
-          </StyledSelect>
+          </IonSelect>
           {city === undefined ? "" :
-            <StyledSelect placeholder={t('District')} onIonChange={e => {
+            <IonSelect className={styles.styledSelect} placeholder={t('District')} onIonChange={e => {
               setDistricts(e.detail.value);
               setTypeSearch("unitTypeCityDistrict")
             }}>
@@ -234,10 +121,10 @@ const ChoosingHospital: React.FC = () => {
               {/* {location.filter((lo) => lo.value === city)[0].districts.map((districts) => (
                 <IonSelectOption value={districts.value}>{districts.label}</IonSelectOption>
               ))} */}
-            </StyledSelect>
+            </IonSelect>
           }
           {districts === undefined ? "" :
-            <StyledSelect placeholder={t('Ward')} onIonChange={e => { setWards(e.detail.value); setTypeSearch("unitTypeCityDistrictWard") }}>
+            <IonSelect className={styles.styledSelect} placeholder={t('Ward')} onIonChange={e => { setWards(e.detail.value); setTypeSearch("unitTypeCityDistrictWard") }}>
               {location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0] !== undefined ?
                 hospitals.map((hos) => (
                   location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0].wards
@@ -250,99 +137,108 @@ const ChoosingHospital: React.FC = () => {
                 location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0].wards.map((ward) => (
                   <IonSelectOption value={ward.value}>{ward.label}</IonSelectOption>
                 )) : ""} */}
-            </StyledSelect>
+            </IonSelect>
           }
         </div> : ""}
 
-        <StyledDivRender>
+        <div className={styles.render}>
           {typeSearch === "unitType" ? searchByUnitType.map((hos) => (
 
-            <StyledButton
+            <button
+              className={styles.btnCustom}
               onClick={() => {
                 dispatch(getHospitalBooking(hos));
                 history.push('/hospitalDetail', hos)
               }}
             >{hos.name}
-              <StyledIconRight icon={arrowForward}></StyledIconRight>
-              <StyledIconLeft icon={podium}></StyledIconLeft>
-              <StyledImg src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hos.id}`}></StyledImg>
-            </StyledButton>
+              <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
+              <IonIcon className={styles.iconLeft} icon={podium}></IonIcon>
+              <IonImg className={styles.img} src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hos.id}`}></IonImg>
+            </button>
 
           )) : ""}
 
 
           {typeSearch === "unitTypeCity" ? searchByUnitTypeAndCity.map((hos) => (
-            <StyledButton
+            <button
+              className={styles.btnCustom}
               onClick={() => {
                 dispatch(getHospitalBooking(hos));
                 history.push('/hospitalDetail', hos)
               }}
             >{hos.name}
-              <StyledIconRight icon={arrowForward}></StyledIconRight>
-              <StyledIconLeft icon={podium}></StyledIconLeft>
-              <StyledImg src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hos.id}`}></StyledImg>
-            </StyledButton>
+              <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
+              <IonIcon className={styles.iconLeft} icon={podium}></IonIcon>
+              <IonImg className={styles.img} src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hos.id}`}></IonImg>
+            </button>
           )) : ""}
 
           {typeSearch === "unitTypeCityDistrict" ? searchByUnitTypeAndCityAndDistrict.map((hos) => (
-            <StyledButton
+            <button
+              className={styles.btnCustom}
               onClick={() => {
                 dispatch(getHospitalBooking(hos));
                 history.push('/hospitalDetail', hos)
               }}
             >{hos.name}
-              <StyledIconRight icon={arrowForward}></StyledIconRight>
-              <StyledIconLeft icon={podium}></StyledIconLeft>
-              <StyledImg src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hos.id}`}></StyledImg>
-            </StyledButton>
+              <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
+              <IonIcon className={styles.iconLeft} icon={podium}></IonIcon>
+              <IonImg className={styles.img} src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hos.id}`}></IonImg>
+            </button>
           )) : ""}
 
           {typeSearch === "unitTypeCityDistrictWard" ? searchByUnitTypeAndCityAndDistrictAndWard.map((hos) => (
-            <StyledButton
+            <button
+              className={styles.btnCustom}
               onClick={() => {
                 dispatch(getHospitalBooking(hos));
                 history.push('/hospitalDetail', hos)
               }}
             >{hos.name}
-              <StyledIconRight icon={arrowForward}></StyledIconRight>
-              <StyledIconLeft icon={podium}></StyledIconLeft>
-              <StyledImg src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hos.id}`}></StyledImg>
-            </StyledButton>
+              <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
+              <IonIcon className={styles.iconLeft} icon={podium}></IonIcon>
+              <IonImg className={styles.img} src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hos.id}`}></IonImg>
+            </button>
           )) : ""}
-        </StyledDivRender>
-        <StyledButtonCloseModal onClick={() => { setShowModal(false); setTypeSearch("name") }}>{t('Close')}</StyledButtonCloseModal>
+        </div>
+        <button className={styles.styledButtonCloseModal} onClick={() => { setShowModal(false); setTypeSearch("name") }}>{t('Close')}</button>
       </StyleModal>
-      <StyledHeader>
-        <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
-        <StyledLabelHeader>{t('Service Unit List')}</StyledLabelHeader>
-      </StyledHeader>
+      <IonHeader className={styles.header}>
+        <button className={styles.btnCustomHeader} onClick={() => history.goBack()}>
+          <IonIcon className={styles.iconLeft} icon={arrowBack}></IonIcon>
+        </button>
+        <IonLabel className={styles.headerLabel}>{t('Service Unit List')}</IonLabel>
+      </IonHeader>
 
       <StyledContent>
         <StyledDiv>
-          <StyledInput onIonChange={e => {
+          <IonInput className={styles.styledInput} onIonChange={e => {
             setTypeSearch("name")
             setHospitalName(e.detail.value!)
           }} placeholder="Search">
-            <StyledButtonMenu
+            
+          </IonInput>
+          <button
+              className={styles.styledButtonMenu}
               onClick={() => { setShow(true); setShowModal(true) }}
-            ><StyledIconMenu icon={filter}></StyledIconMenu></StyledButtonMenu>
-          </StyledInput>
+            ><StyledIconMenu icon={filter}></StyledIconMenu></button>
 
         </StyledDiv>
         <div style={{ margin: "30px 0px" }}>
 
 
           {typeSearch === "name" ? searchByName.map((hos) => (
-            <StyledButton
+            <button
+              className={styles.btnCustom}
               onClick={() => {
                 dispatch(getHospitalBooking(hos));
                 history.push('/hospitalDetail', hos)
               }}
             >{hos.name}
-              <StyledIconRight icon={arrowForward}></StyledIconRight>
-              <StyledIconLeft icon={podium}></StyledIconLeft>
-              <StyledImg src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hos.id}`}></StyledImg>
-            </StyledButton>
+              <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
+              <IonIcon className={styles.iconLeft} icon={podium}></IonIcon>
+              <IonImg className={styles.img} src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hos.id}`}></IonImg>
+            </button>
           )) : ""}
         </div>
 

@@ -20,6 +20,7 @@ import { arrowBack, arrowBackCircle, arrowBackOutline, arrowBackSharp, arrowDown
 import { IntervalModel } from 'booking/models/IntervalModel';
 import { getInterBooking } from 'booking/slices/workingCalendar';
 import { useTranslation } from 'react-i18next';
+import styles from '../css/choosingTime.module.css';
 
 const StyledButton = styled(IonButton)`{
     ::after{content: ""}
@@ -38,51 +39,11 @@ const StyledButton = styled(IonButton)`{
 }
 `;
 
-const StyledIconRight = styled(IonIcon)`
-{
-    color: #b3b3b3;
-    right: -9px;
-    position: absolute;
-  }
-`;
-
-const StyledIconLeft = styled(IonIcon)`
-{
-    color: #b3b3b3;
-    left: 5px;
-    position: absolute;
-  }
-`;
-
-const StyledHeader = styled(IonHeader)`
-{
-  height: 60px;
-  border-bottom: 1px solid #b3b3b3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-`
-
-const StyledLabelHeader = styled(IonLabel)`
-{
-  font-weight: bold;
-    font-size: 23px;
-}
-`
-
-const StyledButtonHeader = styled(IonButton)`
-{
-  --background: white;
-  left: 10px;
-  position: absolute;
-}
-`
 
 const StyledContent = styled(IonContent)`
 {
   text-align: center;
+ 
 }
 `
 const StyledLabelContent = styled(IonLabel)`
@@ -90,6 +51,7 @@ const StyledLabelContent = styled(IonLabel)`
         font-weight: bold;
         font-size: px;
         color: #a09b9b;
+        display: inline-block;
         // margin-left: 16px;
         
     }
@@ -103,20 +65,6 @@ const StyledButtonNext = styled(IonButton)`
     margin: 16px;
     margin-bottom: 200px;
     `
-const StyledItem = styled(IonItem)`
-    width: 67px;
-    height: 28px;
-    display: inline-block;
-    border: 1px solid black;
-    margin: 13px;
-    border-radius: 36px;
-    --color-checked: black;
-    `
-const StyledLabel = styled(IonLabel)`
-    position: absolute;
-    left: -10px;
-    `
-
 const ChoosingTime: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -137,36 +85,36 @@ const ChoosingTime: React.FC = () => {
 
   return (
     <IonPage>
-      <StyledHeader>
-        <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
+      <IonHeader className={styles.header}>
+        <button 
+        className={styles.btnCustomHeader}
+        onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={arrowBack}></IonIcon></button>
         {serviceId + "" === 'f2490f62-1d28-4edd-362a-08d8a7232229' ?
-          <StyledLabelHeader>{t('Test time')}</StyledLabelHeader> : <StyledLabelHeader>{t('Consultation time')}</StyledLabelHeader>}
-      </StyledHeader>
-      <StyledContent>
-        <StyledLabelContent>{t('Please choose a time that works for you')}</StyledLabelContent>
+          <IonLabel className={styles.headerLabel}>{t('Test time')}</IonLabel> : <IonLabel className={styles.headerLabel}>{t('Consultation time')}</IonLabel>}
+      </IonHeader>
+      <IonContent className={styles.styledContent}>
+        <IonLabel className={styles.styledLabelContent}>{t('Please choose a time that works for you')}</IonLabel>
         {interval.map((interval) => {
           const intervalAvailable = interval.intervals.filter((inter) => inter.isAvailable)
           if (intervalAvailable.length > 0) {
             return (
-              <StyledButton
+              <button className={styles.btnSelect}
                 onClick={() => {
                   setIntervalSelected(intervalAvailable[0])
-
-                  // console.log(intervalSelected);
                 }}
               >
                 {interval.from}
-              </StyledButton>)
+              </button>)
           }
 
 
         })}
-      </StyledContent>
+      </IonContent>
       {Boolean(intervalSelected) === true ?
-        <StyledButtonNext onClick={() => {
+        <button className={styles.styledButtonSubmit} onClick={() => {
           dispatch(getInterBooking(intervalSelected))
           history.push("/confirmProfile")
-        }}>{t('Confirm')}</StyledButtonNext> : ""}
+        }}>{t('Confirm')}</button> : ""}
     </IonPage>
   );
 };

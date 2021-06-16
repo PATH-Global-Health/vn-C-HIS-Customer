@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  IonButton,
   IonContent,
   IonHeader,
   IonIcon,
@@ -15,71 +14,7 @@ import { getHospitalByServiceId } from '../slices/hospital';
 import { arrowBack, arrowForward, calendar, podium, } from 'ionicons/icons';
 import { getTypeChoosing } from 'booking/slices/date';
 import { useTranslation } from 'react-i18next';
-
-
-const StyledButton = styled(IonButton)`{
-    ::after{content: ""}
-    width: 335px;
-    --background: white;
-    text-align: center;
-    color: black;
-    border: 1px solid #d7d8da;
-    border-radius: 11px;
-    // margin-left: 37px;
-    position: relative;
-    font-family: system-ui;
-    font-size: 18px;
-    margin-top: 10px;
-}
-`;
-
-const StyledIconRight = styled(IonIcon)`
-{
-    color: #b3b3b3;
-    right: -9px;
-    position: absolute;
-  }
-`;
-
-const StyledIconLeft = styled(IonIcon)`
-{
-    color: #b3b3b3;
-    left: 5px;
-    position: absolute;
-  }
-`;
-
-const StyledHeader = styled(IonHeader)`
-{
-  height: 60px;
-  border-bottom: 1px solid #b3b3b3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-`
-
-const StyledLabelHeader = styled(IonLabel)`
-{
-  font-weight: bold;
-    font-size: 23px;
-}
-`
-
-const StyledButtonHeader = styled(IonButton)`
-{
-  --background: white;
-  left: 10px;
-  position: absolute;
-}
-`
-
-const StyledContent = styled(IonContent)`
-{
-  text-align: center;
-}
-`
+import styles from '../css/testingAppointment.module.css';
 
 const TestingAppointment: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -88,31 +23,37 @@ const TestingAppointment: React.FC = () => {
   const serviceId = useSelector((w) => w.workingCaledar.serviceId);
   return (
     <IonPage>
-      <StyledHeader>
-        <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
-        {serviceId + "" === 'f2490f62-1d28-4edd-362a-08d8a7232229' ? 
-        <StyledLabelHeader>{t('Schedule a test')}</StyledLabelHeader> : <StyledLabelHeader>{t('Schedule a consultation')}</StyledLabelHeader>}
-      </StyledHeader>
-      <StyledContent>
-        <StyledButton onClick={() => {
-          dispatch(getDateByServiceId(serviceId));
-          dispatch(getTypeChoosing("apointmentDate"));
-          history.push('/apointmentDate')
-        }
-        }>{t('Time')}
-          <StyledIconRight icon={arrowForward}></StyledIconRight>
-          <StyledIconLeft icon={calendar}></StyledIconLeft>
-        </StyledButton>
-        <StyledButton onClick={() => {
-          dispatch(getHospitalByServiceId(serviceId));
-          dispatch(getTypeChoosing("choosingHospital"));
-          history.push('/choosingHospital')
-        }}
+      <IonHeader className={styles.header}>
+        <button
+          className={styles.btnCustomHeader}
+          onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={arrowBack}></IonIcon></button>
+        {serviceId + "" === 'f2490f62-1d28-4edd-362a-08d8a7232229' ?
+          <IonLabel className={styles.headerLabel}>{t('Schedule a test')}</IonLabel> : <IonLabel className={styles.headerLabel}>{t('Schedule a consultation')}</IonLabel>}
+      </IonHeader>
+      <IonContent className={styles.content}>
+        <button
+          className={styles.btnCustom}
+          onClick={() => {
+            dispatch(getDateByServiceId(serviceId));
+            dispatch(getTypeChoosing("apointmentDate"));
+            history.push('/apointmentDate')
+          }
+          }>{t('Time')}
+          <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
+          <IonIcon className={styles.iconLeft} icon={calendar}></IonIcon>
+        </button>
+        <button
+          className={styles.btnCustom}
+          onClick={() => {
+            dispatch(getHospitalByServiceId(serviceId));
+            dispatch(getTypeChoosing("choosingHospital"));
+            history.push('/choosingHospital')
+          }}
         >{t('Service Unit')}
-      <StyledIconRight icon={arrowForward}></StyledIconRight>
-          <StyledIconLeft icon={podium}></StyledIconLeft>
-        </StyledButton>
-      </StyledContent>
+          <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
+          <IonIcon className={styles.iconLeft} icon={podium}></IonIcon>
+        </button>
+      </IonContent>
     </IonPage>
   );
 };

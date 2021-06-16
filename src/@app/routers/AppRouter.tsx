@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 
 const AppRouter: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const { appMenu } = useSelector((state) => state.global);
+  const appMenu: boolean = true;
   return (
     <IonApp>
       <IonReactRouter>

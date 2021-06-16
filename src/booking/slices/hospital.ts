@@ -4,13 +4,28 @@ import bookingServices from '../services/index';
 
 interface State {
     hospitals: Hospital[];
-    hospitalBooking?: Hospital;
+    hospitalBooking: Hospital;
     loading: boolean;
 }
 
 const initialState: State = {
     hospitals: [],
-    hospitalBooking: undefined,
+    hospitalBooking: {
+        dateCreated: "",
+        dateUpdated: "",
+        id: "",
+        username: "",
+        name: "",
+        unitTypeId: "",
+        address: "",
+        province: "",
+        district: "",
+        ward: "",
+        website: "",
+        phone: "",
+        email: "",
+        introduction: "",
+    },
     loading: false,
 };
 
@@ -19,7 +34,7 @@ const getHospitalByServiceId = createAsyncThunk('hospital/getHospitalByServiceId
     return result;
 });
 
-const getHospitalByServiceIdAndDate = createAsyncThunk('hospital/getHospitalByServiceIdAndDate', async (arg: {serviceId: string, date: string}) => {
+const getHospitalByServiceIdAndDate = createAsyncThunk('hospital/getHospitalByServiceIdAndDate', async (arg: { serviceId: string, date: string }) => {
     const result = await bookingServices.hospitalService.getHospitalByServiceIdAndDate(arg.serviceId, arg.date);
     return result;
 });

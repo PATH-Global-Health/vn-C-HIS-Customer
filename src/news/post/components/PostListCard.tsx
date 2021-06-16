@@ -65,7 +65,6 @@ const Card = styled(IonRow)`
     border-radius: 5px;
     background-color: white;
   }
-
   .main-title  {
     color: black;
     font-size: 28px;
@@ -86,7 +85,9 @@ const ChildCard = styled(IonRow)`
     background-color:white;
   }
   img{
-    margin: 20px 20px 20px 0px;
+    margin: 10px 0px 10px 0px;
+    max-width: 55px;
+    max-height: 55px;
     border-radius: 5px;
   }
   ion-label{
@@ -229,7 +230,7 @@ const PostListCard: React.FC = () => {
               <ChildCard>
                 <IonCol size="12" size-sm='12'>
                   <IonItem color='light' lines='none' className='item-content'>
-                    <img src={p?.description !== '' ? p.description : logo} slot='start' width='60px' height='60px' alt='' />
+                    <img src={p?.description !== '' ? p.description : logo} slot='start' alt='' />
                     {/* <IonLabel></IonLabel> */}
                     <IonCardHeader>
                       {/* <b className="main-title">{p?.name ?? '...'}</b> */}

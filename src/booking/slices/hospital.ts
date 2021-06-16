@@ -4,28 +4,13 @@ import bookingServices from '../services/index';
 
 interface State {
     hospitals: Hospital[];
-    hospitalBooking: Hospital;
+    hospitalBooking?: Hospital;
     loading: boolean;
 }
 
 const initialState: State = {
     hospitals: [],
-    hospitalBooking: {
-        dateCreated: "",
-        dateUpdated: "",
-        id: "",
-        username: "",
-        name: "",
-        unitTypeId: "",
-        address: "",
-        province: "",
-        district: "",
-        ward: "",
-        website: "",
-        phone: "",
-        email: "",
-        introduction: "",
-    },
+    hospitalBooking: undefined,
     loading: false,
 };
 

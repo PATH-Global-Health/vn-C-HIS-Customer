@@ -262,6 +262,9 @@ const slice = createSlice({
         },
         getServiceId: (state, action) => {
             state.serviceId = action.payload;
+        },
+        setInterval: (state, action) => {
+            state.interval = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -361,6 +364,6 @@ const slice = createSlice({
 });
 
 export { getDateByUnitAndService, getIntervals, postExaminations, getExaminationList, getUserInfo, putUserProfile };
-export const { getWorkingCalendarBooking, getInterBooking, getBookingModel, getServiceId } = slice.actions;
+export const { getWorkingCalendarBooking, getInterBooking, getBookingModel, getServiceId, setInterval } = slice.actions;
 
 export default slice.reducer;

@@ -7,7 +7,7 @@ import { Hospital } from 'booking/models/hospital';
 import { useDispatch, useSelector } from '@app/hooks';
 import { getIntervals } from '../slices/workingCalendar';
 // import { type } from 'node:os';
-import { getDateByUnitAndService, getWorkingCalendarBooking } from '../slices/workingCalendar';
+import { getDateByUnitAndService, getWorkingCalendarBooking, setInterval } from '../slices/workingCalendar';
 import { useTranslation } from 'react-i18next';
 
 const HospitalDetail: React.FC = () => {
@@ -31,6 +31,8 @@ const HospitalDetail: React.FC = () => {
                 console.log(date.id);
                 dispatch(getWorkingCalendarBooking(date));
                 dispatch(getIntervals(date.id));
+            }else{
+                dispatch(setInterval([]));
             }
         }
         )

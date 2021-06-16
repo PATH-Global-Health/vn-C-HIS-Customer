@@ -15,7 +15,7 @@ import { getServiceId } from 'booking/slices/workingCalendar';
 import { useTranslation } from 'react-i18next';
 import { getUserInfo } from '../slices/workingCalendar';
 
-const StyledButton = styled(IonButton)`{
+const StyledButton = styled(IonButton)`
     ::after{content: ""}
     width: 335px;
     --background: white;
@@ -28,27 +28,21 @@ const StyledButton = styled(IonButton)`{
     font-family: system-ui;
     font-size: 18px;
     margin-top: 10px;
-}
 `;
 
 const StyledIconRight = styled(IonIcon)`
-{
     color: #b3b3b3;
     right: -9px;
     position: absolute;
-  }
 `;
 
 const StyledIconLeft = styled(IonIcon)`
-{
     color: #b3b3b3;
     left: 5px;
     position: absolute;
-  }
 `;
 
 const StyledHeader = styled(IonHeader)`
-{
   height: 60px;
   border-bottom: 1px solid #b3b3b3;
   display: flex;
@@ -56,28 +50,21 @@ const StyledHeader = styled(IonHeader)`
   justify-content: center;
   margin-bottom: 10px;
   position: relative,
-}
 `
 
 const StyledLabelHeader = styled(IonLabel)`
-{
   font-weight: bold;
     font-size: 23px;
-}
 `
 
 const StyledButtonHeader = styled(IonButton)`
-{
   --background: white;
   left: 10px;
   position: absolute;
-}
 `
 
 const StyledContent = styled(IonContent)`
-{
   text-align: center;
-}
 `
 
 const HomeBooking: React.FC = () => {
@@ -86,7 +73,7 @@ const HomeBooking: React.FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserInfo())
-  }, [dispatch])
+  }, [])
   return (
     <IonPage>
       <StyledHeader>

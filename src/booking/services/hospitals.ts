@@ -13,10 +13,10 @@ const getHospitalByServiceId = async (serviceId: string): Promise<Hospital[]> =>
   }
 };
 
-const getHospitalByServiceIdAndDate = async (date: string): Promise<Hospital[]> => {
+const getHospitalByServiceIdAndDate = async (serviceId: string, date: string): Promise<Hospital[]> => {
   try {
     const result = await httpClient.get({
-      url: apiLinks.manageSchedule.hospital.get + `?serviceId=c1b7411c-52ba-46e4-9a09-08d8b860e829&date=${date}`,
+      url: apiLinks.manageSchedule.hospital.get + `/GetByServiceAndDate/${serviceId}/${date}`,
     });
     console.log(result.data);
     return result.data as Hospital[];

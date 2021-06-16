@@ -43,6 +43,14 @@ const ApointmentDate: React.FC = () => {
         )
 
     }
+
+    const getHospitalByServiceAndDate = () => {
+        const arg = {
+            serviceId: serviceId,
+            date: moment(date).format("YYYY-MM-DD")
+        }
+        dispatch(getHospitalByServiceIdAndDate(arg));
+    }
     const StyledIconRight = styled(IonIcon)`
     {
         color: #b3b3b3;
@@ -137,7 +145,7 @@ const ApointmentDate: React.FC = () => {
                 {date === "none" ? "" : <StyledButtonSubmit onClick={() => {
                     if (typeChoosing === "apointmentDate") {
                         // dispatch(getHospitalByServiceIdAndDate(date + ""));
-                        dispatch(getHospitalByServiceId(serviceId));
+                        getHospitalByServiceAndDate();
                         dispatch(getDateBooking(date));
                         history.push("/choosingHospital");
                     } else {

@@ -43,7 +43,7 @@ const StyledIconMenu = styled(IonIcon)`
 
 const StyleModal = styled(IonModal)`
     {
-      padding-top: 20px;
+      padding-top: 15%;
       padding-bottom: 20px;
     }
 `
@@ -98,7 +98,7 @@ const ChoosingHospital: React.FC = () => {
     dispatch(getUnitTypes());
   }, [])
   return (
-    <IonPage>
+    <IonPage className={styles.styledPage}>
       <StyleModal isOpen={showModal} cssClass='my-custom-class'>
         {show === true ? <div><IonSelect className={styles.styledSelect} placeholder={t('Unit Type')} onIonChange={e => { setUnitType(e.detail.value); setTypeSearch("unitType") }}>
           {unitTypes.map((unitType) => (

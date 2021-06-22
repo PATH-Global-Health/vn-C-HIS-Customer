@@ -169,7 +169,7 @@ const ConfirmProfile: React.FC = () => {
         dispatch(getUserInfo())
     }, [])
     return (
-        <IonPage>
+        <IonPage className={styles.styledPage}>
             <IonHeader className={styles.header}>
                 <button 
                 className={styles.btnCustomHeader}

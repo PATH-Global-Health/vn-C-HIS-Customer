@@ -34,7 +34,7 @@ const ChoosingTime: React.FC = () => {
   })
 
   return (
-    <IonPage>
+    <IonPage className={styles.styledPage}>
       <IonHeader className={styles.header}>
         <button
           className={styles.btnCustomHeader}

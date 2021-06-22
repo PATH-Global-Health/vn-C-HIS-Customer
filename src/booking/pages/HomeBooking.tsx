@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import {
-  IonButton,
   IonContent,
   IonHeader,
   IonIcon,
@@ -24,7 +23,7 @@ const HomeBooking: React.FC = () => {
     dispatch(getUserInfo());
   }, [])
   return (
-    <IonPage>
+    <IonPage className={styles.styledPage}>
       <IonHeader className={styles.header}>
         <button 
         className={styles.btnCustomHeader} 

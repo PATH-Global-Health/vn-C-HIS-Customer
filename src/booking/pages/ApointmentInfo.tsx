@@ -37,7 +37,7 @@ margin-bottom: 80px;
         dispatch(getUserInfo())
     }, [])
     return (
-        <IonPage>
+        <IonPage className={styles.styledPage}>
             {examinationSuccess === false ? <IonHeader className={styles.header}>
                 <button
                     className={styles.btnCustomHeader} onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={arrowBack}></IonIcon></button>

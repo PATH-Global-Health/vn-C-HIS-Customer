@@ -22,7 +22,7 @@ const TestingAppointment: React.FC = () => {
   const dispatch = useDispatch();
   const serviceId = useSelector((w) => w.workingCaledar.serviceId);
   return (
-    <IonPage>
+    <IonPage className={styles.styledPage}>
       <IonHeader className={styles.header}>
         <button
           className={styles.btnCustomHeader}

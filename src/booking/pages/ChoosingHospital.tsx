@@ -228,8 +228,6 @@ const ChoosingHospital: React.FC = () => {
 
         </StyledDiv>
         <div style={{ margin: "30px 0px" }}>
-
-
           {typeSearch === "name" ? searchByName.map((hos) => (
             <button
               className={styles.btnCustom}

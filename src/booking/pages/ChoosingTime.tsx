@@ -16,9 +16,11 @@ import { IntervalModel } from 'booking/models/IntervalModel';
 import { getInterBooking } from 'booking/slices/workingCalendar';
 import { useTranslation } from 'react-i18next';
 import styles from '../css/choosingTime.module.css';
+import classNames from 'classnames/bind';
 
 
 const ChoosingTime: React.FC = () => {
+  var cx = classNames.bind(styles);
   const history = useHistory();
   const dispatch = useDispatch();
   const interval = useSelector((w) => w.workingCaledar.interval);
@@ -44,32 +46,32 @@ const ChoosingTime: React.FC = () => {
       </IonHeader>
       <IonContent className={styles.styledContent}>
         <IonLabel className={styles.styledLabelContent}>{t('Please choose a time that works for you')}</IonLabel>
-        <IonRadioGroup onIonChange={e => setIntervalSelected(e.detail.value)}>
+        {/* <IonRadioGroup onIonChange={e => setIntervalSelected(e.detail.value)}> */}
           {interval.map((interval) => {
             const intervalAvailable = interval.intervals.filter((inter) => inter.isAvailable)
             if (intervalAvailable.length > 0) {
               return (
 
-                <IonItem className={styles.styledItem}>
-                  <IonLabel >{interval.from}</IonLabel>
-                  <IonRadio className={styles.btnRadio} value={intervalAvailable[0]} />
-                </IonItem>
-                // <button className={styles.btnSelect}
-                //   onFocus={() => {
-                //     setIntervalSelected(intervalAvailable[0])
-                //   }}
-                //   onClick={() => {
-                //     setIntervalSelected(intervalAvailable[0])
-                //   }}
-                // >
-                //   {interval.from}
-                // </button>
+                // <IonItem className={styles.styledItem}>
+                //   <IonLabel >{interval.from}</IonLabel>
+                //   <IonRadio className={styles.btnRadio} value={intervalAvailable[0]} />
+                // </IonItem>
+                <button className = {cx('btnSelect', {'btnSelected' : !intervalAvailable.findIndex(i => i.id === intervalSelected?.id)})}
+                  onFocus={() => {
+                    setIntervalSelected(intervalAvailable[0])
+                  }}
+                  onClick={() => {
+                    setIntervalSelected(intervalAvailable[0])
+                  }}
+                >
+                  {interval.from}
+                </button>
               )
             }
 
 
           })}
-        </IonRadioGroup>
+        {/* </IonRadioGroup> */}
       </IonContent>
       {Boolean(intervalSelected) === true ?
         <button className={styles.styledButtonSubmit} onClick={() => {

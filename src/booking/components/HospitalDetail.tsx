@@ -7,6 +7,7 @@ import { getIntervals } from '../slices/workingCalendar';
 import { getDateByUnitAndService, getWorkingCalendarBooking, setInterval } from '../slices/workingCalendar';
 import { useTranslation } from 'react-i18next';
 import styles from '../css/hospitalDetail.module.css';
+import location from '../../@app/mock/locations.json';
 
 const HospitalDetail: React.FC = () => {
     const history = useHistory();
@@ -63,24 +64,20 @@ const HospitalDetail: React.FC = () => {
                             <IonInput value={hospital.name}> </IonInput>
                         </IonItem>
                         <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('Unit Code')}</IonLabel>
-                            <IonInput value={hospital.province}> </IonInput>
+                            <IonLabel className={styles.styledLabel} position="stacked">{t('City')}</IonLabel>
+                            <IonInput value={location.find(item => item.value === hospital.province)?.label}> </IonInput>
                         </IonItem>
                         <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('City')}</IonLabel>
-                            <IonInput value={hospital.province}> </IonInput>
+                            <IonLabel className={styles.styledLabel} position="stacked">{t('District')}</IonLabel>
+                            <IonInput value={location.find(item => item.value === hospital.province)?.districts.find(di => di.value === hospital.district)?.label}> </IonInput>
+                        </IonItem>
+                        <IonItem>
+                            <IonLabel className={styles.styledLabel} position="stacked">{t('Ward')}</IonLabel>
+                            <IonInput value={location.find(item => item.value === hospital.province)?.districts.find(di => di.value === hospital.district)?.wards.find(w => w.value === hospital.ward)?.label}> </IonInput>
                         </IonItem>
                         <IonItem>
                             <IonLabel className={styles.styledLabel} position="stacked">{t('Address')}</IonLabel>
                             <IonInput value={hospital.address}> </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('District')}</IonLabel>
-                            <IonInput value={hospital.district}> </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('Ward')}</IonLabel>
-                            <IonInput value={hospital.ward}> </IonInput>
                         </IonItem>
                         <IonItem>
                             <IonLabel className={styles.styledLabel} position="stacked">{t('Email')}</IonLabel>

@@ -4,6 +4,7 @@ import {
     IonContent,
     IonHeader,
     IonIcon,
+    IonImg,
     IonInput,
     IonItem,
     IonLabel,
@@ -18,6 +19,7 @@ import { arrowBack, text } from 'ionicons/icons';
 import { useTranslation } from 'react-i18next';
 import { getUserInfo } from '../slices/workingCalendar';
 import styles from '../css/apointmentInfo.module.css';
+import moment from 'moment';
 const ApointmentInfo: React.FC = () => {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -58,7 +60,7 @@ margin-bottom: 80px;
                             </IonItem>
                             <IonItem>
                                 <IonLabel className={styles.styledLabel} position="stacked">{t('Appointment date')}</IonLabel>
-                                <IonInput value={new Date(bookingModel.data.date).toDateString()}> </IonInput>
+                                <IonInput value={moment(bookingModel.data.date).format('DD/MM/YYYY')}> </IonInput>
                             </IonItem>
                             {/* <IonItem>
                         <StyledLabel position="stacked">Tỉnh/Thành phố</StyledLabel>
@@ -70,7 +72,9 @@ margin-bottom: 80px;
                             </IonItem>
                             <IonItem>
                                 <IonLabel className={styles.styledLabel} position="stacked">{t('Service Unit')}</IonLabel>
-                                <IonInput value={bookingModel.data.unit.name}> </IonInput>
+                                <IonInput value={bookingModel.data.unit.name}>
+                                <IonImg className={styles.img} src={`http://202.78.227.94:30111/api/Hospitals/Logo/${bookingModel.data.unit.id}`}></IonImg>
+                                </IonInput>
                             </IonItem>
 
                         </IonList>

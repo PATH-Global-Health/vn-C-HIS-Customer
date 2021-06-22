@@ -78,6 +78,11 @@
     margin: 10px;
 }
 
+.btnSelected {
+    background-color: rgb(26, 177, 214);
+    color: white;
+}
+
 .styledButtonSubmit {
     background-color: #293978;
    margin: 20px auto;
@@ -88,7 +93,7 @@
 }
 
 .styledItem {
-    width: 120px;
+    width: 125px;
     height: 45px;
     background-color: white;
     text-align: center;

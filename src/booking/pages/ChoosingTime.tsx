@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from '../../@app/hooks';
+import React, { useState } from 'react';
 import {
-  IonButton,
   IonContent,
   IonHeader,
   IonIcon,
@@ -11,14 +9,9 @@ import {
   IonRadioGroup,
   IonRadio
 } from '@ionic/react';
-import styled from 'styled-components';
 import { useDispatch, useSelector } from '@app/hooks';
-// import { getUserInfo } from '../../@app/slices/auth';
 import { useHistory } from "react-router-dom";
-import { arrowBack, arrowBackCircle, arrowBackOutline, arrowBackSharp, arrowDown, arrowForward, arrowRedo, arrowUndo, backspace, build, calendar, chatbubble, flag, flash, home, newspaper, people, podium, returnDownBack } from 'ionicons/icons';
-// import HospitalDetail from 'booking/components/HospitalDetail';
-// import moment from 'moment';
-// import { Interval } from 'booking/models/interval';
+import { arrowBack} from 'ionicons/icons';
 import { IntervalModel } from 'booking/models/IntervalModel';
 import { getInterBooking } from 'booking/slices/workingCalendar';
 import { useTranslation } from 'react-i18next';

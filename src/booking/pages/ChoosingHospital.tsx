@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  IonButton,
   IonContent,
   IonHeader,
   IonIcon,
@@ -14,14 +13,15 @@ import {
 } from '@ionic/react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from '@app/hooks';
-import { useHistory, useLocation } from "react-router-dom";
-import { arrowBack, arrowForward, filter, menu, podium, search } from 'ionicons/icons';
+import { useHistory } from "react-router-dom";
+import { arrowBack, arrowForward, filter, podium } from 'ionicons/icons';
 import { getHospitalBooking } from 'booking/slices/hospital';
 import location from '../../@app/mock/locations.json';
 import { deburr } from '../../@app/utils/helpers';
 import { getUnitTypes } from 'booking/slices/unitType';
 import { useTranslation } from 'react-i18next';
 import styles from '../css/choosingHospital.module.css';
+import { CityS } from 'booking/models/city';
 
 const StyledContent = styled(IonContent)`
 {
@@ -37,38 +37,47 @@ const StyledDiv = styled.div`
 
 const StyledIconMenu = styled(IonIcon)`
     {
-      // margin-right: 10px;
-      // font-size: 20px;
-      // margin-left: 179px;
       color: black;
-      // position: absolute;
-      // right: 5px;
     }
     `
-const StyledSelect = styled(IonSelect)`
-    {
-      margin: 10px 32px;
-    }
-    `
+
 const StyleModal = styled(IonModal)`
     {
       padding-top: 20px;
       padding-bottom: 20px;
     }
 `
-const StyledButtonCloseModal = styled(IonButton)`
-// width: 300px;
---background: #293978;
-// position: absolute;
-// bottom: 5px;
-// width: 
-// margin: 16px;
-// margin-top: 50px;
-`
+
 const ChoosingHospital: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const hospitals = useSelector((h) => h.hospital.hospitals);
+  let listCitySelect: CityS[] = [];
+
+  hospitals.map((hos) => {
+    var city = listCitySelect.find((item) => item.value === hos.province);
+    if (!city) {
+      listCitySelect.push({ value: hos.province, districts: [] });
+    }
+  });
+  hospitals.map((hos) => {
+    var city = listCitySelect.find((item) => item.value === hos.province);
+    if (city) {
+      var districts = city.districts;
+      if (!districts.find((item) => item.value === hos.district)) {
+        districts.push({ value: hos.district, wards: [] });
+      }
+    }
+  });
+  hospitals.map((hos) => {
+    var city = listCitySelect.find((item) => item.value === hos.province);
+    if (city) {
+      var districts = city.districts.find((item) => item.value === hos.district);
+      if(!districts?.wards.find((item) => item.value === hos.ward)){
+        districts?.wards.push({value: hos.ward});
+      }
+    }
+  });
   const [show, setShow] = useState<boolean>(false);
   const unitTypes = useSelector((u) => u.unitType.unitTypes);
   const [unitType, setUnitType] = useState<string>("");
@@ -85,6 +94,7 @@ const ChoosingHospital: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { t, i18n } = useTranslation();
   useEffect(() => {
+
     dispatch(getUnitTypes());
   }, [])
   return (
@@ -102,41 +112,34 @@ const ChoosingHospital: React.FC = () => {
               setDistricts(undefined);
               setTypeSearch("unitTypeCity");
               console.log(districts);
-            }}>
-            {hospitals.map((hos) => (
-              location.filter((lo) => lo.value === hos.province).map(ci => (<IonSelectOption value={ci.value}>{ci.label}</IonSelectOption>))
+            }}> 
+            {listCitySelect.map((hos) => (
+              location.filter((lo) => lo.value === hos.value).map(ci => (<IonSelectOption value={ci.value}>{ci.label}</IonSelectOption>))
             ))}
           </IonSelect>
+
           {city === undefined ? "" :
             <IonSelect className={styles.styledSelect} placeholder={t('District')} onIonChange={e => {
               setDistricts(e.detail.value);
               setTypeSearch("unitTypeCityDistrict")
             }}>
-              {hospitals.map((hos) => (
-                location.filter((lo) => lo.value === city)[0].districts.filter((di) => di.value === hos.district).map((di) => (
+              {listCitySelect.map((hos) => (
+                location.filter((lo) => lo.value === city)[0].districts.filter((di) => hos.districts.find(item => item.value === di.value)).map((di) => (
                   <IonSelectOption value={di.value}>{di.label}</IonSelectOption>
                 ))
-                // location.filter((lo) => lo.value === hos.province).map(ci => (<IonSelectOption value={ci.value}>{ci.label}</IonSelectOption>))
               ))}
-              {/* {location.filter((lo) => lo.value === city)[0].districts.map((districts) => (
-                <IonSelectOption value={districts.value}>{districts.label}</IonSelectOption>
-              ))} */}
             </IonSelect>
           }
           {districts === undefined ? "" :
             <IonSelect className={styles.styledSelect} placeholder={t('Ward')} onIonChange={e => { setWards(e.detail.value); setTypeSearch("unitTypeCityDistrictWard") }}>
               {location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0] !== undefined ?
-                hospitals.map((hos) => (
+                listCitySelect.map((hos) => (
                   location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0].wards
-                    .filter((w) => w.value === hos.ward)
+                    .filter((w) => hos.districts.find(item => item.wards.find(wa => wa.value === w.value)))
                     .map((ward) => (
                       <IonSelectOption value={ward.value}>{ward.label}</IonSelectOption>
                     ))
                 )) : ""}
-              {/* {location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0] !== undefined ?
-                location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0].wards.map((ward) => (
-                  <IonSelectOption value={ward.value}>{ward.label}</IonSelectOption>
-                )) : ""} */}
             </IonSelect>
           }
         </div> : ""}
@@ -216,12 +219,12 @@ const ChoosingHospital: React.FC = () => {
             setTypeSearch("name")
             setHospitalName(e.detail.value!)
           }} placeholder="Search">
-            
+
           </IonInput>
           <button
-              className={styles.styledButtonMenu}
-              onClick={() => { setShow(true); setShowModal(true) }}
-            ><StyledIconMenu icon={filter}></StyledIconMenu></button>
+            className={styles.styledButtonMenu}
+            onClick={() => { setShow(true); setShowModal(true) }}
+          ><StyledIconMenu icon={filter}></StyledIconMenu></button>
 
         </StyledDiv>
         <div style={{ margin: "30px 0px" }}>
@@ -241,21 +244,6 @@ const ChoosingHospital: React.FC = () => {
             </button>
           )) : ""}
         </div>
-
-        {/* {hospitals.map(hospital => (
-          <StyledButton
-            onClick={() => {
-              dispatch(getHospitalBooking(hospital));
-              history.push('/hospitalDetail', hospital)
-            }}
-          >{hospital.name}
-            <StyledIconRight icon={arrowForward}></StyledIconRight>
-            <StyledIconLeft icon={podium}></StyledIconLeft>
-            <StyledImg src={`https://smapi.vkhealth.vn/api/Hospitals/Logo/${hospital.id}`}></StyledImg>
-          </StyledButton>
-        ))} */}
-
-
       </StyledContent>
     </IonPage>
   );

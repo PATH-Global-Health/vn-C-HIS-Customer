@@ -102,3 +102,12 @@
 .styledPage {
     margin-top: 10%;
 }
+
+.btnExamination {
+    background-color: #293978;
+    color: white;
+    margin: 16px;
+    height: 50px;
+    margin-bottom: 80px;
+    border-radius: 10px;
+}

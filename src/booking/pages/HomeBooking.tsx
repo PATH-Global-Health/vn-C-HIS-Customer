@@ -16,7 +16,7 @@ import styles from '../css/homeBooking.module.css';
 
 
 const HomeBooking: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {

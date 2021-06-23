@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton, IonIcon, IonImg } from '@ionic/react';
 import { useHistory, } from 'react-router-dom';
 import { arrowBack } from 'ionicons/icons';
@@ -11,15 +11,13 @@ import location from '../../@app/mock/locations.json';
 
 const HospitalDetail: React.FC = () => {
     const history = useHistory();
-    // const hospital = useLocation<Hospital>().state;
     const dispatch = useDispatch();
-    let dayId = "";
     const hospital = useSelector((h) => h.hospital.hospitalBooking);
     const d = useSelector((d) => d.dateBooking.dateBooking);
     const dateByUnitAndServices = useSelector((s) => s.workingCaledar.workingCalendars);
     const typeChoosing = useSelector((d) => d.dateBooking.typeChoosing);
     const serviceId = useSelector((w) => w.workingCaledar.serviceId);
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const getInterval = () => {
         dateByUnitAndServices.map((date) => {
             if (
@@ -30,14 +28,14 @@ const HospitalDetail: React.FC = () => {
                 console.log(date.id);
                 dispatch(getWorkingCalendarBooking(date));
                 dispatch(getIntervals(date.id));
-            }else{
+            } else {
                 dispatch(setInterval([]));
             }
         }
         )
 
     }
-   
+
     useEffect(() => {
         const arg = {
             unitId: hospital.id,
@@ -47,64 +45,68 @@ const HospitalDetail: React.FC = () => {
     }, [hospital.id])
 
     return (
-        <IonPage>
-            <IonHeader className={styles.header}>
-                <button
-                className={styles.btnCustomHeader} onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={arrowBack}></IonIcon></button>
-                <IonLabel className={styles.styledLabel}>{t('Service Unit')}</IonLabel>
-            </IonHeader>
-            {hospital === undefined ? "" :
-                <IonContent>
-                    <IonList>
-                        <IonItem>
-                            <IonImg className={styles.img} src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hospital.id}`}></IonImg>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('Unit Name')}</IonLabel>
-                            <IonInput value={hospital.name}> </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('City')}</IonLabel>
-                            <IonInput value={location.find(item => item.value === hospital.province)?.label}> </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('District')}</IonLabel>
-                            <IonInput value={location.find(item => item.value === hospital.province)?.districts.find(di => di.value === hospital.district)?.label}> </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('Ward')}</IonLabel>
-                            <IonInput value={location.find(item => item.value === hospital.province)?.districts.find(di => di.value === hospital.district)?.wards.find(w => w.value === hospital.ward)?.label}> </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('Address')}</IonLabel>
-                            <IonInput value={hospital.address}> </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('Email')}</IonLabel>
-                            <IonInput value={hospital.email}> </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('Website')}</IonLabel>
-                            <IonInput value={hospital.website}> </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('PhoneNumber')}</IonLabel>
-                            <IonInput value={hospital.phone}> </IonInput>
-                        </IonItem>
-                    </IonList>
+        <>
+            {serviceId === "" ? history.push('/home') :
+                <IonPage>
+                    <IonHeader className={styles.header}>
+                        <button
+                            className={styles.btnCustomHeader} onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={arrowBack}></IonIcon></button>
+                        <IonLabel className={styles.styledLabel}>{t('Service Unit')}</IonLabel>
+                    </IonHeader>
+                    {hospital === undefined ? "" :
+                        <IonContent>
+                            <IonList>
+                                <IonItem>
+                                    <IonImg className={styles.img} src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hospital.id}`}></IonImg>
+                                </IonItem>
+                                <IonItem>
+                                    <IonLabel className={styles.styledLabel} position="stacked">{t('Unit Name')}</IonLabel>
+                                    <IonInput value={hospital.name}> </IonInput>
+                                </IonItem>
+                                <IonItem>
+                                    <IonLabel className={styles.styledLabel} position="stacked">{t('City')}</IonLabel>
+                                    <IonInput value={location.find(item => item.value === hospital.province)?.label}> </IonInput>
+                                </IonItem>
+                                <IonItem>
+                                    <IonLabel className={styles.styledLabel} position="stacked">{t('District')}</IonLabel>
+                                    <IonInput value={location.find(item => item.value === hospital.province)?.districts.find(di => di.value === hospital.district)?.label}> </IonInput>
+                                </IonItem>
+                                <IonItem>
+                                    <IonLabel className={styles.styledLabel} position="stacked">{t('Ward')}</IonLabel>
+                                    <IonInput value={location.find(item => item.value === hospital.province)?.districts.find(di => di.value === hospital.district)?.wards.find(w => w.value === hospital.ward)?.label}> </IonInput>
+                                </IonItem>
+                                <IonItem>
+                                    <IonLabel className={styles.styledLabel} position="stacked">{t('Address')}</IonLabel>
+                                    <IonInput value={hospital.address}> </IonInput>
+                                </IonItem>
+                                <IonItem>
+                                    <IonLabel className={styles.styledLabel} position="stacked">{t('Email')}</IonLabel>
+                                    <IonInput value={hospital.email}> </IonInput>
+                                </IonItem>
+                                <IonItem>
+                                    <IonLabel className={styles.styledLabel} position="stacked">{t('Website')}</IonLabel>
+                                    <IonInput value={hospital.website}> </IonInput>
+                                </IonItem>
+                                <IonItem>
+                                    <IonLabel className={styles.styledLabel} position="stacked">{t('PhoneNumber')}</IonLabel>
+                                    <IonInput value={hospital.phone}> </IonInput>
+                                </IonItem>
+                            </IonList>
 
-                </IonContent>
+                        </IonContent>
+                    }
+                    <button className={styles.styledButtonSubmit} onClick={() => {
+                        if (typeChoosing === "apointmentDate") {
+                            getInterval()
+                            history.push("/choosingTime")
+                        } else if (typeChoosing === "choosingHospital") {
+                            history.push("/apointmentDate")
+                        }
+                    }}>{t('Next step')}</button>
+
+                </IonPage>
             }
-            <button className={styles.styledButtonSubmit} onClick={() => {
-                if (typeChoosing === "apointmentDate") {
-                    getInterval()
-                    history.push("/choosingTime")
-                } else if (typeChoosing === "choosingHospital") {
-                    history.push("/apointmentDate")
-                }
-            }}>{t('Next step')}</button>
-
-        </IonPage>
+        </>
     );
 };
 

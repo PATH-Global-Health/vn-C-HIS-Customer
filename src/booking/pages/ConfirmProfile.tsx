@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-    IonButton,
     IonContent,
     IonHeader,
     IonIcon,
@@ -12,11 +11,10 @@ import {
     IonSelect,
     IonSelectOption,
 } from '@ionic/react';
-import styled from 'styled-components';
 import { useDispatch, useSelector } from '@app/hooks';
 import 'react-day-picker/lib/style.css';
 import { useHistory } from "react-router-dom";
-import { arrowBack, text } from 'ionicons/icons';
+import { arrowBack } from 'ionicons/icons';
 import { BookingModel } from 'booking/models/bookingModel';
 import location from '../../@app/mock/locations.json';
 import { postExaminations } from 'booking/slices/workingCalendar';
@@ -29,7 +27,6 @@ import styles from '../css/confirmProfile.module.css';
 const ConfirmProfile: React.FC = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    // const userProfile = useSelector((u) => u.auth.userInfo);
     const userInfo = useSelector((w) => w.workingCaledar.userProfile);
     const interval = useSelector((i) => i.workingCaledar.intervalBooking);
     const unitBooking = useSelector((u) => u.hospital.hospitalBooking);
@@ -44,7 +41,8 @@ const ConfirmProfile: React.FC = () => {
     const [city, setCity] = useState<string>(userInfo.province);
     const [districts, setDistricts] = useState<string>(userInfo.district);
     const [wards, setWards] = useState<string>(userInfo.ward);
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
+    const serviceId = useSelector((w) => w.workingCaledar.serviceId);
     const userProfile = {
         fullname: fullName,
         gender: gender,
@@ -169,6 +167,8 @@ const ConfirmProfile: React.FC = () => {
         dispatch(getUserInfo())
     }, [])
     return (
+        <>
+         {serviceId === "" ? history.push('/home') :
         <IonPage className={styles.styledPage}>
             <IonHeader className={styles.header}>
                 <button 
@@ -290,6 +290,8 @@ const ConfirmProfile: React.FC = () => {
                 {/* <IonInput value="Lieu"></IonInput> */}
             </IonContent>
         </IonPage>
+        }
+        </>
     )
 };
 

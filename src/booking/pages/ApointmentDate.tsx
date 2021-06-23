@@ -18,7 +18,6 @@ import { getDateBooking } from '../slices/date';
 import { getIntervals } from '../slices/workingCalendar';
 import { useTranslation } from 'react-i18next';
 import styles from '../css/apointmentDate.module.css';
-import { withTheme } from 'styled-components';
 
 const ApointmentDate: React.FC = () => {
     const [date, setDate] = useState<string>("none");
@@ -28,7 +27,7 @@ const ApointmentDate: React.FC = () => {
     const serviceId = useSelector((w) => w.workingCaledar.serviceId);
     const history = useHistory();
     const typeChoosing = useSelector((d) => d.dateBooking.typeChoosing);
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const getInterval = () => {
         workingCalendars.map((d) => {
             if (
@@ -53,73 +52,77 @@ const ApointmentDate: React.FC = () => {
     }
 
     return (
-        <IonPage className={styles.styledPage}>
-            <IonHeader className={styles.header}>
-                <button
-                    className={styles.btnCustomHeader}
-                    onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={arrowBack}></IonIcon></button>
-                {serviceId + "" === 'f2490f62-1d28-4edd-362a-08d8a7232229' ?
-                    <IonLabel className={styles.styledLabel}>{t('Schedule a test')}</IonLabel> : <IonLabel className={styles.styledLabel}>{t('Schedule a consultation')}</IonLabel>}
-            </IonHeader>
-            <IonContent className={styles.styledContent}>
-                {serviceId + "" === 'f2490f62-1d28-4edd-362a-08d8a7232229' ?
-                    <IonLabel className={styles.styledLabelContent}>{t('Choose a test date')}</IonLabel> : <IonLabel className={styles.styledLabelContent}>{t('Choose a consultation date')}</IonLabel>}
-                <div className={styles.styledDatePicker}>
+        <>
+            {serviceId === "" ? history.push('/home') :
+                <IonPage className={styles.styledPage}>
+                    <IonHeader className={styles.header}>
+                        <button
+                            className={styles.btnCustomHeader}
+                            onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={arrowBack}></IonIcon></button>
+                        {serviceId + "" === 'f2490f62-1d28-4edd-362a-08d8a7232229' ?
+                            <IonLabel className={styles.styledLabel}>{t('Schedule a test')}</IonLabel> : <IonLabel className={styles.styledLabel}>{t('Schedule a consultation')}</IonLabel>}
+                    </IonHeader>
+                    <IonContent className={styles.styledContent}>
+                        {serviceId + "" === 'f2490f62-1d28-4edd-362a-08d8a7232229' ?
+                            <IonLabel className={styles.styledLabelContent}>{t('Choose a test date')}</IonLabel> : <IonLabel className={styles.styledLabelContent}>{t('Choose a consultation date')}</IonLabel>}
+                        <div className={styles.styledDatePicker}>
 
-                    {typeChoosing === "apointmentDate" ?
-                        <DayPicker
-                            modifiersStyles={{ selectedDate: { color: 'white', backgroundColor: 'rgb(26, 177, 214)' } }}
-                            modifiers={{ selectedDate: new Date(date) }}
-                            onDayClick={(day) => {
-                                if (dateBookings.map(ad => moment(ad).format('YYYY-MM-DD')).includes(moment(day).format('YYYY-MM-DD'))) {
-                                    setDate(day + "");
-                                    console.log(day)
+                            {typeChoosing === "apointmentDate" ?
+                                <DayPicker
+                                    modifiersStyles={{ selectedDate: { color: 'white', backgroundColor: 'rgb(26, 177, 214)' } }}
+                                    modifiers={{ selectedDate: new Date(date) }}
+                                    onDayClick={(day) => {
+                                        if (dateBookings.map(ad => moment(ad).format('YYYY-MM-DD')).includes(moment(day).format('YYYY-MM-DD'))) {
+                                            setDate(day + "");
+                                            console.log(day)
+                                        } else {
+                                            setDate('none');
+                                        }
+                                    }
+
+                                    }
+                                    disabledDays={(day: Date) => !dateBookings.map(ad => moment(ad).format('YYYY-MM-DD')).includes(moment(day).format('YYYY-MM-DD'))}>
+                                </DayPicker>
+                                : <DayPicker
+                                    modifiersStyles={{ selectedDate: { color: 'white', backgroundColor: 'rgb(26, 177, 214)' } }}
+                                    modifiers={{ selectedDate: new Date(date) }}
+                                    onDayClick={(day) => {
+                                        if (workingCalendars.map(ad => moment(ad.date).format('YYYY-MM-DD')).includes(moment(day).format('YYYY-MM-DD'))) {
+                                            setDate(day + "");
+                                            console.log(day)
+                                        } else {
+                                            setDate('none');
+                                        }
+                                    }
+                                    }
+                                    disabledDays={(day: Date) => !workingCalendars.map(ad => moment(ad.date).format('YYYY-MM-DD')).includes(moment(day).format('YYYY-MM-DD'))}>
+                                </DayPicker>
+                            }
+                        </div>
+                        {date === "none" ? "" : <button
+                            className={styles.styledButtonSubmit}
+                            onClick={() => {
+                                if (typeChoosing === "apointmentDate") {
+                                    // dispatch(getHospitalByServiceIdAndDate(date + ""));
+                                    getHospitalByServiceAndDate();
+                                    dispatch(getDateBooking(date));
+                                    history.push("/choosingHospital");
                                 } else {
-                                    setDate('none');
+                                    const w = workingCalendars.filter((wor) =>
+                                        new Date(wor.date).getDate() === new Date(date).getDate()
+                                        && new Date(wor.date).getMonth() === new Date(date).getMonth()
+                                        && new Date(wor.date).getMonth() === new Date(date).getMonth()
+                                    )
+                                    dispatch(getWorkingCalendarBooking(w[0]));
+                                    getInterval();
+                                    history.push("/choosingTime");
                                 }
-                            }
+                            }}>{t('Next step')}</button>}
+                    </IonContent>
 
-                            }
-                            disabledDays={(day: Date) => !dateBookings.map(ad => moment(ad).format('YYYY-MM-DD')).includes(moment(day).format('YYYY-MM-DD'))}>
-                        </DayPicker>
-                        : <DayPicker
-                            modifiersStyles={{ selectedDate: { color: 'white', backgroundColor: 'rgb(26, 177, 214)' } }}
-                            modifiers={{ selectedDate: new Date(date) }}
-                            onDayClick={(day) => {
-                                if (workingCalendars.map(ad => moment(ad.date).format('YYYY-MM-DD')).includes(moment(day).format('YYYY-MM-DD'))) {
-                                    setDate(day + "");
-                                    console.log(day)
-                                } else {
-                                    setDate('none');
-                                }
-                            }
-                            }
-                            disabledDays={(day: Date) => !workingCalendars.map(ad => moment(ad.date).format('YYYY-MM-DD')).includes(moment(day).format('YYYY-MM-DD'))}>
-                        </DayPicker>
-                    }
-                </div>
-                {date === "none" ? "" : <button
-                    className={styles.styledButtonSubmit}
-                    onClick={() => {
-                        if (typeChoosing === "apointmentDate") {
-                            // dispatch(getHospitalByServiceIdAndDate(date + ""));
-                            getHospitalByServiceAndDate();
-                            dispatch(getDateBooking(date));
-                            history.push("/choosingHospital");
-                        } else {
-                            const w = workingCalendars.filter((wor) =>
-                                new Date(wor.date).getDate() === new Date(date).getDate()
-                                && new Date(wor.date).getMonth() === new Date(date).getMonth()
-                                && new Date(wor.date).getMonth() === new Date(date).getMonth()
-                            )
-                            dispatch(getWorkingCalendarBooking(w[0]));
-                            getInterval();
-                            history.push("/choosingTime");
-                        }
-                    }}>{t('Next step')}</button>}
-            </IonContent>
-
-        </IonPage>
+                </IonPage>
+            }
+        </>
     )
 };
 

@@ -6,7 +6,6 @@ import {
   IonLabel,
   IonPage,
 } from '@ionic/react';
-import styled from 'styled-components';
 import { useDispatch, useSelector } from '@app/hooks';
 import { useHistory } from "react-router-dom";
 import { getDateByServiceId } from '../slices/date';
@@ -17,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import styles from '../css/testingAppointment.module.css';
 
 const TestingAppointment: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
   const serviceId = useSelector((w) => w.workingCaledar.serviceId);

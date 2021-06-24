@@ -65,6 +65,8 @@ const Card = styled(IonRow)`
     min-height: 300px;
     border-radius: 5px;
     background-color: white;
+    padding: 0;
+    margin:0;
   }
   .main-title  {
     color: black;
@@ -80,10 +82,12 @@ const Card = styled(IonRow)`
 `;
 const ChildCard = styled(IonRow)`
   ion-item{
-    border: 1px solid #d5c9c9;
-    box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.2);
+    border: 0.5px solid #d5c9c9;
+    box-shadow: 1px 2px 2px 0px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    margin: 5px 1%;
+    margin: 5px 10px 5px 0px;
+    min-width: 100%;
+    min-height: 100px;
     background-color:white;
   }
   img{
@@ -98,6 +102,8 @@ const ChildCard = styled(IonRow)`
   .main-title  {
     color: black;
     font-size: 22px;
+    font-family: system-ui;
+
   }
   .main-card {
     margin-top: 5px;
@@ -187,28 +193,32 @@ const PostListCard: React.FC = () => {
     <IonContent>
 
       <IonRow className="ion-justify-content-center" >
-        <IonCol size="4" size-sm="3">
+        <IonCol size="4" size-sm="3" size-lg='3'>
           <div>
             <img src={logo} alt="logo" width='150px' />
           </div>
         </IonCol>
       </IonRow>
-      <StyledHeader>
-        <div>
-          <StyleWrapperInput color='light' lines='none'>
-            <StyledInput
-              placeholder={t('Search')}
-              onIonChange={e => setSearchData(e.detail.value!)}
-            >
-            </StyledInput>
-            <IonIcon icon={searchOutline} color='medium' slot='end'></IonIcon>
-          </StyleWrapperInput>
-        </div>
-        <div className="ion-margin-top">
-          <SearchNote>{t('Popular keywords')}</SearchNote>
-        </div>
-        <TagList handleFilterTag={(id: string) => { handleFilterTag(id) }} />
-      </StyledHeader>
+      <IonRow className='ion-justify-content-center'>
+        <IonCol size="12" size-sm='4' size-lg='3'>
+          <StyledHeader>
+            <div>
+              <StyleWrapperInput color='light' lines='none'>
+                <StyledInput
+                  placeholder={t('Search')}
+                  onIonChange={e => setSearchData(e.detail.value!)}
+                >
+                </StyledInput>
+                <IonIcon icon={searchOutline} color='medium' slot='end'></IonIcon>
+              </StyleWrapperInput>
+            </div>
+            <div className="ion-margin-top">
+              <SearchNote>{t('Popular keywords')}</SearchNote>
+            </div>
+            <TagList handleFilterTag={(id: string) => { handleFilterTag(id) }} />
+          </StyledHeader>
+        </IonCol>
+      </IonRow>
       {FilterByTagId(data, tagId).slice(0, totalPostLoading).map((p, idx) => (
         <div key={idx} onClick={() => {
           dispatch(getPostDetail({ postId: p.id }));
@@ -218,31 +228,39 @@ const PostListCard: React.FC = () => {
         }>
           {
             idx === 0 ?
-              <Card>
-                <IonCard>
-                  <img src={p?.description !== '' ? p.description : logo} alt="" height='180px' width='100%' />
-                  <IonCardHeader >
-                    <IonCardTitle className="main-title">{p?.name ?? '...'}</IonCardTitle>
-                    <IonNote className='main-card'>{moment(p?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
-                    <IonNote className='main-card'>{p?.writter ?? '...'}</IonNote>
-                  </IonCardHeader>
-                </IonCard>
-              </Card>
-              :
-              <ChildCard>
-                <IonCol size="12" size-sm='12'>
-                  <IonItem color='light' lines='none' className='item-content'>
-                    <img src={p?.description !== '' ? p.description : logo} slot='start' alt='' />
-                    {/* <IonLabel></IonLabel> */}
-                    <IonCardHeader>
-                      {/* <b className="main-title">{p?.name ?? '...'}</b> */}
-                      <IonCardTitle className='main-card'>{p?.name ?? '...'}</IonCardTitle>
-                      <IonNote className='main-card'>{moment(p?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
-                      <IonNote className='main-card'>{p?.writter ?? '...'}</IonNote>
-                    </IonCardHeader>
-                  </IonItem>
+              <IonRow className='ion-justify-content-center'>
+                <IonCol size="12" size-sm='4' size-lg='3'>
+                  <Card>
+                    <IonCard>
+                      <img src={p?.description !== '' ? p.description : logo} alt="" height='180px' width='100%' />
+                      <IonCardHeader >
+                        <IonCardTitle className="main-title">{p?.name ?? '...'}</IonCardTitle>
+                        <IonNote className='main-card'>{moment(p?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
+                        <IonNote className='main-card'>{p?.writter ?? '...'}</IonNote>
+                      </IonCardHeader>
+                    </IonCard>
+                  </Card>
                 </IonCol>
-              </ChildCard>
+              </IonRow>
+
+              :
+              <IonRow className='ion-justify-content-center'>
+                <IonCol size="12" size-sm='4' size-lg='3'>
+                  <ChildCard className='card_width'>
+                    <IonItem color='light' lines='none' className='item-content'>
+                      <img src={p?.description !== '' ? p.description : logo} slot='start' alt='' />
+                      {/* <IonLabel></IonLabel> */}
+                      <IonCardHeader>
+                        {/* <b className="main-title">{p?.name ?? '...'}</b> */}
+                        <IonCardTitle className='main-card'>{p?.name ?? '...'}</IonCardTitle>
+                        <IonNote className='main-card'>{moment(p?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
+                        <IonNote className='main-card'>{p?.writter ?? '...'}</IonNote>
+                      </IonCardHeader>
+                    </IonItem>
+
+                  </ChildCard>
+                </IonCol>
+              </IonRow>
           }
         </div>
       ))}

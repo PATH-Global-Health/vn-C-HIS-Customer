@@ -5,7 +5,7 @@ import {
 import { Post, PostDetail, PostResponse, Tag } from './post.model';
 import postService from 'news/post/post.service';
 
-interface Filter {
+interface Filter { 
   tagId?: string;
 }
 

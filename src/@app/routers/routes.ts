@@ -12,7 +12,6 @@ import Home from 'home';
 import PostPage from 'news/post';
 import HomeBooking from 'booking/pages/HomeBooking';
 import TestingAppointment from 'booking/pages/TestingAppointment';
-import MakingApointment from 'booking/pages/MakingApointment';
 import ApointmentDate from 'booking/pages/ApointmentDate';
 import ChoosingHospital from 'booking/pages/ChoosingHospital';
 import { HospitalDetail } from 'booking/components';
@@ -89,44 +88,49 @@ const routes: Route[] = [
   },
   {
     component: HomeBooking,
+    layout: AppLayout,
     path: '/homeBooking',
     isPrivate: true,
   },
   {
     component: TestingAppointment,
+    layout: AppLayout,
     path: '/testingAppointment',
-  },
-  {
-    component: MakingApointment,
-    path: '/makingApointment',
   },
 
   {
     component: ApointmentDate,
+    layout: AppLayout,
     path: '/apointmentDate'
   },
   {
     component: ChoosingHospital,
+    layout: AppLayout,
     path: '/choosingHospital'
   },
   {
     component: HospitalDetail,
+    layout: AppLayout,
     path: '/hospitalDetail'
   },
   {
     component: ChoosingTime,
+    layout: AppLayout,
     path: '/choosingTime'
   },
   {
     component: ConfirmProfile,
+    layout: AppLayout,
     path: '/confirmProfile'
   },
   {
     component: ApointmentInfo,
+    layout: AppLayout,
     path: '/apointmentInfo'
   },
   {
     component: ExaminationList,
+    layout: AppLayout,
     path: '/examinationList'
   },
   {

@@ -19,7 +19,7 @@
     position: absolute;
 }
 
-.headerLabel{
+.headerLabel {
     font-weight: bold;
     font-size: 23px;
 }
@@ -50,6 +50,43 @@
 
 .content {
     text-align: center;
+}
+
+.styledLabel {
+    font-size: 20px;
+}
+
+.styledLabelContent {
+    font-weight: bold;
+    color: #293978;
+    margin-left: 16px;
+}
+
+.styledDatePicker {
+    border: 1px solid #b3b3b3;
+    border-radius: 17px;
+    margin: 16px;
+    margin-bottom: 150px;
+}
+
+.styledButtonSubmit {
+    background-color: #293978;
+    margin: 10px auto;
+    width: 80%;
+    height: 50px;
+    color: white;
+    border-radius: 10px;
+}
+
+.styledContent {
+    text-align: center;
+}
+
+.img {
+    display: block;
+    margin: 0px auto;
+    width: 100%;
+    height: 150px;
 }
 
 .styledPage {

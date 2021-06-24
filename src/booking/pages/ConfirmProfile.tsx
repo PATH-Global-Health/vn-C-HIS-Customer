@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-    IonButton,
     IonContent,
     IonHeader,
     IonIcon,
@@ -12,11 +11,10 @@ import {
     IonSelect,
     IonSelectOption,
 } from '@ionic/react';
-import styled from 'styled-components';
 import { useDispatch, useSelector } from '@app/hooks';
 import 'react-day-picker/lib/style.css';
 import { useHistory } from "react-router-dom";
-import { arrowBack, text } from 'ionicons/icons';
+import { arrowBack } from 'ionicons/icons';
 import { BookingModel } from 'booking/models/bookingModel';
 import location from '../../@app/mock/locations.json';
 import { postExaminations } from 'booking/slices/workingCalendar';
@@ -24,58 +22,11 @@ import { useTranslation } from 'react-i18next';
 import { getUserInfo, putUserProfile } from '../slices/workingCalendar';
 import { UserProfile } from 'booking/models/userProfile';
 import moment from 'moment';
+import styles from '../css/confirmProfile.module.css';
 
 const ConfirmProfile: React.FC = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const StyledIconRight = styled(IonIcon)`
-    {
-        color: #b3b3b3;
-        right: -9px;
-        position: absolute;
-      }
-    `;
-
-    const StyledHeader = styled(IonHeader)`
-    {
-      height: 60px;
-      border-bottom: 1px solid #b3b3b3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 10px;
-    }
-    `
-
-    const StyledLabel = styled(IonLabel)`
-    {
-        font-weight: bold;
-        font-size: 23px;
-    }
-    `
-    const StyledButtonHeader = styled(IonButton)`
-    {
-      --background: white;
-      left: 10px;
-      position: absolute;
-    }
-    `
-    const StyledLabelHeader = styled(IonLabel)`
-{
-  font-weight: bold;
-    font-size: 23px;
-}
-`
-    const StyledButtonNext = styled(IonButton)`
-width: 90%;
---background: #293978;
-// position: absolute;
-// bottom: 5px;
-// width: 
- margin: 18px;
-// margin-bottom: 80px;
-`
-    // const userProfile = useSelector((u) => u.auth.userInfo);
     const userInfo = useSelector((w) => w.workingCaledar.userProfile);
     const interval = useSelector((i) => i.workingCaledar.intervalBooking);
     const unitBooking = useSelector((u) => u.hospital.hospitalBooking);
@@ -90,7 +41,8 @@ width: 90%;
     const [city, setCity] = useState<string>(userInfo.province);
     const [districts, setDistricts] = useState<string>(userInfo.district);
     const [wards, setWards] = useState<string>(userInfo.ward);
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
+    const serviceId = useSelector((w) => w.workingCaledar.serviceId);
     const userProfile = {
         fullname: fullName,
         gender: gender,
@@ -215,11 +167,15 @@ width: 90%;
         dispatch(getUserInfo())
     }, [])
     return (
-        <IonPage>
-            <StyledHeader>
-                <StyledButtonHeader onClick={() => history.goBack()}><StyledIconRight icon={arrowBack}></StyledIconRight></StyledButtonHeader>
-                <StyledLabelHeader>{t('User information')}</StyledLabelHeader>
-            </StyledHeader>
+        <>
+         {serviceId === "" ? history.push('/home') :
+        <IonPage className={styles.styledPage}>
+            <IonHeader className={styles.header}>
+                <button 
+                className={styles.btnCustomHeader}
+                onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={arrowBack}></IonIcon></button>
+                <IonLabel className={styles.headerLabel}>{t('User information')}</IonLabel>
+            </IonHeader>
             <IonContent>
                 <form
                     onSubmit={
@@ -232,7 +188,7 @@ width: 90%;
                 >
                     <IonList>
                         <IonItem>
-                            <StyledLabel position="stacked">{t('Full name')}</StyledLabel>
+                            <IonLabel className={styles.styledLabel} position="stacked">{t('Full name')}</IonLabel>
                             <IonInput
                                 required
                                 placeholder={t('Full name')}
@@ -241,7 +197,7 @@ width: 90%;
                             > </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">{t('PhoneNumber')}</StyledLabel>
+                            <IonLabel className={styles.styledLabel} position="stacked">{t('PhoneNumber')}</IonLabel>
                             <IonInput
                                 required
                                 placeholder={t('PhoneNumber')}
@@ -250,7 +206,7 @@ width: 90%;
                             > </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">{t('Email')}</StyledLabel>
+                            <IonLabel className={styles.styledLabel} position="stacked">{t('Email')}</IonLabel>
                             <IonInput
                                 required
                                 type="email"
@@ -260,7 +216,7 @@ width: 90%;
                             > </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">{t('Address')}</StyledLabel>
+                            <IonLabel className={styles.styledLabel} position="stacked">{t('Address')}</IonLabel>
                             <IonInput
                                 required
                                 placeholder={t('Address')}
@@ -269,7 +225,7 @@ width: 90%;
                             > </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">{t('Date of birth')}</StyledLabel>
+                            <IonLabel className={styles.styledLabel} position="stacked">{t('Date of birth')}</IonLabel>
                             <IonInput
                                 value={moment(dateOfBirth).format('YYYY-MM-DD') + ""}
                                 // value={dateOfBirth + ""}
@@ -279,14 +235,14 @@ width: 90%;
                             > </IonInput>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">{t('Gender')}</StyledLabel>
+                            <IonLabel className={styles.styledLabel} position="stacked">{t('Gender')}</IonLabel>
                             <IonSelect value={gender} onIonChange={e => setGender(e.detail.value)}>
                                 <IonSelectOption value={true}>{t('Male')}</IonSelectOption>
                                 <IonSelectOption value={false}>{t('Female')}</IonSelectOption>
                             </IonSelect>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">{t('City')}</StyledLabel>
+                            <IonLabel className={styles.styledLabel} position="stacked">{t('City')}</IonLabel>
                             <IonSelect value={city}
                                 onIonChange={e => {
                                     setCity(e.detail.value);
@@ -299,7 +255,7 @@ width: 90%;
                             </IonSelect>
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">{t('District')}</StyledLabel>
+                            <IonLabel className={styles.styledLabel} position="stacked">{t('District')}</IonLabel>
                             {city === "" || city === undefined ? "" :
                                 // districts === undefined ? "" :
                                     <IonSelect
@@ -316,7 +272,7 @@ width: 90%;
                             }
                         </IonItem>
                         <IonItem>
-                            <StyledLabel position="stacked">{t('Ward')}</StyledLabel>
+                            <IonLabel className={styles.styledLabel} position="stacked">{t('Ward')}</IonLabel>
                             {districts === "" ? "" :
                                 <IonSelect value={wards}
                                     onIonChange={e => setWards(e.detail.value)}>
@@ -329,11 +285,13 @@ width: 90%;
                         </IonItem>
                     </IonList>
                     {/* {wards === "" ? "" : */}
-                    <StyledButtonNext disabled={!(Boolean(wards))} type="submit">{t('Make an appointment')}</StyledButtonNext>
+                    <button className={styles.styledButtonSubmit} disabled={!(Boolean(wards))} type="submit">{t('Make an appointment')}</button>
                 </form>
                 {/* <IonInput value="Lieu"></IonInput> */}
             </IonContent>
         </IonPage>
+        }
+        </>
     )
 };
 

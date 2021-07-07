@@ -21,6 +21,7 @@ import ApointmentInfo from 'booking/pages/ApointmentInfo';
 import ExaminationList from 'booking/pages/ExaminationList';
 import PostDetailPage from 'news/PostDetail';
 import BookingTest from 'home/test';
+import Evaluate from 'booking/pages/Evaluate';
 
 interface Route {
   component: React.FC;
@@ -132,6 +133,11 @@ const routes: Route[] = [
     component: ExaminationList,
     layout: AppLayout,
     path: '/examinationList'
+  },
+  {
+    component: Evaluate,
+    layout: AppLayout,
+    path: '/evaluate'
   },
   {
     component: PageNotFound,

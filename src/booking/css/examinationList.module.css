@@ -30,63 +30,57 @@
 .iconLeft {
     font-size: x-large;
     color: #b3b3b3;
-    left: 20px;
+    left: 10px;
     position: absolute;
 }
 
-  
-  .customSubtitleCard{
-      font-size: 15px;
-  }
-  
-  .customText{
-      display: flex;
-  }
-  
-  .customText h4{
-      display: inline;
-      color: black;
-      margin: 0px 10px;
-  }
-  .customText h5,.customText h2{
-      display: inline;
-      width: 100%;
-      margin: 0px 10px;
-  }
-  
-  
-  
-  .customIcon {
-      color: #5379fe;
-  }
-  
-  .customCard{
-      overflow: hidden;
-      margin: 0 16px 30px;
-      border-radius: 15px;
-      border: none;
-      box-shadow: 0 4px 24px 0 rgb(0 0 0 / 8%);
-  }
-  
-  
-  .cardHeader{
-      border-bottom: 1px solid rgba(0,0,0,.05);
-  }
-  
-  
-  .cardBotom{
-      border-top: 1px solid rgba(0,0,0,.05);
-  }
-  
-  
-  .btnShowDetail{
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-    
-  }
+.customSubtitleCard {
+    font-size: 15px;
+}
 
-  .styledPage {
+.customText {
+    display: flex;
+}
+
+.customText h4 {
+    display: inline;
+    color: black;
+    margin: 0px 10px;
+}
+
+.customText h5, .customText h2 {
+    display: inline;
+    width: 100%;
+    margin: 0px 10px;
+}
+
+.customIcon {
+    color: #5379fe;
+}
+
+.customCard {
+    overflow: hidden;
+    margin: 0 16px 30px;
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 24px 0 rgb(0 0 0 / 8%);
+}
+
+.cardHeader {
+    border-bottom: 1px solid rgba(0, 0, 0, .05);
+}
+
+.cardBotom {
+    border-top: 1px solid rgba(0, 0, 0, .05);
+}
+
+.btnShowDetail {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.styledPage {
     margin-top: 10%;
 }
 
@@ -230,7 +224,6 @@
     position: absolute;
     left: 3px;
     top: 2px;
-
 }
 
 .styledDivIconHistory {
@@ -251,7 +244,6 @@
     position: absolute;
     left: 3px;
     top: 2px;
-
 }
 
 .btnShowDetail {
@@ -362,11 +354,11 @@
     font-weight: bolder;
 }
 
-.styledDivUpcoming, .styledDivHistory{
+.styledDivUpcoming, .styledDivHistory {
     margin-top: 15%;
 }
 
-.styledCardContentDiv{
+.styledCardContentDiv {
     position: absolute;
     left: -16%;
 }
@@ -375,7 +367,7 @@
     font-size: small;
 }
 
-.styledCardContentS{
+.styledCardContentS {
     position: absolute;
     /* top: 100px; */
     bottom: 5px;
@@ -385,7 +377,7 @@
     margin-left: 2px;
 }
 
-.styledCard{
+.styledCard {
     height: 220px;
 }
 
@@ -397,16 +389,17 @@
     width: 150px;
     height: 30px;
     margin-right: -52%;
-    margin-bottom: 15px;
+    margin-top: -150px;
     background-color: rgb(230, 55, 55);
     color: white;
     border-radius: 5px;
-    /* position: absolute; */
-    /* bottom: 3%; */
+    z-index: 1;
+    position: absolute;
+    bottom: 10%;
     /* right: 3%; */
 }
 
-.btnEvaluate{
+.btnEvaluate {
     width: 150px;
     height: 30px;
     margin-right: -52%;
@@ -418,9 +411,30 @@
 
 .styledCardBlood {
     background-color: #3b4a74;
+    width: 100%;
+    height: 200px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.styledCardDiv {
+    background-color: #3b4a74;
+    position: relative;
+    z-index: 0;
+    width: 93%;
+    margin: 15px auto;
+    border-radius: 5px;
+}
+
+.styledCardAids {
+    /* background-color: #3b4a74; */
+    width: 100%;
+    height: 200px;
+    padding: 0px;
+    margin: 0px;
+    border-radius: 5px;
 }
 
 .styledCardHistory {
     background-color: rgb(246, 246, 246);
 }
-

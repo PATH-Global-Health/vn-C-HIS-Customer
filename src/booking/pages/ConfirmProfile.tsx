@@ -14,7 +14,7 @@ import {
 import { useDispatch, useSelector } from '@app/hooks';
 import 'react-day-picker/lib/style.css';
 import { useHistory } from "react-router-dom";
-import { arrowBack } from 'ionicons/icons';
+import { arrowBack, chevronBack } from 'ionicons/icons';
 import { BookingModel } from 'booking/models/bookingModel';
 import location from '../../@app/mock/locations.json';
 import { postExaminations } from 'booking/slices/workingCalendar';
@@ -173,7 +173,7 @@ const ConfirmProfile: React.FC = () => {
             <IonHeader className={styles.header}>
                 <button 
                 className={styles.btnCustomHeader}
-                onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={arrowBack}></IonIcon></button>
+                onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon></button>
                 <IonLabel className={styles.headerLabel}>{t('User information')}</IonLabel>
             </IonHeader>
             <IonContent>

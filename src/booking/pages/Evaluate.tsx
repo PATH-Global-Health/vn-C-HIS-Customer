@@ -6,17 +6,23 @@ import {
     IonInput,
     IonLabel,
     IonPage,
+    IonAlert
 } from '@ionic/react';
 import { useDispatch } from '@app/hooks';
 import { useHistory } from "react-router-dom";
-import { arrowBack, arrowForward, chatbubble, flash } from 'ionicons/icons';
+import { arrowBack, chevronBack } from 'ionicons/icons';
 import { getServiceId } from 'booking/slices/workingCalendar';
 import { useTranslation } from 'react-i18next';
 import { getUserInfo } from '../slices/workingCalendar';
 import styles from '../css/evaluate.module.css';
 import { Rating } from 'react-simple-star-rating';
+import classNames from 'classnames/bind';
+
 
 const Evaluate: React.FC = () => {
+    var cx = classNames.bind(styles);
+    const [showAlert, setShowAlert] = useState(false);
+    const [selectedBtn, setSelectedBtn] = useState("");
     const { t } = useTranslation();
     const history = useHistory();
     const dispatch = useDispatch();
@@ -26,36 +32,76 @@ const Evaluate: React.FC = () => {
     }, [])
     return (
         <IonPage className={styles.styledPage}>
+            <IonAlert
+                isOpen={showAlert}
+                cssClass='my-custom-class'
+                onDidDismiss={() => setShowAlert(false)}
+                // header={`<strong>Lieu</strong>`}
+                // subHeader={'Subtitle'}
+                message={`<strong class=${styles.styledMessage}>${t('Thank you for submitting your review')}</strong>`}
+                buttons={[
+                    {
+                        text: `${t('Back to home page')}`,
+                        role: 'cancel',
+                        cssClass: 'secondary',
+                        handler: () => {
+                            // console.log('Confirm Cancel');
+                            history.push('/home');
+                        }
+                    },
+                    {
+                        text: `${t('Cancel')}`,
+                        handler: () => {
+                            console.log('Confirm Ok');
+                        }
+                    }
+                ]}
+            />
             <IonHeader className={styles.header}>
                 <button
                     className={styles.btnCustomHeader}
                     onClick={() => history.goBack()}>
                     <IonIcon
                         className={styles.iconLeft}
-                        icon={arrowBack}></IonIcon>
+                        icon={chevronBack}></IonIcon>
                 </button>
-                <IonLabel className={styles.headerLabel}>{t('Đánh giá dịch vụ')} </IonLabel>
+                <IonLabel className={styles.headerLabel}>{t('Service Reviews')} </IonLabel>
             </IonHeader>
             <IonContent className={styles.content}>
-                <IonLabel className={styles.styledLableThanks}>Cảm ơn đánh giá của bạn</IonLabel><br></br>
+                <IonLabel className={styles.styledLableThanks}>{t('Thanks for your review')}</IonLabel><br></br>
                 <Rating onClick={() => console.log("lieu")} ratingValue={rating} />
-                <IonLabel className={styles.styledLabelFb}>Bạn còn cảm thấy điều gì chưa tốt</IonLabel>
+                <IonLabel className={styles.styledLabelFb}>{t('What do you feel is not good ?')}</IonLabel>
                 <div className={styles.styledDivSelected}>
-                    <button className={styles.btnSelected}>Nhân viên</button>
-                    <button className={styles.btnSelected}>Chất lượng dịch vụ</button>
-                    <button className={styles.btnSelected}>Trang thiết bị</button>
-                    <button className={styles.btnSelected}>Thời gian xét nghiệm</button>
+                    <button
+                        onClick={() => setSelectedBtn('nv')}
+                        className={cx('btnSelected', {
+                            'btnSelectedS': selectedBtn === "nv"
+                        })}>{t('Staff')}</button>
+                    <button
+                        onClick={() => setSelectedBtn('cldv')}
+                        className={cx('btnSelected', {
+                            'btnSelectedS': selectedBtn === "cldv"
+                        })}>{t('Service quality')}</button>
+                        <button
+                        onClick={() => setSelectedBtn('ttb')}
+                        className={cx('btnSelected', {
+                            'btnSelectedS': selectedBtn === "ttb"
+                        })}>{t('Equipment')}</button>
+                        <button
+                        onClick={() => setSelectedBtn('tgxn')}
+                        className={cx('btnSelected', {
+                            'btnSelectedS': selectedBtn === "tgxn"
+                        })}>{t('Test time')}</button>
                 </div>
-                <IonLabel className={styles.styledLabelShare}>Chia sẻ thêm</IonLabel>
-                <IonInput className={styles.styledInput} placeholder="Ý kiến của bạn"></IonInput>
+                <IonLabel className={styles.styledLabelShare}>{t('Share more')}</IonLabel>
+                <IonInput className={styles.styledInput} placeholder={t('Your opinion')}></IonInput>
 
                 <button
                     className={styles.btnCustom}
                     onClick={() => {
-                        dispatch(getServiceId('f2490f62-1d28-4edd-362a-08d8a7232229'));
-                        history.push('/testingAppointment')
+                        setShowAlert(true);
                     }
-                    }>{t('Gửi đánh giá')}
+                    }>{t('Submit a review')}
                     {/* <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
                     <IonIcon className={styles.iconLeft} icon={flash}></IonIcon> */}
                 </button>

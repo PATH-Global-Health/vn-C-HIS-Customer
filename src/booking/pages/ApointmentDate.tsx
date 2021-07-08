@@ -12,7 +12,7 @@ import { getWorkingCalendarBooking } from '../slices/workingCalendar';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import { useHistory } from "react-router-dom";
-import { arrowBack } from 'ionicons/icons';
+import { arrowBack, chevronBack } from 'ionicons/icons';
 import moment from 'moment';
 import { getDateBooking } from '../slices/date';
 import { getIntervals } from '../slices/workingCalendar';
@@ -58,7 +58,7 @@ const ApointmentDate: React.FC = () => {
                     <IonHeader className={styles.header}>
                         <button
                             className={styles.btnCustomHeader}
-                            onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={arrowBack}></IonIcon></button>
+                            onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon></button>
                         {serviceId + "" === 'f2490f62-1d28-4edd-362a-08d8a7232229' ?
                             <IonLabel className={styles.styledLabel}>{t('Schedule a test')}</IonLabel> : <IonLabel className={styles.styledLabel}>{t('Schedule a consultation')}</IonLabel>}
                     </IonHeader>

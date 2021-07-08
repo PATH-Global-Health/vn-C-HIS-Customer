@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton, IonIcon, IonImg } from '@ionic/react';
 import { useHistory, } from 'react-router-dom';
-import { arrowBack } from 'ionicons/icons';
+import { arrowBack, chevronBack } from 'ionicons/icons';
 import { useDispatch, useSelector } from '@app/hooks';
 import { getIntervals } from '../slices/workingCalendar';
 import { getDateByUnitAndService, getWorkingCalendarBooking, setInterval } from '../slices/workingCalendar';
@@ -50,7 +50,7 @@ const HospitalDetail: React.FC = () => {
                 <IonPage>
                     <IonHeader className={styles.header}>
                         <button
-                            className={styles.btnCustomHeader} onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={arrowBack}></IonIcon></button>
+                            className={styles.btnCustomHeader} onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon></button>
                         <IonLabel className={styles.styledLabel}>{t('Service Unit')}</IonLabel>
                     </IonHeader>
                     {hospital === undefined ? "" :

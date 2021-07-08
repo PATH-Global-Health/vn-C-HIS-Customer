@@ -54,10 +54,10 @@ const ExaminationList: React.FC = () => {
         onDidDismiss={() => setShowAlertCancel(false)}
         // header={`<strong>Lieu</strong>`}
         // subHeader={'Subtitle'}
-        message={`<strong class=${styles.styledMessage}>Bạn có muốn chắc hủy lịch hẹn.</strong>`}
+        message={`<strong class=${styles.styledMessage}>${t('Are you sure you want to cancel your appointment ?')}</strong>`}
         buttons={[
           {
-            text: 'Chắc chắn',
+            text: `${t('Sure')}`,
             role: 'cancel',
             cssClass: 'secondary',
             handler: () => {
@@ -66,7 +66,7 @@ const ExaminationList: React.FC = () => {
             }
           },
           {
-            text: 'Đóng',
+            text: `${t('Cancel')}`,
             handler: () => {
               console.log('Confirm Ok');
             }
@@ -77,15 +77,16 @@ const ExaminationList: React.FC = () => {
       <IonAlert
         isOpen={showAlertSuccess}
         cssClass='my-custom-class'
-        onDidDismiss={() => setShowAlertSuccess(false)}
+        // onDidDismiss={() => setShowAlertSuccess(false)}
         // header={`<strong>Lieu</strong>`}
         // subHeader={'Subtitle'}
-        message={`<strong class=${styles.styledMessage}>Lịch hẹn đã được hủy thành công.</strong>`}
+        message={`<strong class=${styles.styledMessage}>${t('Appointment has been canceled successfully')}</strong>`}
         buttons={[
           {
-            text: 'Đóng',
+            text: `${t('Cancel')}`,
             handler: () => {
               console.log('Confirm Ok');
+              setShowAlertCancel(false)
             }
           }
         ]}
@@ -96,7 +97,7 @@ const ExaminationList: React.FC = () => {
             onClick={() => history.goBack()}
             className={styles.iconLeft}
             icon={chevronBack}></IonIcon>
-          <IonLabel className={styles.headerLabel}>{t('Lịch hẹn')} </IonLabel>
+          <IonLabel className={styles.headerLabel}>{t('Appointment schedule')} </IonLabel>
           <IonIcon
             onClick={() => setSearchInput(true)}
             className={styles.iconRight}
@@ -104,10 +105,10 @@ const ExaminationList: React.FC = () => {
           <ul className={styles.styledMenu}>
             <li
               className={cx({ 'styledLiSelected': selectedMenu === "upcoming" })}
-              onClick={() => setSelectedMenu("upcoming")}>SẮP TỚI</li>
+              onClick={() => setSelectedMenu("upcoming")}>{t('Upcoming')}</li>
             <li
               className={cx({ 'styledLiSelected': selectedMenu === "history" })}
-              onClick={() => setSelectedMenu("history")}>LỊCH SỬ</li>
+              onClick={() => setSelectedMenu("history")}>{t('History')}</li>
           </ul>
         </IonHeader>
         : <div className={styles.headerSearch}>
@@ -118,69 +119,79 @@ const ExaminationList: React.FC = () => {
 
         {searchInput === true ?
           <>
-            <IonLabel className={styles.styledLabel}>{t("Các lịch hẹn sắp tới của bạn")}</IonLabel>
-            <IonCard className={styles.styledCardBlood}>
-              <div className={styles.styledDivIconBlood}>
-                <IonIcon className={styles.styledIcon} icon={analytics}></IonIcon>
-              </div>
-              <IonCardHeader className={styles.styledCardHeaderBlood}>
-                <IonCardTitle className={styles.styledCardTitleBlood}>Xét nghiệm máu</IonCardTitle>
-                <IonCardSubtitle className={styles.styledSubtitleBlood}>Vào lúc 9:00, Thứ 5 ngày 19</IonCardSubtitle>
-              </IonCardHeader>
-              <IonCardContent className={styles.styledCardContentBlood}>
-                <p>Tại trung tâm abc</p>
-                <p>1232 xa lo ha noi, p thao dien, quan 2</p>
-              </IonCardContent>
-              <button onClick={() => setShowAlertCancel(true)} className={styles.btnCancelCard}>Hủy lịch hẹn</button>
-            </IonCard>
+            <IonLabel className={styles.styledLabel}>{t("Your upcoming appointments")}</IonLabel>
+            <div className={styles.styledCardDiv}>
+                  <IonCard onClick={() => { history.push('/homeBooking') }} className={styles.styledCardBlood}>
+                    <div className={styles.styledDivIconBlood}>
+                      <IonIcon className={styles.styledIcon} icon={analytics}></IonIcon>
+                    </div>
+                    <IonCardHeader className={styles.styledCardHeaderBlood}>
+                      <IonCardTitle className={styles.styledCardTitleBlood}>Xét nghiệm máu</IonCardTitle>
+                      <IonCardSubtitle className={styles.styledSubtitleBlood}>Vào lúc 9:00, Thứ 5 ngày 19</IonCardSubtitle>
+                    </IonCardHeader>
+                    <IonCardContent className={styles.styledCardContentBlood}>
+                      <p>Tại trung tâm abc</p>
+                      <p>1232 xa lo ha noi, p thao dien, quan 2</p>
+                    </IonCardContent>
 
-            <IonCard>
-              <div className={styles.styledDivIconAids}>
-                <IonIcon className={styles.styledIcon} icon={chatbubbles}></IonIcon>
-              </div>
-              <IonCardHeader className={styles.styledCardHeader}>
-                <IonCardTitle className={styles.styledCardTitle}>Tư vấn Aids</IonCardTitle>
-                <IonCardSubtitle className={styles.styledSubtitle}>Vào lúc 9:00, Thứ 5 ngày 19</IonCardSubtitle>
-              </IonCardHeader>
-              <IonCardContent className={styles.styledCardContent}>
-                <p>Tại trung tâm abc</p>
-                <p>1232 xa lo ha noi, p thao dien, quan 2</p>
-              </IonCardContent>
-              <button onClick={() => setShowAlertCancel(true)} className={styles.btnCancelCard}>Hủy lịch hẹn</button>
-            </IonCard>
+                  </IonCard>
+                  <button onClick={() => setShowAlertCancel(true)} className={styles.btnCancelCard}>{t('Cancel appointment')}</button>
+                </div>
+
+                <div className={styles.styledCardDiv}>
+                  <IonCard onClick={() => { history.push('/homeBooking') }} className={styles.styledCardAids}>
+                    <div className={styles.styledDivIconAids}>
+                      <IonIcon className={styles.styledIcon} icon={chatbubbles}></IonIcon>
+                    </div>
+                    <IonCardHeader className={styles.styledCardHeader}>
+                      <IonCardTitle className={styles.styledCardTitle}>Tư vấn Aids</IonCardTitle>
+                      <IonCardSubtitle className={styles.styledSubtitle}>Vào lúc 9:00, Thứ 5 ngày 19</IonCardSubtitle>
+                    </IonCardHeader>
+                    <IonCardContent className={styles.styledCardContent}>
+                      <p>Tại trung tâm abc</p>
+                      <p>1232 xa lo ha noi, p thao dien, quan 2</p>
+                    </IonCardContent>+
+                  </IonCard>
+                  <button onClick={() => setShowAlertCancel(true)} className={styles.btnCancelCard}>{t('Cancel appointment')}</button>
+                </div>
           </> :
           <>
             {selectedMenu === "upcoming" ?
               <div className={styles.styledDivUpcoming}>
-                <IonCard className={styles.styledCardBlood}>
-                  <div className={styles.styledDivIconBlood}>
-                    <IonIcon className={styles.styledIcon} icon={analytics}></IonIcon>
-                  </div>
-                  <IonCardHeader className={styles.styledCardHeaderBlood}>
-                    <IonCardTitle className={styles.styledCardTitleBlood}>Xét nghiệm máu</IonCardTitle>
-                    <IonCardSubtitle className={styles.styledSubtitleBlood}>Vào lúc 9:00, Thứ 5 ngày 19</IonCardSubtitle>
-                  </IonCardHeader>
-                  <IonCardContent className={styles.styledCardContentBlood}>
-                    <p>Tại trung tâm abc</p>
-                    <p>1232 xa lo ha noi, p thao dien, quan 2</p>
-                  </IonCardContent>
-                  <button onClick={() => setShowAlertCancel(true)} className={styles.btnCancelCard}>Hủy lịch hẹn</button>
-                </IonCard>
+                <div className={styles.styledCardDiv}>
+                  <IonCard onClick={() => { history.push('/homeBooking') }} className={styles.styledCardBlood}>
+                    <div className={styles.styledDivIconBlood}>
+                      <IonIcon className={styles.styledIcon} icon={analytics}></IonIcon>
+                    </div>
+                    <IonCardHeader className={styles.styledCardHeaderBlood}>
+                      <IonCardTitle className={styles.styledCardTitleBlood}>Xét nghiệm máu</IonCardTitle>
+                      <IonCardSubtitle className={styles.styledSubtitleBlood}>Vào lúc 9:00, Thứ 5 ngày 19</IonCardSubtitle>
+                    </IonCardHeader>
+                    <IonCardContent className={styles.styledCardContentBlood}>
+                      <p>Tại trung tâm abc</p>
+                      <p>1232 xa lo ha noi, p thao dien, quan 2</p>
+                    </IonCardContent>
 
-                <IonCard>
-                  <div className={styles.styledDivIconAids}>
-                    <IonIcon className={styles.styledIcon} icon={chatbubbles}></IonIcon>
-                  </div>
-                  <IonCardHeader className={styles.styledCardHeader}>
-                    <IonCardTitle className={styles.styledCardTitle}>Tư vấn Aids</IonCardTitle>
-                    <IonCardSubtitle className={styles.styledSubtitle}>Vào lúc 9:00, Thứ 5 ngày 19</IonCardSubtitle>
-                  </IonCardHeader>
-                  <IonCardContent className={styles.styledCardContent}>
-                    <p>Tại trung tâm abc</p>
-                    <p>1232 xa lo ha noi, p thao dien, quan 2</p>
-                  </IonCardContent>
-                  <button onClick={() => setShowAlertCancel(true)} className={styles.btnCancelCard}>Hủy lịch hẹn</button>
-                </IonCard>
+                  </IonCard>
+                  <button onClick={() => setShowAlertCancel(true)} className={styles.btnCancelCard}>{t('Cancel appointment')}</button>
+                </div>
+
+                <div className={styles.styledCardDiv}>
+                  <IonCard onClick={() => { history.push('/homeBooking') }} className={styles.styledCardAids}>
+                    <div className={styles.styledDivIconAids}>
+                      <IonIcon className={styles.styledIcon} icon={chatbubbles}></IonIcon>
+                    </div>
+                    <IonCardHeader className={styles.styledCardHeader}>
+                      <IonCardTitle className={styles.styledCardTitle}>Tư vấn Aids</IonCardTitle>
+                      <IonCardSubtitle className={styles.styledSubtitle}>Vào lúc 9:00, Thứ 5 ngày 19</IonCardSubtitle>
+                    </IonCardHeader>
+                    <IonCardContent className={styles.styledCardContent}>
+                      <p>Tại trung tâm abc</p>
+                      <p>1232 xa lo ha noi, p thao dien, quan 2</p>
+                    </IonCardContent>
+                  </IonCard>
+                  <button onClick={() => setShowAlertCancel(true)} className={styles.btnCancelCard}>{t('Cancel appointment')}</button>
+                </div>
               </div> :
               <div className={styles.styledDivHistory}>
                 <IonCard className={styles.styledCardHistory}>
@@ -195,7 +206,7 @@ const ExaminationList: React.FC = () => {
                     <p>Tại trung tâm abc</p>
                     <p>1232 xa lo ha noi, p thao dien, quan 2</p>
                   </IonCardContent>
-                  <button onClick={() => history.push('/evaluate')} className={styles.btnEvaluate}>ĐÁNH GiÁ</button>
+                  <button onClick={() => history.push('/evaluate')} className={styles.btnEvaluate}>{t('Evaluate')}</button>
                 </IonCard>
 
                 <IonCard className={styles.styledCardHistory}>
@@ -210,7 +221,7 @@ const ExaminationList: React.FC = () => {
                     <p>Tại trung tâm abc</p>
                     <p>1232 xa lo ha noi, p thao dien, quan 2</p>
                   </IonCardContent>
-                  <button onClick={() => history.push('/evaluate')} className={styles.btnEvaluate}>ĐÁNH GIÁ</button>
+                  <button onClick={() => history.push('/evaluate')} className={styles.btnEvaluate}>{t('Evaluate')}</button>
                 </IonCard>
               </div>
             }

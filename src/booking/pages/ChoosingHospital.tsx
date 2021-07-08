@@ -14,7 +14,7 @@ import {
 import styled from 'styled-components';
 import { useDispatch, useSelector } from '@app/hooks';
 import { useHistory } from "react-router-dom";
-import { arrowBack, arrowForward, filter, podium } from 'ionicons/icons';
+import { arrowBack, arrowForward, chevronBack, filter, podium } from 'ionicons/icons';
 import { getHospitalBooking } from 'booking/slices/hospital';
 import location from '../../@app/mock/locations.json';
 import { deburr } from '../../@app/utils/helpers';
@@ -210,7 +210,7 @@ const ChoosingHospital: React.FC = () => {
           </StyleModal>
           <IonHeader className={styles.header}>
             <button className={styles.btnCustomHeader} onClick={() => history.goBack()}>
-              <IonIcon className={styles.iconLeft} icon={arrowBack}></IonIcon>
+              <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
             </button>
             <IonLabel className={styles.headerLabel}>{t('Service Unit List')}</IonLabel>
           </IonHeader>

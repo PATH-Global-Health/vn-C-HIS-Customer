@@ -13,7 +13,7 @@ import {
 import { useSelector, useDispatch } from '@app/hooks';
 import 'react-day-picker/lib/style.css';
 import { useHistory } from "react-router-dom";
-import { arrowBack } from 'ionicons/icons';
+import { arrowBack, chevronBack } from 'ionicons/icons';
 import { useTranslation } from 'react-i18next';
 import { getUserInfo } from '../slices/workingCalendar';
 import styles from '../css/apointmentInfo.module.css';
@@ -36,7 +36,7 @@ const ApointmentInfo: React.FC = () => {
                         <>
                             <IonHeader className={styles.header}>
                                 <button
-                                    className={styles.btnCustomHeader} onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={arrowBack}></IonIcon></button>
+                                    className={styles.btnCustomHeader} onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon></button>
                                 <IonLabel className={styles.headerLabel}>{t('Appointment information')}</IonLabel>
                             </IonHeader>
                             <IonContent>

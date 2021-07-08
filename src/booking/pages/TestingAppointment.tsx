@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from '@app/hooks';
 import { useHistory } from "react-router-dom";
 import { getDateByServiceId } from '../slices/date';
 import { getHospitalByServiceId } from '../slices/hospital';
-import { arrowBack, arrowForward, calendar, podium, } from 'ionicons/icons';
+import { arrowBack, arrowForward, calendar, chevronBack, podium, } from 'ionicons/icons';
 import { getTypeChoosing } from 'booking/slices/date';
 import { useTranslation } from 'react-i18next';
 import styles from '../css/testingAppointment.module.css';
@@ -27,7 +27,7 @@ const TestingAppointment: React.FC = () => {
           <IonHeader className={styles.header}>
             <button
               className={styles.btnCustomHeader}
-              onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={arrowBack}></IonIcon></button>
+              onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon></button>
             {serviceId + "" === 'f2490f62-1d28-4edd-362a-08d8a7232229' ?
               <IonLabel className={styles.headerLabel}>{t('Schedule a test')}</IonLabel> : <IonLabel className={styles.headerLabel}>{t('Schedule a consultation')}</IonLabel>}
           </IonHeader>

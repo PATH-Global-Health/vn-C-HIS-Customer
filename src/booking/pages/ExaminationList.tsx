@@ -27,6 +27,7 @@ import { getExaminationList } from "../slices/workingCalendar";
 import moment from "moment";
 import styles from "../css/examinationList.module.css";
 import classNames from 'classnames/bind';
+import listExamination from '../../@app/mock/examination.json';
 
 
 const ExaminationList: React.FC = () => {
@@ -120,78 +121,77 @@ const ExaminationList: React.FC = () => {
         {searchInput === true ?
           <>
             <IonLabel className={styles.styledLabel}>{t("Your upcoming appointments")}</IonLabel>
-            <div className={styles.styledCardDiv}>
-                  <IonCard onClick={() => { history.push('/homeBooking') }} className={styles.styledCardBlood}>
-                    <div className={styles.styledDivIconBlood}>
-                      <IonIcon className={styles.styledIcon} icon={analytics}></IonIcon>
-                    </div>
-                    <IonCardHeader className={styles.styledCardHeaderBlood}>
-                      <IonCardTitle className={styles.styledCardTitleBlood}>Xét nghiệm máu</IonCardTitle>
-                      <IonCardSubtitle className={styles.styledSubtitleBlood}>Vào lúc 9:00, Thứ 5 ngày 19</IonCardSubtitle>
-                    </IonCardHeader>
-                    <IonCardContent className={styles.styledCardContentBlood}>
-                      <p>Tại trung tâm abc</p>
-                      <p>1232 xa lo ha noi, p thao dien, quan 2</p>
-                    </IonCardContent>
+            {listExamination.map((e) =>
+              <div className={styles.styledCardDiv}>
+                <IonCard
+                  onClick={() => { history.push('/homeBooking') }}
+                  className={cx('styledCardAids', { 'styledCardBlood': e.type === "blood" })}
+                >
+                  <div
+                    className={cx('styledDivIconBlood', { 'styledDivIconAids': e.type !== "blood" })}
+                  >
+                    <IonIcon className={styles.styledIcon} icon={e.type === "blood" ? analytics : chatbubbles}></IonIcon>
+                  </div>
+                  <IonCardHeader
+                    className={cx('styledCardHeader', { 'styledCardHeaderBlood': e.type === "blood" })}
+                  >
+                    <IonCardTitle
+                      className={cx('styledCardTitle', { 'styledCardTitleBlood': e.type === "blood" })}
+                    >{e.nameService}
+                    </IonCardTitle>
+                    <IonCardSubtitle
+                      className={cx('styledSubtitle', { 'styledSubtitleBlood': e.type === "blood" })}
+                    >Vào lúc {e.time}, {e.date}</IonCardSubtitle>
+                  </IonCardHeader>
+                  <IonCardContent
+                    className={cx('styledCardContent', { 'styledCardContentBlood': e.type === "blood" })}
+                  >
+                    <p>{e.unit.nameUnit}</p>
+                    <p>{e.unit.addressUnit}</p>
+                  </IonCardContent>
 
-                  </IonCard>
-                  <button onClick={() => setShowAlertCancel(true)} className={styles.btnCancelCard}>{t('Cancel appointment')}</button>
-                </div>
+                </IonCard>
+                <button onClick={() => setShowAlertCancel(true)} className={styles.btnCancelCard}>{t('Cancel appointment')}</button>
+              </div>
+            )}
 
-                <div className={styles.styledCardDiv}>
-                  <IonCard onClick={() => { history.push('/homeBooking') }} className={styles.styledCardAids}>
-                    <div className={styles.styledDivIconAids}>
-                      <IonIcon className={styles.styledIcon} icon={chatbubbles}></IonIcon>
-                    </div>
-                    <IonCardHeader className={styles.styledCardHeader}>
-                      <IonCardTitle className={styles.styledCardTitle}>Tư vấn Aids</IonCardTitle>
-                      <IonCardSubtitle className={styles.styledSubtitle}>Vào lúc 9:00, Thứ 5 ngày 19</IonCardSubtitle>
-                    </IonCardHeader>
-                    <IonCardContent className={styles.styledCardContent}>
-                      <p>Tại trung tâm abc</p>
-                      <p>1232 xa lo ha noi, p thao dien, quan 2</p>
-                    </IonCardContent>+
-                  </IonCard>
-                  <button onClick={() => setShowAlertCancel(true)} className={styles.btnCancelCard}>{t('Cancel appointment')}</button>
-                </div>
           </> :
           <>
             {selectedMenu === "upcoming" ?
               <div className={styles.styledDivUpcoming}>
-                <div className={styles.styledCardDiv}>
-                  <IonCard onClick={() => { history.push('/homeBooking') }} className={styles.styledCardBlood}>
-                    <div className={styles.styledDivIconBlood}>
-                      <IonIcon className={styles.styledIcon} icon={analytics}></IonIcon>
-                    </div>
-                    <IonCardHeader className={styles.styledCardHeaderBlood}>
-                      <IonCardTitle className={styles.styledCardTitleBlood}>Xét nghiệm máu</IonCardTitle>
-                      <IonCardSubtitle className={styles.styledSubtitleBlood}>Vào lúc 9:00, Thứ 5 ngày 19</IonCardSubtitle>
-                    </IonCardHeader>
-                    <IonCardContent className={styles.styledCardContentBlood}>
-                      <p>Tại trung tâm abc</p>
-                      <p>1232 xa lo ha noi, p thao dien, quan 2</p>
-                    </IonCardContent>
+                {listExamination.map((e) =>
+              <div className={styles.styledCardDiv}>
+                <IonCard
+                  onClick={() => { history.push('/homeBooking') }}
+                  className={cx('styledCardAids', { 'styledCardBlood': e.type === "blood" })}
+                >
+                  <div
+                    className={cx('styledDivIconBlood', { 'styledDivIconAids': e.type !== "blood" })}
+                  >
+                    <IonIcon className={styles.styledIcon} icon={e.type === "blood" ? analytics : chatbubbles}></IonIcon>
+                  </div>
+                  <IonCardHeader
+                    className={cx('styledCardHeader', { 'styledCardHeaderBlood': e.type === "blood" })}
+                  >
+                    <IonCardTitle
+                      className={cx('styledCardTitle', { 'styledCardTitleBlood': e.type === "blood" })}
+                    >{e.nameService}
+                    </IonCardTitle>
+                    <IonCardSubtitle
+                      className={cx('styledSubtitle', { 'styledSubtitleBlood': e.type === "blood" })}
+                    >Vào lúc {e.time}, {e.date}</IonCardSubtitle>
+                  </IonCardHeader>
+                  <IonCardContent
+                    className={cx('styledCardContent', { 'styledCardContentBlood': e.type === "blood" })}
+                  >
+                    <p>{e.unit.nameUnit}</p>
+                    <p>{e.unit.addressUnit}</p>
+                  </IonCardContent>
 
-                  </IonCard>
-                  <button onClick={() => setShowAlertCancel(true)} className={styles.btnCancelCard}>{t('Cancel appointment')}</button>
-                </div>
-
-                <div className={styles.styledCardDiv}>
-                  <IonCard onClick={() => { history.push('/homeBooking') }} className={styles.styledCardAids}>
-                    <div className={styles.styledDivIconAids}>
-                      <IonIcon className={styles.styledIcon} icon={chatbubbles}></IonIcon>
-                    </div>
-                    <IonCardHeader className={styles.styledCardHeader}>
-                      <IonCardTitle className={styles.styledCardTitle}>Tư vấn Aids</IonCardTitle>
-                      <IonCardSubtitle className={styles.styledSubtitle}>Vào lúc 9:00, Thứ 5 ngày 19</IonCardSubtitle>
-                    </IonCardHeader>
-                    <IonCardContent className={styles.styledCardContent}>
-                      <p>Tại trung tâm abc</p>
-                      <p>1232 xa lo ha noi, p thao dien, quan 2</p>
-                    </IonCardContent>
-                  </IonCard>
-                  <button onClick={() => setShowAlertCancel(true)} className={styles.btnCancelCard}>{t('Cancel appointment')}</button>
-                </div>
+                </IonCard>
+                <button onClick={() => setShowAlertCancel(true)} className={styles.btnCancelCard}>{t('Cancel appointment')}</button>
+              </div>
+            )}
               </div> :
               <div className={styles.styledDivHistory}>
                 <IonCard className={styles.styledCardHistory}>

@@ -79,6 +79,27 @@ const getExaminationList = async (): Promise<ExaminationListModel> => {
     return result.data as ExaminationListModel;
 };
 
+const getExaminationById = async (id: string): Promise<BookingModelResponse> => {
+    const result = await httpClient.get({
+        url: apiLinks.bookingService.postExaminations + `/${id}`,
+    });
+    console.log(result.data);
+    return result.data as BookingModelResponse;
+};
+
+const cancelExamination = async (id: string): Promise<void> => {
+    const response = await httpClient.put({
+        url: apiLinks.bookingService.postExaminations,
+        data: {
+            id: id,
+            status: 3,
+            note: "Cancel"
+        },
+    });
+    // return response.data as UserProfile;
+};
+
+
 const getUserInfo = async (): Promise<UserProfile> => {
     const result = await httpClient.get({
         url: apiLinks.manageSchedule.profile.get,
@@ -116,7 +137,9 @@ const examinationServices = {
     postExaminations,
     getExaminationList,
     getUserInfo,
-    putUserProfile
+    putUserProfile,
+    getExaminationById,
+    cancelExamination
 };
 
 

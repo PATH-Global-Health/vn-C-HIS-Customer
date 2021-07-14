@@ -60,6 +60,8 @@ const initialState: State = {
     },
     bookingModelResponse: {
         data: {
+            status: 0,
+            id: "",
             interval: {
                 id: "",
                 from: "",
@@ -122,6 +124,8 @@ const initialState: State = {
     }
     ,
     bookingModel: {
+        status: 0,
+        id: "",
         interval: {
             id: "",
             from: "",
@@ -227,6 +231,11 @@ const getIntervals = createAsyncThunk('workingCalendar/getInterval', async (dayI
     return result;
 });
 
+const getExaminationById = createAsyncThunk('examination/getExaminationById', async (id: string) => {
+    const result = await bookingServices.examinationService.getExaminationById(id);
+    return result;
+});
+
 const getExaminationList = createAsyncThunk('examination/getExaminationList', async () => {
     const result = await bookingServices.examinationService.getExaminationList();
     return result;
@@ -316,6 +325,25 @@ const slice = createSlice({
             loading: false,
         }));
 
+        //getExaminationById
+        builder.addCase(getExaminationById.pending, (state) => ({
+            ...state,
+            loading: true,
+        }));
+        builder.addCase(getExaminationById.fulfilled, (state, { payload }) => ({
+            ...state,
+            loading: false,
+            bookingModelResponse: payload,
+            examinationSuccess: true,
+            // workingCalendars: payload,
+            // workingCalendars 
+        }));
+        builder.addCase(getExaminationById.rejected, (state) => ({
+            ...state,
+            examinationSuccess: false,
+            loading: false,
+        }));
+
         //getExaminationList
         builder.addCase(getExaminationList.pending, (state) => ({
             ...state,
@@ -363,7 +391,7 @@ const slice = createSlice({
     },
 });
 
-export { getDateByUnitAndService, getIntervals, postExaminations, getExaminationList, getUserInfo, putUserProfile };
+export { getDateByUnitAndService, getIntervals, postExaminations, getExaminationList, getUserInfo, putUserProfile, getExaminationById };
 export const { getWorkingCalendarBooking, getInterBooking, getBookingModel, getServiceId, setInterval } = slice.actions;
 
 export default slice.reducer;

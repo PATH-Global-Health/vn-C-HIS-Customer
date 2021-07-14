@@ -1,4 +1,6 @@
 export interface BookingModel {
+    status: number,
+    id: string,
     interval: {
         id: string,
         from: string,

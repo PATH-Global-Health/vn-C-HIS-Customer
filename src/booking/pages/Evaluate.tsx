@@ -6,18 +6,24 @@ import {
     IonInput,
     IonLabel,
     IonPage,
-    IonAlert
+    IonAlert,
+    IonModal
 } from '@ionic/react';
 import { useDispatch } from '@app/hooks';
 import { useHistory } from "react-router-dom";
-import { arrowBack, chevronBack } from 'ionicons/icons';
+import { arrowBack, checkmark, chevronBack } from 'ionicons/icons';
 import { getServiceId } from 'booking/slices/workingCalendar';
 import { useTranslation } from 'react-i18next';
 import { getUserInfo } from '../slices/workingCalendar';
 import styles from '../css/evaluate.module.css';
 import { Rating } from 'react-simple-star-rating';
 import classNames from 'classnames/bind';
-
+import styled from 'styled-components';
+const StyleModal = styled(IonModal)`
+    {
+      padding: 65% 15%;
+    }
+`
 
 const Evaluate: React.FC = () => {
     var cx = classNames.bind(styles);
@@ -26,37 +32,25 @@ const Evaluate: React.FC = () => {
     const { t } = useTranslation();
     const history = useHistory();
     const dispatch = useDispatch();
-    const [rating, setRating] = useState(0)
+    const [rating, setRating] = useState(0);
+    const [showModal, setShowModal] = useState(false);
     useEffect(() => {
         dispatch(getUserInfo());
     }, [])
     return (
         <IonPage className={styles.styledPage}>
-            <IonAlert
-                isOpen={showAlert}
-                cssClass='my-custom-class'
-                onDidDismiss={() => setShowAlert(false)}
-                // header={`<strong>Lieu</strong>`}
-                // subHeader={'Subtitle'}
-                message={`<strong class=${styles.styledMessage}>${t('Thank you for submitting your review')}</strong>`}
-                buttons={[
-                    {
-                        text: `${t('Back to home page')}`,
-                        role: 'cancel',
-                        cssClass: 'secondary',
-                        handler: () => {
-                            // console.log('Confirm Cancel');
-                            history.push('/home');
-                        }
-                    },
-                    {
-                        text: `${t('Cancel')}`,
-                        handler: () => {
-                            console.log('Confirm Ok');
-                        }
-                    }
-                ]}
-            />
+            <StyleModal isOpen={showModal} cssClass='my-custom-class' onDidDismiss={() => setShowModal(false)}>
+                <div className={styles.styledDivIconModalS}>
+                    <IonIcon className={styles.styledIconModal} icon={checkmark}></IonIcon>
+                </div>
+                <div className={styles.styledDivLabel}>
+                    <p>{t('Thank you for submitting your review')}</p>
+                </div>
+                <div className={styles.styledDivModal}>
+                    <p onClick={() => history.push('/home')} className={styles.styledLabelModal}>{t('Back to home page')}</p>
+                    <p onClick={() => setShowModal(false)} className={styles.styledLabelModal}>{t('Cancel')}</p>
+                </div>
+            </StyleModal>
             <IonHeader className={styles.header}>
                 <button
                     className={styles.btnCustomHeader}
@@ -82,12 +76,12 @@ const Evaluate: React.FC = () => {
                         className={cx('btnSelected', {
                             'btnSelectedS': selectedBtn === "cldv"
                         })}>{t('Service quality')}</button>
-                        <button
+                    <button
                         onClick={() => setSelectedBtn('ttb')}
                         className={cx('btnSelected', {
                             'btnSelectedS': selectedBtn === "ttb"
                         })}>{t('Equipment')}</button>
-                        <button
+                    <button
                         onClick={() => setSelectedBtn('tgxn')}
                         className={cx('btnSelected', {
                             'btnSelectedS': selectedBtn === "tgxn"
@@ -99,7 +93,7 @@ const Evaluate: React.FC = () => {
                 <button
                     className={styles.btnCustom}
                     onClick={() => {
-                        setShowAlert(true);
+                        setShowModal(true);
                     }
                     }>{t('Submit a review')}
                     {/* <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>

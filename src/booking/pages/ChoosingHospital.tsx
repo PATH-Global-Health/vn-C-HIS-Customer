@@ -101,7 +101,7 @@ const ChoosingHospital: React.FC = () => {
     <>
       {serviceId === "" ? history.push('/home') :
         <IonPage className={styles.styledPage}>
-          <StyleModal isOpen={showModal} cssClass='my-custom-class'>
+          <StyleModal isOpen={showModal} cssClass='my-custom-class' swipeToClose={false} onDidDismiss={() => setShowModal(false)}>
             {show === true ? <div><IonSelect className={styles.styledSelect} placeholder={t('Unit Type')} onIonChange={e => { setUnitType(e.detail.value); setTypeSearch("unitType") }}>
               {unitTypes.map((unitType) => (
                 <IonSelectOption value={unitType.id}>{unitType.typeName}</IonSelectOption>
@@ -158,7 +158,7 @@ const ChoosingHospital: React.FC = () => {
                 >{hos.name}
                   <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
                   <IonIcon className={styles.iconLeft} icon={podium}></IonIcon>
-                  <IonImg className={styles.img} src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hos.id}`}></IonImg>
+                  <IonImg className={styles.img} src={`http://202.78.227.174:30111/api/Hospitals/Logo/${hos.id}`}></IonImg>
                 </button>
 
               )) : ""}
@@ -174,7 +174,7 @@ const ChoosingHospital: React.FC = () => {
                 >{hos.name}
                   <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
                   <IonIcon className={styles.iconLeft} icon={podium}></IonIcon>
-                  <IonImg className={styles.img} src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hos.id}`}></IonImg>
+                  <IonImg className={styles.img} src={`http://202.78.227.174:30111/api/Hospitals/Logo/${hos.id}`}></IonImg>
                 </button>
               )) : ""}
 
@@ -188,7 +188,7 @@ const ChoosingHospital: React.FC = () => {
                 >{hos.name}
                   <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
                   <IonIcon className={styles.iconLeft} icon={podium}></IonIcon>
-                  <IonImg className={styles.img} src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hos.id}`}></IonImg>
+                  <IonImg className={styles.img} src={`http://202.78.227.174:30111/api/Hospitals/Logo/${hos.id}`}></IonImg>
                 </button>
               )) : ""}
 
@@ -202,8 +202,10 @@ const ChoosingHospital: React.FC = () => {
                 >{hos.name}
                   <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
                   <IonIcon className={styles.iconLeft} icon={podium}></IonIcon>
-                  <IonImg className={styles.img} src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hos.id}`}></IonImg>
+                  <IonImg className={styles.img} src={`http://202.78.227.174:30111/api/Hospitals/Logo/${hos.id}`}></IonImg>
                 </button>
+
+                
               )) : ""}
             </div>
             <button className={styles.styledButtonCloseModal} onClick={() => { setShowModal(false); setTypeSearch("name") }}>{t('Close')}</button>
@@ -240,7 +242,7 @@ const ChoosingHospital: React.FC = () => {
                 >{hos.name}
                   <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
                   <IonIcon className={styles.iconLeft} icon={podium}></IonIcon>
-                  <IonImg className={styles.img} src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hos.id}`}></IonImg>
+                  <IonImg className={styles.img} src={`http://202.78.227.174:30111/api/Hospitals/Logo/${hos.id}`}></IonImg>
                 </button>
               )) : ""}
             </div>

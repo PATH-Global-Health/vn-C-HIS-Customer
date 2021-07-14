@@ -438,3 +438,49 @@
 .styledCardHistory {
     background-color: rgb(246, 246, 246);
 }
+
+.styledDivModal{
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 30px;
+}
+
+.styledDivIconModal{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 20px auto;
+    background-color: rgb(51, 167, 221);
+}
+
+.styledIconModal{
+    display: block;
+    color: white;
+    font-size: xx-large;
+    margin: 5px auto;
+}
+
+.styledDivIconModalS{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 20px auto;
+    background-color: rgb(19, 180, 27);
+}
+
+.styledDivModalS{
+    display: flex;
+    justify-content: flex-end;
+    padding: 0px 30px;
+}
+
+.styledDivLabel{
+    text-align: center;
+    /* margin: 0px; */
+}
+
+.styledDivLabel p {
+    font-size: larger;
+    font-weight: bolder;
+    margin: 0px;
+}

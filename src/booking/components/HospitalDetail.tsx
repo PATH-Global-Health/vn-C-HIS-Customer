@@ -57,7 +57,7 @@ const HospitalDetail: React.FC = () => {
                         <IonContent>
                             <IonList>
                                 <IonItem>
-                                    <IonImg className={styles.img} src={`http://202.78.227.94:30111/api/Hospitals/Logo/${hospital.id}`}></IonImg>
+                                    <IonImg className={styles.img} src={`http://202.78.227.174:30111/api/Hospitals/Logo/${hospital.id}`}></IonImg>
                                 </IonItem>
                                 <IonItem>
                                     <IonLabel className={styles.styledLabel} position="stacked">{t('Unit Name')}</IonLabel>

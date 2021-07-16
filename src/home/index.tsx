@@ -162,10 +162,14 @@ const Home: React.FC = () => {
   const { data } = useSelector((s) => s.post.postList);
   const userInfo = useSelector((w) => w.workingCaledar.userProfile);
   const history = useHistory();
+  const reload = () => {
+    window.location.reload();
+  }
   const handleTypeService = (name: string) => {
     name === "booking" ? history.push("/homeBooking")
       : name === "examinationList" ? history.push("/examinationList")
-        : history.push("/risk")
+        : history.push("/risk");
+
   }
   const getData = useCallback(() => {
     dispatch(getPosts({
@@ -175,8 +179,14 @@ const Home: React.FC = () => {
     dispatch(getUserInfo());
   }, [pageIndex, pageSize, dispatch]);
   useEffect(getData, [getData]);
+  /* useEffect(() => {
+    if (loading === true)
+      reload()
+  }, [loading]) */
+
   return (
     <>
+      {console.log(userInfo)}
       <IonContent>
         <IonRow className="ion-justify-content-center" >
           <IonCol size="4" size-sm="3">

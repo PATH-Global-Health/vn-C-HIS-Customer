@@ -7,7 +7,7 @@ import RegisterPage from '@app/pages/RegisterPage';
 import LoginPage from '@app/pages/LoginPage';
 import ChangePasswordPage from '@app/pages/ChangePasswordPage';
 import ForgetPassword from '@app/pages/ForgetPasswordPage';
-import Account from 'account';
+import Account from 'account/profile';
 import Home from 'home';
 import PostPage from 'news/post';
 import HomeBooking from 'booking/pages/HomeBooking';
@@ -21,6 +21,8 @@ import ApointmentInfo from 'booking/pages/ApointmentInfo';
 import ExaminationList from 'booking/pages/ExaminationList';
 import PostDetailPage from 'news/PostDetail';
 import BookingTest from 'home/test';
+import RiskPage from 'risk/QuestionTemplate';
+import Personal from 'account/profile/components/Personal';
 
 interface Route {
   component: React.FC;
@@ -58,15 +60,14 @@ const routes: Route[] = [
     isPrivate: true,
   },
   {
-    component: Home,
-    layout: AppLayout,
-    path: '/home',
+    component: Personal,
+    path: '/personal',
     isPrivate: true,
   },
   {
-    component: BookingTest,
+    component: Home,
     layout: AppLayout,
-    path: '/risk',
+    path: '/home',
     isPrivate: true,
   },
   {
@@ -84,6 +85,12 @@ const routes: Route[] = [
     component: Account,
     layout: AppLayout,
     path: '/account',
+    isPrivate: true,
+  },
+  {
+    component: RiskPage,
+    layout: AppLayout,
+    path: '/risk',
     isPrivate: true,
   },
   {

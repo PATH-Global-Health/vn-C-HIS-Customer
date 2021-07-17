@@ -116,12 +116,12 @@ const Account: React.FC = () => {
           <div>
             <StyledText>
               Đoàn Thanh Hoàng
-        </StyledText>
+            </StyledText>
           </div>
           <div></div>
           <IonNote>
             0909090812
-        </IonNote>
+          </IonNote>
         </div>
 
         <div>
@@ -131,7 +131,11 @@ const Account: React.FC = () => {
                 <IonRow key={idx}>
                   <IonCol size="12" size-sm='3'>
                     <StyledItem color='light'
-                      onClick={() => { icon === 'change' ? history.push('/change-password') : history.push('/account') }}
+                      onClick={() => {
+                        icon === 'change' ? history.push('/change-password')
+                          : icon === 'person' ? history.push('/personal')
+                            : history.push('/account')
+                      }}
 
                     >
                       <StyledIcon
@@ -167,7 +171,7 @@ const Account: React.FC = () => {
                 </StyledIcon>
                 <StyledText >
                   {t("Language")}
-                      </StyledText>
+                </StyledText>
                 <IonSelect onIonChange={(e) => i18n.changeLanguage(e.detail.value)}>
                   <IonSelectOption value='en'>En</IonSelectOption>
                   <IonSelectOption value='vn'>Vi</IonSelectOption>
@@ -181,7 +185,7 @@ const Account: React.FC = () => {
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
               <StyledSocialButton type='submit' onClick={() => history.push('/login')} >
                 <IonIcon icon={logOutOutline} style={{ marginRight: '20px' }} ></IonIcon>
-              {t('Logout')}
+                {t('Logout')}
               </StyledSocialButton>
             </div>
           </IonCol>

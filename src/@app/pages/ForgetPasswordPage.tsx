@@ -85,7 +85,7 @@ const ForgetPassword: React.FC = () => {
             <IonCol size='12' size-sm='6'>
               <StyledText >
                 {t('Choose password recovery method')}
-            </StyledText>
+              </StyledText>
             </IonCol>
           </IonRow>
           <MethodCard methods={methodField} />

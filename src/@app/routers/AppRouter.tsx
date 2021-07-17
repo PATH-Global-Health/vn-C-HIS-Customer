@@ -7,12 +7,9 @@ import AppRoute from './AppRoute';
 
 import { useSelector } from '@app/hooks';
 import routes from './routes';
-import { useTranslation } from 'react-i18next';
-
 
 const AppRouter: React.FC = () => {
-  const { t, i18n } = useTranslation();
-  const appMenu: boolean = true;
+  const { appMenu } = useSelector((state) => state.global);
   return (
     <IonApp>
       <IonReactRouter>
@@ -32,21 +29,21 @@ const AppRouter: React.FC = () => {
           <IonTabBar style={appMenu ? { '--border': '1px solid #b4b4b4' } : { '--border': '1px solid #b4b4b4', 'display': 'none' }} slot="bottom">
             <IonTabButton tab="home" href="/home">
               <IonIcon icon={home} />
-              <IonLabel>{t('Home')}</IonLabel>
+              <IonLabel>Trang chủ</IonLabel>
             </IonTabButton>
             <IonTabButton tab="post" href="/post">
               <IonIcon icon={newspaper} />
-              <IonLabel>{t('News')}</IonLabel>
+              <IonLabel>Tin tức</IonLabel>
             </IonTabButton>
 
             <IonTabButton tab="notify" href="/notify">
               <IonIcon icon={notifications} />
-              <IonLabel>{t('Notification')}</IonLabel>
+              <IonLabel>Thông báo</IonLabel>
             </IonTabButton>
 
             <IonTabButton tab="acount" href="/account">
               <IonIcon icon={person} />
-              <IonLabel>{t('Account')}</IonLabel>
+              <IonLabel>Tài khoản</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>

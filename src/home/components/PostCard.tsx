@@ -47,7 +47,6 @@ interface Props {
   data: Post[];
 }
 const PostCard: React.FC<Props> = ({ data }) => {
-  console.log(data);
   const dispatch = useDispatch();
   const history = useHistory();
   const reverseArr = (arr: Post[]) => {

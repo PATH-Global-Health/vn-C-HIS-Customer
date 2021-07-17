@@ -3,6 +3,8 @@ const userUrl = 'https://user.bakco.vn';
 const newsApi = 'http://202.78.227.94:31545';
 const smapi = 'http://202.78.227.174:30111';
 // http://202.78.227.174:30111/
+const cmsApi = 'http://202.78.227.174:44322';
+
 // const smapi = ' https://localhost:44353';
 // https://localhost:44353
 const apiBookingService = 'http://202.78.227.174:12345';
@@ -23,15 +25,23 @@ const apiLinks = {
     confirmOTP: `${userUrl}/api/Users/ResetPassword/ConfirmOTP`,
   },
   post: {
-    get: `${newsApi}/api/Post`,
+    get: `${cmsApi}/api/Post`,
     getDetails: (id: string): string =>
-      `${newsApi}/api/Part/${id}`,
-    create: `${testApi}/posts`,
-    update: `${testApi}/posts/`,
-    delete: `${testApi}/posts/`,
+      `${cmsApi}/Part/${id}`,
+    create: `${testApi}/api/Post`,
+    update: `${testApi}/Post/`,
+    delete: `${testApi}/Post/`,
   },
   tag: {
-    get: `${newsApi}/api/Tag`,
+    get: `${cmsApi}/api/Tag`,
+  },
+  questionTemplate: {
+    get: `${cmsApi}/api/QuestionTemplate/Filter`,
+    getDetails: (id: string): string => `${cmsApi}/api/QuestionTemplate/${id}`
+  },
+  surveySession: {
+    getDetails: (id: string): string => `${cmsApi}/api/SurveySession/${id}`,
+    post: `${cmsApi}/api/SurveySession`,
   },
   manageSchedule: {
     unitTypes: {

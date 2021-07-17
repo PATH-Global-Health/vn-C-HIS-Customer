@@ -151,7 +151,7 @@ const ExaminationList: React.FC = () => {
                     </IonCardTitle>
                     <IonCardSubtitle
                       className={cx('styledSubtitle', { 'styledSubtitleBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229" })}
-                    >Vào lúc {e.interval.to}, {moment(e.date).format("DD-MM-YYYY")}</IonCardSubtitle>
+                    >Vào lúc {e.interval.from}, {moment(e.date).format("DD-MM-YYYY")}</IonCardSubtitle>
                   </IonCardHeader>
                   <IonCardContent
                     className={cx('styledCardContent', { 'styledCardContentBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229" })}
@@ -189,7 +189,7 @@ const ExaminationList: React.FC = () => {
                         </IonCardTitle>
                         <IonCardSubtitle
                           className={cx('styledSubtitle', { 'styledSubtitleBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229" })}
-                        >Vào lúc {e.interval.to}, {moment(e.date).format("DD-MM-YYYY")}</IonCardSubtitle>
+                        >Vào lúc {e.interval.from}, {moment(e.date).format("DD-MM-YYYY")}</IonCardSubtitle>
                       </IonCardHeader>
                       <IonCardContent
                         className={cx('styledCardContent', { 'styledCardContentBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229" })}
@@ -217,7 +217,10 @@ const ExaminationList: React.FC = () => {
                       <p>{e.unit.name}</p>
                       <p>{e.unit.address}</p>
                     </IonCardContent>
-                    <button onClick={() => history.push('/evaluate')} className={styles.btnEvaluate}>{t('Evaluate')}</button>
+                    <button
+                      onClick={() => { history.push({ pathname: '/evaluate', state: e.id }) }}
+                      className={styles.btnEvaluate}>{t('Evaluate')}
+                    </button>
                   </IonCard>
                 )}
               </div>

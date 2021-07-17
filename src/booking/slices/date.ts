@@ -20,11 +20,6 @@ const getDateByServiceId = createAsyncThunk('date/getDateBookingByServiceId', as
     return result;
 });
 
-// const getDateBooking = () => {
-//     const result = await bookingServices.dateService.getDateBookingByServiceId(serviceId);
-//     return result;
-// });
-
 const slice = createSlice({
     name: 'date',
     initialState,
@@ -50,8 +45,6 @@ const slice = createSlice({
             ...state,
             loading: false,
         }));
-
-        // builder.addCase(getDateBooking(), (state, {payload}))
     },
 });
 

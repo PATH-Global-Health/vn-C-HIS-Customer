@@ -299,8 +299,6 @@ const slice = createSlice({
             ...state,
             loading: false,
             interval: payload,
-            // workingCalendars: payload,
-            // workingCalendars 
         }));
         builder.addCase(getIntervals.rejected, (state) => ({
             ...state,
@@ -316,8 +314,6 @@ const slice = createSlice({
             loading: false,
             bookingModelResponse: payload,
             examinationSuccess: true,
-            // workingCalendars: payload,
-            // workingCalendars 
         }));
         builder.addCase(postExaminations.rejected, (state) => ({
             ...state,
@@ -335,8 +331,6 @@ const slice = createSlice({
             loading: false,
             bookingModelResponse: payload,
             examinationSuccess: true,
-            // workingCalendars: payload,
-            // workingCalendars 
         }));
         builder.addCase(getExaminationById.rejected, (state) => ({
             ...state,

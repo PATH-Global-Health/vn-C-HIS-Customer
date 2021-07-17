@@ -8,7 +8,7 @@ import {
 } from '@ionic/react';
 import { useDispatch, useSelector } from '@app/hooks';
 import { useHistory } from "react-router-dom";
-import { arrowBack, chevronBack } from 'ionicons/icons';
+import { chevronBack } from 'ionicons/icons';
 import { IntervalModel } from 'booking/models/IntervalModel';
 import { getInterBooking } from 'booking/slices/workingCalendar';
 import { useTranslation } from 'react-i18next';

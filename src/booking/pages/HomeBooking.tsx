@@ -8,7 +8,7 @@ import {
 } from '@ionic/react';
 import { useDispatch } from '@app/hooks';
 import { useHistory } from "react-router-dom";
-import { arrowBack, arrowForward, chatbubble, chevronBack, flash } from 'ionicons/icons';
+import { arrowForward, chatbubble, chevronBack, flash } from 'ionicons/icons';
 import { getServiceId } from 'booking/slices/workingCalendar';
 import { useTranslation } from 'react-i18next';
 import { getUserInfo } from '../slices/workingCalendar';

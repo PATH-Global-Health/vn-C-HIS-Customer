@@ -19,6 +19,7 @@ import styles from '../css/evaluate.module.css';
 import { Rating } from 'react-simple-star-rating';
 import classNames from 'classnames/bind';
 import styled from 'styled-components';
+import examinationService from '../services/examinations';
 const StyleModal = styled(IonModal)`
     {
       padding: 65% 15%;
@@ -33,6 +34,7 @@ const Evaluate: React.FC = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const [rating, setRating] = useState(0);
+    const [opinion, setOpinion] = useState("");
     const [showModal, setShowModal] = useState(false);
     useEffect(() => {
         dispatch(getUserInfo());
@@ -63,37 +65,43 @@ const Evaluate: React.FC = () => {
             </IonHeader>
             <IonContent className={styles.content}>
                 <IonLabel className={styles.styledLableThanks}>{t('Thanks for your review')}</IonLabel><br></br>
-                <Rating onClick={() => console.log("lieu")} ratingValue={rating} />
+                <Rating onClick={(rate) => setRating(rate)} ratingValue={rating} />
                 <IonLabel className={styles.styledLabelFb}>{t('What do you feel is not good ?')}</IonLabel>
                 <div className={styles.styledDivSelected}>
                     <button
-                        onClick={() => setSelectedBtn('nv')}
+                        onClick={() => setSelectedBtn('Staff')}
                         className={cx('btnSelected', {
-                            'btnSelectedS': selectedBtn === "nv"
+                            'btnSelectedS': selectedBtn === "Staff"
                         })}>{t('Staff')}</button>
                     <button
-                        onClick={() => setSelectedBtn('cldv')}
+                        onClick={() => setSelectedBtn('Service quality')}
                         className={cx('btnSelected', {
-                            'btnSelectedS': selectedBtn === "cldv"
+                            'btnSelectedS': selectedBtn === "Service quality"
                         })}>{t('Service quality')}</button>
                     <button
-                        onClick={() => setSelectedBtn('ttb')}
+                        onClick={() => setSelectedBtn('Equipment')}
                         className={cx('btnSelected', {
-                            'btnSelectedS': selectedBtn === "ttb"
+                            'btnSelectedS': selectedBtn === "Equipment"
                         })}>{t('Equipment')}</button>
                     <button
-                        onClick={() => setSelectedBtn('tgxn')}
+                        onClick={() => setSelectedBtn('Test time')}
                         className={cx('btnSelected', {
-                            'btnSelectedS': selectedBtn === "tgxn"
+                            'btnSelectedS': selectedBtn === "Test time"
                         })}>{t('Test time')}</button>
                 </div>
                 <IonLabel className={styles.styledLabelShare}>{t('Share more')}</IonLabel>
-                <IonInput className={styles.styledInput} placeholder={t('Your opinion')}></IonInput>
+                <IonInput onIonChange={(e) => setOpinion(e.detail.value!)} className={styles.styledInput} placeholder={t('Your opinion')}></IonInput>
 
                 <button
                     className={styles.btnCustom}
-                    onClick={() => {
-                        setShowModal(true);
+                    onClick={async () => {
+                        try {
+                            await examinationService.evaluateExamination(history.location.state + "", rating + "", selectedBtn, opinion);
+                            setShowModal(true);
+                        } catch (error) {
+
+                        }
+
                     }
                     }>{t('Submit a review')}
                     {/* <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>

@@ -5,7 +5,7 @@ const smapi = 'http://202.78.227.174:30111';
 // http://202.78.227.174:30111/
 // const smapi = ' https://localhost:44353';
 // https://localhost:44353
-const apiBookingService = 'https://localhost:44308';
+const apiBookingService = 'http://202.78.227.174:12345';
 // const apiBookingService = 'https://localhost:44308';
 // https://localhost:44308/
 

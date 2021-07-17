@@ -14,7 +14,7 @@ import {
 import { useSelector, useDispatch } from '@app/hooks';
 import 'react-day-picker/lib/style.css';
 import { useHistory } from "react-router-dom";
-import { arrowBack, calendarOutline, checkmark, chevronBack, help, timeOutline } from 'ionicons/icons';
+import { calendarOutline, checkmark, chevronBack, help, timeOutline } from 'ionicons/icons';
 import { useTranslation } from 'react-i18next';
 import { getExaminationById, getUserInfo } from '../slices/workingCalendar';
 import styles from '../css/apointmentInfo.module.css';
@@ -76,14 +76,12 @@ const ApointmentInfo: React.FC = () => {
                         </div>
                         <div className={styles.styledDivModalS}>
 
-                            <p onClick={() => setShowModalSuccess(false)} className={styles.styledLabelModal}>{t('Cancel')}</p>
+                            <p onClick={() => { setShowModalSuccess(false); history.push('/examinationList')}} className={styles.styledLabelModal}>{t('Cancel')}</p>
                         </div>
                     </StyleModal>
                     {examinationSuccess === true || history.location.state !== undefined ?
                         <>
                             <IonHeader className={styles.header}>
-                                {/* <button
-                                    className={styles.btnCustomHeader} onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon></button> */}
                                 <IonLabel className={styles.headerLabel}>{t('Appointment information')}</IonLabel>
                             </IonHeader>
                             <IonContent>
@@ -96,14 +94,12 @@ const ApointmentInfo: React.FC = () => {
                                         <IonLabel className={styles.styledLabel} position="stacked">{t('Appointment date')}</IonLabel>
                                         <IonInput className={styles.styledInput} value={moment(bookingModel.data.date).format('DD/MM/YYYY')}>
                                             <IonIcon className={styles.styledIconInput} icon={calendarOutline}></IonIcon>
-                                            {/* {moment(bookingModel.data.date).format('DD/MM/YYYY')} */}
                                         </IonInput>
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel className={styles.styledLabel} position="stacked">{t('Appointment time')}</IonLabel>
                                         <IonInput className={styles.styledInput} value={bookingModel.data.interval.from}>
                                             <IonIcon className={styles.styledIconInput} icon={timeOutline}></IonIcon>
-                                            {/* {bookingModel.data.interval.from} */}
                                         </IonInput>
                                     </IonItem>
                                     <IonItem>

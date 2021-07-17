@@ -14,7 +14,7 @@ import {
 import styled from 'styled-components';
 import { useDispatch, useSelector } from '@app/hooks';
 import { useHistory } from "react-router-dom";
-import { arrowBack, arrowForward, chevronBack, filter, podium } from 'ionicons/icons';
+import { arrowForward, chevronBack, filter, podium } from 'ionicons/icons';
 import { getHospitalBooking } from 'booking/slices/hospital';
 import location from '../../@app/mock/locations.json';
 import { deburr } from '../../@app/utils/helpers';
@@ -92,7 +92,7 @@ const ChoosingHospital: React.FC = () => {
   const searchByUnitTypeAndCityAndDistrict = hospitals.filter((hos) => deburr(hos.unitTypeId + hos.province + hos.district).includes(deburr(unitType + city + districts)));
   const searchByUnitTypeAndCityAndDistrictAndWard = hospitals.filter((hos) => deburr(hos.unitTypeId + hos.province + hos.district + hos.ward).includes(deburr(unitType + city + districts + wards)));
   const [showModal, setShowModal] = useState(false);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   useEffect(() => {
 
     dispatch(getUnitTypes());

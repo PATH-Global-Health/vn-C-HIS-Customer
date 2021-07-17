@@ -14,7 +14,7 @@ import {
 import { useDispatch, useSelector } from '@app/hooks';
 import 'react-day-picker/lib/style.css';
 import { useHistory } from "react-router-dom";
-import { arrowBack, chevronBack } from 'ionicons/icons';
+import { chevronBack } from 'ionicons/icons';
 import { BookingModel } from 'booking/models/bookingModel';
 import location from '../../@app/mock/locations.json';
 import { postExaminations } from 'booking/slices/workingCalendar';

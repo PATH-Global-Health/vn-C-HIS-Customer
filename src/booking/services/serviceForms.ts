@@ -6,7 +6,6 @@ const getServiceForms = async (): Promise<ServiceForm[]> => {
         const result = await httpClient.get({
             url: apiLinks.manageSchedule.serviceForms.get,
         });
-        console.log(result.data);
         return result.data as ServiceForm[];
     } catch (error) {
         return [];

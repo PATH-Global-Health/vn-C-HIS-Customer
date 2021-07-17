@@ -5,6 +5,7 @@ import {
     IonIcon,
     IonLabel,
     IonPage,
+    IonSpinner,
 } from '@ionic/react';
 import { useDispatch, useSelector } from '@app/hooks';
 import { getHospitalByServiceIdAndDate } from '../slices/hospital';
@@ -24,6 +25,7 @@ const ApointmentDate: React.FC = () => {
     const dispatch = useDispatch();
     const dateBookings = useSelector((d) => d.dateBooking.dateBookings);
     const workingCalendars = useSelector((w) => w.workingCaledar.workingCalendars);
+    const loading = useSelector((b) => b.workingCaledar.loading);
     const serviceId = useSelector((w) => w.workingCaledar.serviceId);
     const history = useHistory();
     const typeChoosing = useSelector((d) => d.dateBooking.typeChoosing);
@@ -53,6 +55,7 @@ const ApointmentDate: React.FC = () => {
     return (
         <>
             {serviceId === "" ? history.push('/home') :
+            loading === true ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%', top: '50%' }}></IonSpinner> :
                 <IonPage className={styles.styledPage}>
                     <IonHeader className={styles.header}>
                         <button

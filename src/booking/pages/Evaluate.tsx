@@ -6,13 +6,11 @@ import {
     IonInput,
     IonLabel,
     IonPage,
-    IonAlert,
     IonModal
 } from '@ionic/react';
 import { useDispatch } from '@app/hooks';
 import { useHistory } from "react-router-dom";
-import { arrowBack, checkmark, chevronBack } from 'ionicons/icons';
-import { getServiceId } from 'booking/slices/workingCalendar';
+import { checkmark, chevronBack } from 'ionicons/icons';
 import { useTranslation } from 'react-i18next';
 import { getUserInfo } from '../slices/workingCalendar';
 import styles from '../css/evaluate.module.css';
@@ -28,7 +26,6 @@ const StyleModal = styled(IonModal)`
 
 const Evaluate: React.FC = () => {
     var cx = classNames.bind(styles);
-    const [showAlert, setShowAlert] = useState(false);
     const [selectedBtn, setSelectedBtn] = useState("");
     const { t } = useTranslation();
     const history = useHistory();
@@ -101,11 +98,8 @@ const Evaluate: React.FC = () => {
                         } catch (error) {
 
                         }
-
                     }
                     }>{t('Submit a review')}
-                    {/* <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
-                    <IonIcon className={styles.iconLeft} icon={flash}></IonIcon> */}
                 </button>
             </IonContent>
         </IonPage >

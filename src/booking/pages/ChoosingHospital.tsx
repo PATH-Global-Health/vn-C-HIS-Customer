@@ -10,6 +10,7 @@ import {
   IonPage,
   IonSelect,
   IonSelectOption,
+  IonSpinner,
 } from '@ionic/react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from '@app/hooks';
@@ -52,6 +53,7 @@ const ChoosingHospital: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const hospitals = useSelector((h) => h.hospital.hospitals);
+  const loading = useSelector((b) => b.hospital.loading);
   let listCitySelect: CityS[] = [];
   const serviceId = useSelector((w) => w.workingCaledar.serviceId);
   hospitals.map((hos) => {
@@ -100,6 +102,7 @@ const ChoosingHospital: React.FC = () => {
   return (
     <>
       {serviceId === "" ? history.push('/home') :
+      loading === true ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%', top: '50%' }}></IonSpinner> :
         <IonPage className={styles.styledPage}>
           <StyleModal isOpen={showModal} cssClass='my-custom-class' swipeToClose={false} onDidDismiss={() => setShowModal(false)}>
             {show === true ? <div><IonSelect className={styles.styledSelect} placeholder={t('Unit Type')} onIonChange={e => { setUnitType(e.detail.value); setTypeSearch("unitType") }}>

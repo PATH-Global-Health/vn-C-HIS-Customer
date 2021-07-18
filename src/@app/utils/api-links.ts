@@ -1,6 +1,5 @@
 const testApi = 'https://jsonplaceholder.typicode.com';
-const userUrl = 'https://user.bakco.vn';
-const newsApi = 'http://202.78.227.94:31545';
+const userUrl = 'http://202.78.227.174:14765';
 const smapi = 'http://202.78.227.174:30111';
 // http://202.78.227.174:30111/
 const cmsApi = 'http://202.78.227.174:44322';
@@ -14,11 +13,14 @@ const apiBookingService = 'https://localhost:44308';
 const apiLinks = {
   auth: {
     token: `${userUrl}/api/Users/Login`,
+    loginWithFacebook: `${userUrl}/api/Users/LoginWithFacebook`,
+    loginWithGoogle: `${userUrl}/api/Users/LoginWithGoogle`,
     userInfo: `${userUrl}/api/Users/GetUserInfo`
   },
   manageAccount: {
     create: `${userUrl}/api/Users`,
     changePassword: `${userUrl}/api/Users/ChangePassword`,
+    resetPassword: `${userUrl}/api/Users/ResetPassword`,
   },
   forgetPassword: {
     generateOTP: `${userUrl}/api/Users/ResetPassword/GenerateOTP`,
@@ -42,6 +44,10 @@ const apiLinks = {
   surveySession: {
     getDetails: (id: string): string => `${cmsApi}/api/SurveySession/${id}`,
     post: `${cmsApi}/api/SurveySession`,
+  },
+  profile: {
+    getById: (id: string): string => `${smapi}/api/Profiles/${id}`,
+    update: `${smapi}/api/Profiles`,
   },
   manageSchedule: {
     unitTypes: {

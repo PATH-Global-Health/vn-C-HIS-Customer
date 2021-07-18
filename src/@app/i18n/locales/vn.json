@@ -141,5 +141,16 @@
     "Submit a review": "Gửi đánh giá",
     "Appointment has been canceled successfully": "Lịch hẹn được hủy thành công",
     "Your upcoming appointments": "Các lịch hẹn sắp tới của bạn",
-    "Personal Information": "Thông tin cá nhân"
+    "Personal Information": "Thông tin cá nhân",
+    "Update Profile": "Cập Nhật Thông Tin",
+    "Phone number": "Số điện thoại",
+    "Identity card": "Số CMND/CCCD",
+    "Province": "Tỉnh",
+    "Passport number": "Số hộ chiếu",
+    "Nation": "Quốc tịch",
+    "password minimum length 5 characters": "Độ dài mật khẩu tối thiểu 6 ký tự",
+    "Update profile successfully": "Cập nhật thành công",
+    "Update profile failed": "Cập nhật thất bại",
+    "User name": "Tên người dùng",
+    "Close Modal": "Đóng"
 }

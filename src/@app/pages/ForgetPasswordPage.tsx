@@ -35,7 +35,6 @@ const StyledText = styled.div`
   margin: 30px 15px
 `;
 
-
 const ForgetPassword: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { forgotPasswordData: { method } } = useSelector((state) => state.auth);

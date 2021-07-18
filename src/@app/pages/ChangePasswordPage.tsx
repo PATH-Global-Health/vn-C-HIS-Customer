@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonNote } from '@ionic/react';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonNote, IonText } from '@ionic/react';
 import { eyeSharp, eyeOffSharp, chevronBackOutline } from 'ionicons/icons';
 
 import { useHistory } from 'react-router-dom';
@@ -33,7 +33,12 @@ const StyledLabel = styled(IonLabel)`
 const StyledIcon = styled(IonIcon)`
    font-size: 20px;
 `;
-
+const ErrorText = styled(IonText)`
+   color: #f46a6a;
+   margin-top: 15px;
+   margin-left: 15px;
+   font-size: 15px;
+`;
 
 interface InputProps {
   name: string;
@@ -51,7 +56,7 @@ interface ChangePasswordModal {
 const ChangePasswordPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const history = useHistory();
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, register, formState: { errors }, trigger } = useForm();
 
   const [oldPasswordVisible, setOldPasswordVisible] = useState(false);
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
@@ -101,6 +106,29 @@ const ChangePasswordPage: React.FC = () => {
       setShowFailedToast(true);
     }
   };
+  useEffect(() => {
+    register(
+      'oldPassword',
+      {
+        required: { value: true, message: t('Password not entered') },
+        minLength: { value: 6, message: t('password minimum length 5 characters') },
+      }
+    );
+    register(
+      'newPassword',
+      {
+        required: { value: true, message: t('Password not entered') },
+        minLength: { value: 6, message: t('password minimum length 5 characters') },
+      }
+    );
+    register(
+      'confirmNewPassword',
+      {
+        required: { value: true, message: t('Password not entered') },
+        minLength: { value: 6, message: t('password minimum length 5 characters') },
+      }
+    );
+  }, [register]);
   return (
     <IonPage >
       <IonHeader className='ion-margin-bottom' >
@@ -156,7 +184,9 @@ const ChangePasswordPage: React.FC = () => {
                           <IonItem color='light'>
                             <StyledInput
                               required={true}
-                              onIonBlur={onBlur}
+                              onIonBlur={() => {
+                                trigger(name)
+                              }}
                               value={value}
                               onIonChange={onChange}
                               type={
@@ -175,6 +205,9 @@ const ChangePasswordPage: React.FC = () => {
                             }
 
                           </IonItem>
+                          {(errors?.oldPassword?.message && name === 'oldPassword') && <ErrorText color='danger'>{(errors?.oldPassword?.message)}</ErrorText>}
+                          {(errors?.newPassword?.message && name === 'newPassword') && <ErrorText color='danger'>{(errors?.newPassword?.message)}</ErrorText>}
+                          {(errors?.confirmNewPassword?.message && name === 'confirmNewPassword') && <ErrorText color='danger'>{(errors?.confirmNewPassword?.message)}</ErrorText>}
                         </IonCol>
                       </IonRow>
                     )}

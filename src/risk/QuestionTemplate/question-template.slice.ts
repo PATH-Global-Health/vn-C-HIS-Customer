@@ -49,32 +49,19 @@ const setHandeRiskCR: CR<{
   handleRisk: action.payload,
 })
 
-/* const getQuestionTemplates = createAsyncThunk(
-  'questionTemplate/getQuestionTemplates',
-  async ({
-    pageIndex = 0,
-    pageSize = 10,
-  }: {
-    pageIndex?: number;
-    pageSize?: number;
-  }) => {
-    const result = await riskService.getQuestionTemplate({
-      pageIndex,
-      pageSize,
-    });
-    return result;
-  },
-); */
 const getQuestionTemplates = createAsyncThunk(
   'questionTemplate/getQuestionTemplates',
   async ({
+    userId = undefined,
     pageIndex = 1,
     pageSize = 10,
   }: {
+    userId?: string;
     pageIndex?: number;
     pageSize?: number;
   }) => {
     const result = await riskService.getQuestionTemplate({
+      userId,
       pageIndex,
       pageSize,
     });
@@ -94,7 +81,7 @@ const getQuestionTemplatesDetail = createAsyncThunk(
 
 
 const slice = createSlice({
-  name: 'post',
+  name: 'questionTemplate',
   initialState,
   reducers: {
     setParentQuestionTemplateData: setParentQuestionTemplateCR,
@@ -130,20 +117,6 @@ const slice = createSlice({
       ...state,
       getQuestionTemplateDetaillLoading: false,
     }));
-    //get tags
-    /*    builder.addCase(getTags.pending, (state) => ({
-         ...state,
-         getTagLoading: true,
-       }));
-       builder.addCase(getTags.fulfilled, (state, { payload }) => ({
-         ...state,
-         tagList: payload,
-         getTagLoading: false,
-       }));
-       builder.addCase(getTags.rejected, (state) => ({
-         ...state,
-         getTagLoading: false,
-       })); */
   },
 });
 

@@ -2,6 +2,7 @@ import axios, { Method, AxiosResponse, ResponseType } from 'axios';
 import store from '@app/store';
 
 import apiLinks from './api-links';
+import { useSelector } from '@app/hooks';
 
 interface Options {
   url: ((al: typeof apiLinks) => string) | string;
@@ -16,7 +17,6 @@ interface Options {
 interface FullOptions extends Options {
   method: Method;
 }
-
 const request = (arg: FullOptions): Promise<AxiosResponse> => {
   const {
     method,
@@ -35,12 +35,13 @@ const request = (arg: FullOptions): Promise<AxiosResponse> => {
     });
   }
 
+  const { forgotPasswordData } = store.getState().auth;
   const { token } = store.getState().auth;
   return axios.request({
     method,
     headers: {
       'content-type': contentType,
-      Authorization: `bearer ${token?.access_token ?? ''}`,
+      Authorization: forgotPasswordData?.accessToken ? `bearer ${forgotPasswordData?.accessToken ?? ''}` : `bearer ${token?.access_token ?? ''}`,
     },
     url: typeof url === 'string' ? url : url(apiLinks),
     data,

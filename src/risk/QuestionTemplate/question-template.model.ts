@@ -22,6 +22,7 @@ export interface QuestionTemplate {
   id: string;
   description: string;
   title: string;
+  isCompleted: boolean;
   questions: Question[];
   surveyResults: SurveyResult[];
 }

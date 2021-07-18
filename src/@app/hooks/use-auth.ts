@@ -5,6 +5,8 @@ import moment from 'moment';
 import {
   login as li,
   logout as lo,
+  loginWithFacebook as lif,
+  loginWithGoogle as lig,
   setToken,
 } from '../slices/auth';
 
@@ -22,6 +24,13 @@ type UseAuth = {
     remember: boolean,
     permissionQuery: {},
   ) => Promise<void>;
+  loginWithFacebook: (
+    accessToken: string,
+  ) => Promise<void>;
+  loginWithGoogle: (
+    accessToken: string,
+  ) => Promise<void>;
+
   logout: () => void;
 };
 
@@ -72,6 +81,33 @@ const useAuth = (): UseAuth => {
     }
     /*  dispatch(getUserInfo()); */
   };
+  // login with facebook
+  const loginWithFacebook = async (
+    accessToken: string,
+  ): Promise<void> => {
+    const token = unwrapResult(await dispatch(lif({ accessToken })));
+    localStorage.setItem(TOKEN, JSON.stringify(token));
+    localStorage.setItem(
+      EXPIRED_TIME,
+      moment()
+        .add(token.expires_in * 1000, 'seconds')
+        .toString(),
+    );
+  };
+
+  // login with google
+  const loginWithGoogle = async (
+    accessToken: string,
+  ): Promise<void> => {
+    const token = unwrapResult(await dispatch(lig({ accessToken })));
+    localStorage.setItem(TOKEN, JSON.stringify(token));
+    localStorage.setItem(
+      EXPIRED_TIME,
+      moment()
+        .add(token.expires_in * 1000, 'seconds')
+        .toString(),
+    );
+  };
 
   const logout = useCallback((): void => {
     localStorage.removeItem(TOKEN);
@@ -84,6 +120,8 @@ const useAuth = (): UseAuth => {
   return {
     isAuthenticated,
     login,
+    loginWithFacebook,
+    loginWithGoogle,
     logout,
   };
 };

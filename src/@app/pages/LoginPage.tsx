@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox, IonToast, IonItem, IonText, IonSelect, IonSelectOption } from '@ionic/react';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox, IonToast, IonItem, IonText, IonSelect, IonSelectOption, IonModal } from '@ionic/react';
 import { lockClosed, phonePortraitOutline, mailOutline, logoFacebook, language, eyeOffSharp, eyeSharp } from 'ionicons/icons';
 
 import useAuth from '@app/hooks/use-auth';
@@ -11,6 +11,8 @@ import { Controller, useForm } from "react-hook-form";
 
 import logo from '../assets/img/logo.png';
 import { useTranslation } from 'react-i18next';
+import Facebook from '@app/components/login/FacebookLogin';
+import GoogleAuthen from '@app/components/login/GoogleLogin';
 
 const StyleWrapperInput = styled(IonItem)`
   background-color: white;
@@ -71,9 +73,23 @@ const StyledIconSocial = styled(IonIcon)`
   color: black;
   align-item: center;
 `;
+const StyledGoogleAuthen = styled.div`
+  margin: 15px 20px 10px 15px;
+  padding: 15px 15px;
+  font-size: 20px;
+  border: 1px solid #9dabdd;
+  border-radius: 50px;
+  color: black;
+  align-item: center;
+`;
 const StyledIcon = styled(IonIcon)`
    font-size: 20px;
    color: #5d6060;
+`;
+const StyledModal = styled(IonModal)`
+  & .my-custom-class{
+    --background:  white !important;
+  }
 `;
 interface InputProps {
   name: string;
@@ -114,6 +130,7 @@ const LoginPage: React.FC = () => {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const handleLogin = async (data: LoginModel): Promise<void> => {
     try {
       const { username, password } = data;
@@ -278,19 +295,16 @@ const LoginPage: React.FC = () => {
         <div>
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" size-sm='4'>
-              <div style={{ textAlign: 'center' }}>
-                <>
-                  <StyledIconSocial icon={phonePortraitOutline} color='primary' />
-                  <StyledIconSocial icon={logoFacebook} color='primary' />
-                  <StyledIconSocial icon={mailOutline} color='primary' />
-                </>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                {/* <StyledIconSocial icon={phonePortraitOutline} color='primary' /> */}
+                <StyledIconSocial icon={logoFacebook} color='primary' onClick={() => setShowModal(true)} />
+                <div><GoogleAuthen /></div>
               </div>
             </IonCol>
           </IonRow>
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" size-sm='4'>
               <div style={{ textAlign: 'center' }}>
-                {/* <StyledIcon icon={language}></StyledIcon> */}
                 <StyledSocialSelect
                   placeholder={t('Language')}
                   onIonChange={(e) => i18n.changeLanguage(e.detail.value)}
@@ -302,6 +316,10 @@ const LoginPage: React.FC = () => {
             </IonCol>
           </IonRow>
         </div>
+        <IonModal isOpen={showModal} cssClass='my-custom-class'>
+          <Facebook />
+          <IonButton onClick={() => setShowModal(false)}>{t('Close Modal')}</IonButton>
+        </IonModal>
       </IonContent >
     </>
   );

@@ -7,7 +7,7 @@ import RegisterPage from '@app/pages/RegisterPage';
 import LoginPage from '@app/pages/LoginPage';
 import ChangePasswordPage from '@app/pages/ChangePasswordPage';
 import ForgetPassword from '@app/pages/ForgetPasswordPage';
-import Account from 'account/profile';
+import Account from 'account';
 import Home from 'home';
 import PostPage from 'news/post';
 import HomeBooking from 'booking/pages/HomeBooking';
@@ -23,7 +23,8 @@ import PostDetailPage from 'news/PostDetail';
 import BookingTest from 'home/test';
 import Evaluate from 'booking/pages/Evaluate';
 import RiskPage from 'risk/QuestionTemplate';
-import Personal from 'account/profile/components/Personal';
+import Profile from 'account/profile/components/Personal';
+import UpdateProfile from 'account/profile/components/UpdateModal';
 
 interface Route {
   component: React.FC;
@@ -61,8 +62,13 @@ const routes: Route[] = [
     isPrivate: true,
   },
   {
-    component: Personal,
-    path: '/personal',
+    component: Profile,
+    path: '/profile',
+    isPrivate: true,
+  },
+  {
+    component: UpdateProfile,
+    path: '/update-profile',
     isPrivate: true,
   },
   {

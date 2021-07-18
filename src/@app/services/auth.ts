@@ -15,6 +15,32 @@ const login = async (username: string, password: string, remember: boolean, perm
   });
   return response.data as Token;
 };
+const loginWithFacebook = async ({
+  accessToken = '',
+}: {
+  accessToken?: string;
+}): Promise<Token> => {
+  const response = await httpClient.post({
+    url: apiLinks.auth.loginWithFacebook,
+    params: {
+      accessToken
+    }
+  });
+  return response.data as Token;
+};
+const loginWithGoogle = async ({
+  accessToken = '',
+}: {
+  accessToken?: string;
+}): Promise<Token> => {
+  const response = await httpClient.post({
+    url: apiLinks.auth.loginWithGoogle,
+    params: {
+      accessToken
+    }
+  });
+  return response.data as Token;
+};
 const createAccount = async ({
   userName,
   password,
@@ -86,12 +112,25 @@ const confirmOTP = async ({
 }: {
   username?: string;
   otp: string;
-}): Promise<void> => {
-  await httpClient.post({
+}): Promise<Token> => {
+  const response = await httpClient.post({
     url: apiLinks.forgetPassword.confirmOTP,
     data: {
       username,
       otp,
+    },
+  });
+  return response.data as Token;
+};
+const resetPassword = async ({
+  newPassword,
+}: {
+  newPassword: string;
+}): Promise<void> => {
+  await httpClient.post({
+    url: apiLinks.manageAccount.resetPassword,
+    data: {
+      newPassword
     },
   });
 };
@@ -104,10 +143,13 @@ const confirmOTP = async ({
 
 const authService = {
   login,
+  loginWithFacebook,
+  loginWithGoogle,
   createAccount,
   changePassword,
   generateOTP,
   confirmOTP,
+  resetPassword,
 };
 
 export default authService;

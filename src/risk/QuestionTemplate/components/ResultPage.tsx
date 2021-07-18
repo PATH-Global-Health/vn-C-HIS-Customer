@@ -10,15 +10,10 @@ import {
   IonRow,
   IonText,
 } from '@ionic/react';
-import {
-  searchOutline,
 
-} from 'ionicons/icons';
 import { useDispatch, useSelector } from '@app/hooks';
-import { getPostDetail, getPosts, setParentPostData } from 'news/post/post.slice';
 
 import { useHistory } from 'react-router';
-import { QuestionTemplate } from '../question-template.model';
 import { useTranslation } from 'react-i18next';
 import { setHandeRisk } from 'risk/QuestionTemplate/question-template.slice';
 
@@ -58,7 +53,6 @@ const StyledButton = styled(IonButton)`
 `
 
 const ResultPage: React.FC = () => {
-  const history = useHistory();
   const { t, i18n } = useTranslation();
   const { control, handleSubmit } = useForm();
   const dispatch = useDispatch();

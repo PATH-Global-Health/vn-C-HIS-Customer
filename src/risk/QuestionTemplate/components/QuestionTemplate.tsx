@@ -1,16 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import {
-  IonBadge,
   IonCard,
   IonCardHeader,
   IonCardTitle,
   IonCol,
   IonContent,
-  IonIcon,
-  IonInput,
-  IonItem,
-  IonLabel,
   IonNote,
   IonRow,
   useIonViewWillEnter,
@@ -19,17 +14,12 @@ import {
   IonSpinner,
   IonButton,
 } from '@ionic/react';
-import {
-  searchOutline,
-
-} from 'ionicons/icons';
 import { useDispatch, useSelector } from '@app/hooks';
 
 import logo from '@app/assets/img/logo.png';
 import img from '@app/assets/img/khau_trang.jpg';
 import virus from '@app/assets/img/virus2.jpg';
 import { useHistory } from 'react-router';
-import { QuestionTemplate } from '../question-template.model';
 import { useTranslation } from 'react-i18next';
 import { getQuestionTemplates, getQuestionTemplatesDetail, setHandeRisk } from '../question-template.slice';
 
@@ -78,12 +68,17 @@ const Card = styled(IonRow)`
     --background: #293978;
     --border-radius:5px;
   }
+  & .done{
+    --background: #55abd3;
+  }
   
 `;
 
 const QuestionTemplatePage: React.FC = () => {
   const history = useHistory();
   const { t, i18n } = useTranslation();
+  const userId = useSelector(s => s.auth.token?.userId);
+
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(50);
   const [totalPostLoading, setTotalPostLoading] = useState<number>(5);
@@ -92,6 +87,7 @@ const QuestionTemplatePage: React.FC = () => {
   const { data } = useSelector((s) => s.risk.questionTemplateList);
   const getData = useCallback(() => {
     dispatch(getQuestionTemplates({
+      userId,
       pageIndex,
       pageSize
     }));
@@ -125,18 +121,18 @@ const QuestionTemplatePage: React.FC = () => {
           <IonRow key={i} className='ion-justify-content-center' >
             <IonCol size="12" size-sm='4' size-lg='3'>
               <Card>
-                <IonCard onClick={() => {
-                  /*   dispatch(getPostDetail({ postId: p.id }));
-                    dispatch(setParentPostData({ data: p }));
-                    history.push('/post-detail'); */
-                }}
-                >
+                <IonCard>
                   <img src={virus} alt="" />
                   <IonCardHeader className='card-content' >
                     <IonCardTitle className='title'>{o?.title ?? ''}</IonCardTitle>
                     <IonNote className='description'>{o?.description ?? ''}</IonNote>
                   </IonCardHeader>
-                  <IonButton className='btn' onClick={() => handleClick(o?.id, 'answer')}>Thực hiện ngay</IonButton>
+                  {
+                    o?.isCompleted
+                      ? <IonButton className='btn done' >Đã thực hiện</IonButton>
+                      : <IonButton className='btn' onClick={() => handleClick(o?.id, 'answer')}>Thực hiện ngay</IonButton>
+                  }
+
                 </IonCard>
 
               </Card>

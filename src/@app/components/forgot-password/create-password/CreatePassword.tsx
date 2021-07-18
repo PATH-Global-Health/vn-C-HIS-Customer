@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { IonButton, IonCol, IonContent, IonIcon, IonInput, IonItem, IonNote, IonRow } from '@ionic/react';
+import { IonButton, IonCol, IonContent, IonIcon, IonInput, IonItem, IonNote, IonRow, IonToast } from '@ionic/react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch } from '@app/hooks';
 
 import { lockClosed, eyeOffSharp, eyeSharp } from 'ionicons/icons';
 import { useTranslation } from 'react-i18next';
+import authService from '@app/services/auth';
+import { useHistory } from 'react-router';
+import { setDataForgotPassword } from '@app/slices/auth';
 
 const StyledText = styled.div`
   color: black;
@@ -51,6 +54,7 @@ interface PasswordModel {
 
 const CreatePassword: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { t, i18n } = useTranslation();
   const formFields: InputProps[] = [
     {
@@ -71,15 +75,39 @@ const CreatePassword: React.FC = () => {
   const { control, handleSubmit } = useForm();
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
   const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] = useState(false);
-  const handleCreatePassword = (data: PasswordModel) => {
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showFailedToast, setShowFailedToast] = useState(false);
+  const handleCreatePassword = async (data: PasswordModel): Promise<void> => {
     try {
-
+      let params = { newPassword: data.newPassword };
+      await authService.resetPassword(params);
+      setShowSuccessToast(true);
+      setTimeout(() => { dispatch(setDataForgotPassword({ method: undefined, accessToken: undefined })); history.push('/login') }, 1500);
     } catch (error) {
+      setShowFailedToast(true);
     }
   }
 
   return (
     <IonContent >
+      <IonToast
+        isOpen={showSuccessToast}
+        onDidDismiss={() => setShowSuccessToast(false)}
+        color='success'
+        message={t('Reset password successfully')}
+        duration={1000}
+        position="top"
+        animated={true}
+      />
+      <IonToast
+        isOpen={showFailedToast}
+        onDidDismiss={() => setShowFailedToast(false)}
+        color='danger'
+        message={t('Reset password failed')}
+        duration={1000}
+        position="top"
+        animated={true}
+      />
       <IonRow className="ion-justify-content-center">
         <IonCol size='12' size-sm='6'>
           <StyledText >

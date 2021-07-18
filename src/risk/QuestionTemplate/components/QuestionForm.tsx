@@ -2,43 +2,21 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { Controller, useForm } from 'react-hook-form';
 import {
-  IonBadge,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
   IonCol,
   IonContent,
-  IonIcon,
-  IonInput,
   IonItem,
   IonLabel,
-  IonNote,
   IonRow,
-  useIonViewWillEnter,
-  IonInfiniteScroll,
-  IonInfiniteScrollContent,
-  IonSpinner,
   IonButton,
   IonRadioGroup,
   IonListHeader,
   IonRadio,
 } from '@ionic/react';
-import {
-  searchOutline,
-
-} from 'ionicons/icons';
 import { useDispatch, useSelector } from '@app/hooks';
-import { getPostDetail, getPosts, setParentPostData } from 'news/post/post.slice';
 
-import logo from '@app/assets/img/logo.png';
-import img from '@app/assets/img/khau_trang.jpg';
-import virus from '@app/assets/img/virus2.jpg';
-import moment from 'moment';
 import { useHistory } from 'react-router';
-import { QuestionTemplate } from '../question-template.model';
 import { useTranslation } from 'react-i18next';
 import { setHandeRisk } from '../question-template.slice';
-import { SurveySession } from 'risk/SurveySession/survey-session.model';
 import surveySessionService from 'risk/SurveySession/survey-session.service';
 
 const WrapperQuestion = styled.div`
@@ -66,17 +44,12 @@ const StyledButton = styled(IonButton)`
 `
 
 const QuestionForm: React.FC = () => {
-  const history = useHistory();
   const { t, i18n } = useTranslation();
   const { control, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const detailData = useSelector((s) => s.risk.questionTemplateDetail);
   const userId = useSelector(s => s.auth.token?.userId);
 
-  /*  const handleData = (data: any) => {
-     console.log(data);
-     dispatch(setHandeRisk({ type: 'result', data: 'lorem ipsum dolor sit amet consectetur adipiscing elit' }));
-   } */
   const handleData = async (data: any): Promise<void> => {
     console.log(data);
     try {
@@ -97,8 +70,7 @@ const QuestionForm: React.FC = () => {
         type: 'result',
         data: response?.surveyResult?.description ?? '',
       }));
-      //setShowSuccessToast(true);
-      //setTimeout(() => history.push('/home'), 1500);
+
     } catch (error) {
       //setShowFailedToast(true);
     }

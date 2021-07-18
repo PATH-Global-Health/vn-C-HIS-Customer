@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonText, IonItem } from '@ionic/react';
-import { person, lockClosed, phonePortraitOutline } from 'ionicons/icons';
+import { person, lockClosed, phonePortraitOutline, mailOutline } from 'ionicons/icons';
 
 import { useHistory } from 'react-router-dom';
 import { Controller, useForm } from "react-hook-form";
@@ -58,11 +58,12 @@ const ErrorText = styled(IonText)`
    color: #f46a6a;
    margin-left: 5px;
    font-size: 15px;
-`
+`;
 
 interface InputProps {
   name: string;
   fieldType: string;
+  icon: string;
   label?: string;
   [otherProps: string]: unknown;
 };
@@ -82,21 +83,32 @@ const RegisterPage: React.FC = () => {
     {
       name: "fullName",
       fieldType: "input",
-      label: "Tên người dùng",
-      placeholder: t('Full name'),
+      label: t('User name'),
+      icon: person,
+      placeholder: t('User name'),
     },
     {
       name: "phoneNumber",
       fieldType: "input",
-      label: "Số điện thoại",
+      label: t('Phone number'),
       type: 'number',
+      icon: phonePortraitOutline,
       placeholder: t('PhoneNumber'),
+    },
+    {
+      name: "email",
+      fieldType: "input",
+      label: t('Email'),
+      type: 'text',
+      icon: mailOutline,
+      placeholder: t('Email'),
     },
     {
       name: "password",
       fieldType: "input",
       type: "password",
-      label: "Mật khẩu",
+      icon: lockClosed,
+      label: t('Password'),
       placeholder: t('Password'),
     },
   ];
@@ -105,8 +117,8 @@ const RegisterPage: React.FC = () => {
   const [showFailedToast, setShowFailedToast] = useState(false);
   const handleLogin = async (data: RegisterModal): Promise<void> => {
     try {
-      const { fullName, phoneNumber, password } = data;
-      const params = { userName: phoneNumber, password: password, email: '', phoneNumber: phoneNumber, fullName: fullName }
+      const { fullName, phoneNumber, password, email } = data;
+      const params = { userName: phoneNumber, password: password, email: email, phoneNumber: phoneNumber, fullName: fullName }
       await authService.createAccount(params);
       setShowSuccessToast(true);
       setTimeout(() => history.push('/login'), 1500);
@@ -125,7 +137,7 @@ const RegisterPage: React.FC = () => {
       'password',
       {
         required: { value: true, message: t('Password not entered') },
-        minLength: { value: 5, message: t('Password minimum 5 characters') },
+        minLength: { value: 6, message: t('Password minimum 5 characters') },
       }
     );
     register(
@@ -173,7 +185,7 @@ const RegisterPage: React.FC = () => {
         </IonRow>
 
         <form onSubmit={handleSubmit(handleLogin)} style={{ paddingLeft: '25px', paddingRight: '25px' }}>
-          {formFields.map(({ label, name, fieldType, ...otherProps }) => {
+          {formFields.map(({ label, name, icon, fieldType, ...otherProps }) => {
             switch (fieldType) {
               case 'input': {
                 return (
@@ -191,11 +203,7 @@ const RegisterPage: React.FC = () => {
                                 trigger(name);
                               }}
                               {...otherProps}>
-                              {
-                                name === 'phoneNumber' ? <StyledIcon icon={phonePortraitOutline} />
-                                  : name === 'password' ? <StyledIcon icon={lockClosed} />
-                                    : <StyledIcon icon={person} />
-                              }
+                              <StyledIcon icon={icon} />
                             </StyledInput>
                           </StyleWrapperInput>
                           {(errors?.fullName?.message && name === 'fullName') && <ErrorText color='danger'>{(errors?.fullName?.message)}</ErrorText>}

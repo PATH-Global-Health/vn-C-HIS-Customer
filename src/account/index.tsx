@@ -68,26 +68,31 @@ const Account: React.FC = () => {
   const history = useHistory();
   const optionFields: OptionProps[] = [
     {
+      name: "profile",
       icon: "person",
       label: t('Personal information'),
       color: "#409f4e",
     },
     {
+      name: "update",
       icon: "update",
       label: t('Update information'),
       color: "#6f3391"
     },
     {
+      name: "change-password",
       icon: "change",
       label: t('Change Password'),
       color: "#e13b3b"
     },
     {
+      name: "security",
       icon: "security",
       label: t('Security Settings'),
       color: "#f1c248"
     },
     {
+      name: "qr",
       icon: "qr",
       label: t('My QR Code'),
       color: "#3ac6e1"
@@ -126,15 +131,16 @@ const Account: React.FC = () => {
 
         <div>
           {
-            optionFields.map(({ icon, label, color, ...otherProps }, idx) => {
+            optionFields.map(({ name, icon, label, color, ...otherProps }, idx) => {
               return (
                 <IonRow key={idx}>
                   <IonCol size="12" size-sm='3'>
                     <StyledItem color='light'
                       onClick={() => {
-                        icon === 'change' ? history.push('/change-password')
-                          : icon === 'person' ? history.push('/personal')
-                            : history.push('/account')
+                        name === 'change-password' ? history.push('/change-password')
+                          : name === 'profile' ? history.push('/profile')
+                            : name === 'update' ? history.push('/update-profile')
+                              : history.push('/account')
                       }}
 
                     >

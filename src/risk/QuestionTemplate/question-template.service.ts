@@ -2,15 +2,18 @@ import { httpClient, apiLinks } from '@app/utils';
 import { QuestionTemplateDetail, QuestionTemplateResponse, QuestionTemplate } from './question-template.model';
 
 const getQuestionTemplate = async ({
+  userId = undefined,
   pageIndex = 0,
   pageSize = 10,
 }: {
+  userId?: string;
   pageIndex?: number;
   pageSize?: number;
 }): Promise<QuestionTemplateResponse> => {
   const response = await httpClient.get({
     url: apiLinks.questionTemplate.get,
     params: {
+      userId,
       pageIndex,
       pageSize,
     },

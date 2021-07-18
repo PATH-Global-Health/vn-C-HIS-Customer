@@ -58,9 +58,10 @@ const ConfirmOTP: React.FC = () => {
     try {
       const { otp } = data;
       const params = { username: inputData, otp: otp };
-      await authService.confirmOTP(params);
+      const response = await authService.confirmOTP(params);
+      console.log(response?.access_token);
       setShowSuccessToast(true);
-      setTimeout(() => dispatch(setDataForgotPassword({ method: 'confirmed' })), 1500);
+      setTimeout(() => dispatch(setDataForgotPassword({ method: 'confirmed', accessToken: response?.access_token })), 1500);
     } catch (error) {
       setShowFailedToast(true);
     }

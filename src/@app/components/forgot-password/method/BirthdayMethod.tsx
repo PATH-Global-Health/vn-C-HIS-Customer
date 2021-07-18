@@ -62,9 +62,9 @@ const BirthdayMethod: React.FC = () => {
       <IonRow className="ion-justify-content-center">
         <IonCol size='12' size-sm='6'>
           <StyledText >
-            {t('Secret question') +' :'}
+            {t('Secret question') + ' :'}
             <br />
-           {t('Your date of birth ?')}
+            {t('Your date of birth ?')}
           </StyledText>
         </IonCol>
       </IonRow>
@@ -86,7 +86,6 @@ const BirthdayMethod: React.FC = () => {
                     value={value}
                     onIonChange={onChange}
                   >
-
                   </StyledInput>
                   <StyledIcon slot="end" icon={calendar} />
                 </StyleWrapperInput>

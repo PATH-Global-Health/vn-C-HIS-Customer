@@ -22,6 +22,7 @@ interface State {
   forgotPasswordData: {
     inputData?: string,
     method?: string,
+    accessToken?: string
   }
   tokenForgotPassword: string | null;
 }
@@ -43,6 +44,7 @@ const initialState: State = {
   forgotPasswordData: {
     inputData: undefined,
     method: undefined,
+    accessToken: undefined,
   },
   tokenForgotPassword: null,
 };
@@ -54,6 +56,23 @@ const login = createAsyncThunk(
   async (arg: { username: string; password: string; remember: boolean; permissionQuery: {} }) => {
     const { username, password, permissionQuery, remember } = arg;
     const result = await authService.login(username, password, remember, permissionQuery);
+    return result;
+  },
+);
+const loginWithFacebook = createAsyncThunk(
+  'auth/loginWithFacebook',
+  async (arg: { accessToken: string }) => {
+    const { accessToken } = arg;
+    const result = await authService.loginWithFacebook({ accessToken });
+    return result;
+  },
+);
+
+const loginWithGoogle = createAsyncThunk(
+  'auth/loginWithGoogle',
+  async (arg: { accessToken: string }) => {
+    const { accessToken } = arg;
+    const result = await authService.loginWithGoogle({ accessToken });
     return result;
   },
 );
@@ -80,6 +99,7 @@ const logoutCR: CR<void> = () => ({
 const setDataForgotPasswordCR: CR<{
   inputData?: string,
   method?: string,
+  accessToken?: string,
 }> = (state, action) => ({
   ...state,
   forgotPasswordData: action.payload,
@@ -125,6 +145,56 @@ const slice = createSlice({
       loginLoading: false,
     }));
 
+    //login with facebook
+    builder.addCase(loginWithFacebook.pending, (state) => ({
+      ...state,
+      loginLoading: true,
+    }));
+    builder.addCase(loginWithFacebook.fulfilled, (state, { payload }) => {
+      const { username } = payload;
+      return {
+        ...state,
+        loginLoading: false,
+        token: payload,
+        tokenExpiredTime: new Date(
+          new Date().getTime() + payload.expires_in * 1000,
+        ),
+        permissionList:
+          username === '1'
+            ? [{ code: 'ADMIN' }, { code: 'CSYT_CATALOG' }]
+            : initialState.permissionList,
+      };
+    });
+    builder.addCase(loginWithFacebook.rejected, (state) => ({
+      ...state,
+      loginLoading: false,
+    }));
+
+    //login with google
+    builder.addCase(loginWithGoogle.pending, (state) => ({
+      ...state,
+      loginLoading: true,
+    }));
+    builder.addCase(loginWithGoogle.fulfilled, (state, { payload }) => {
+      const { username } = payload;
+      return {
+        ...state,
+        loginLoading: false,
+        token: payload,
+        tokenExpiredTime: new Date(
+          new Date().getTime() + payload.expires_in * 1000,
+        ),
+        permissionList:
+          username === '1'
+            ? [{ code: 'ADMIN' }, { code: 'CSYT_CATALOG' }]
+            : initialState.permissionList,
+      };
+    });
+    builder.addCase(loginWithGoogle.rejected, (state) => ({
+      ...state,
+      loginLoading: false,
+    }));
+
     // get user info
     /*   builder.addCase(getUserInfo.pending, (state) => ({
         ...state,
@@ -142,7 +212,7 @@ const slice = createSlice({
   },
 });
 
-export { login };
+export { login, loginWithFacebook, loginWithGoogle };
 export const {
   logout,
   setToken,

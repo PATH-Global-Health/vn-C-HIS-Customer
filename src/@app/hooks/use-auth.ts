@@ -47,6 +47,7 @@ const useAuth = (): UseAuth => {
       dispatch(setToken({ token, tokenExpiredTime }));
       return true;
     }
+
     localStorage.removeItem(TOKEN);
     localStorage.removeItem(EXPIRED_TIME);
     sessionStorage.removeItem(TOKEN);

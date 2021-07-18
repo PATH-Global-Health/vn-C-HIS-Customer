@@ -1,21 +1,14 @@
 import { httpClient, apiLinks } from '@app/utils';
 import { Profile, ProfileUM } from './profile.model';
 
-
-const getProfile = async ({
-  userId = '',
-}: {
-  userId: string;
-}): Promise<Profile> => {
-  const response = await httpClient.get({
-    url: apiLinks.post.getDetails(userId = '',
-    ),
+const getProfile = async (): Promise<Profile> => {
+  const result = await httpClient.get({
+    url: apiLinks.profile.get,
   });
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  return response.data as Profile;
+  return result.data as Profile;
 };
 const updateProfile = async (data: ProfileUM): Promise<void> => {
-  const result = await httpClient.post({
+  const result = await httpClient.put({
     url: apiLinks.profile.update,
     data,
   });

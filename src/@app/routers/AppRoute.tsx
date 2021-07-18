@@ -22,14 +22,13 @@ const AppRoute: React.FC<Props> = (props) => {
   } = props;
 
   const { isAuthenticated } = useAuth();
-  const isAuth = useMemo(() => isAuthenticated(), [isAuthenticated]);
-
+  // const isAuth = useMemo(() => isAuthenticated(), [isAuthenticated]);
   return (
     <Route
       path={path}
       exact={exact}
       render={(componentProps): JSX.Element => {
-        if ((isPrivate && isAuth) || !isPrivate) {
+        if ((isPrivate && isAuthenticated()) || !isPrivate) {
           if (Layout) {
             return (
               <Layout>

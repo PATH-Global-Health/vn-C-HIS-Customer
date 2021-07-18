@@ -13,14 +13,13 @@ const initialState: State = {
 };
 
 const getProfile = createAsyncThunk(
-  'surveySession/getSurveySession',
-  async ({ userId = '' }: { userId: string }) => {
-    const result = await profileService.getProfile({
-      userId,
-    });
+  'profile/getProfile',
+  async () => {
+    const result = await profileService.getProfile();
     return result;
   },
 );
+
 const slice = createSlice({
   name: 'pqm/post/part',
   initialState,

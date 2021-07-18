@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -30,6 +30,8 @@ import { useHistory } from "react-router-dom";
 import logo from '@app/assets/img/logo.png'
 import avatar from '@app/assets/img/avatar.png';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from '@app/hooks';
+import { getProfile } from './profile/profile.slice';
 
 
 const StyledItem = styled(IonItem)`
@@ -66,6 +68,10 @@ interface OptionProps {
 const Account: React.FC = () => {
   const { t, i18n } = useTranslation();
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const { profile } = useSelector((s) => s.profile);
+
   const optionFields: OptionProps[] = [
     {
       name: "profile",
@@ -91,13 +97,17 @@ const Account: React.FC = () => {
       label: t('Security Settings'),
       color: "#f1c248"
     },
-    {
-      name: "qr",
-      icon: "qr",
-      label: t('My QR Code'),
-      color: "#3ac6e1"
-    },
+    /*   {
+        name: "qr",
+        icon: "qr",
+        label: t('My QR Code'),
+        color: "#3ac6e1"
+      }, */
   ];
+  const getData = useCallback(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
+  useEffect(getData, [getData]);
   return (
     <>
       <IonContent>
@@ -120,12 +130,12 @@ const Account: React.FC = () => {
         <div style={{ textAlign: 'center', color: 'black' }}>
           <div>
             <StyledText>
-              Đoàn Thanh Hoàng
+              {profile?.fullname}
             </StyledText>
           </div>
           <div></div>
           <IonNote>
-            0909090812
+            {profile?.phoneNumber}
           </IonNote>
         </div>
 

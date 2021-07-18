@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -10,10 +10,11 @@ import { Controller, useForm } from "react-hook-form";
 
 import authService from '@app/services/auth';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from '@app/hooks';
+import { useDispatch, useSelector } from '@app/hooks';
 import { ProfileUM } from '../profile.model';
 import moment from 'moment';
 import profileService from '../profile.service';
+import { getProfile } from '../profile.slice';
 
 const StyledInput = styled(IonInput)`
     color: black;
@@ -70,7 +71,8 @@ interface ChangePasswordModal {
 const ChangePasswordPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const history = useHistory();
-  const data = useSelector((w) => w.workingCaledar.userProfile);
+  const dispatch = useDispatch();
+  const { profile: data } = useSelector((s) => s.profile);
   const { control, handleSubmit, register, formState: { errors }, trigger, reset, watch } = useForm();
   const [oldPasswordVisible, setOldPasswordVisible] = useState(false);
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
@@ -133,8 +135,8 @@ const ChangePasswordPage: React.FC = () => {
       name: "province",
       fieldType: "input",
       type: "text",
-      label: t('Province'),
-      placeholder: t('Province'),
+      label: t('Province/City'),
+      placeholder: t('Province/City'),
     },
     {
       name: "district",
@@ -175,6 +177,7 @@ const ChangePasswordPage: React.FC = () => {
       setShowFailedToast(true);
     }
   };
+
   useEffect(() => {
     register('fullname', { required: { value: true, message: t('full name not enterd') } });
     register('gender', { required: { value: true, message: t('gender not enterd') } });
@@ -237,7 +240,6 @@ const ChangePasswordPage: React.FC = () => {
                         <IonCol size="12" size-sm='3'>
                           <IonItem color='light'>
                             <StyledInput
-                              required={true}
                               onIonBlur={() => {
                                 trigger(name);
                               }}
@@ -279,8 +281,8 @@ const ChangePasswordPage: React.FC = () => {
                               value={watch(name)}
                               onIonChange={onChange}
                             >
-                              <IonSelectOption value={true}>Male</IonSelectOption>
-                              <IonSelectOption value={false}>Female</IonSelectOption>
+                              <IonSelectOption value={true}>{t('Male')}</IonSelectOption>
+                              <IonSelectOption value={false}>{t('Female')}</IonSelectOption>
                             </StyledSelect>
                           </IonItem>
                           {(errors?.gender?.message && name === 'gender') && <ErrorText color='danger'>{(errors?.gender?.message)}</ErrorText>}

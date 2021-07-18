@@ -46,7 +46,7 @@ const apiLinks = {
     post: `${cmsApi}/api/SurveySession`,
   },
   profile: {
-    getById: (id: string): string => `${smapi}/api/Profiles/${id}`,
+    get: `${smapi}/api/Profiles`,
     update: `${smapi}/api/Profiles`,
   },
   manageSchedule: {

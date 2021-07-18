@@ -186,7 +186,6 @@ const Home: React.FC = () => {
 
   return (
     <>
-      {console.log(userInfo)}
       <IonContent>
         <IonRow className="ion-justify-content-center" >
           <IonCol size="4" size-sm="3">

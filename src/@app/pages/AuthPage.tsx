@@ -4,18 +4,13 @@ import { useAuth } from '@app/hooks';
 
 const AuthPage: React.FC = () => {
   const history = useHistory();
-  const { isAuthenticated, logout } = useAuth();
-
-  const isAuth = useMemo(() => isAuthenticated(), [isAuthenticated]);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
-    if (isAuth) {
-      history.push('/home');
-    } else {
-      logout();
-      history.push('/login');
+    if (history) {
+      history.push(isAuthenticated() ? '/home' : '/login');
     }
-  }, [history, isAuth, logout]);
+  }, [history]);
 
   return <div>Loading...</div>;
 };

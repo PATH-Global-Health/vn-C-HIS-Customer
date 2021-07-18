@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -10,13 +10,15 @@ import { Controller, useForm } from "react-hook-form";
 
 import authService from '@app/services/auth';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from '@app/hooks';
+import { getProfile } from '../profile.slice';
+import moment from 'moment';
 
 const StyledInput = styled(IonInput)`
-    color: black;
+    color: #454543;
     margin-top: 2px;
-    margin-left: 15px
+    margin-left: 5px;
 `;
-
 const StyledButton = styled(IonButton)`
     margin-left: 20px;
     width: 300px;
@@ -50,8 +52,84 @@ interface ChangePasswordModal {
 
 const Personal: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const formFields: InputProps[] = [
+    {
+      name: "fullname",
+      fieldType: "input",
+      type: "text",
+      label: t('Full name'),
+    },
+    {
+      name: "gender",
+      fieldType: "input",
+      type: "text",
+      label: t('Gender'),
+    },
+    {
+      name: "dateOfBirth",
+      fieldType: "input",
+      type: "text",
+      label: t('Date of birth'),
+    },
+    {
+      name: "phoneNumber",
+      fieldType: "input",
+      type: "number",
+      label: t('Phone number'),
+    },
+    {
+      name: "email",
+      fieldType: "input",
+      type: "text",
+      label: t('Email'),
+    },
+    {
+      name: "identityCard",
+      fieldType: "input",
+      type: "text",
+      label: t('Identity card'),
+    },
+    {
+      name: "address",
+      fieldType: "input",
+      type: "text",
+      label: t('Address'),
+    },
+    {
+      name: "province",
+      fieldType: "input",
+      type: "text",
+      label: t('Province/City'),
+    },
+    {
+      name: "district",
+      fieldType: "input",
+      type: "text",
+      label: t('District'),
+    },
+    {
+      name: "ward",
+      fieldType: "input",
+      type: "text",
+      label: t('Ward'),
+    },
+    {
+      name: "passportNumber",
+      fieldType: "input",
+      type: "text",
+      label: t('Passport number'),
+    },
+    {
+      name: "nation",
+      fieldType: "input",
+      type: "text",
+      label: t('Nation'),
+    },
+  ];
+  const { control, handleSubmit, register, formState: { errors }, trigger, reset, watch } = useForm();
   const history = useHistory();
-  const { control, handleSubmit } = useForm();
+  const dispatch = useDispatch();
+  const { profile } = useSelector((s) => s.profile);
 
   const [oldPasswordVisible, setOldPasswordVisible] = useState(false);
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
@@ -60,35 +138,11 @@ const Personal: React.FC = () => {
   const [showFailedToast, setShowFailedToast] = useState(false);
   const [showMatchPasswordFailedToast, setShowMatchPasswordFailedToast] = useState(false);
 
-  const formFields: InputProps[] = [
-    {
-      name: "oldPassword",
-      fieldType: "input",
-      type: "password",
-      label: t('Enter old password'),
-      placeholder: "Mật khẩu cũ",
-    },
-    {
-      name: "newPassword",
-      fieldType: "input",
-      type: "password",
-      label: t('Enter new password'),
-      placeholder: "Mật khẩu mới",
-    },
-    {
-      name: "confirmNewPassword",
-      fieldType: "input",
-      type: "password",
-      label: t('Confirm new password'),
-      placeholder: "Nhập lại mật khẩu mới",
-    },
-  ];
 
   const handleChangePassword = async (data: ChangePasswordModal): Promise<void> => {
     try {
       const { oldPassword, newPassword, confirmNewPassword } = data;
       if (newPassword && confirmNewPassword && newPassword !== confirmNewPassword) {
-        console.log('fa', showMatchPasswordFailedToast);
         setShowMatchPasswordFailedToast(true);
       }
       else {
@@ -101,6 +155,29 @@ const Personal: React.FC = () => {
       setShowFailedToast(true);
     }
   };
+
+  const getData = useCallback(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
+  useEffect(getData, [getData]);
+  useEffect(() => {
+    register('fullname', { required: { value: true, message: t('full name not enterd') } });
+    register('gender', { required: { value: true, message: t('gender not enterd') } });
+    register('dateOfBirth', { required: { value: true, message: t('date of birth not enterd') } });
+    register('phoneNumber', { required: { value: true, message: t('phone number not enterd') } });
+    register('email', { required: { value: true, message: t('email not enterd') } });
+    register('identityCard', { required: { value: true, message: t('identity card not enterd') } });
+    register('address', { required: { value: true, message: t('address not enterd') } });
+    register('nation', { required: { value: true, message: t('nation name not enterd') } });
+  }, [register]);
+  useEffect(() => {
+    reset({
+      ...profile,
+      gender: profile?.gender ? "Nam" : 'Nữ',
+      dateOfBirth: ((profile?.dateOfBirth ?? '') !== '') ? moment(profile?.dateOfBirth).format('DD/MM/YYYY') : moment().format('DD/MM/YYYY'),
+
+    });
+  }, [profile, reset]);
   return (
     <IonPage >
       <IonHeader className='ion-margin-bottom' >
@@ -110,64 +187,27 @@ const Personal: React.FC = () => {
         </IonItem>
       </IonHeader>
       <IonContent >
-        <IonToast
-          isOpen={showSuccessToast}
-          onDidDismiss={() => setShowSuccessToast(false)}
-          color='success'
-          message={t('Change password successfully')}
-          duration={1000}
-          position="top"
-          animated={true}
-        />
-        <IonToast
-          isOpen={showFailedToast}
-          onDidDismiss={() => setShowFailedToast(false)}
-          color='danger'
-          message={t('Old password is incorrect')}
-          duration={1000}
-          position="top"
-          animated={true}
-        />
-        <IonToast
-          isOpen={showMatchPasswordFailedToast}
-          onDidDismiss={() => setShowMatchPasswordFailedToast(false)}
-          color='danger'
-          message={t('New password is incorrect')}
-          duration={1000}
-          position="top"
-          animated={true}
-        />
-
-        <IonRow >
-          <StyledLabel >
-            {'ID người dùng'}
-          </StyledLabel>
-          <IonCol size="12" size-sm='3'>
-            <IonItem color='light'>
-              {1122330}
-            </IonItem>
-          </IonCol>
-        </IonRow>
-        <IonRow >
-          <StyledLabel >
-            {'Họ và tên'}
-          </StyledLabel>
-          <IonCol size="12" size-sm='3'>
-            <IonItem color='light'>
-              {'Đoàn Thanh Hoàng'}
-            </IonItem>
-          </IonCol>
-        </IonRow>
-        <IonRow >
-          <StyledLabel >
-            {'Số điện thoại'}
-          </StyledLabel>
-          <IonCol size="12" size-sm='3'>
-            <IonItem color='light'>
-              {'0988108341'}
-            </IonItem>
-          </IonCol>
-        </IonRow>
+        {
+          formFields.map(({ label, name, fieldType, ...otherProps }) => (
+            <IonRow >
+              <StyledLabel >
+                {label}
+              </StyledLabel>
+              <IonCol size="12" size-sm='3'>
+                <IonItem color='light'>
+                  <StyledInput
+                    onIonBlur={() => {
+                      trigger(name);
+                    }}
+                    value={watch(name) || ''}
+                    {...otherProps}
+                  >
+                  </StyledInput>
+                </IonItem>
+              </IonCol>
+            </IonRow>
+          ))
+        }
 
       </IonContent>
     </IonPage>

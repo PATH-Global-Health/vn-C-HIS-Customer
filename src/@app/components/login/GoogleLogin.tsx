@@ -15,33 +15,18 @@ const StyledIconSocial = styled(IonIcon)`
   color: black;
   align-item: center;
 `;
-interface FacebookLoginInfo {
-  id: string;
-  userID: string;
-  accessToken: string;
-  name?: string | undefined;
-  email?: string | undefined;
-  picture?: {
-    data: {
-      height?: number | undefined,
-      is_silhouette?: boolean | undefined,
-      url?: string | undefined,
-      width?: number | undefined,
-    },
-  } | undefined;
-}
+
 interface FacebookFailureResponse {
   status?: string | undefined;
 }
 const GoogleAuthen: React.FC = () => {
   const { loginWithGoogle } = useAuth();
   const history = useHistory();
-  const responseGoogle = async (response: any): Promise<void> => {
+  const responseGoogle = (response: any): void => {
     console.log(response);
     try {
       const { tokenId } = response;
-      await loginWithGoogle(tokenId);
-      history.push('/home');
+      loginWithGoogle(tokenId).then(() => { history.push('/') });
     } catch (error) {
     }
   };

@@ -2,7 +2,6 @@ import axios, { Method, AxiosResponse, ResponseType } from 'axios';
 import store from '@app/store';
 
 import apiLinks from './api-links';
-import { useSelector } from '@app/hooks';
 
 interface Options {
   url: ((al: typeof apiLinks) => string) | string;

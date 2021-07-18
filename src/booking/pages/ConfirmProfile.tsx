@@ -10,11 +10,12 @@ import {
     IonPage,
     IonSelect,
     IonSelectOption,
+    IonSpinner,
 } from '@ionic/react';
 import { useDispatch, useSelector } from '@app/hooks';
 import 'react-day-picker/lib/style.css';
 import { useHistory } from "react-router-dom";
-import { arrowBack, chevronBack } from 'ionicons/icons';
+import { chevronBack } from 'ionicons/icons';
 import { BookingModel } from 'booking/models/bookingModel';
 import location from '../../@app/mock/locations.json';
 import { postExaminations } from 'booking/slices/workingCalendar';
@@ -31,6 +32,7 @@ const ConfirmProfile: React.FC = () => {
     const interval = useSelector((i) => i.workingCaledar.intervalBooking);
     const unitBooking = useSelector((u) => u.hospital.hospitalBooking);
     const workingCalendarBooking = useSelector((w) => w.workingCaledar.workingCalendar);
+    const loading = useSelector((w) => w.workingCaledar.loading);
     const userId = useSelector((t) => t.auth.token?.userId);
     const [fullName, setFullName] = useState<string>(userInfo.fullname);
     const [phoneNumber, setPhoneNumber] = useState<string>(userInfo.phoneNumber);
@@ -135,19 +137,6 @@ const ConfirmProfile: React.FC = () => {
         bookingModel.service.id = workingCalendarBooking.service[0].id;
         bookingModel.service.name = workingCalendarBooking.service[0].description;
 
-
-        // bookingModel.customer.id = userProfile.id;
-        // bookingModel.customer.fullname = userProfile.fullname;
-        // bookingModel.customer.phone = userProfile.phoneNumber;
-        // bookingModel.customer.email = userProfile.email;
-        // bookingModel.customer.address = userProfile.address;
-        // bookingModel.customer.birthDate = "2021-06-01T00:58:27.530Z";
-        // bookingModel.customer.gender = true;
-        // bookingModel.customer.provinceCode = userProfile.province;
-        // bookingModel.customer.districtCode = userProfile.district;
-        // bookingModel.customer.wardCode = userProfile.ward;
-
-
         bookingModel.customer.ic = "";
         bookingModel.customer.nation = "";
         bookingModel.customer.passportNumber = "";
@@ -168,129 +157,125 @@ const ConfirmProfile: React.FC = () => {
     }, [])
     return (
         <>
-         {serviceId === "" ? history.push('/home') :
-        <IonPage className={styles.styledPage}>
-            <IonHeader className={styles.header}>
-                <button 
-                className={styles.btnCustomHeader}
-                onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon></button>
-                <IonLabel className={styles.headerLabel}>{t('User information')}</IonLabel>
-            </IonHeader>
-            <IonContent>
-                <form
-                    onSubmit={
-                        () => {
-                            dispatch(putUserProfile(userProfile));
-                            dispatch(postExaminations(bookingModel));
-                            // dispatch(getUserInfo());
-                            history.push("/apointmentInfo")
-                        }}
-                >
-                    <IonList>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('Full name')}</IonLabel>
-                            <IonInput
-                                required
-                                placeholder={t('Full name')}
-                                value={fullName}
-                                onIonChange={(e) => setFullName(e.detail.value!)}
-                            > </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('PhoneNumber')}</IonLabel>
-                            <IonInput
-                                required
-                                placeholder={t('PhoneNumber')}
-                                onIonChange={(e) => setPhoneNumber(e.detail.value!)}
-                                value={phoneNumber}
-                            > </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('Email')}</IonLabel>
-                            <IonInput
-                                required
-                                type="email"
-                                placeholder={t('Email')}
-                                onIonChange={(e) => setEmail(e.detail.value!)}
-                                value={email}
-                            > </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('Address')}</IonLabel>
-                            <IonInput
-                                required
-                                placeholder={t('Address')}
-                                onIonChange={(e) => setAddress(e.detail.value!)}
-                                value={address}
-                            > </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('Date of birth')}</IonLabel>
-                            <IonInput
-                                value={moment(dateOfBirth).format('YYYY-MM-DD') + ""}
-                                // value={dateOfBirth + ""}
-                                required
-                                type="date"
-                                onIonChange={(e) => { setDateOfBirth(e.detail.value!); console.log(dateOfBirth) }}
-                            > </IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('Gender')}</IonLabel>
-                            <IonSelect value={gender} onIonChange={e => setGender(e.detail.value)}>
-                                <IonSelectOption value={true}>{t('Male')}</IonSelectOption>
-                                <IonSelectOption value={false}>{t('Female')}</IonSelectOption>
-                            </IonSelect>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('City')}</IonLabel>
-                            <IonSelect value={city}
-                                onIonChange={e => {
-                                    setCity(e.detail.value);
-                                    setDistricts("");
-                                    setWards("");
-                                }}>
-                                {location.map((lo) => (
-                                    <IonSelectOption value={lo.value}>{lo.label}</IonSelectOption>
-                                ))}
-                            </IonSelect>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('District')}</IonLabel>
-                            {city === "" || city === undefined ? "" :
-                                // districts === undefined ? "" :
-                                    <IonSelect
-                                        value={districts}
-                                        onIonChange={e => {
-                                            setDistricts(e.detail.value);
-                                            setWards("");
-                                        }}>
-                                        {location.filter((lo) => lo.value === city)[0].districts.map((districts) => (
-                                            <IonSelectOption value={districts.value}>{districts.label}</IonSelectOption>
-                                        ))}
+            {serviceId === "" ? history.push('/home') :
+                loading === true ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%', top: '50%' }}></IonSpinner> :
+                    <IonPage className={styles.styledPage}>
+                        <IonHeader className={styles.header}>
+                            <button
+                                className={styles.btnCustomHeader}
+                                onClick={() => history.goBack()}><IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon></button>
+                            <IonLabel className={styles.headerLabel}>{t('User information')}</IonLabel>
+                        </IonHeader>
+                        <IonContent>
+                            <form
+                                onSubmit={
+                                    () => {
+                                        dispatch(putUserProfile(userProfile));
+                                        dispatch(postExaminations(bookingModel));
+                                        history.push("/apointmentInfo")
+                                    }}
+                            >
+                                <IonList>
+                                    <IonItem>
+                                        <IonLabel className={styles.styledLabel} position="stacked">{t('Full name')}</IonLabel>
+                                        <IonInput
+                                            required
+                                            placeholder={t('Full name')}
+                                            value={fullName}
+                                            onIonChange={(e) => setFullName(e.detail.value!)}
+                                        > </IonInput>
+                                    </IonItem>
+                                    <IonItem>
+                                        <IonLabel className={styles.styledLabel} position="stacked">{t('PhoneNumber')}</IonLabel>
+                                        <IonInput
+                                            required
+                                            placeholder={t('PhoneNumber')}
+                                            onIonChange={(e) => setPhoneNumber(e.detail.value!)}
+                                            value={phoneNumber}
+                                        > </IonInput>
+                                    </IonItem>
+                                    <IonItem>
+                                        <IonLabel className={styles.styledLabel} position="stacked">{t('Email')}</IonLabel>
+                                        <IonInput
+                                            required
+                                            type="email"
+                                            placeholder={t('Email')}
+                                            onIonChange={(e) => setEmail(e.detail.value!)}
+                                            value={email}
+                                        > </IonInput>
+                                    </IonItem>
+                                    <IonItem>
+                                        <IonLabel className={styles.styledLabel} position="stacked">{t('Address')}</IonLabel>
+                                        <IonInput
+                                            required
+                                            placeholder={t('Address')}
+                                            onIonChange={(e) => setAddress(e.detail.value!)}
+                                            value={address}
+                                        > </IonInput>
+                                    </IonItem>
+                                    <IonItem>
+                                        <IonLabel className={styles.styledLabel} position="stacked">{t('Date of birth')}</IonLabel>
+                                        <IonInput
+                                            value={moment(dateOfBirth).format('YYYY-MM-DD') + ""}
+                                            required
+                                            type="date"
+                                            onIonChange={(e) => { setDateOfBirth(e.detail.value!); console.log(dateOfBirth) }}
+                                        > </IonInput>
+                                    </IonItem>
+                                    <IonItem>
+                                        <IonLabel className={styles.styledLabel} position="stacked">{t('Gender')}</IonLabel>
+                                        <IonSelect value={gender} onIonChange={e => setGender(e.detail.value)}>
+                                            <IonSelectOption value={true}>{t('Male')}</IonSelectOption>
+                                            <IonSelectOption value={false}>{t('Female')}</IonSelectOption>
+                                        </IonSelect>
+                                    </IonItem>
+                                    <IonItem>
+                                        <IonLabel className={styles.styledLabel} position="stacked">{t('City')}</IonLabel>
+                                        <IonSelect value={city}
+                                            onIonChange={e => {
+                                                setCity(e.detail.value);
+                                                setDistricts("");
+                                                setWards("");
+                                            }}>
+                                            {location.map((lo) => (
+                                                <IonSelectOption value={lo.value}>{lo.label}</IonSelectOption>
+                                            ))}
+                                        </IonSelect>
+                                    </IonItem>
+                                    <IonItem>
+                                        <IonLabel className={styles.styledLabel} position="stacked">{t('District')}</IonLabel>
+                                        {city === "" || city === undefined ? "" :
+                                            <IonSelect
+                                                value={districts}
+                                                onIonChange={e => {
+                                                    setDistricts(e.detail.value);
+                                                    setWards("");
+                                                }}>
+                                                {location.filter((lo) => lo.value === city)[0].districts.map((districts) => (
+                                                    <IonSelectOption value={districts.value}>{districts.label}</IonSelectOption>
+                                                ))}
 
-                                    </IonSelect>
-                            }
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel className={styles.styledLabel} position="stacked">{t('Ward')}</IonLabel>
-                            {districts === "" ? "" :
-                                <IonSelect value={wards}
-                                    onIonChange={e => setWards(e.detail.value)}>
-                                    {location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0] !== undefined ?
-                                        location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0].wards.map((ward) => (
-                                            <IonSelectOption value={ward.value}>{ward.label}</IonSelectOption>
-                                        )) : ""}
-                                </IonSelect>
-                            }
-                        </IonItem>
-                    </IonList>
-                    {/* {wards === "" ? "" : */}
-                    <button className={styles.styledButtonSubmit} disabled={!(Boolean(wards))} type="submit">{t('Make an appointment')}</button>
-                </form>
-                {/* <IonInput value="Lieu"></IonInput> */}
-            </IonContent>
-        </IonPage>
-        }
+                                            </IonSelect>
+                                        }
+                                    </IonItem>
+                                    <IonItem>
+                                        <IonLabel className={styles.styledLabel} position="stacked">{t('Ward')}</IonLabel>
+                                        {districts === "" ? "" :
+                                            <IonSelect value={wards}
+                                                onIonChange={e => setWards(e.detail.value)}>
+                                                {location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0] !== undefined ?
+                                                    location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0].wards.map((ward) => (
+                                                        <IonSelectOption value={ward.value}>{ward.label}</IonSelectOption>
+                                                    )) : ""}
+                                            </IonSelect>
+                                        }
+                                    </IonItem>
+                                </IonList>
+                                <button className={styles.styledButtonSubmit} disabled={!(Boolean(wards))} type="submit">{t('Make an appointment')}</button>
+                            </form>
+                        </IonContent>
+                    </IonPage>
+            }
         </>
     )
 };

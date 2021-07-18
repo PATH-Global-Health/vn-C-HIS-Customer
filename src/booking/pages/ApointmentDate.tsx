@@ -5,6 +5,7 @@ import {
     IonIcon,
     IonLabel,
     IonPage,
+    IonSpinner,
 } from '@ionic/react';
 import { useDispatch, useSelector } from '@app/hooks';
 import { getHospitalByServiceIdAndDate } from '../slices/hospital';
@@ -12,7 +13,7 @@ import { getWorkingCalendarBooking } from '../slices/workingCalendar';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import { useHistory } from "react-router-dom";
-import { arrowBack, chevronBack } from 'ionicons/icons';
+import { chevronBack } from 'ionicons/icons';
 import moment from 'moment';
 import { getDateBooking } from '../slices/date';
 import { getIntervals } from '../slices/workingCalendar';
@@ -24,6 +25,7 @@ const ApointmentDate: React.FC = () => {
     const dispatch = useDispatch();
     const dateBookings = useSelector((d) => d.dateBooking.dateBookings);
     const workingCalendars = useSelector((w) => w.workingCaledar.workingCalendars);
+    const loading = useSelector((b) => b.workingCaledar.loading);
     const serviceId = useSelector((w) => w.workingCaledar.serviceId);
     const history = useHistory();
     const typeChoosing = useSelector((d) => d.dateBooking.typeChoosing);
@@ -40,7 +42,6 @@ const ApointmentDate: React.FC = () => {
             }
         }
         )
-
     }
 
     const getHospitalByServiceAndDate = () => {
@@ -54,6 +55,7 @@ const ApointmentDate: React.FC = () => {
     return (
         <>
             {serviceId === "" ? history.push('/home') :
+            loading === true ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%', top: '50%' }}></IonSpinner> :
                 <IonPage className={styles.styledPage}>
                     <IonHeader className={styles.header}>
                         <button
@@ -95,7 +97,8 @@ const ApointmentDate: React.FC = () => {
                                         }
                                     }
                                     }
-                                    disabledDays={(day: Date) => !workingCalendars.map(ad => moment(ad.date).format('YYYY-MM-DD')).includes(moment(day).format('YYYY-MM-DD'))}>
+                                    disabledDays={(day: Date) => !workingCalendars.map(ad => moment(ad.date).format('YYYY-MM-DD')).includes(moment(day).format('YYYY-MM-DD'))}
+                                    >
                                 </DayPicker>
                             }
                         </div>
@@ -103,7 +106,6 @@ const ApointmentDate: React.FC = () => {
                             className={styles.styledButtonSubmit}
                             onClick={() => {
                                 if (typeChoosing === "apointmentDate") {
-                                    // dispatch(getHospitalByServiceIdAndDate(date + ""));
                                     getHospitalByServiceAndDate();
                                     dispatch(getDateBooking(date));
                                     history.push("/choosingHospital");

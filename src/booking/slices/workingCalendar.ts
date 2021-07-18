@@ -3,7 +3,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { BookingModel } from 'booking/models/bookingModel';
 import { BookingModelResponse } from 'booking/models/bookingModelResponse';
 import { ExaminationListModel } from 'booking/models/examinationListModel';
-// import { Hospital } from 'booking/models/hospital';
 import { Interval } from 'booking/models/interval';
 import { IntervalModel } from 'booking/models/IntervalModel';
 import { WorkingCalendar } from '../models/workingCalendar';
@@ -299,8 +298,6 @@ const slice = createSlice({
             ...state,
             loading: false,
             interval: payload,
-            // workingCalendars: payload,
-            // workingCalendars 
         }));
         builder.addCase(getIntervals.rejected, (state) => ({
             ...state,
@@ -316,8 +313,6 @@ const slice = createSlice({
             loading: false,
             bookingModelResponse: payload,
             examinationSuccess: true,
-            // workingCalendars: payload,
-            // workingCalendars 
         }));
         builder.addCase(postExaminations.rejected, (state) => ({
             ...state,
@@ -335,12 +330,10 @@ const slice = createSlice({
             loading: false,
             bookingModelResponse: payload,
             examinationSuccess: true,
-            // workingCalendars: payload,
-            // workingCalendars 
         }));
         builder.addCase(getExaminationById.rejected, (state) => ({
             ...state,
-            examinationSuccess: false,
+            // examinationSuccess: false,
             loading: false,
         }));
 

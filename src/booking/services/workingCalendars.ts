@@ -8,7 +8,6 @@ const getDateByUnitAndService = async (unitId: string, serviceId: string): Promi
       const result = await httpClient.get({
           url: apiLinks.manageSchedule.workingCalendar.getDaysByUnitAndService + `?unitId=${unitId}` + `&serviceId=${serviceId}`,
       });
-      console.log(result.data);
       return result.data as WorkingCalendar[];
   } catch (error) {
       return [];
@@ -20,7 +19,6 @@ const getDateByUnitAndService = async (unitId: string, serviceId: string): Promi
       const result = await httpClient.get({
         url: apiLinks.manageSchedule.workingCalendar.getInterval + `/${dayId}`,
       });
-      console.log(result.data);
       return result.data as [];
     } catch (error) {
       return [];

@@ -6,7 +6,6 @@ const getUnitTypes = async (): Promise<UnitType[]> => {
       const result = await httpClient.get({
         url: apiLinks.manageSchedule.unitTypes.get,
       });
-      console.log(result.data);
       return result.data as UnitType[];
     } catch (error) {
       return [];

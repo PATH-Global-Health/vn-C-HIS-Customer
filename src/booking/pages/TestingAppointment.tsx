@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from '@app/hooks';
 import { useHistory } from "react-router-dom";
 import { getDateByServiceId } from '../slices/date';
 import { getHospitalByServiceId } from '../slices/hospital';
-import { arrowBack, arrowForward, calendar, chevronBack, podium, } from 'ionicons/icons';
+import { arrowForward, calendar, chevronBack, podium, } from 'ionicons/icons';
 import { getTypeChoosing } from 'booking/slices/date';
 import { useTranslation } from 'react-i18next';
 import styles from '../css/testingAppointment.module.css';

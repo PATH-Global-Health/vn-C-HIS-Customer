@@ -67,7 +67,6 @@ const postExaminations = async (da: BookingModel): Promise<BookingModelResponse>
             }
         },
     });
-    // console.log(response.data as BookingModel);
     return response.data as BookingModelResponse;
 };
 
@@ -75,7 +74,6 @@ const getExaminationList = async (): Promise<ExaminationListModel> => {
     const result = await httpClient.get({
         url: apiLinks.bookingService.postExaminations,
     });
-    console.log(result.data);
     return result.data as ExaminationListModel;
 };
 
@@ -83,12 +81,11 @@ const getExaminationById = async (id: string): Promise<BookingModelResponse> => 
     const result = await httpClient.get({
         url: apiLinks.bookingService.postExaminations + `/${id}`,
     });
-    console.log(result.data);
     return result.data as BookingModelResponse;
 };
 
 const cancelExamination = async (id: string): Promise<void> => {
-    const response = await httpClient.put({
+    await httpClient.put({
         url: apiLinks.bookingService.postExaminations,
         data: {
             id: id,
@@ -96,7 +93,19 @@ const cancelExamination = async (id: string): Promise<void> => {
             note: "Cancel"
         },
     });
-    // return response.data as UserProfile;
+};
+
+const evaluateExamination = async (id: string, rate: string, typeRating: string, dest: string ): Promise<void> => {
+    await httpClient.put({
+        url: apiLinks.bookingService.postExaminations,
+        data: {
+            id: id,
+            rate: rate,
+            status: 2,
+            typeRating: typeRating,
+            dest: dest
+        },
+    });
 };
 
 
@@ -104,7 +113,6 @@ const getUserInfo = async (): Promise<UserProfile> => {
     const result = await httpClient.get({
         url: apiLinks.manageSchedule.profile.get,
     });
-    console.log(result.data);
     return result.data as UserProfile;
 };
 
@@ -139,7 +147,8 @@ const examinationServices = {
     getUserInfo,
     putUserProfile,
     getExaminationById,
-    cancelExamination
+    cancelExamination,
+    evaluateExamination
 };
 
 

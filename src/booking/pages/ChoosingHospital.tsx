@@ -10,11 +10,12 @@ import {
   IonPage,
   IonSelect,
   IonSelectOption,
+  IonSpinner,
 } from '@ionic/react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from '@app/hooks';
 import { useHistory } from "react-router-dom";
-import { arrowBack, arrowForward, chevronBack, filter, podium } from 'ionicons/icons';
+import { arrowForward, chevronBack, filter, podium } from 'ionicons/icons';
 import { getHospitalBooking } from 'booking/slices/hospital';
 import location from '../../@app/mock/locations.json';
 import { deburr } from '../../@app/utils/helpers';
@@ -52,6 +53,7 @@ const ChoosingHospital: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const hospitals = useSelector((h) => h.hospital.hospitals);
+  const loading = useSelector((b) => b.hospital.loading);
   let listCitySelect: CityS[] = [];
   const serviceId = useSelector((w) => w.workingCaledar.serviceId);
   hospitals.map((hos) => {
@@ -92,7 +94,7 @@ const ChoosingHospital: React.FC = () => {
   const searchByUnitTypeAndCityAndDistrict = hospitals.filter((hos) => deburr(hos.unitTypeId + hos.province + hos.district).includes(deburr(unitType + city + districts)));
   const searchByUnitTypeAndCityAndDistrictAndWard = hospitals.filter((hos) => deburr(hos.unitTypeId + hos.province + hos.district + hos.ward).includes(deburr(unitType + city + districts + wards)));
   const [showModal, setShowModal] = useState(false);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   useEffect(() => {
 
     dispatch(getUnitTypes());
@@ -100,6 +102,7 @@ const ChoosingHospital: React.FC = () => {
   return (
     <>
       {serviceId === "" ? history.push('/home') :
+      loading === true ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%', top: '50%' }}></IonSpinner> :
         <IonPage className={styles.styledPage}>
           <StyleModal isOpen={showModal} cssClass='my-custom-class' swipeToClose={false} onDidDismiss={() => setShowModal(false)}>
             {show === true ? <div><IonSelect className={styles.styledSelect} placeholder={t('Unit Type')} onIonChange={e => { setUnitType(e.detail.value); setTypeSearch("unitType") }}>

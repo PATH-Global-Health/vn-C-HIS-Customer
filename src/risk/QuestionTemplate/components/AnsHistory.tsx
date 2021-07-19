@@ -42,11 +42,11 @@ const StyledButton = styled(IonButton)`
   --border-radius:5px;
 `
 
-const QuestionForm: React.FC = () => {
+const AnsHistory: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { control, handleSubmit } = useForm();
   const dispatch = useDispatch();
-  const detailData = useSelector((s) => s.risk.questionTemplateDetail);
+  const { surveySession } = useSelector((s) => s.surveySession);
   const userId = useSelector(s => s.auth.token?.userId);
 
   const handleData = async (data: any): Promise<void> => {
@@ -58,7 +58,7 @@ const QuestionForm: React.FC = () => {
         }
       })
       const params = {
-        questionTemplateId: detailData?.id ?? '',
+        questionTemplateId: surveySession?.questionTemplateId ?? '',
         userId: userId ?? '',
         result: '',
         surveySessionResults: surveySessionResults,
@@ -73,30 +73,30 @@ const QuestionForm: React.FC = () => {
       //setShowFailedToast(true);
     }
   };
-
   return (
     <IonContent>
-      <form onSubmit={handleSubmit((d) => handleData(d))} style={{ margin: '20px -20px' }}>
+      <form onSubmit={handleSubmit((d) => handleData(d))} style={{ margin: '10px -10px' }}>
         {
-          detailData?.questions?.map((o, i) => (
+          surveySession?.surveySessionResults?.map((o, i) => (
             <Controller
               key={i}
-              name={o?.id ?? ''}
+              name={o?.question?.id}
               control={control}
+              defaultValue={o?.answer?.id}
               render={({ field: { onChange, onBlur, value } }) => (
                 <WrapperQuestion>
                   <IonRow className="">
                     <IonCol size="12" size-sm='3'>
                       <IonItem color='light' lines='inset' className='group-item'>
                         <IonRadioGroup
-                          value={value}
+                          value={o?.answer?.id}
                           onIonChange={onChange}
                         >
                           <IonListHeader>
-                            <IonItem>{`Câu ${i + 1}: ${o?.description ?? ''} ?`}</IonItem>
+                            <IonItem>{`Câu ${i + 1}: ${o?.question?.description ?? ''} ?`}</IonItem>
                           </IonListHeader>
                           {
-                            o?.answers?.map((ans, idx) => (
+                            o?.question?.answers?.map((ans, idx) => (
                               <IonItem key={idx}>
                                 <IonLabel>{ans?.description ?? ''}</IonLabel>
                                 <IonRadio slot="start" value={ans?.id} />
@@ -115,7 +115,7 @@ const QuestionForm: React.FC = () => {
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
-              <StyledButton type='submit'>xem kết quả</StyledButton>
+              <StyledButton type='submit'>xem lại kết quả</StyledButton>
             </div>
           </IonCol>
         </IonRow>
@@ -124,4 +124,4 @@ const QuestionForm: React.FC = () => {
   );
 };
 
-export default QuestionForm;
+export default AnsHistory;

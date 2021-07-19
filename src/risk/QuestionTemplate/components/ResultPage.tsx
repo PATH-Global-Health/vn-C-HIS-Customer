@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { Controller, useForm } from 'react-hook-form';
 import {
 
   IonButton,
@@ -13,7 +12,6 @@ import {
 
 import { useDispatch, useSelector } from '@app/hooks';
 
-import { useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { setHandeRisk } from 'risk/QuestionTemplate/question-template.slice';
 
@@ -27,14 +25,6 @@ const Wrapper = styled(IonRow)`
       color: black;
       --background: white;
       --border-style: none;
-      & .title{
-        text-align: center !important;
-        margin-left: 23% !important;
-        margin: 0px 10px;
-        font-size: 20px;
-        color: #1145a0;
-        font-weight: 500;
-      }
       & .content{
         margin-top:10px;
         margin-bottom: 20px;
@@ -54,17 +44,20 @@ const StyledButton = styled(IonButton)`
 
 const ResultPage: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const { control, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const { handleRisk: { data } } = useSelector((state) => state.risk);
 
   return (
     <IonContent>
+      <IonRow className="ion-justify-content-center">
+        <IonCol size="12" size-sm='3'>
+          <div style={{ textAlign: 'center', marginTop: '20px', color: '#1145a0', fontSize: '20px', fontWeight: 500 }}>
+            {data}
+          </div>
+        </IonCol>
+      </IonRow>
       <Wrapper className="ion-margin-top">
         <IonCol size="12" size-sm='3'>
-          <IonItem color='light' lines='none' className='group-item'>
-            <IonText className='title'>{data}</IonText>
-          </IonItem>
           <IonItem color='light' lines='none' className='group-item'>
             <IonText className='content'>{'Mời bạn tiếp tục tham gia tìm hiểu các nguy cơ sức khỏe cùng chủ để hoặc các chủ đề liên quan để bảo vệ sức khỏe cho bản thân và gia đình'}</IonText>
           </IonItem>

@@ -1,5 +1,5 @@
 import { useAuth } from "@app/hooks";
-import React, { useCallback, useState } from "react";
+import React from "react";
 import FacebookLogin from "react-facebook-login-typed";
 import { useHistory } from "react-router";
 

@@ -16,12 +16,11 @@ import {
 } from '@ionic/react';
 import { useDispatch, useSelector } from '@app/hooks';
 
-import logo from '@app/assets/img/logo.png';
 import img from '@app/assets/img/khau_trang.jpg';
 import virus from '@app/assets/img/virus2.jpg';
-import { useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { getQuestionTemplates, getQuestionTemplatesDetail, setHandeRisk } from '../question-template.slice';
+import { getSurveySession } from 'risk/SurveySession/survey-session.slice';
 
 const Card = styled(IonRow)`
   ion-card {
@@ -75,13 +74,11 @@ const Card = styled(IonRow)`
 `;
 
 const QuestionTemplatePage: React.FC = () => {
-  const history = useHistory();
   const { t, i18n } = useTranslation();
   const userId = useSelector(s => s.auth.token?.userId);
 
-  const [pageIndex, setPageIndex] = useState<number>(0);
+  const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(50);
-  const [totalPostLoading, setTotalPostLoading] = useState<number>(5);
   const [loading, setLoading] = useState<boolean>(true);
   const dispatch = useDispatch();
   const { data } = useSelector((s) => s.risk.questionTemplateList);
@@ -91,14 +88,11 @@ const QuestionTemplatePage: React.FC = () => {
       pageIndex,
       pageSize
     }));
-  }, [pageIndex, pageSize, dispatch]);
+  }, [pageIndex, pageSize, dispatch, userId]);
 
   async function fetchData() {
-
-    setTimeout(() => { setTotalPostLoading(totalPostLoading + 5); setLoading(false) }, 500);
-
+    setTimeout(() => { setPageIndex(pageIndex); setLoading(false) }, 500);
   }
-
   useIonViewWillEnter(async () => {
     await fetchData();
   });
@@ -108,10 +102,15 @@ const QuestionTemplatePage: React.FC = () => {
     setLoading(true);
     ($event.target as HTMLIonInfiniteScrollElement).complete();
   }
-  const handleClick = useCallback((id: string, type: string) => {
+  const handleTest = useCallback((id: string, type: string) => {
     dispatch(getQuestionTemplatesDetail({ id }));
     dispatch(setHandeRisk({ type }));
   }, [dispatch]);
+  const handleReview = useCallback((id: string, type: string) => {
+    dispatch(getSurveySession({ userId: userId ?? '', templateId: id }));
+    //dispatch(getQuestionTemplatesDetail({ id }));
+    dispatch(setHandeRisk({ type }));
+  }, [dispatch, userId]);
 
   useEffect(getData, [getData]);
   return (
@@ -125,12 +124,12 @@ const QuestionTemplatePage: React.FC = () => {
                   <img src={virus} alt="" />
                   <IonCardHeader className='card-content' >
                     <IonCardTitle className='title'>{o?.title ?? ''}</IonCardTitle>
-                    <IonNote className='description'>{o?.description ?? ''}</IonNote>
+                    <IonNote className='description'>{'...'}</IonNote>
                   </IonCardHeader>
                   {
                     o?.isCompleted
-                      ? <IonButton className='btn done' >Đã thực hiện</IonButton>
-                      : <IonButton className='btn' onClick={() => handleClick(o?.id, 'answer')}>Thực hiện ngay</IonButton>
+                      ? <IonButton className='btn done' onClick={() => handleReview(o?.id, 'ans-history')} >Đã thực hiện</IonButton>
+                      : <IonButton className='btn' onClick={() => handleTest(o?.id, 'answer')}>Thực hiện ngay</IonButton>
                   }
 
                 </IonCard>
@@ -141,7 +140,7 @@ const QuestionTemplatePage: React.FC = () => {
         ))
       }
 
-      {/*  <div>
+      <div>
         <IonInfiniteScroll threshold="100px"
           onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
           <IonInfiniteScrollContent
@@ -151,7 +150,7 @@ const QuestionTemplatePage: React.FC = () => {
             {loading === true ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%' }}></IonSpinner> : null}
           </IonInfiniteScrollContent>
         </IonInfiniteScroll>
-      </div> */}
+      </div>
     </IonContent>
   );
 };

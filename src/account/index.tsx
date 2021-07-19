@@ -150,7 +150,8 @@ const Account: React.FC = () => {
                         name === 'change-password' ? history.push('/change-password')
                           : name === 'profile' ? history.push('/profile')
                             : name === 'update' ? history.push('/update-profile')
-                              : history.push('/account')
+                              : name === 'security' ? history.push('/security-question')
+                                : history.push('/account')
                       }}
 
                     >

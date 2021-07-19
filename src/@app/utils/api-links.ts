@@ -42,7 +42,13 @@ const apiLinks = {
     getDetails: (id: string): string => `${cmsApi}/api/QuestionTemplate/${id}`
   },
   surveySession: {
-    getDetails: (id: string): string => `${cmsApi}/api/SurveySession/${id}`,
+    getDetails: ({
+      userId = undefined,
+      templateId = undefined,
+    }: {
+      userId?: string;
+      templateId?: string;
+    }) => `${cmsApi}/api/SurveySession/UserChecked/${userId}/${templateId}`,
     post: `${cmsApi}/api/SurveySession`,
   },
   profile: {

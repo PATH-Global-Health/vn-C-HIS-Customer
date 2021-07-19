@@ -1,11 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { SurveySession } from './survey-session.model';
+import { SurveySession, SurveySessionDetail } from './survey-session.model';
 import surveySessionService from './survey-session.service';
 
 
-
 interface State {
-  surveySession: SurveySession | undefined;
+  surveySession: SurveySessionDetail | undefined;
   getSurveySessionsLoading: boolean;
 }
 
@@ -16,14 +15,14 @@ const initialState: State = {
 
 const getSurveySession = createAsyncThunk(
   'surveySession/getSurveySession',
-  async ({ id = '' }: { id: string }) => {
+  async ({ userId = '', templateId = '' }: { userId: string, templateId: string }) => {
     const result = await surveySessionService.getSurveySession({
-      id,
+      userId,
+      templateId
     });
     return result;
   },
 );
-
 
 const slice = createSlice({
   name: 'pqm/post/part',
@@ -32,6 +31,7 @@ const slice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getSurveySession.pending, (state) => ({
       ...state,
+      surveySession: undefined,
       getSurveySessionsLoading: true,
     }));
     builder.addCase(getSurveySession.fulfilled, (state, { payload }) => ({

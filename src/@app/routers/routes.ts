@@ -24,6 +24,7 @@ import BookingTest from 'home/test';
 import Evaluate from 'booking/pages/Evaluate';
 import RiskPage from 'risk/QuestionTemplate';
 import Profile from 'account/profile/components/Personal';
+import SecurityQuestion from 'account/security-question';
 import UpdateProfile from 'account/profile/components/UpdateModal';
 
 interface Route {
@@ -69,6 +70,12 @@ const routes: Route[] = [
   {
     component: UpdateProfile,
     path: '/update-profile',
+    isPrivate: true,
+  },
+  {
+    component: SecurityQuestion,
+    layout: AppLayout,
+    path: '/security-question',
     isPrivate: true,
   },
   {

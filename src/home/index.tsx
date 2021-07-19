@@ -273,7 +273,7 @@ const Home: React.FC = () => {
         <Menu>
           <IonItem className="ion-no-padding" color="light">
             <IonLabel><span className="title">{t('Featured Posts')}</span></IonLabel>
-            <IonNote slot="end">{t('View all')}</IonNote>
+            <IonNote slot="end" onClick={() => history.push('/post')}>{t('View all')}</IonNote>
             <IonIcon className="ion-align-self-center" slot="end" size="small" icon={chevronForwardOutline} />
           </IonItem>
         </Menu>

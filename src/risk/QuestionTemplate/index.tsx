@@ -8,6 +8,7 @@ import QuestionForm from './components/QuestionForm';
 import { setHandeRisk } from './question-template.slice';
 import ResultPage from './components/ResultPage';
 import QuestionTemplatePage from './components/QuestionTemplate';
+import AnsHistory from './components/AnsHistory';
 
 const Header = styled.div`
     & .header{
@@ -41,14 +42,18 @@ const RiskPage: React.FC = () => {
           <IonItem color="light" onClick={() => back()} >
             <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
             <IonTitle className="title">
-              {type === undefined ? 'Tìm Hiểu Nguy Cơ'
-                : type === 'answer' ? 'Biểu Mẫu 1' : 'Kết Quả'}
+              {
+                type === undefined ? 'Tìm Hiểu Nguy Cơ'
+                  : type === 'answer' ? 'Trả lời Biểu Mẫu'
+                    : type === 'ans-history' ? 'Lịch sử trả lời' : 'Kết Quả'
+              }
             </IonTitle>
           </IonItem>
         </IonHeader>
       </Header>
       {(type !== undefined || <QuestionTemplatePage />)}
       {(type === 'answer' && <QuestionForm />)}
+      {(type === 'ans-history' && <AnsHistory />)}
       {(type === 'result' && <ResultPage />)}
     </IonContent>
 

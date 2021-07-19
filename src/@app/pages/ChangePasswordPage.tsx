@@ -93,7 +93,6 @@ const ChangePasswordPage: React.FC = () => {
     try {
       const { oldPassword, newPassword, confirmNewPassword } = data;
       if (newPassword && confirmNewPassword && newPassword !== confirmNewPassword) {
-        console.log('fa', showMatchPasswordFailedToast);
         setShowMatchPasswordFailedToast(true);
       }
       else {

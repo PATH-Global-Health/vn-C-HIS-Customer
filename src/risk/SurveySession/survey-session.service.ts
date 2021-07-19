@@ -1,15 +1,17 @@
 import { httpClient, apiLinks } from '@app/utils';
-import { SurveySession, SurveySessionResponse } from './survey-session.model';
+import { SurveySession, SurveySessionResponse, SurveySessionDetail } from './survey-session.model';
 
 const getSurveySession = async ({
-  id = '',
+  userId = '',
+  templateId = '',
 }: {
-  id?: string;
-}): Promise<SurveySession> => {
+  userId?: string;
+  templateId?: string
+}): Promise<SurveySessionDetail> => {
   const response = await httpClient.get({
-    url: apiLinks.surveySession.getDetails(id),
+    url: apiLinks.surveySession.getDetails({ userId, templateId }),
   });
-  return response.data as SurveySession;
+  return response.data as SurveySessionDetail;
 };
 const createSurveySession = async (data: SurveySession): Promise<SurveySessionResponse> => {
   const result = await httpClient.post({

@@ -3,7 +3,7 @@ import { QuestionTemplateDetail, QuestionTemplateResponse, QuestionTemplate } fr
 
 const getQuestionTemplate = async ({
   userId = undefined,
-  pageIndex = 0,
+  pageIndex = 1,
   pageSize = 10,
 }: {
   userId?: string;

@@ -55,13 +55,13 @@ const ForgetPassword: React.FC = () => {
       label: 'GMAIL',
       content: '',
     },
-    {
-      name: 'question',
-      icon: informationCircleOutline,
-      color: 'rgb(91 153 255)',
-      label: t('Security question'),
-      content: t('Date of birth'),
-    },
+    /*  {
+       name: 'question',
+       icon: informationCircleOutline,
+       color: 'rgb(91 153 255)',
+       label: t('Security question'),
+       content: t('Date of birth'),
+     }, */
   ];
   const back = () => {
     if (method === undefined) {

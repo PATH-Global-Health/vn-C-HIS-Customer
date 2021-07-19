@@ -1,5 +1,5 @@
 import { IonIcon } from "@ionic/react";
-import React, { useCallback, useState } from "react";
+import React from "react";
 import styled from 'styled-components';
 import GoogleLogin from 'react-google-login';
 import { mailOutline } from "ionicons/icons";
@@ -16,22 +16,16 @@ const StyledIconSocial = styled(IonIcon)`
   align-item: center;
 `;
 
-interface FacebookFailureResponse {
-  status?: string | undefined;
-}
 const GoogleAuthen: React.FC = () => {
   const { loginWithGoogle } = useAuth();
   const history = useHistory();
   const responseGoogle = (response: any): void => {
-    console.log(response);
     try {
       const { tokenId } = response;
       loginWithGoogle(tokenId).then(() => { history.push('/') });
     } catch (error) {
     }
   };
-  //open_ngkscbp_user@tfbnw.net
-  //Zqa1234@
   return (
     <div>
       <GoogleLogin

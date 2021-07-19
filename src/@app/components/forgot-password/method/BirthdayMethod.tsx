@@ -51,7 +51,6 @@ const BirthdayMethod: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { control, handleSubmit } = useForm();
   const handleData = (data: any) => {
-    console.log(data);
     dispatch(setDataForgotPassword({ method: 'confirmOTP' }));
   }
   const back = () => {

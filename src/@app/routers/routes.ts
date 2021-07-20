@@ -79,6 +79,12 @@ const routes: Route[] = [
     isPrivate: true,
   },
   {
+    component: SecurityQuestion,
+    layout: AppLayout,
+    path: '/notify',
+    isPrivate: true,
+  },
+  {
     component: Home,
     layout: AppLayout,
     path: '/home',

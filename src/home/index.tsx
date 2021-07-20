@@ -37,6 +37,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from '@app/hooks';
 import { getPosts } from 'news/post/post.slice';
 import { getUserInfo } from 'booking/slices/workingCalendar';
+import { setHandeRisk } from 'risk/QuestionTemplate/question-template.slice';
 
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
@@ -168,8 +169,12 @@ const Home: React.FC = () => {
   const handleTypeService = (name: string) => {
     name === "booking" ? history.push("/homeBooking")
       : name === "examinationList" ? history.push("/examinationList")
-        : history.push("/risk");
+        : RedirectRiskPage();
 
+  }
+  const RedirectRiskPage = () => {
+    history.push("/risk");
+    dispatch(setHandeRisk({ type: undefined }));
   }
   const getData = useCallback(() => {
     dispatch(getPosts({

@@ -73,9 +73,9 @@ const PostCard: React.FC<Props> = ({ data }) => {
 
   return (
     <>
-      <Slider infinite={false} dots={true} slidesToShow={1.4} slidesToScroll={1} swipeToSlide={true} >
+      <Slider infinite={false} dots={true} slidesToShow={1.3} slidesToScroll={1} swipeToSlide={true} autoplay={true} >
         {
-          formatArr(reverseArr(data)).slice(0, 5).map((p, idx) => {
+          formatArr(reverseArr(data)).slice(0, 6).map((p, idx) => {
             return (
               <CardSlider key={idx}>
                 <IonCard onClick={() => {

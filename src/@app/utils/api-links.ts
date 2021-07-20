@@ -29,7 +29,7 @@ const apiLinks = {
   post: {
     get: `${cmsApi}/api/Post`,
     getDetails: (id: string): string =>
-      `${cmsApi}/Part/${id}`,
+      `${cmsApi}/api/Part/${id}`,
     create: `${testApi}/api/Post`,
     update: `${testApi}/Post/`,
     delete: `${testApi}/Post/`,

@@ -79,7 +79,7 @@ const QuestionTemplatePage: React.FC = () => {
 
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(50);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { data } = useSelector((s) => s.risk.questionTemplateList);
   const getData = useCallback(() => {
@@ -131,15 +131,12 @@ const QuestionTemplatePage: React.FC = () => {
                       ? <IonButton className='btn done' onClick={() => handleReview(o?.id, 'ans-history')} >Đã thực hiện</IonButton>
                       : <IonButton className='btn' onClick={() => handleTest(o?.id, 'answer')}>Thực hiện ngay</IonButton>
                   }
-
                 </IonCard>
-
               </Card>
             </IonCol>
           </IonRow>
         ))
       }
-
       <div>
         <IonInfiniteScroll threshold="100px"
           onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
@@ -147,7 +144,7 @@ const QuestionTemplatePage: React.FC = () => {
             loadingSpinner="bubbles"
             loadingText="Loading more data..."
           >
-            {loading === true ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%' }}></IonSpinner> : null}
+            {loading ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%' }}></IonSpinner> : null}
           </IonInfiniteScrollContent>
         </IonInfiniteScroll>
       </div>

@@ -124,7 +124,7 @@ const PostListCard: React.FC = () => {
   const [pageSize, setPageSize] = useState<number>(50);
   const [tagId, setTagId] = useState<string>('');
   const [totalPostLoading, setTotalPostLoading] = useState<number>(5);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { data } = useSelector((s) => s.post.postList);
   const reverseArr = (arr: Post[]) => {
@@ -167,11 +167,8 @@ const PostListCard: React.FC = () => {
     }));
   }, [pageIndex, pageSize, dispatch]);
 
-
   async function fetchData() {
-
     setTimeout(() => { setTotalPostLoading(totalPostLoading + 5); setLoading(false) }, 500);
-
   }
   const handleFilterTag = (id: string): void => {
     if (id) {
@@ -271,7 +268,7 @@ const PostListCard: React.FC = () => {
             loadingSpinner="bubbles"
             loadingText="Loading more data..."
           >
-            {loading === true ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%' }}></IonSpinner> : null}
+            {loading ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%' }}></IonSpinner> : null}
           </IonInfiniteScrollContent>
         </IonInfiniteScroll>
       </div>

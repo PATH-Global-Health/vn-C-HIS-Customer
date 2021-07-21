@@ -28,7 +28,7 @@ const Facebook: React.FC = () => {
     try {
       const { accessToken } = response;
       await loginWithFacebook(accessToken);
-      history.push('/home');
+      history.push('/shome');
     } catch (error) {
     }
   };

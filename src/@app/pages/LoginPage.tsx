@@ -136,7 +136,7 @@ const LoginPage: React.FC = () => {
       const { username, password } = data;
       await login(username, password, remember, permissionQuery);
       setShowSuccessToast(true);
-      setTimeout(() => history.push('/home'), 1500);
+      setTimeout(() => history.push('/shome'), 1500);
     } catch (error) {
       setShowFailedToast(true);
     }

@@ -129,8 +129,14 @@ const ExaminationList: React.FC = () => {
               {examinationListSearch.map((e) =>
                 <div className={styles.styledCardDiv}>
                   <IonCard
-                    onClick={() => { history.push({ pathname: '/apointmentInfo', state: e.id }) }}
-                    className={cx('styledCardAids', { 'styledCardBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229" })}
+                    onClick={() => {
+                      moment(e.date).format("DD-MM-YYYY") < moment(new Date()).format("DD-MM-YYYY") ? console.log("") :
+                        history.push({ pathname: '/apointmentInfo', state: e.id })
+                    }}
+                    className={cx('styledCardAids', {
+                      'styledCardBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229",
+                      'styledCardExpired': moment(e.date).format("DD-MM-YYYY") < moment(new Date()).format("DD-MM-YYYY")
+                    })}
                   >
                     <div
                       className={cx('styledDivIconBlood', { 'styledDivIconAids': e.service.id !== "f2490f62-1d28-4edd-362a-08d8a7232229" })}
@@ -156,7 +162,13 @@ const ExaminationList: React.FC = () => {
                     </IonCardContent>
 
                   </IonCard>
-                  <button onClick={() => { setShowModal(true); setCancelExamId(e.id) }} className={styles.btnCancelCard}>{t('Cancel appointment')}</button>
+                  {moment(e.date).format("DD-MM-YYYY") < moment(new Date()).format("DD-MM-YYYY") ? "" :
+                    <button onClick={() => {
+                      moment(e.date).format("DD-MM-YYYY") === '23-07-2021' ? console.log("") :
+                        setShowModal(true);
+                      setCancelExamId(e.id)
+                    }} className={styles.btnCancelCard}>{t('Cancel appointment')}</button>}
+
                 </div>
               )}
 
@@ -167,8 +179,14 @@ const ExaminationList: React.FC = () => {
                   {examinationListSuccess.map((e) =>
                     <div className={styles.styledCardDiv}>
                       <IonCard
-                        onClick={() => { history.push({ pathname: '/apointmentInfo', state: e.id }) }}
-                        className={cx('styledCardAids', { 'styledCardBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229" })}
+                        onClick={() => {
+                          moment(e.date).format("DD-MM-YYYY") < moment(new Date()).format("DD-MM-YYYY") ? console.log("") :
+                            history.push({ pathname: '/apointmentInfo', state: e.id })
+                        }}
+                        className={cx('styledCardAids', {
+                          'styledCardBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229",
+                          'styledCardExpired': moment(e.date).format("DD-MM-YYYY") < moment(new Date()).format("DD-MM-YYYY")
+                        })}
                       >
                         <div
                           className={cx('styledDivIconBlood', { 'styledDivIconAids': e.service.id !== "f2490f62-1d28-4edd-362a-08d8a7232229" })}
@@ -194,7 +212,13 @@ const ExaminationList: React.FC = () => {
                         </IonCardContent>
 
                       </IonCard>
-                      <button onClick={() => { setShowModal(true); setCancelExamId(e.id) }} className={styles.btnCancelCard}>{t('Cancel appointment')}</button>
+                      {moment(e.date).format("DD-MM-YYYY") < moment(new Date()).format("DD-MM-YYYY") ? "" :
+                        <button onClick={() => {
+                          moment(e.date).format("DD-MM-YYYY") === '23-07-2021' ? console.log("") :
+                            setShowModal(true);
+                          setCancelExamId(e.id)
+                        }} className={styles.btnCancelCard}>{t('Cancel appointment')}</button>}
+
                     </div>
                   )}
                 </div> :

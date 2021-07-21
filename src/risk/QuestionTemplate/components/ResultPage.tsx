@@ -43,7 +43,7 @@ const StyledButton = styled(IonButton)`
 `
 
 const ResultPage: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { handleRisk: { data } } = useSelector((state) => state.risk);
 
@@ -66,7 +66,7 @@ const ResultPage: React.FC = () => {
       <IonRow className="ion-justify-content-center">
         <IonCol size="12" size-sm='3'>
           <div style={{ textAlign: 'center', marginTop: '10px' }}>
-            <StyledButton onClick={() => dispatch(setHandeRisk({ type: undefined }))}>Tiếp tục</StyledButton>
+            <StyledButton onClick={() => dispatch(setHandeRisk({ type: undefined }))}>{t('Continue')}</StyledButton>
           </div>
         </IonCol>
       </IonRow>

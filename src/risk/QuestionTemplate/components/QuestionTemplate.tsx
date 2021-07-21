@@ -74,7 +74,7 @@ const Card = styled(IonRow)`
 `;
 
 const QuestionTemplatePage: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const userId = useSelector(s => s.auth.token?.userId);
 
   const [pageIndex, setPageIndex] = useState<number>(1);
@@ -128,8 +128,8 @@ const QuestionTemplatePage: React.FC = () => {
                   </IonCardHeader>
                   {
                     o?.isCompleted
-                      ? <IonButton className='btn done' onClick={() => handleReview(o?.id, 'ans-history')} >Đã thực hiện</IonButton>
-                      : <IonButton className='btn' onClick={() => handleTest(o?.id, 'answer')}>Thực hiện ngay</IonButton>
+                      ? <IonButton className='btn done' onClick={() => handleReview(o?.id, 'ans-history')} >{t('Accomplished')}</IonButton>
+                      : <IonButton className='btn' onClick={() => handleTest(o?.id, 'answer')}>{t('Done now')}</IonButton>
                   }
                 </IonCard>
               </Card>

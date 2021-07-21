@@ -40,9 +40,9 @@ const ConfirmProfile: React.FC = () => {
     const [address, setAddress] = useState<string>(userInfo.address);
     const [dateOfBirth, setDateOfBirth] = useState<string>(userInfo.dateOfBirth);
     const [gender, setGender] = useState<boolean>(userInfo.gender);
-    const [city, setCity] = useState<string>(userInfo.province);
-    const [districts, setDistricts] = useState<string>(userInfo.district);
-    const [wards, setWards] = useState<string>(userInfo.ward);
+    const [city, setCity] = useState(userInfo.province);
+    const [districts, setDistricts] = useState(userInfo.district);
+    const [wards, setWards] = useState(userInfo.ward);
     const { t } = useTranslation();
     const serviceId = useSelector((w) => w.workingCaledar.serviceId);
     const userProfile = {
@@ -244,7 +244,7 @@ const ConfirmProfile: React.FC = () => {
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel className={styles.styledLabel} position="stacked">{t('District')}</IonLabel>
-                                        {city === "" || city === undefined ? "" :
+                                        {city === null || city === undefined ? "" :
                                             <IonSelect
                                                 value={districts}
                                                 onIonChange={e => {
@@ -260,7 +260,7 @@ const ConfirmProfile: React.FC = () => {
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel className={styles.styledLabel} position="stacked">{t('Ward')}</IonLabel>
-                                        {districts === "" ? "" :
+                                        {districts === null ? "" :
                                             <IonSelect value={wards}
                                                 onIonChange={e => setWards(e.detail.value)}>
                                                 {location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0] !== undefined ?

@@ -43,7 +43,7 @@ const StyledButton = styled(IonButton)`
 `
 
 const QuestionForm: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { control, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const detailData = useSelector((s) => s.risk.questionTemplateDetail);
@@ -115,7 +115,7 @@ const QuestionForm: React.FC = () => {
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
-              <StyledButton type='submit'>xem kết quả</StyledButton>
+              <StyledButton type='submit'>{t('View results')}</StyledButton>
             </div>
           </IonCol>
         </IonRow>

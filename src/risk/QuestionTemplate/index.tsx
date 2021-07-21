@@ -9,6 +9,7 @@ import { setHandeRisk } from './question-template.slice';
 import ResultPage from './components/ResultPage';
 import QuestionTemplatePage from './components/QuestionTemplate';
 import AnsHistory from './components/AnsHistory';
+import { useTranslation } from 'react-i18next';
 
 const Header = styled.div`
     & .header{
@@ -26,6 +27,7 @@ const RiskPage: React.FC = () => {
   const { handleRisk: { type } } = useSelector((state) => state.risk);
   const history = useHistory();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const back = () => {
     if (type === undefined) {
       history.push('/home')
@@ -43,9 +45,9 @@ const RiskPage: React.FC = () => {
             <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
             <IonTitle className="title">
               {
-                type === undefined ? 'Tìm Hiểu Nguy Cơ'
-                  : type === 'answer' ? 'Trả lời Biểu Mẫu'
-                    : type === 'ans-history' ? 'Lịch sử trả lời' : 'Kết Quả'
+                type === undefined ? t('Learn the risk')
+                  : type === 'answer' ? t('Reply form')
+                    : type === 'ans-history' ? t('Reply history') : t('Result')
               }
             </IonTitle>
           </IonItem>

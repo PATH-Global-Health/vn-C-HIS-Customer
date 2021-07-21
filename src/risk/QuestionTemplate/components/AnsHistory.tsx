@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { setHandeRisk } from '../question-template.slice';
 import surveySessionService from 'risk/SurveySession/survey-session.service';
 
+
 const WrapperQuestion = styled.div`
     ion-label{
       --color: black !important;
@@ -43,7 +44,7 @@ const StyledButton = styled(IonButton)`
 `
 
 const AnsHistory: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { control, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const { surveySession } = useSelector((s) => s.surveySession);
@@ -115,7 +116,7 @@ const AnsHistory: React.FC = () => {
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
-              <StyledButton type='submit'>xem lại kết quả</StyledButton>
+              <StyledButton type='submit'>{t('Review the results')}</StyledButton>
             </div>
           </IonCol>
         </IonRow>

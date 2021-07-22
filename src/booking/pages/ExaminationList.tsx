@@ -31,6 +31,7 @@ import classNames from 'classnames/bind';
 import { deburr } from '../../@app/utils/helpers';
 import examinationService from '../services/examinations';
 import styled from 'styled-components';
+import { Rating } from 'react-simple-star-rating';
 const StyleModal = styled(IonModal)`
     {
       padding: 65% 15%;
@@ -55,6 +56,7 @@ const ExaminationList: React.FC = () => {
   const examinationListFinished = examinationList.data.filter(e => e.status === 2);
   const examinationListSearch = examinationListSuccess.filter(e => deburr(e.service.name + e.unit.name + e.unit.address + e.date + e.interval.from).includes(deburr(nameSearch)));
   const [cancelExamId, setCancelExamId] = useState("");
+  const [rating, setRating] = useState(0);
 
   useEffect(() => {
     dispatch(getExaminationList());
@@ -130,12 +132,12 @@ const ExaminationList: React.FC = () => {
                 <div className={styles.styledCardDiv}>
                   <IonCard
                     onClick={() => {
-                      moment(e.date).format("DD-MM-YYYY") < moment(new Date()).format("DD-MM-YYYY") ? console.log("") :
+                      moment(moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from).format("YYYY-MM-DD HH:mm") < moment(new Date()).format("YYYY-MM-DD HH:mm") ? console.log("") :
                         history.push({ pathname: '/apointmentInfo', state: e.id })
                     }}
                     className={cx('styledCardAids', {
                       'styledCardBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229",
-                      'styledCardExpired': moment(e.date).format("DD-MM-YYYY") < moment(new Date()).format("DD-MM-YYYY")
+                      'styledCardExpired': moment(moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from).format("YYYY-MM-DD HH:mm") < moment(new Date()).format("YYYY-MM-DD HH:mm")
                     })}
                   >
                     <div
@@ -180,12 +182,12 @@ const ExaminationList: React.FC = () => {
                     <div className={styles.styledCardDiv}>
                       <IonCard
                         onClick={() => {
-                          moment(e.date).format("DD-MM-YYYY") < moment(new Date()).format("DD-MM-YYYY") ? console.log("") :
+                          moment(moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from).format("YYYY-MM-DD HH:mm") < moment(new Date()).format("YYYY-MM-DD HH:mm") ? console.log("") :
                             history.push({ pathname: '/apointmentInfo', state: e.id })
                         }}
                         className={cx('styledCardAids', {
                           'styledCardBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229",
-                          'styledCardExpired': moment(e.date).format("DD-MM-YYYY") < moment(new Date()).format("DD-MM-YYYY")
+                          'styledCardExpired': moment(moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from).format("YYYY-MM-DD HH:mm") < moment(new Date()).format("YYYY-MM-DD HH:mm")
                         })}
                       >
                         <div
@@ -209,13 +211,14 @@ const ExaminationList: React.FC = () => {
                         >
                           <p>{e.unit.name}</p>
                           <p>{e.unit.address}</p>
+
                         </IonCardContent>
 
                       </IonCard>
-                      {moment(e.date).format("DD-MM-YYYY") < moment(new Date()).format("DD-MM-YYYY") ? "" :
+                      {moment(moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from).format("YYYY-MM-DD HH:mm") < moment(new Date()).format("YYYY-MM-DD HH:mm") ? "" :
                         <button onClick={() => {
-                          moment(e.date).format("DD-MM-YYYY") === '23-07-2021' ? console.log("") :
-                            setShowModal(true);
+                          // moment(e.date).format("DD-MM-YYYY") === '23-07-2021' ? console.log("") :
+                          setShowModal(true);
                           setCancelExamId(e.id)
                         }} className={styles.btnCancelCard}>{t('Cancel appointment')}</button>}
 
@@ -235,11 +238,15 @@ const ExaminationList: React.FC = () => {
                       <IonCardContent className={styles.styledCardContent}>
                         <p>{e.unit.name}</p>
                         <p>{e.unit.address}</p>
+                        {e.rate !== 'string' ?
+                          <Rating onClick={(rate) => setRating(rate)} ratingValue={parseInt(e.rate)} /> : ""
+                        }
                       </IonCardContent>
-                      <button
-                        onClick={() => { history.push({ pathname: '/evaluate', state: e.id }) }}
-                        className={styles.btnEvaluate}>{t('Evaluate')}
-                      </button>
+                      {e.rate === 'string' ?
+                        <button
+                          onClick={() => { history.push({ pathname: '/evaluate', state: e.id }) }}
+                          className={styles.btnEvaluate}>{t('Evaluate')}
+                        </button> : ""}
                     </IonCard>
                   )}
                 </div>

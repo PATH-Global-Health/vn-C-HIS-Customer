@@ -161,5 +161,7 @@
     "Update profile successfully": "Cập nhật thành công",
     "Update profile failed": "Cập nhật thất bại",
     "User name": "Tên người dùng",
-    "Close Modal": "Đóng"
+    "Close Modal": "Đóng",
+    "Interval has expired": "Thời gian đã hết hạn",
+    "Note": "Ghi chú"
 }

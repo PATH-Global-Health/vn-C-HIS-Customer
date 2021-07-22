@@ -167,7 +167,7 @@ const Home: React.FC = () => {
     window.location.reload();
   }
   const handleTypeService = (name: string) => {
-    name === "booking" ? history.push("/homeBooking")
+    name === "booking" ? history.push("/shomeBooking")
       : name === "examinationList" ? history.push("/examinationList")
         : RedirectRiskPage();
 

@@ -116,6 +116,7 @@ const ApointmentDate: React.FC = () => {
                                         && new Date(wor.date).getMonth() === new Date(date).getMonth()
                                     )
                                     dispatch(getWorkingCalendarBooking(w[0]));
+                                    dispatch(getDateBooking(date));
                                     getInterval();
                                     history.push("/choosingTime");
                                 }

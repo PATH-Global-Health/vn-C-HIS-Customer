@@ -29,7 +29,7 @@ const AppRouter: React.FC = () => {
             ))}
           </IonRouterOutlet>
           <IonTabBar style={appMenu ? { '--border': '1px solid #b4b4b4' } : { '--border': '1px solid #b4b4b4', 'display': 'none' }} slot="bottom">
-            <IonTabButton tab="home" href="/shome">
+            <IonTabButton tab="home" href="/home">
               <IonIcon icon={home} />
               <IonLabel>{t('Home')}</IonLabel>
             </IonTabButton>

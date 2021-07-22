@@ -8,7 +8,7 @@ const AuthPage: React.FC = () => {
 
   useEffect(() => {
     if (history) {
-      history.push(isAuthenticated() ? '/shome' : '/login');
+      history.push(isAuthenticated() ? '/home' : '/login');
     }
   }, [history]);
 

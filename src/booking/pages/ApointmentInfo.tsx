@@ -89,13 +89,14 @@ const ApointmentInfo: React.FC = () => {
                                     <IonIcon className={styles.styledIconModal} icon={checkmark}></IonIcon>
                                 </div>
                                 <div style={{ textAlign: 'center' }}>
-                                    <p>{t('Đặt lịch thành công')}</p>
+                                    <p>{t('Appointment successful')}</p>
                                 </div>
                                 <div className={styles.styledDivModalS}>
 
                                     <p onClick={() => setShowModalBooking(false)} className={styles.styledLabelModal}>{t('Cancel')}</p>
                                 </div>
-                            </StyleModal> : ""
+                            </StyleModal>
+                            : ""
                         }
                         {examinationSuccess === true || history.location.state !== undefined ?
                             <>
@@ -106,25 +107,25 @@ const ApointmentInfo: React.FC = () => {
                                     <IonList>
                                         <IonItem>
                                             <IonLabel className={styles.styledLabel} position="stacked">{t('Service name')}</IonLabel>
-                                            <IonInput value={bookingModel.data.service.name}> </IonInput>
+                                            <IonInput readonly value={bookingModel.data.service.name}> </IonInput>
                                         </IonItem>
                                         <IonItem>
                                             <IonLabel className={styles.styledLabel} position="stacked">{t('Appointment date')}</IonLabel>
-                                            <IonInput className={styles.styledInput} value={moment(bookingModel.data.date).format('DD/MM/YYYY')}>
+                                            <IonInput readonly className={styles.styledInput} value={moment(bookingModel.data.date).format('DD/MM/YYYY')}>
                                                 <IonIcon className={styles.styledIconInput} icon={calendarOutline}></IonIcon>
                                                 {/* {moment(bookingModel.data.date).format('DD/MM/YYYY')} */}
                                             </IonInput>
                                         </IonItem>
                                         <IonItem>
                                             <IonLabel className={styles.styledLabel} position="stacked">{t('Appointment time')}</IonLabel>
-                                            <IonInput className={styles.styledInput} value={bookingModel.data.interval.from}>
+                                            <IonInput readonly className={styles.styledInput} value={bookingModel.data.interval.from}>
                                                 <IonIcon className={styles.styledIconInput} icon={timeOutline}></IonIcon>
                                                 {/* {bookingModel.data.interval.from} */}
                                             </IonInput>
                                         </IonItem>
                                         <IonItem>
                                             <IonLabel className={styles.styledLabel} position="stacked">{t('Service Unit')}</IonLabel>
-                                            <IonInput className={styles.styledInput} value={bookingModel.data.unit.name}>
+                                            <IonInput readonly className={styles.styledInput} value={bookingModel.data.unit.name}>
                                                 <IonImg className={styles.img} src={`http://202.78.227.174:30111/api/Hospitals/Logo/${bookingModel.data.unit.id}`}></IonImg>
                                             </IonInput>
                                         </IonItem>

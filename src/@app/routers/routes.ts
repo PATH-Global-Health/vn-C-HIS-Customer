@@ -152,7 +152,7 @@ const routes: Route[] = [
   },
   {
     component: ApointmentInfo,
-    layout: AppLayout,
+    // layout: AppLayout,
     path: '/apointmentInfo'
   },
   {

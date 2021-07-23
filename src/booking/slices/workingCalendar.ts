@@ -59,6 +59,7 @@ const initialState: State = {
     },
     bookingModelResponse: {
         data: {
+            rate: "",
             status: 0,
             id: "",
             interval: {
@@ -123,6 +124,7 @@ const initialState: State = {
     }
     ,
     bookingModel: {
+        rate: "",
         status: 0,
         id: "",
         interval: {

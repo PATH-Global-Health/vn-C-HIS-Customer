@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  IonAlert,
   IonContent,
   IonHeader,
   IonIcon,
@@ -15,6 +16,7 @@ import { getInterBooking } from 'booking/slices/workingCalendar';
 import { useTranslation } from 'react-i18next';
 import styles from '../css/choosingTime.module.css';
 import classNames from 'classnames/bind';
+import moment from 'moment';
 
 
 const ChoosingTime: React.FC = () => {
@@ -26,13 +28,15 @@ const ChoosingTime: React.FC = () => {
   const [intervalSelected, setIntervalSelected] = useState<IntervalModel>();
   const w = useSelector((w) => w.workingCaledar.workingCalendar);
   const serviceId = useSelector((w) => w.workingCaledar.serviceId);
+  const dateBooking = useSelector((d) => d.dateBooking.dateBooking);
+  const [showAlert, setShowAlert] = useState(false);
   const { t, i18n } = useTranslation();
   let result = false;
   interval.map((interval) => {
     interval.intervals.map((item) => {
       if (item.isAvailable) result = true;
     });
-  })
+  });
 
   return (
     <>
@@ -53,11 +57,12 @@ const ChoosingTime: React.FC = () => {
                 if (intervalAvailable.length > 0) {
                   return (
                     <button className={cx('btnSelect', { 'btnSelected': !intervalAvailable.findIndex(i => i.id === intervalSelected?.id) })}
-                      onFocus={() => {
-                        setIntervalSelected(intervalAvailable[0])
-                      }}
                       onClick={() => {
-                        setIntervalSelected(intervalAvailable[0])
+                        const date = moment(dateBooking).format('YYYY-MM-DD');
+                        if (moment(date + " " + intervalAvailable[0].from).format('YYYY-MM-DD HH:mm') > moment(new Date()).format('YYYY-MM-DD HH:mm')) {
+
+                          setIntervalSelected(intervalAvailable[0]);
+                        }
                       }}
                     >
                       {interval.from}
@@ -69,10 +74,25 @@ const ChoosingTime: React.FC = () => {
               })}
             </IonContent>
             {Boolean(intervalSelected) === true ?
-              <button className={styles.styledButtonSubmit} onClick={() => {
-                dispatch(getInterBooking(intervalSelected))
-                history.push("/confirmProfile")
-              }}>{t('Confirm')}</button> : ""}
+              <button className={styles.styledButtonSubmit}
+                onClick={() => {
+                  const date = moment(dateBooking).format('YYYY-MM-DD');
+                  if (moment(date + " " + intervalSelected?.from).format('YYYY-MM-DD HH:mm') > moment(new Date()).format('YYYY-MM-DD HH:mm')) {
+                    dispatch(getInterBooking(intervalSelected));
+                    history.push("/confirmProfile");
+                  } else {
+                    setShowAlert(true);
+                  }
+                }}>{t('Confirm')}</button> : ""}
+
+            <IonAlert
+              isOpen={showAlert}
+              onDidDismiss={() => setShowAlert(false)}
+              cssClass='my-custom-class'
+              header={t('Note')}
+              message={t('Interval has expired')}
+              buttons={[t('Cancel')]}
+            />
           </IonPage>
       }
     </>

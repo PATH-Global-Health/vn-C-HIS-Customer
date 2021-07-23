@@ -5,6 +5,7 @@ export interface Interval {
     intervals: IntervalModel[],
     to: string,
     status: string,
+    rate: string;
 }
 
 

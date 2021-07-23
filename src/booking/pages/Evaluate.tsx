@@ -89,18 +89,19 @@ const Evaluate: React.FC = () => {
                 <IonLabel className={styles.styledLabelShare}>{t('Share more')}</IonLabel>
                 <IonInput onIonChange={(e) => setOpinion(e.detail.value!)} className={styles.styledInput} placeholder={t('Your opinion')}></IonInput>
 
-                <button
-                    className={styles.btnCustom}
-                    onClick={async () => {
-                        try {
-                            await examinationService.evaluateExamination(history.location.state + "", rating + "", selectedBtn, opinion);
-                            setShowModal(true);
-                        } catch (error) {
+                {Boolean(rating) === true ?
+                    <button
+                        className={styles.btnCustom}
+                        onClick={async () => {
+                            try {
+                                await examinationService.evaluateExamination(history.location.state + "", rating + "", selectedBtn, opinion);
+                                setShowModal(true);
+                            } catch (error) {
 
+                            }
                         }
-                    }
-                    }>{t('Submit a review')}
-                </button>
+                        }>{t('Submit a review')}
+                    </button> : "" }
             </IonContent>
         </IonPage >
     );

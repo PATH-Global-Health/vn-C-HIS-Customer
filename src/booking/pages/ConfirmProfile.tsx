@@ -217,9 +217,10 @@ const ConfirmProfile: React.FC = () => {
                                         <IonLabel className={styles.styledLabel} position="stacked">{t('Date of birth')}</IonLabel>
                                         <IonInput
                                             value={moment(dateOfBirth).format('YYYY-MM-DD') + ""}
+                                            max={moment(new Date()).format('YYYY-MM-DD')}
                                             required
                                             type="date"
-                                            onIonChange={(e) => { setDateOfBirth(e.detail.value!); console.log(dateOfBirth) }}
+                                            onIonChange={(e) => { setDateOfBirth(e.detail.value!); console.log(moment(new Date()).format('YYYY-MM-DD')) }}
                                         > </IonInput>
                                     </IonItem>
                                     <IonItem>
@@ -244,26 +245,29 @@ const ConfirmProfile: React.FC = () => {
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel className={styles.styledLabel} position="stacked">{t('District')}</IonLabel>
-                                        {city === null || city === undefined ? "" :
+                                        {districts === undefined ? "" :
                                             <IonSelect
                                                 value={districts}
                                                 onIonChange={e => {
                                                     setDistricts(e.detail.value);
                                                     setWards("");
                                                 }}>
-                                                {location.filter((lo) => lo.value === city)[0].districts.map((districts) => (
-                                                    <IonSelectOption value={districts.value}>{districts.label}</IonSelectOption>
-                                                ))}
+                                                {Boolean(location.find((lo) => lo.value === city)) === true ?
+                                                    location.filter((lo) => lo.value === city)[0].districts.map((districts) => (
+                                                        <IonSelectOption value={districts.value}>{districts.label}</IonSelectOption>
+                                                    )) : ""}
 
                                             </IonSelect>
                                         }
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel className={styles.styledLabel} position="stacked">{t('Ward')}</IonLabel>
-                                        {districts === null ? "" :
-                                            <IonSelect value={wards}
+                                        {districts === null || districts === undefined ? "" :
+                                            <IonSelect
+                                                value={wards}
                                                 onIonChange={e => setWards(e.detail.value)}>
-                                                {location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0] !== undefined ?
+                                                {Boolean(location.find((lo) => lo.value === city)) === true &&
+                                                    location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0] !== undefined ?
                                                     location.filter((lo) => lo.value === city)[0].districts.filter((dis) => dis.value === districts)[0].wards.map((ward) => (
                                                         <IonSelectOption value={ward.value}>{ward.label}</IonSelectOption>
                                                     )) : ""}
@@ -271,7 +275,10 @@ const ConfirmProfile: React.FC = () => {
                                         }
                                     </IonItem>
                                 </IonList>
-                                <button className={styles.styledButtonSubmit} disabled={!(Boolean(wards))} type="submit">{t('Make an appointment')}</button>
+                                <button
+                                    className={styles.styledButtonSubmit}
+                                    disabled={!(Boolean(wards)) || moment(new Date()).format('YYYY-MM-DD') === moment(dateOfBirth).format('YYYY-MM-DD')}
+                                    type="submit">{t('Make an appointment')}</button>
                             </form>
                         </IonContent>
                     </IonPage>

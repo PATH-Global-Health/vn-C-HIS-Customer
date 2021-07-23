@@ -116,7 +116,7 @@ const routes: Route[] = [
   {
     component: HomeBooking,
     layout: AppLayout,
-    path: '/homeBooking',
+    path: '/shomeBooking',
     isPrivate: true,
   },
   {
@@ -152,7 +152,7 @@ const routes: Route[] = [
   },
   {
     component: ApointmentInfo,
-    layout: AppLayout,
+    // layout: AppLayout,
     path: '/apointmentInfo'
   },
   {

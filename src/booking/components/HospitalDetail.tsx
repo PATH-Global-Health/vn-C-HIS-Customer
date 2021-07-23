@@ -63,35 +63,35 @@ const HospitalDetail: React.FC = () => {
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel className={styles.styledLabel} position="stacked">{t('Unit Name')}</IonLabel>
-                                        <IonInput value={hospital.name}> </IonInput>
+                                        <IonInput value={hospital.name} readonly> </IonInput>
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel className={styles.styledLabel} position="stacked">{t('City')}</IonLabel>
-                                        <IonInput value={location.find(item => item.value === hospital.province)?.label}> </IonInput>
+                                        <IonInput readonly value={location.find(item => item.value === hospital.province)?.label}> </IonInput>
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel className={styles.styledLabel} position="stacked">{t('District')}</IonLabel>
-                                        <IonInput value={location.find(item => item.value === hospital.province)?.districts.find(di => di.value === hospital.district)?.label}> </IonInput>
+                                        <IonInput readonly value={location.find(item => item.value === hospital.province)?.districts.find(di => di.value === hospital.district)?.label}> </IonInput>
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel className={styles.styledLabel} position="stacked">{t('Ward')}</IonLabel>
-                                        <IonInput value={location.find(item => item.value === hospital.province)?.districts.find(di => di.value === hospital.district)?.wards.find(w => w.value === hospital.ward)?.label}> </IonInput>
+                                        <IonInput readonly value={location.find(item => item.value === hospital.province)?.districts.find(di => di.value === hospital.district)?.wards.find(w => w.value === hospital.ward)?.label}> </IonInput>
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel className={styles.styledLabel} position="stacked">{t('Address')}</IonLabel>
-                                        <IonInput value={hospital.address}> </IonInput>
+                                        <IonInput readonly value={hospital.address}> </IonInput>
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel className={styles.styledLabel} position="stacked">{t('Email')}</IonLabel>
-                                        <IonInput value={hospital.email}> </IonInput>
+                                        <IonInput readonly value={hospital.email}> </IonInput>
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel className={styles.styledLabel} position="stacked">{t('Website')}</IonLabel>
-                                        <IonInput value={hospital.website}> </IonInput>
+                                        <IonInput readonly value={hospital.website}> </IonInput>
                                     </IonItem>
                                     <IonItem>
                                         <IonLabel className={styles.styledLabel} position="stacked">{t('PhoneNumber')}</IonLabel>
-                                        <IonInput value={hospital.phone}> </IonInput>
+                                        <IonInput readonly value={hospital.phone}> </IonInput>
                                     </IonItem>
                                 </IonList>
 

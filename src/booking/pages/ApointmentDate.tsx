@@ -37,7 +37,7 @@ const ApointmentDate: React.FC = () => {
                 && new Date(d.date).getMonth() === new Date(date).getMonth()
                 && new Date(d.date).getFullYear() === new Date(date).getFullYear()
             ) {
-                console.log(d.id);
+                // console.log(d.id);
                 dispatch(getIntervals(d.id));
             }
         }
@@ -91,7 +91,7 @@ const ApointmentDate: React.FC = () => {
                                     onDayClick={(day) => {
                                         if (workingCalendars.map(ad => moment(ad.date).format('YYYY-MM-DD')).includes(moment(day).format('YYYY-MM-DD'))) {
                                             setDate(day + "");
-                                            console.log(day)
+                                            // console.log(day)
                                         } else {
                                             setDate('none');
                                         }
@@ -116,6 +116,7 @@ const ApointmentDate: React.FC = () => {
                                         && new Date(wor.date).getMonth() === new Date(date).getMonth()
                                     )
                                     dispatch(getWorkingCalendarBooking(w[0]));
+                                    dispatch(getDateBooking(date));
                                     getInterval();
                                     history.push("/choosingTime");
                                 }

@@ -238,11 +238,11 @@ const ExaminationList: React.FC = () => {
                       <IonCardContent className={styles.styledCardContent}>
                         <p>{e.unit.name}</p>
                         <p>{e.unit.address}</p>
-                        {e.rate !== 'string' ?
+                        {e.rate !== 'string' && e.rate !== null ?
                           <Rating onClick={(rate) => setRating(rate)} ratingValue={parseInt(e.rate)} /> : ""
                         }
                       </IonCardContent>
-                      {e.rate === 'string' ?
+                      {e.rate === 'string' || e.rate === null ?
                         <button
                           onClick={() => { history.push({ pathname: '/evaluate', state: e.id }) }}
                           className={styles.btnEvaluate}>{t('Evaluate')}

@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import {
+  IonAlert,
   IonAvatar,
   IonButton,
   IonCol,
@@ -70,6 +71,7 @@ const Account: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { logout } = useAuth();
+  const [showAlert, setShowAlert] = useState(false);
   const { profile } = useSelector((s) => s.profile);
 
   const optionFields: OptionProps[] = [
@@ -202,19 +204,48 @@ const Account: React.FC = () => {
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
               <StyledSocialButton
                 type='submit'
-                onClick={(): void => {
-                  logout();
-                  setTimeout(() => {
-                    history.push('/');
-                    window.location.reload();
-                  }, 0);
-                }} >
+                onClick={() => setShowAlert(true)}
+              /*  onClick={(): void => {
+                 logout();
+                 setTimeout(() => {
+                   history.push('/');
+                   window.location.reload();
+                 }, 0);
+               }}  */
+              >
                 <IonIcon icon={logOutOutline} style={{ marginRight: '20px' }} ></IonIcon>
                 {t('Logout')}
               </StyledSocialButton>
             </div>
           </IonCol>
         </IonRow>
+        <IonAlert
+          isOpen={showAlert}
+          onDidDismiss={() => setShowAlert(false)}
+          cssClass='my-custom-class'
+          header={t('Confirm!')}
+          message={t('Are you sure you want to sign out?')}
+          buttons={[
+            {
+              text: t('Cancel'),
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: () => {
+                setShowAlert(false);
+              }
+            },
+            {
+              text: t('Agree'),
+              handler: () => {
+                logout();
+                setTimeout(() => {
+                  history.push('/');
+                  window.location.reload();
+                }, 0);
+              }
+            }
+          ]}
+        />
       </IonContent>
     </>
   );

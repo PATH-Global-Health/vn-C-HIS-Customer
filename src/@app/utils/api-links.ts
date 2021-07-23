@@ -26,6 +26,13 @@ const apiLinks = {
     generateOTP: `${userUrl}/api/Users/ResetPassword/GenerateOTP`,
     confirmOTP: `${userUrl}/api/Users/ResetPassword/ConfirmOTP`,
   },
+  securitySetting: {
+    getQuestions: `${userUrl}/api/SecurityQuestion`,
+    getDetails: (id: string): string =>
+      `${userUrl}/api/SecurityQuestion/${id}`,
+    update: `${userUrl}/api/Users/ChangeSecurityQuestionAnswer`,
+    confirmSecurity: `${userUrl}/api/Users/ResetPassword/ConfirmSecurityQuestion`,
+  },
   post: {
     get: `${cmsApi}/api/Post`,
     getDetails: (id: string): string =>

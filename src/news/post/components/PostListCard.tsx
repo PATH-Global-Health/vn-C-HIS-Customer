@@ -239,7 +239,6 @@ const PostListCard: React.FC = () => {
                   </Card>
                 </IonCol>
               </IonRow>
-
               :
               <IonRow className='ion-justify-content-center'>
                 <IonCol size="12" size-sm='4' size-lg='3'>

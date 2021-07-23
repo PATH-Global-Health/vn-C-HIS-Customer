@@ -68,7 +68,7 @@ interface ChangePasswordModal {
 }
 
 
-const ChangePasswordPage: React.FC = () => {
+const UpdateProfile: React.FC = () => {
   const { t, i18n } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -374,4 +374,4 @@ const ChangePasswordPage: React.FC = () => {
   );
 };
 
-export default ChangePasswordPage;
+export default UpdateProfile;

@@ -6,6 +6,7 @@ import post from 'news/post/post.slice';
 import risk from 'risk/QuestionTemplate/question-template.slice';
 import surveySession from 'risk/SurveySession/survey-session.slice';
 import profile from 'account/profile/profile.slice';
+import securityQuestion from 'account/security-question/security-question.slice';
 import { unitType } from '../../booking/slices';
 import { hospital } from '../../booking/slices';
 import { dateBooking } from '../../booking/slices';
@@ -22,4 +23,5 @@ export default {
   risk,
   surveySession,
   profile,
+  securityQuestion
 };

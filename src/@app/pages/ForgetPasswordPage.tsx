@@ -22,11 +22,11 @@ import MethodCard, { MethodField } from '@app/components/forgot-password/method/
 import MessageMethod from '@app/components/forgot-password/method/MessageMethod';
 import { useDispatch, useSelector } from '@app/hooks';
 import { setDataForgotPassword } from '@app/slices/auth';
-import BirthdayMethod from '@app/components/forgot-password/method/BirthdayMethod';
 import CreatePassword from '@app/components/forgot-password/create-password/CreatePassword';
 import MailMethod from '@app/components/forgot-password/method/MailMethod';
 import ConfirmOTP from '@app/components/forgot-password/create-password/ConfirmOTP';
 import { useTranslation } from 'react-i18next';
+import SecurityQuestionMehod from '@app/components/forgot-password/method/SecurityQuestionMethod';
 const StyledText = styled.div`
   color: black;
   text-align: center;
@@ -55,13 +55,13 @@ const ForgetPassword: React.FC = () => {
       label: 'GMAIL',
       content: '',
     },
-    /*  {
-       name: 'question',
-       icon: informationCircleOutline,
-       color: 'rgb(91 153 255)',
-       label: t('Security question'),
-       content: t('Date of birth'),
-     }, */
+    {
+      name: 'question',
+      icon: informationCircleOutline,
+      color: 'rgb(91 153 255)',
+      label: t('Select security question'),
+      content: t('Date of birth'),
+    },
   ];
   const back = () => {
     if (method === undefined) {
@@ -90,7 +90,7 @@ const ForgetPassword: React.FC = () => {
           <MethodCard methods={methodField} />
         </div>
       )}
-      {(method === 'question' && <BirthdayMethod />)}
+      {(method === 'question' && <SecurityQuestionMehod />)}
       {(method === 'message' && <MessageMethod />)}
       {(method === 'mail' && <MailMethod />)}
       {(method === 'confirmed' && <CreatePassword />)}

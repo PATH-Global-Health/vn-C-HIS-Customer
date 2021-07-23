@@ -85,7 +85,7 @@ const UpdateProfile: React.FC = () => {
     {
       name: "fullname",
       fieldType: "input",
-      type: "number",
+      type: "text",
       label: t('Full name'),
       placeholder: t('Full name'),
     },

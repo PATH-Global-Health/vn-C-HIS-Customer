@@ -151,7 +151,7 @@ const CreateModal: React.FC = () => {
                   <IonItem color='light'>
                     <StyledSelect
                       onIonBlur={() => {
-                        trigger('id')
+                        trigger('question')
                       }}
                       onIonChange={onChange}
                     >

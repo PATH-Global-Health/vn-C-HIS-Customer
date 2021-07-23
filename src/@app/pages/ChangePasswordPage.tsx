@@ -40,6 +40,7 @@ const ErrorText = styled(IonText)`
    font-size: 15px;
 `;
 
+
 interface InputProps {
   name: string;
   fieldType: string;
@@ -99,7 +100,7 @@ const ChangePasswordPage: React.FC = () => {
         const params = { oldPassword: oldPassword, newPassword: newPassword };
         await authService.changePassword(params);
         setShowSuccessToast(true);
-        setTimeout(() => history.push('/login'), 1500);
+        setTimeout(() => history.push('/login'), 2000);
       }
     } catch (error) {
       setShowFailedToast(true);
@@ -110,21 +111,21 @@ const ChangePasswordPage: React.FC = () => {
       'oldPassword',
       {
         required: { value: true, message: t('Password not entered') },
-        minLength: { value: 6, message: t('password minimum length 5 characters') },
+        minLength: { value: 8, message: t('Password minimum 8 characters') },
       }
     );
     register(
       'newPassword',
       {
         required: { value: true, message: t('Password not entered') },
-        minLength: { value: 6, message: t('password minimum length 5 characters') },
+        minLength: { value: 8, message: t('Password minimum 8 characters') },
       }
     );
     register(
       'confirmNewPassword',
       {
         required: { value: true, message: t('Password not entered') },
-        minLength: { value: 6, message: t('password minimum length 5 characters') },
+        minLength: { value: 8, message: t('Password minimum 8 characters') },
       }
     );
   }, [register]);

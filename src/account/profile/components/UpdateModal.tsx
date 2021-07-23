@@ -73,7 +73,7 @@ const ChangePasswordPage: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { profile: data } = useSelector((s) => s.profile);
-  const { control, handleSubmit, register, formState: { errors }, trigger, reset, watch } = useForm();
+  const { control, handleSubmit, register, formState: { errors }, trigger, reset, watch, setValue } = useForm();
   const [oldPasswordVisible, setOldPasswordVisible] = useState(false);
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
   const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] = useState(false);
@@ -85,7 +85,7 @@ const ChangePasswordPage: React.FC = () => {
     {
       name: "fullname",
       fieldType: "input",
-      type: "text",
+      type: "number",
       label: t('Full name'),
       placeholder: t('Full name'),
     },
@@ -113,14 +113,14 @@ const ChangePasswordPage: React.FC = () => {
     {
       name: "email",
       fieldType: "input",
-      type: "text",
+      type: "email",
       label: t('Email'),
       placeholder: t('Email'),
     },
     {
       name: "identityCard",
       fieldType: "input",
-      type: "text",
+      type: "number",
       label: t('Identity card'),
       placeholder: t('Identity card'),
     },
@@ -155,7 +155,7 @@ const ChangePasswordPage: React.FC = () => {
     {
       name: "passportNumber",
       fieldType: "input",
-      type: "text",
+      type: "number",
       label: t('Passport number'),
       placeholder: t('Passport number'),
     },
@@ -183,7 +183,16 @@ const ChangePasswordPage: React.FC = () => {
     register('gender', { required: { value: true, message: t('gender not enterd') } });
     register('dateOfBirth', { required: { value: true, message: t('date of birth not enterd') } });
     register('phoneNumber', { required: { value: true, message: t('phone number not enterd') } });
-    register('email', { required: { value: true, message: t('email not enterd') } });
+    register('email', {
+      required: {
+        value: true,
+        message: t('email not enterd')
+      },
+      pattern: {
+        value: /\S+@\S+\.\S+/,
+        message: t("Entered value does not match email format")
+      }
+    });
     register('identityCard', { required: { value: true, message: t('identity card not enterd') } });
     register('address', { required: { value: true, message: t('address not enterd') } });
     register('nation', { required: { value: true, message: t('nation name not enterd') } });
@@ -230,7 +239,6 @@ const ChangePasswordPage: React.FC = () => {
                   <Controller
                     key={name}
                     name={name}
-                    defaultValue={''}
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                       <IonRow >
@@ -243,7 +251,7 @@ const ChangePasswordPage: React.FC = () => {
                               onIonBlur={() => {
                                 trigger(name);
                               }}
-                              value={watch(name) || ''}
+                              value={watch(name) || undefined}
                               onIonChange={onChange}
                               {...otherProps}
                             >
@@ -309,7 +317,8 @@ const ChangePasswordPage: React.FC = () => {
                               pickerFormat="DDDDD MMMM YYYY"
                               placeholder={t('day/month/year')}
                               displayFormat="MM/DD/YYYY"
-                              min="1994-03-14"
+                              min="1900-01-01"
+                              max={moment().format('YYYY-MM-DD')}
                               onIonBlur={onBlur}
                               value={watch(name) || moment().format('MM/DD/YYYY')}
                               onIonChange={onChange}

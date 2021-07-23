@@ -154,7 +154,7 @@ const LoginPage: React.FC = () => {
       'password',
       {
         required: { value: true, message: t('Password not entered') },
-        minLength: { value: 5, message: t('Password minimum 5 characters') },
+        minLength: { value: 8, message: t('Password minimum 8 characters') },
       }
     );
   }, [register]);

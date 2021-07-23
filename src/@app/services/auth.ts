@@ -44,13 +44,11 @@ const loginWithGoogle = async ({
 const createAccount = async ({
   userName,
   password,
-  email,
   phoneNumber,
   fullName
 }: {
   userName: string;
   password: string;
-  email: string;
   phoneNumber: string;
   fullName: string;
 }): Promise<void> => {
@@ -59,7 +57,6 @@ const createAccount = async ({
     data: {
       userName,
       password,
-      email,
       phoneNumber,
       fullName
     },

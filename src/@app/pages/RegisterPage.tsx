@@ -70,7 +70,6 @@ interface InputProps {
 interface RegisterModal {
   username: string;
   password: string;
-  email: string;
   phoneNumber: string;
   fullName: string;
 }
@@ -96,14 +95,6 @@ const RegisterPage: React.FC = () => {
       placeholder: t('PhoneNumber'),
     },
     {
-      name: "email",
-      fieldType: "input",
-      label: t('Email'),
-      type: 'text',
-      icon: mailOutline,
-      placeholder: t('Email'),
-    },
-    {
       name: "password",
       fieldType: "input",
       type: "password",
@@ -112,13 +103,14 @@ const RegisterPage: React.FC = () => {
       placeholder: t('Password'),
     },
   ];
-  const { control, handleSubmit, register, formState: { errors }, trigger } = useForm();
+  const { control, handleSubmit, register, formState: { errors }, trigger, getValues, setError } = useForm();
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
-  const handleLogin = async (data: RegisterModal): Promise<void> => {
+  const [passWord, setPasswrod] = useState<string>('');
+  const handleRegistry = async (data: RegisterModal): Promise<void> => {
     try {
-      const { fullName, phoneNumber, password, email } = data;
-      const params = { userName: phoneNumber, password: password, email: email, phoneNumber: phoneNumber, fullName: fullName }
+      const { fullName, phoneNumber, password } = data;
+      const params = { userName: phoneNumber, password: password, phoneNumber: phoneNumber, fullName: fullName }
       await authService.createAccount(params);
       setShowSuccessToast(true);
       setTimeout(() => history.push('/login'), 1500);
@@ -126,18 +118,13 @@ const RegisterPage: React.FC = () => {
       setShowFailedToast(true);
     }
   };
+
   useEffect(() => {
     register(
       'fullName',
       {
         required: { value: true, message: t('Username not enter') },
-      }
-    );
-    register(
-      'password',
-      {
-        required: { value: true, message: t('Password not entered') },
-        minLength: { value: 6, message: t('Password minimum 5 characters') },
+        pattern: { value: /^\S*$/, message: t('User name can not contain spaces') }
       }
     );
     register(
@@ -146,6 +133,14 @@ const RegisterPage: React.FC = () => {
         required: { value: true, message: t('No phone number entered') },
         maxLength: { value: 10, message: t('Phone numbers with up to 10 digits') },
         pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
+      }
+    );
+    register(
+      'password',
+      {
+        required: { value: true, message: t('Password not entered') },
+        minLength: { value: 8, message: t('Password minimum 8 characters') },
+        validate: value => value === getValues('phoneNumber') ? t('Password is not duplicate with phone number').toString() : true
       }
     );
   }, [register]);
@@ -184,7 +179,7 @@ const RegisterPage: React.FC = () => {
           </IonCol>
         </IonRow>
 
-        <form onSubmit={handleSubmit(handleLogin)} style={{ paddingLeft: '25px', paddingRight: '25px' }}>
+        <form onSubmit={handleSubmit(handleRegistry)} style={{ paddingLeft: '25px', paddingRight: '25px' }}>
           {formFields.map(({ label, name, icon, fieldType, ...otherProps }) => {
             switch (fieldType) {
               case 'input': {

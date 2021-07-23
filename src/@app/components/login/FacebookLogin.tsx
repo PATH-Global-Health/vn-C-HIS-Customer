@@ -25,16 +25,17 @@ const Facebook: React.FC = () => {
   const { loginWithFacebook } = useAuth();
   const history = useHistory();
   const responseFacebook = async (response: FacebookLoginInfo): Promise<void> => {
-    try {
+    history.push('/home');
+    /* try {
       const { accessToken } = response;
       await loginWithFacebook(accessToken);
       history.push('/home');
     } catch (error) {
-    }
+    } */
   };
   const componentClicked = () => console.log("clicked");
   //open_ngkscbp_user@tfbnw.net
-  //Zqa1234@
+  //  
   return (
     <FacebookLogin
       appId="2778304269053147"

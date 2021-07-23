@@ -15,7 +15,8 @@ import { getProfile } from '../profile.slice';
 import moment from 'moment';
 
 const StyledInput = styled(IonInput)`
-    color: #454543;
+    color: black !important;
+    font-weight: 600;
     margin-top: 2px;
     margin-left: 5px;
 `;
@@ -161,16 +162,6 @@ const Personal: React.FC = () => {
   }, [dispatch]);
   useEffect(getData, [getData]);
   useEffect(() => {
-    register('fullname', { required: { value: true, message: t('full name not enterd') } });
-    register('gender', { required: { value: true, message: t('gender not enterd') } });
-    register('dateOfBirth', { required: { value: true, message: t('date of birth not enterd') } });
-    register('phoneNumber', { required: { value: true, message: t('phone number not enterd') } });
-    register('email', { required: { value: true, message: t('email not enterd') } });
-    register('identityCard', { required: { value: true, message: t('identity card not enterd') } });
-    register('address', { required: { value: true, message: t('address not enterd') } });
-    register('nation', { required: { value: true, message: t('nation name not enterd') } });
-  }, [register]);
-  useEffect(() => {
     reset({
       ...profile,
       gender: profile?.gender ? "Nam" : 'Nữ',
@@ -196,6 +187,7 @@ const Personal: React.FC = () => {
               <IonCol size="12" size-sm='3'>
                 <IonItem color='light'>
                   <StyledInput
+                    disabled
                     onIonBlur={() => {
                       trigger(name);
                     }}

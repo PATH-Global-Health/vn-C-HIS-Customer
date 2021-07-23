@@ -30,7 +30,7 @@ import { useHistory } from "react-router-dom";
 import logo from '@app/assets/img/logo.png'
 import avatar from '@app/assets/img/avatar.png';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from '@app/hooks';
+import { useAuth, useDispatch, useSelector } from '@app/hooks';
 import { getProfile } from './profile/profile.slice';
 
 
@@ -69,7 +69,7 @@ const Account: React.FC = () => {
   const { t, i18n } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
-
+  const { logout } = useAuth();
   const { profile } = useSelector((s) => s.profile);
 
   const optionFields: OptionProps[] = [
@@ -200,7 +200,15 @@ const Account: React.FC = () => {
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='4' size-lg='3'>
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
-              <StyledSocialButton type='submit' onClick={() => history.push('/login')} >
+              <StyledSocialButton
+                type='submit'
+                onClick={(): void => {
+                  logout();
+                  setTimeout(() => {
+                    history.push('/');
+                    window.location.reload();
+                  }, 0);
+                }} >
                 <IonIcon icon={logOutOutline} style={{ marginRight: '20px' }} ></IonIcon>
                 {t('Logout')}
               </StyledSocialButton>

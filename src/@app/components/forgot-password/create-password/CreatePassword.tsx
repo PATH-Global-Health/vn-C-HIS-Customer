@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { IonButton, IonCol, IonContent, IonIcon, IonInput, IonItem, IonNote, IonRow, IonToast } from '@ionic/react';
+import { IonButton, IonCol, IonContent, IonIcon, IonInput, IonItem, IonNote, IonRow, IonText, IonToast } from '@ionic/react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch } from '@app/hooks';
 
@@ -40,6 +40,12 @@ const StyledButton = styled(IonButton)`
 const StyledIcon = styled(IonIcon)`
    font-size: 20px;
 `;
+const ErrorText = styled(IonText)`
+   color: #f46a6a;
+   margin-top: 15px;
+   margin-left: 45px;
+   font-size: 15px;
+`;
 interface InputProps {
   name: string;
   fieldType: string;
@@ -72,7 +78,7 @@ const CreatePassword: React.FC = () => {
       placeholder: t('Confirm new password'),
     },
   ];
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, register, formState: { errors }, trigger } = useForm();
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
   const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
@@ -87,7 +93,22 @@ const CreatePassword: React.FC = () => {
       setShowFailedToast(true);
     }
   }
-
+  useEffect(() => {
+    register(
+      'newPassword',
+      {
+        required: { value: true, message: t('Password not entered') },
+        minLength: { value: 8, message: t('Password minimum 8 characters') },
+      }
+    );
+    register(
+      'confirmNewPassword',
+      {
+        required: { value: true, message: t('Password not entered') },
+        minLength: { value: 8, message: t('Password minimum 8 characters') },
+      }
+    );
+  }, [register]);
   return (
     <IonContent >
       <IonToast
@@ -132,7 +153,9 @@ const CreatePassword: React.FC = () => {
                         <StyleWrapperInput color='light' lines='none'>
                           <StyledInput
                             required={true}
-                            onIonBlur={onBlur}
+                            onIonBlur={() => {
+                              trigger(name)
+                            }}
                             value={value}
                             onIonChange={onChange}
                             placeholder={placeholder}
@@ -150,6 +173,8 @@ const CreatePassword: React.FC = () => {
                               : <StyledIcon slot="end" icon={confirmNewPasswordVisible === true ? eyeOffSharp : eyeSharp} onClick={() => setConfirmNewPasswordVisible(!confirmNewPasswordVisible)} />
                           }
                         </StyleWrapperInput>
+                        {(errors?.newPassword?.message && name === 'newPassword') && <ErrorText color='danger'>{(errors?.newPassword?.message)}</ErrorText>}
+                        {(errors?.confirmNewPassword?.message && name === 'confirmNewPassword') && <ErrorText color='danger'>{(errors?.confirmNewPassword?.message)}</ErrorText>}
                       </IonCol>
                     </IonRow>
                   )}

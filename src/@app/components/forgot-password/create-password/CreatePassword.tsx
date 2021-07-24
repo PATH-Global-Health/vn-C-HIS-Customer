@@ -78,7 +78,7 @@ const CreatePassword: React.FC = () => {
       placeholder: t('Confirm new password'),
     },
   ];
-  const { control, handleSubmit, register, formState: { errors }, trigger } = useForm();
+  const { control, handleSubmit, register, formState: { errors }, trigger, getValues } = useForm();
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
   const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
@@ -106,6 +106,7 @@ const CreatePassword: React.FC = () => {
       {
         required: { value: true, message: t('Password not entered') },
         minLength: { value: 8, message: t('Password minimum 8 characters') },
+        validate: value => value !== getValues('newPassword') ? t('Confirm new password is not match').toString() : true
       }
     );
   }, [register]);

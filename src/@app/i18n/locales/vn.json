@@ -185,5 +185,7 @@
     "Enter Phone number": "Nhập số điện thoại",
     "Reset password successfully": "Đặt lại mật khẩu thành công",
     "Reset password failed": "Đặt lại mật khẩu thất bại",
-    "Enter secutiry question answer": "Nhập câu trả lời"
+    "Enter secutiry question answer": "Nhập câu trả lời",
+    "This feature is developing": "Tính năng này đang phát triển",
+    "Confirm new password is not match": "Mật khẩu nhập lại không khớp"
 }

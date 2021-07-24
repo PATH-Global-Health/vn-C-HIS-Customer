@@ -26,6 +26,7 @@ import RiskPage from 'risk/QuestionTemplate';
 import Profile from 'account/profile/components/Personal';
 import SecurityQuestion from 'account/security-question';
 import UpdateProfile from 'account/profile/components/UpdateModal';
+import notify from 'notify/index';
 
 interface Route {
   component: React.FC;
@@ -79,7 +80,7 @@ const routes: Route[] = [
     isPrivate: true,
   },
   {
-    component: SecurityQuestion,
+    component: notify,
     layout: AppLayout,
     path: '/notify',
     isPrivate: true,

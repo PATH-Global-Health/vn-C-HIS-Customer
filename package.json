@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@capacitor/android": "^3.1.2",
-    "@capacitor/core": "2.4.7",
     "@hookform/strictly-typed": "^0.0.4",
     "@ionic/react": "^5.5.0",
     "@ionic/react-router": "^5.5.0",

@@ -1,4 +1,4 @@
-import { IonIcon } from "@ionic/react";
+import { IonButton, IonCol, IonContent, IonHeader, IonIcon, IonRow, IonText, IonTitle } from "@ionic/react";
 import React from "react";
 import styled from 'styled-components';
 import GoogleLogin from 'react-google-login';
@@ -26,10 +26,23 @@ const GoogleAuthen: React.FC = () => {
     } catch (error) {
     }
   };
+  const signIn = async (): Promise<void> => {
+    //const result = await Plugin.GoogleAuth.signIn();
+    //console.info('result', result);
+    /*  if (result) {
+       history.push({
+         pathname: '/home',
+         state: { name: result.name || result.displayName, image: result.imageUrl, email: result.email }
+       });
+     } */
+
+  }
+  //923539945042-fqqsifc7ngsrb379fcooi8bu87m2quca.apps.googleusercontent.com
+  //1056103441390-ijfcpmon449hqnh5ijq3pbnmr9ocdmi1.apps.googleusercontent.com
   return (
     <div>
       <GoogleLogin
-        clientId="1056103441390-ijfcpmon449hqnh5ijq3pbnmr9ocdmi1.apps.googleusercontent.com"
+        clientId="923539945042-fqqsifc7ngsrb379fcooi8bu87m2quca.apps.googleusercontent.com"
         render={renderProps => (
           <StyledIconSocial onClick={renderProps.onClick} icon={mailOutline} color='primary' />
         )}
@@ -38,6 +51,27 @@ const GoogleAuthen: React.FC = () => {
         cookiePolicy={'single_host_origin'}
       />
     </div>
+
+    /*  <IonContent className="ion-padding">
+       <IonRow>
+         <IonCol className="text-center">
+           <IonText className="title">
+             Google Login in Capacitor app
+           </IonText>
+         </IonCol>
+       </IonRow>
+       <IonRow>
+         <IonCol className="text-center">
+           <IonText className="text-center">
+             By Enappd Team
+           </IonText>
+         </IonCol>
+       </IonRow>
+ 
+       <IonButton className="login-button" onClick={() => signIn()} expand="block" fill="solid" color="danger">
+         Login with Google
+       </IonButton> 
+     </IonContent >*/
   )
 
 }

@@ -1206,10 +1206,10 @@
   resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-3.1.2.tgz#b9f42fcbfb31639575cd90b63754e9ec526d434d"
   integrity sha512-WF2E2jWxO3EBl8Y3aTAa8PHwMZGiAl9pdqvJaEUUhbbovXe0UxAuG4n0mfci4ZI6dD8gannQ2peoZ74vJ0Gr3Q==
 
-"@capacitor/cli@2.4.7":
-  version "2.4.7"
-  resolved "https://registry.yarnpkg.com/@capacitor/cli/-/cli-2.4.7.tgz#690089689b25cb22a25eb930b1dd04af757f2f95"
-  integrity sha512-RC5EO3oA2gWniZK0JWRlZa+7MFIoHYiAtt+W4Hqq74nyv1C0z/MvRY3pX2DX7kKy6Uc1Z/25D0uSXRk+erv3RQ==
+"@capacitor/cli@^2.4.7":
+  version "2.4.8"
+  resolved "https://registry.yarnpkg.com/@capacitor/cli/-/cli-2.4.8.tgz#77974f850823025bc74cdb878cf6140ca125c92f"
+  integrity sha512-9c9wjBTSg3QmwAl6ijO2slOdQJEEambZICG3D4Q2FfUbT6BU1zbFYfl1ISufbyzvKU2tu42JCcfoR+SYvACh6g==
   dependencies:
     chalk "^2.3.0"
     commander "^4.1.1"
@@ -1223,6 +1223,13 @@
     which "^1.3.0"
     xml2js "^0.4.19"
 
+"@capacitor/core@^3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-3.1.2.tgz#0e4691ca098e1ff5bd96105b9523122768e8657d"
+  integrity sha512-cMqDY4JTNtyonqVPYxHqbmN3M3jlEBnQxecptlR+6yk/ZuhUwOJTHT1ActXRLyrQ8XIc74+9Yd37fwjWckSwFg==
+  dependencies:
+    tslib "^2.1.0"
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
@@ -1230,6 +1237,11 @@
   dependencies:
     exec-sh "^0.3.2"
     minimist "^1.2.0"
+
+"@codetrix-studio/capacitor-google-auth@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@codetrix-studio/capacitor-google-auth/-/capacitor-google-auth-3.0.2.tgz#a095135311805bf1134bcf81a8246788008f3849"
+  integrity sha512-DsWwiBPkwWY/2F7JPq4mpNrKJYafpVZY+6Pq/ov5CeospRXJPauxEPHexo6uV6N5Yi6YIAwSBJqZhOZCdBURTg==
 
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
@@ -1943,7 +1955,7 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@*", "@types/jest@^26.0.20":
+"@types/jest@*", "@types/jest@^26.0.24":
   version "26.0.24"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.24.tgz#943d11976b16739185913a1936e0de0c4a7d595a"
   integrity sha512-E/X5Vib8BWqZNRlDxj9vYXhsDwPYbPINqKF9BsnSoon4RQ0D9moEuLD8txgyypFLH7J4+Lho9Nr/c8H0Fi+17w==
@@ -1966,7 +1978,7 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.4.4.tgz#bb0744c1dcc1fc374f51d3fd41d028331a2420d4"
   integrity sha512-BH/jX0HjzElFCQdAwaEMwuGBQwm6ViDZ00X6LKdnRRmGWOzkWugEH4+7a0BwfHQ8DfPPCSd/mdsm3Nu8FKFu0w==
 
-"@types/node@^12.19.15":
+"@types/node@^12.20.17":
   version "12.20.17"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.17.tgz#ffd44c2801fc527a6fe6e86bc9b900261df1c87e"
   integrity sha512-so8EHl4S6MmatPS0f9sE1ND94/ocbcEshW5OpyYthRqeRpiYyW2uXYTo/84kmfdfeNrDycARkvuiXl6nO40NGg==
@@ -2062,7 +2074,7 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@^16", "@types/react@^16.14.3":
+"@types/react@^16", "@types/react@^16.14.11":
   version "16.14.11"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.14.11.tgz#992a0cd4b66b9f27315042b5d96e976717368f04"
   integrity sha512-Don0MtsZZ3fjwTJ2BsoqkyOy7e176KplEAKOpr/4XDdzinlyJBn9yfsKn5mcSgn4kh1B22+3tBnzBC1z63ybtQ==
@@ -5563,6 +5575,11 @@ functional-red-black-tree@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
+
+gapi-script@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/gapi-script/-/gapi-script-1.2.0.tgz#8106ad0abb36661ce4fab62ef6efada288d7169e"
+  integrity sha512-NKTVKiIwFdkO1j1EzcrWu/Pz7gsl1GmBmgh+qhuV2Ytls04W/Eg5aiBL91SCiBM9lU0PMu7p1hTVxhh1rPT5Lw==
 
 gensync@^1.0.0-beta.1, gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"

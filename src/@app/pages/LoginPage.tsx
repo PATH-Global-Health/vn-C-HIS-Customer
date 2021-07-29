@@ -296,7 +296,6 @@ const LoginPage: React.FC = () => {
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" size-sm='4'>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                {/* <StyledIconSocial icon={phonePortraitOutline} color='primary' /> */}
                 <StyledIconSocial icon={logoFacebook} color='primary' onClick={() => setShowModal(true)} />
                 <div><GoogleAuthen /></div>
               </div>

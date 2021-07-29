@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "271532403736",
+    "project_id": "hivusaid",
+    "storage_bucket": "hivusaid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271532403736:android:aae5ed6780673bd206276d",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271532403736-dvjka7j90r385h947p3tt72hiqlrm42f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.ionic.starter",
+            "certificate_hash": "9e88cafbcc4ac72f43c1ec0dffbc569f9b921eb2"
+          }
+        },
+        {
+          "client_id": "271532403736-601iorp6opgmjcpcnqac0d0hfisslmne.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgv5mNenGHQmMdGZLX6Fap3eJv_Q7LGC8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "271532403736-601iorp6opgmjcpcnqac0d0hfisslmne.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

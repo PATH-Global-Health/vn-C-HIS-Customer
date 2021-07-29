@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@capacitor/android": "^3.1.2",
+    "@capacitor/core": "^3.1.2",
+    "@codetrix-studio/capacitor-google-auth": "^3.0.2",
     "@hookform/strictly-typed": "^0.0.4",
     "@ionic/react": "^5.5.0",
     "@ionic/react-router": "^5.5.0",
@@ -11,9 +13,9 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.6.3",
-    "@types/jest": "^26.0.20",
-    "@types/node": "^12.19.15",
-    "@types/react": "^16.14.3",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^12.20.17",
+    "@types/react": "^16.14.11",
     "@types/react-dom": "^16.9.10",
     "@types/react-redux": "^7.1.16",
     "@types/react-router": "^5.1.11",
@@ -22,6 +24,7 @@
     "@types/styled-components": "^5.1.9",
     "@types/uuid": "^8.3.0",
     "axios": "^0.21.1",
+    "gapi-script": "^1.2.0",
     "i18next": "^20.3.1",
     "ionic-rating-component": "^1.2.1",
     "ionicons": "^5.4.0",
@@ -91,7 +94,7 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "2.4.7",
+    "@capacitor/cli": "^2.4.7",
     "@types/react-calendar": "^3.1.6",
     "@types/react-datepicker": "^3.1.8"
   },

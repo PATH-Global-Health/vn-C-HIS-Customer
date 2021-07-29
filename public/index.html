@@ -21,9 +21,28 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Ionic App" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="google-signin-client_id"
+    content="271532403736-601iorp6opgmjcpcnqac0d0hfisslmne.apps.googleusercontent.com">
 </head>
 
 <body>
+  <script>
+    /* function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
+    } */
+
+    function onLoad() {
+      gapi.load('auth2', function () {
+        gapi.auth2.init();
+      });
+    }
+  </script>
+  <!--  <a href="#" onclick="signOut();">Sign out</a> -->
+
+  <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
   <div id="root"></div>
 </body>
 

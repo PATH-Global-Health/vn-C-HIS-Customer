@@ -1201,6 +1201,13 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@capacitor-community/facebook-login@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@capacitor-community/facebook-login/-/facebook-login-3.1.1.tgz#d37cff340671736c633411efb5d79b8eab4ee595"
+  integrity sha512-wlJ5H47V1rMyWJv/EHh+39izKnG/WFNjBvWo/pth8+cQoV0HzVc2CNtlXwV923lxRk7HDOEoDdaI/fvMkHUgkQ==
+  dependencies:
+    "@capacitor/core" "^3.0.0"
+
 "@capacitor/android@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-3.1.2.tgz#b9f42fcbfb31639575cd90b63754e9ec526d434d"
@@ -1223,7 +1230,7 @@
     which "^1.3.0"
     xml2js "^0.4.19"
 
-"@capacitor/core@^3.1.2":
+"@capacitor/core@^3.0.0", "@capacitor/core@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-3.1.2.tgz#0e4691ca098e1ff5bd96105b9523122768e8657d"
   integrity sha512-cMqDY4JTNtyonqVPYxHqbmN3M3jlEBnQxecptlR+6yk/ZuhUwOJTHT1ActXRLyrQ8XIc74+9Yd37fwjWckSwFg==
@@ -2030,6 +2037,13 @@
   integrity sha512-FIX2AVmPTGP30OUJ+0vadeIFJJ07Mh1m+U0rxfgyW34p3rTlXI+nlenvAxNn4BP36YyI9IJ/+UJ7Wu22N1pI7A==
   dependencies:
     "@types/react" "^16"
+
+"@types/react-google-recaptcha@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@types/react-google-recaptcha/-/react-google-recaptcha-2.1.2.tgz#b7af03527a4667a4f2cb01a7a50e0ea135e0bea0"
+  integrity sha512-Zeb0pwDeXHYIQy5mNgewMr+jf4xtrjSHTdJW8wrubNB6sNEaxqo8yk02HVpwy7p7Hzh5y6iSz6gKoPonVBlswQ==
+  dependencies:
+    "@types/react" "*"
 
 "@types/react-redux@^7.1.16":
   version "7.1.18"

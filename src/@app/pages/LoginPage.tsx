@@ -13,6 +13,7 @@ import logo from '../assets/img/logo.png';
 import { useTranslation } from 'react-i18next';
 import Facebook from '@app/components/login/FacebookLogin';
 import GoogleAuthen from '@app/components/login/GoogleLogin';
+import FacebookAuthen from '@app/components/login/FacebookLogin';
 
 const StyleWrapperInput = styled(IonItem)`
   background-color: white;
@@ -146,7 +147,8 @@ const LoginPage: React.FC = () => {
       'username',
       {
         required: { value: true, message: t('No phone number entered') },
-        maxLength: { value: 10, message: t('Phone numbers with up to 10 digits') },
+        minLength: { value: 10, message: t('Phone numbers with minnimun is 10 digits') },
+        maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
         pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
       }
     );
@@ -154,7 +156,8 @@ const LoginPage: React.FC = () => {
       'password',
       {
         required: { value: true, message: t('Password not entered') },
-        minLength: { value: 8, message: t('Password minimum 8 characters') },
+        minLength: { value: 8, message: t('Password minimum is 8 characters') },
+        maxLength: { value: 12, message: t('Password maximum is 12 characters') },
       }
     );
   }, [register]);
@@ -296,7 +299,7 @@ const LoginPage: React.FC = () => {
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" size-sm='4'>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <StyledIconSocial icon={logoFacebook} color='primary' onClick={() => setShowModal(true)} />
+                <div><FacebookAuthen /></div>
                 <div><GoogleAuthen /></div>
               </div>
             </IonCol>

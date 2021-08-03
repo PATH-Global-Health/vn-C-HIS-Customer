@@ -127,35 +127,11 @@ const Personal: React.FC = () => {
       label: t('Nation'),
     },
   ];
-  const { control, handleSubmit, register, formState: { errors }, trigger, reset, watch } = useForm();
+  const { formState: { errors }, trigger, reset, watch } = useForm();
   const history = useHistory();
   const dispatch = useDispatch();
   const { profile } = useSelector((s) => s.profile);
 
-  const [oldPasswordVisible, setOldPasswordVisible] = useState(false);
-  const [newPasswordVisible, setNewPasswordVisible] = useState(false);
-  const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
-  const [showFailedToast, setShowFailedToast] = useState(false);
-  const [showMatchPasswordFailedToast, setShowMatchPasswordFailedToast] = useState(false);
-
-
-  const handleChangePassword = async (data: ChangePasswordModal): Promise<void> => {
-    try {
-      const { oldPassword, newPassword, confirmNewPassword } = data;
-      if (newPassword && confirmNewPassword && newPassword !== confirmNewPassword) {
-        setShowMatchPasswordFailedToast(true);
-      }
-      else {
-        const params = { oldPassword: oldPassword, newPassword: newPassword };
-        await authService.changePassword(params);
-        setShowSuccessToast(true);
-        setTimeout(() => history.push('/login'), 1500);
-      }
-    } catch (error) {
-      setShowFailedToast(true);
-    }
-  };
 
   const getData = useCallback(() => {
     dispatch(getProfile());

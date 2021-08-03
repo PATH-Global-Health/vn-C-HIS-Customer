@@ -98,14 +98,16 @@ const CreatePassword: React.FC = () => {
       'newPassword',
       {
         required: { value: true, message: t('Password not entered') },
-        minLength: { value: 8, message: t('Password minimum 8 characters') },
+        minLength: { value: 8, message: t('Password minimum is 8 characters') },
+        maxLength: { value: 12, message: t('Password maximum is 12 characters') },
       }
     );
     register(
       'confirmNewPassword',
       {
         required: { value: true, message: t('Password not entered') },
-        minLength: { value: 8, message: t('Password minimum 8 characters') },
+        minLength: { value: 8, message: t('Password minimum is 8 characters') },
+        maxLength: { value: 12, message: t('Password maximum is 12 characters') },
         validate: value => value !== getValues('newPassword') ? t('Confirm new password is not match').toString() : true
       }
     );

@@ -5,7 +5,7 @@ import {
 import { Post, PostDetail, PostResponse, Tag } from './post.model';
 import postService from 'news/post/post.service';
 
-interface Filter { 
+interface Filter {
   tagId?: string;
 }
 
@@ -56,13 +56,16 @@ const getPosts = createAsyncThunk(
   async ({
     pageIndex = 0,
     pageSize = 10,
+    searchText = '',
   }: {
     pageIndex?: number;
     pageSize?: number;
+    searchText?: string;
   }) => {
     const result = await postService.getPosts({
       pageIndex,
       pageSize,
+      searchText,
     });
     return result;
   },

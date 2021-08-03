@@ -88,7 +88,7 @@
     "No phone number entered": "Chưa nhập số điện thoại",
     "Phone numbers with up to 10 digits": "Số điện thoại có tối đa 10 chữ số",
     "Phone number is not in the correct format": "Số điện thoại không đúng định dạng",
-    "User name can not contain spaces": "Tên người dùng không chứa khoảng trắng",
+    "Username can not contain spaces": "Tên người dùng không chứa khoảng trắng",
     "Password not entered": "Chưa nhập mật khẩu",
     "Password minimum 8 characters": "Mật khẩu ít nhất 8 kí tự",
     "Login successfully": "Đăng nhập thành công",
@@ -187,5 +187,18 @@
     "Reset password failed": "Đặt lại mật khẩu thất bại",
     "Enter secutiry question answer": "Nhập câu trả lời",
     "This feature is developing": "Tính năng này đang phát triển",
-    "Confirm new password is not match": "Mật khẩu nhập lại không khớp"
+    "Confirm new password is not match": "Mật khẩu nhập lại không khớp",
+    "The email address is not valid": "Địa chỉ email không hợp lệ",
+    "Email is not enter": "Chưa nhập địa chỉ email",
+    "Old password is incorrect! Change password failed": "Mật khẩu cũ không đúng! cập nhật thất bại",
+    "Confirm password is not match": "Mật khẩu nhập lại không khớp",
+    "Back to account": "Quay lại tài khoản",
+    "Success!": "Thành công",
+    "Failed!": "Thất bại",
+    "Password minimum is 8 characters": "Mật khẩu tối thiểu 8 kí tự",
+    "Password maximum is 12 characters": "Mật khẩu tối đa 12 kí tự",
+    "Phone numbers with up to 11 digits": "Số điện thoại tối đa 11 số",
+    "Phone numbers with minnimun is 10 digits": "Số điện thoại tối thiểu 10 số",
+    "Username maximum is 35 characters": "Tên người dùng tối đa 35 kí tự",
+    "Username minnimun is 8 characters": "Tên người dùng tối thiểu 8 kí tự"
 }

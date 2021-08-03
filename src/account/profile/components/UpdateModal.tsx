@@ -61,12 +61,6 @@ interface InputProps {
   label?: string;
   [otherProps: string]: unknown;
 };
-interface ChangePasswordModal {
-  oldPassword: string,
-  newPassword: string,
-  confirmNewPassword: string,
-}
-
 
 const UpdateProfile: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -74,12 +68,8 @@ const UpdateProfile: React.FC = () => {
   const dispatch = useDispatch();
   const { profile: data } = useSelector((s) => s.profile);
   const { control, handleSubmit, register, formState: { errors }, trigger, reset, watch, setValue } = useForm();
-  const [oldPasswordVisible, setOldPasswordVisible] = useState(false);
-  const [newPasswordVisible, setNewPasswordVisible] = useState(false);
-  const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
-  const [showMatchPasswordFailedToast, setShowMatchPasswordFailedToast] = useState(false);
 
   const formFields: InputProps[] = [
     {
@@ -109,13 +99,6 @@ const UpdateProfile: React.FC = () => {
       type: "number",
       label: t('Phone number'),
       placeholder: t('Phone number'),
-    },
-    {
-      name: "email",
-      fieldType: "input",
-      type: "email",
-      label: t('Email'),
-      placeholder: t('Email'),
     },
     {
       name: "identityCard",
@@ -183,16 +166,6 @@ const UpdateProfile: React.FC = () => {
     register('gender', { required: { value: true, message: t('gender not enterd') } });
     register('dateOfBirth', { required: { value: true, message: t('date of birth not enterd') } });
     register('phoneNumber', { required: { value: true, message: t('phone number not enterd') } });
-    register('email', {
-      required: {
-        value: true,
-        message: t('email not enterd')
-      },
-      pattern: {
-        value: /\S+@\S+\.\S+/,
-        message: t("Entered value does not match email format")
-      }
-    });
     register('identityCard', { required: { value: true, message: t('identity card not enterd') } });
     register('address', { required: { value: true, message: t('address not enterd') } });
     register('nation', { required: { value: true, message: t('nation name not enterd') } });
@@ -259,7 +232,6 @@ const UpdateProfile: React.FC = () => {
                           </IonItem>
                           {(errors?.fullname?.message && name === 'fullname') && <ErrorText color='danger'>{(errors?.fullname?.message)}</ErrorText>}
                           {(errors?.phoneNumber?.message && name === 'phoneNumber') && <ErrorText color='danger'>{(errors?.phoneNumber?.message)}</ErrorText>}
-                          {(errors?.email?.message && name === 'email') && <ErrorText color='danger'>{(errors?.email?.message)}</ErrorText>}
                           {(errors?.identityCard?.message && name === 'identityCard') && <ErrorText color='danger'>{(errors?.identityCard?.message)}</ErrorText>}
                           {(errors?.address?.message && name === 'address') && <ErrorText color='danger'>{(errors?.address?.message)}</ErrorText>}
                           {(errors?.nation?.message && name === 'nation') && <ErrorText color='danger'>{(errors?.nation?.message)}</ErrorText>}

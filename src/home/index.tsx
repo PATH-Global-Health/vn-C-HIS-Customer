@@ -2,8 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   IonCard,
-  IonCardHeader,
-  IonCardTitle,
   IonCol,
   IonContent,
   IonIcon,
@@ -29,7 +27,6 @@ import PostCard from "./components/PostCard";
 import logo from '@app/assets/img/logo.png';
 import img from '@app/assets/img/virus.jpg';
 
-import Slider from 'react-slick';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -38,6 +35,7 @@ import { useDispatch, useSelector } from '@app/hooks';
 import { getPosts } from 'news/post/post.slice';
 import { getUserInfo } from 'booking/slices/workingCalendar';
 import { setHandeRisk } from 'risk/QuestionTemplate/question-template.slice';
+import { getProfile } from 'account/profile/profile.slice';
 
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
@@ -97,13 +95,6 @@ const ResultLabel = styled(IonLabel)`
 const ResultIcon = styled(IonIcon)`
   color: #4c9fc8;
   margin-right: 30px;
-`
-const CardSlider = styled(IonRow)`
-  ion-card {
-    width: 80%;
-    height: 180px;
-    background-color: white;
-  }
 `;
 const Menu = styled(IonRow)`
   padding: 0 10px 0 20px;
@@ -161,11 +152,9 @@ const Home: React.FC = () => {
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(50);
   const { data } = useSelector((s) => s.post.postList);
-  const userInfo = useSelector((w) => w.workingCaledar.userProfile);
+  const { profile } = useSelector((s) => s.profile);
   const history = useHistory();
-  const reload = () => {
-    window.location.reload();
-  }
+
   const handleTypeService = (name: string) => {
     name === "booking" ? history.push("/shomeBooking")
       : name === "examinationList" ? history.push("/examinationList")
@@ -184,10 +173,10 @@ const Home: React.FC = () => {
     dispatch(getUserInfo());
   }, [pageIndex, pageSize, dispatch]);
   useEffect(getData, [getData]);
-  /* useEffect(() => {
-    if (loading === true)
-      reload()
-  }, [loading]) */
+  const getProfileData = useCallback(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
+  useEffect(getProfileData, [getProfileData]);
 
   return (
     <>
@@ -201,7 +190,7 @@ const Home: React.FC = () => {
         </IonRow>
         <StyledHeader>
           <div>
-            {t('Hello')}<b> &nbsp;{userInfo.fullname}</b>
+            {t('Hello')}<b> &nbsp;{profile?.fullname ?? ''}</b>
           </div>
           <div>
             <StyleWrapperInput color='light' lines='none'>

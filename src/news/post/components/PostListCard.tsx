@@ -35,6 +35,7 @@ import { Post } from '../post.model';
 import { useTranslation } from 'react-i18next';
 
 const StyleWrapperInput = styled(IonItem)`
+    position: relative;
     background-color: white;
     border: 1px solid #d6d6c2;
     padding-left: 5px;
@@ -43,6 +44,14 @@ const StyleWrapperInput = styled(IonItem)`
     height: 40px;
     font-size: 18px;
     text-transform: initial;
+    ion-icon{
+      color: white;
+      background-color:#58b1e8;
+      position:absolute;
+      margin-bottom: 5px;
+      right: -2%;
+      padding: 10px 15px 10px 10px;
+    }
 `;
 const StyledInput = styled(IonInput)`
     color: black;
@@ -122,6 +131,7 @@ const PostListCard: React.FC = () => {
   const [searchData, setSearchData] = useState('');
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(50);
+  const [searchText, setSearchText] = useState<string>('');
   const [tagId, setTagId] = useState<string>('');
   const [totalPostLoading, setTotalPostLoading] = useState<number>(5);
   const [loading, setLoading] = useState<boolean>(false);
@@ -163,9 +173,10 @@ const PostListCard: React.FC = () => {
   const getData = useCallback(() => {
     dispatch(getPosts({
       pageIndex,
-      pageSize
+      pageSize,
+      searchText
     }));
-  }, [pageIndex, pageSize, dispatch]);
+  }, [pageIndex, pageSize, searchText, dispatch]);
 
   async function fetchData() {
     setTimeout(() => { setTotalPostLoading(totalPostLoading + 5); setLoading(false) }, 500);
@@ -200,13 +211,13 @@ const PostListCard: React.FC = () => {
         <IonCol size="12" size-sm='4' size-lg='3'>
           <StyledHeader>
             <div>
-              <StyleWrapperInput color='light' lines='none'>
+              <StyleWrapperInput color='light' lines='none' onClick={() => { setSearchText(searchData) }}>
                 <StyledInput
                   placeholder={t('Search')}
                   onIonChange={e => setSearchData(e.detail.value!)}
                 >
                 </StyledInput>
-                <IonIcon icon={searchOutline} color='medium' slot='end'></IonIcon>
+                <IonIcon icon={searchOutline} ></IonIcon>
               </StyleWrapperInput>
             </div>
             <div className="ion-margin-top">

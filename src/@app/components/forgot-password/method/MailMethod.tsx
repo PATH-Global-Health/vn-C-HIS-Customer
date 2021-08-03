@@ -39,7 +39,6 @@ const StyledButton = styled(IonButton)`
     --background: #293978;
 `;
 interface generateOtpModal {
-  username: string,
   email: string,
 }
 const MailMethod: React.FC = () => {
@@ -50,11 +49,11 @@ const MailMethod: React.FC = () => {
   const [showFailedToast, setShowFailedToast] = useState(false);
   const handleData = async (data: generateOtpModal): Promise<void> => {
     try {
-      const { username, email } = data;
-      const params = { username: username, email: email }
+      const { email } = data;
+      const params = { email: email }
       await authService.generateOTP(params);
       setShowSuccessToast(true);
-      setTimeout(() => dispatch(setDataForgotPassword({ method: 'confirmOTP', inputData: username })), 1500);
+      setTimeout(() => dispatch(setDataForgotPassword({ method: 'confirmOTP', inputData: email })), 1500);
     } catch (error) {
       setShowFailedToast(true);
     }
@@ -115,30 +114,6 @@ const MailMethod: React.FC = () => {
             </IonRow>
           )}
         />
-        <Controller
-          key={'username'}
-          name={'username'}
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <IonRow className="ion-justify-content-center">
-              <IonCol size="12" size-sm='3'>
-                <StyleWrapperInput color='light' lines='none'>
-                  <StyledInput
-                    required={true}
-                    type='number'
-                    placeholder={t('Enter phone number')}
-                    onIonBlur={onBlur}
-                    value={value}
-                    onIonChange={onChange}
-                  >
-                  </StyledInput>
-                  <IonIcon icon={phonePortraitOutline} color='medium' slot='start'></IonIcon>
-                </StyleWrapperInput>
-              </IonCol>
-            </IonRow>
-          )}
-        />
-
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='3'>
             <div style={{ textAlign: 'center', marginTop: '10px' }}>

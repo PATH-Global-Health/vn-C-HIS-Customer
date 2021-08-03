@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { useHistory } from "react-router";
 import { useAuth } from "@app/hooks";
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-import { gapi } from 'gapi-script';
 import { mailOutline } from "ionicons/icons";
 const StyledIconSocial = styled(IonIcon)`
   margin: 15px 20px 10px 15px;
@@ -23,6 +22,7 @@ const GoogleAuthen: React.FC = () => {
   const signIn = async (): Promise<void> => {
     GoogleAuth.init();
     const result = await GoogleAuth.signIn();
+    console.log(result);
     try {
       const { idToken } = result?.authentication;
       loginWithGoogle(idToken).then(() => { history.push('/') });

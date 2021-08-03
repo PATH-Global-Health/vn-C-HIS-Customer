@@ -29,14 +29,14 @@ const loginWithFacebook = async ({
   return response.data as Token;
 };
 const loginWithGoogle = async ({
-  accessToken = '',
+  idToken = '',
 }: {
-  accessToken?: string;
+  idToken?: string;
 }): Promise<Token> => {
   const response = await httpClient.post({
     url: apiLinks.auth.loginWithGoogle,
     params: {
-      accessToken
+      idToken
     }
   });
   return response.data as Token;
@@ -45,11 +45,13 @@ const createAccount = async ({
   userName,
   password,
   phoneNumber,
-  fullName
+  fullName,
+  email,
 }: {
   userName: string;
   password: string;
   phoneNumber: string;
+  email: string;
   fullName: string;
 }): Promise<void> => {
   await httpClient.post({
@@ -58,7 +60,8 @@ const createAccount = async ({
       userName,
       password,
       phoneNumber,
-      fullName
+      fullName,
+      email,
     },
   });
 };
@@ -80,12 +83,10 @@ const changePassword = async ({
 };
 
 const generateOTP = async ({
-  username,
   phoneNumber,
   email,
   question,
 }: {
-  username: string;
   phoneNumber?: string;
   email?: string,
   question?: {
@@ -96,7 +97,6 @@ const generateOTP = async ({
   await httpClient.post({
     url: apiLinks.forgetPassword.generateOTP,
     data: {
-      username,
       phoneNumber,
       email,
       question
@@ -104,16 +104,16 @@ const generateOTP = async ({
   });
 };
 const confirmOTP = async ({
-  username,
+  email,
   otp
 }: {
-  username?: string;
+  email?: string;
   otp: string;
 }): Promise<Token> => {
   const response = await httpClient.post({
     url: apiLinks.forgetPassword.confirmOTP,
     data: {
-      username,
+      email,
       otp,
     },
   });

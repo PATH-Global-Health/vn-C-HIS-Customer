@@ -5,7 +5,6 @@ import {
   IonCol,
   IonContent,
   IonIcon,
-  IonInput,
   IonItem,
   IonLabel,
   IonNote,
@@ -18,7 +17,6 @@ import {
   alarmOutline,
   arrowForwardOutline,
   eyedropOutline,
-  newspaperOutline,
 } from 'ionicons/icons';
 
 import { useHistory } from "react-router-dom";
@@ -37,25 +35,11 @@ import { getUserInfo } from 'booking/slices/workingCalendar';
 import { setHandeRisk } from 'risk/QuestionTemplate/question-template.slice';
 import { getProfile } from 'account/profile/profile.slice';
 
-const StyleWrapperInput = styled(IonItem)`
-    background-color: white;
-    border: 1px solid #d6d6c2;
-    padding-left: 5px;
-    margin: 10px 25px 0px 0px;
-    border-radius: 10px;
-    height: 40px;
-    font-size: 18px;
-    text-transform: initial;
-`;
-const StyledInput = styled(IonInput)`
-    color: black;
-    margin-top: 2px;
-`;
 const StyledHeader = styled.div`
   color: black;
   font-size: 20px;
   margin-left: 5%;
-  margin-top: 5%;
+  margin-top: 10px;
 `;
 const Card = styled(IonCard)`
   height: 110px;
@@ -148,7 +132,6 @@ const Home: React.FC = () => {
       color: "#f1c248"
     },
   ];
-  const [searchData, setSearchData] = useState('');
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(50);
   const { data } = useSelector((s) => s.post.postList);
@@ -156,7 +139,7 @@ const Home: React.FC = () => {
   const history = useHistory();
 
   const handleTypeService = (name: string) => {
-    name === "booking" ? history.push("/shomeBooking")
+    name === "booking" ? history.push("/homeBooking")
       : name === "examinationList" ? history.push("/examinationList")
         : RedirectRiskPage();
 
@@ -181,7 +164,7 @@ const Home: React.FC = () => {
   return (
     <>
       <IonContent>
-        <IonRow className="ion-justify-content-center" >
+        <IonRow className="ion-justify-content-center ion-margin-top" >
           <IonCol size="4" size-sm="3">
             <div>
               <img src={logo} alt="logo" width='150px' />
@@ -192,18 +175,8 @@ const Home: React.FC = () => {
           <div>
             {t('Hello')}<b> &nbsp;{profile?.fullname ?? ''}</b>
           </div>
-          <div>
-            <StyleWrapperInput color='light' lines='none'>
-              <StyledInput
-                placeholder={t('Search')}
-                onIonChange={e => setSearchData(e.detail.value!)}
-              >
-              </StyledInput>
-              <IonIcon icon={searchOutline} color='medium' slot='end'></IonIcon>
-            </StyleWrapperInput>
-          </div>
         </StyledHeader>
-        <Menu>
+        <Menu className='ion-margin-top'>
           <IonItem className="ion-no-padding" color="light">
             <IonLabel><span className="title">{t('Featured Services')}</span></IonLabel>
             <IonNote slot="end">{t('View all')}</IonNote>
@@ -252,7 +225,7 @@ const Home: React.FC = () => {
             </ResultButton>
           </IonCol>
         </IonRow>
-        <IonRow >
+        {/*      <IonRow >
           <IonCol size="12" size-sm='12'>
             <ResultButton color='light' lines='none'>
               <ResultIcon icon={newspaperOutline} />
@@ -263,7 +236,7 @@ const Home: React.FC = () => {
               </IonIcon>
             </ResultButton>
           </IonCol>
-        </IonRow>
+        </IonRow> */}
         <Menu>
           <IonItem className="ion-no-padding" color="light">
             <IonLabel><span className="title">{t('Featured Posts')}</span></IonLabel>

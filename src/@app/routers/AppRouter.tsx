@@ -24,6 +24,7 @@ const AppRouter: React.FC = () => {
                 exact={r.exact}
                 component={r.component}
                 isPrivate={r.isPrivate}
+                isIncognito={r.isIncognito}
                 layout={r.layout}
               />
             ))}

@@ -131,14 +131,17 @@ const LoginPage: React.FC = () => {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const handleLogin = async (data: LoginModel): Promise<void> => {
+    setSubmitting(true);
     try {
       const { username, password } = data;
       await login(username, password, remember, permissionQuery);
+      setSubmitting(false);
       setShowSuccessToast(true);
       setTimeout(() => history.push('/home'), 1500);
     } catch (error) {
+      setSubmitting(false);
       setShowFailedToast(true);
     }
   };
@@ -276,15 +279,15 @@ const LoginPage: React.FC = () => {
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" size-sm='4' size-lg='3'>
               <div style={{ textAlign: 'center', marginTop: '10px' }}>
-                <StyledButton type='submit'>{t('Login')}</StyledButton>
+                <StyledButton type='submit' disabled={submitting}>{t('Login')}</StyledButton>
               </div>
             </IonCol>
           </IonRow>
         </form>
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='4'>
-            <div style={{ textAlign: 'center', marginTop: '10px', color: '#496fb0' }}>
-              {t('ignore')}
+            <div onClick={() => history.push('/home')} style={{ textAlign: 'center', marginTop: '10px', color: '#496fb0', fontSize: '17px' }}>
+              {t('Anonymous login')}
             </div>
           </IonCol>
         </IonRow>
@@ -318,10 +321,6 @@ const LoginPage: React.FC = () => {
             </IonCol>
           </IonRow>
         </div>
-        <IonModal isOpen={showModal} cssClass='my-custom-class'>
-          <Facebook />
-          <IonButton onClick={() => setShowModal(false)}>{t('Close Modal')}</IonButton>
-        </IonModal>
       </IonContent >
     </>
   );

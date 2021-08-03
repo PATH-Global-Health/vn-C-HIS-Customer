@@ -20,13 +20,13 @@ import ConfirmProfile from 'booking/pages/ConfirmProfile';
 import ApointmentInfo from 'booking/pages/ApointmentInfo';
 import ExaminationList from 'booking/pages/ExaminationList';
 import PostDetailPage from 'news/PostDetail';
-import BookingTest from 'home/test';
 import Evaluate from 'booking/pages/Evaluate';
 import RiskPage from 'risk/QuestionTemplate';
 import Profile from 'account/profile/components/Personal';
 import SecurityQuestion from 'account/security-question';
 import UpdateProfile from 'account/profile/components/UpdateModal';
 import notify from 'notify/index';
+import Incognito from 'Incognito/index';
 
 interface Route {
   component: React.FC;
@@ -34,12 +34,18 @@ interface Route {
   path?: string;
   exact?: boolean;
   isPrivate?: boolean;
+  isIncognito?: boolean;
 }
 
 const routes: Route[] = [
   {
     component: AuthPage,
     path: '/',
+    exact: true,
+  },
+  {
+    component: Incognito,
+    path: '/incognito',
     exact: true,
   },
   {
@@ -64,13 +70,8 @@ const routes: Route[] = [
     isPrivate: true,
   },
   {
-    component: Profile,
-    path: '/profile',
-    isPrivate: true,
-  },
-  {
     component: UpdateProfile,
-    path: '/update-profile',
+    path: '/profile',
     isPrivate: true,
   },
   {
@@ -90,35 +91,41 @@ const routes: Route[] = [
     layout: AppLayout,
     path: '/home',
     isPrivate: true,
+    isIncognito: true,
   },
   {
     component: PostPage,
     layout: AppLayout,
     path: '/post',
     isPrivate: true,
+    isIncognito: true,
   },
   {
     component: PostDetailPage,
     path: '/post-detail',
     isPrivate: true,
+    isIncognito: true,
   },
   {
     component: Account,
     layout: AppLayout,
     path: '/account',
     isPrivate: true,
+    isIncognito: true,
   },
   {
     component: RiskPage,
     layout: AppLayout,
     path: '/risk',
     isPrivate: true,
+    isIncognito: false,
   },
   {
     component: HomeBooking,
     layout: AppLayout,
-    path: '/shomeBooking',
+    path: '/homeBooking',
     isPrivate: true,
+    isIncognito: false,
   },
   {
     component: TestingAppointment,
@@ -159,7 +166,9 @@ const routes: Route[] = [
   {
     component: ExaminationList,
     layout: AppLayout,
-    path: '/examinationList'
+    path: '/examinationList',
+    isPrivate: true,
+    isIncognito: false,
   },
   {
     component: Evaluate,

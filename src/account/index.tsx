@@ -82,12 +82,6 @@ const Account: React.FC = () => {
       color: "#409f4e",
     },
     {
-      name: "update",
-      icon: "update",
-      label: t('Update information'),
-      color: "#6f3391"
-    },
-    {
       name: "change-password",
       icon: "change",
       label: t('Change Password'),
@@ -151,9 +145,8 @@ const Account: React.FC = () => {
                       onClick={() => {
                         name === 'change-password' ? history.push('/change-password')
                           : name === 'profile' ? history.push('/profile')
-                            : name === 'update' ? history.push('/update-profile')
-                              : name === 'security' ? history.push('/security-question')
-                                : history.push('/account')
+                            : name === 'security' ? history.push('/security-question')
+                              : history.push('/account')
                       }}
 
                     >

@@ -196,21 +196,40 @@ const ExaminationList: React.FC = () => {
                           <IonIcon className={styles.styledIcon} icon={e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229" ? analytics : chatbubbles}></IonIcon>
                         </div>
                         <IonCardHeader
-                          className={cx('styledCardHeader', { 'styledCardHeaderBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229" })}
+                          className={
+                            cx(
+                              // 'styledCardHeader',
+                              {
+                                'styledCardHeaderBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229",
+
+                              },
+
+                            )}
                         >
                           <IonCardTitle
-                            className={cx('styledCardTitle', { 'styledCardTitleBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229" })}
+                            className={cx('styledCardTitle', {
+                              'styledCardTitleBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229",
+                              'styledContentExpired': moment(moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from).format("YYYY-MM-DD HH:mm") < moment(new Date()).format("YYYY-MM-DD HH:mm")
+                            })}
                           >{e.service.name}
                           </IonCardTitle>
                           <IonCardSubtitle
-                            className={cx('styledSubtitle', { 'styledSubtitleBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229" })}
+                            className={cx('styledSubtitle', {
+                              'styledSubtitleBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229",
+                              'styledContentExpired': moment(moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from).format("YYYY-MM-DD HH:mm") < moment(new Date()).format("YYYY-MM-DD HH:mm")
+                            })}
                           >Vào lúc {e.interval.from}, {moment(e.date).format("DD-MM-YYYY")}</IonCardSubtitle>
                         </IonCardHeader>
                         <IonCardContent
-                          className={cx('styledCardContent', { 'styledCardContentBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229" })}
+                          className={cx(
+                            'styledCardContent',
+                            {
+                              'styledCardContentBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229",
+                              'styledContentExpired': moment(moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from).format("YYYY-MM-DD HH:mm") < moment(new Date()).format("YYYY-MM-DD HH:mm")
+                            })}
                         >
                           <p>{e.unit.name}</p>
-                          <p>{e.unit.address}</p>
+                          <p className={classNames({ 'styledContentExpired': moment(moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from).format("YYYY-MM-DD HH:mm") < moment(new Date()).format("YYYY-MM-DD HH:mm") })}>{e.unit.address}</p>
 
                         </IonCardContent>
 

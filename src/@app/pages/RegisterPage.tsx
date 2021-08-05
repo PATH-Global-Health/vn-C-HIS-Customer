@@ -125,7 +125,7 @@ const RegisterPage: React.FC = () => {
         const { fullName, phoneNumber, password, email } = data;
         const params = { userName: phoneNumber, password: password, email: email, phoneNumber: phoneNumber, fullName: fullName }
         console.log(params);
-        // await authService.createAccount(params);
+        await authService.createAccount(params);
         setShowSuccessToast(true);
         setTimeout(() => history.push('/login'), 1500);
       } catch (error) {

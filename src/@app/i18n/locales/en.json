@@ -151,5 +151,14 @@
     "Your upcoming appointments": "Your upcoming appointments",
     "Interval has expired": "Interval has expired",
     "Note": "Note",
-    "Appointment successful": "Appointment successful"
+    "Appointment successful": "Appointment successful",
+    "Examination information": "Examination information",
+    "Result information": "Result information",
+    "Test": "Test",
+    "Advise": "Advise",
+    "Test address": "Test address",
+    "Test Type": "Test Type",
+    "Test Date": "Test Date",
+    "Result Day": "Result Day",
+    "Test Results": "Test Results"
 }

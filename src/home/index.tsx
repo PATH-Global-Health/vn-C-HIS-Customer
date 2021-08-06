@@ -253,7 +253,7 @@ const Home: React.FC = () => {
         </Menu>
         <IonRow className='ion-margin-top'>
           <IonCol size="12" size-sm='12'>
-            <ResultButton color='light' lines='none'>
+            <ResultButton onClick={() => history.push('/resultExaminations')} color='light' lines='none'>
               <ResultIcon icon={eyedropOutline} />
               <ResultLabel >
                 {t('View test results')}
@@ -263,7 +263,7 @@ const Home: React.FC = () => {
             </ResultButton>
           </IonCol>
         </IonRow>
-        <IonRow >
+        {/* <IonRow >
           <IonCol size="12" size-sm='12'>
             <ResultButton color='light' lines='none'>
               <ResultIcon icon={newspaperOutline} />
@@ -274,7 +274,7 @@ const Home: React.FC = () => {
               </IonIcon>
             </ResultButton>
           </IonCol>
-        </IonRow>
+        </IonRow> */}
         <Menu>
           <IonItem className="ion-no-padding" color="light">
             <IonLabel><span className="title">{t('Featured Posts')}</span></IonLabel>

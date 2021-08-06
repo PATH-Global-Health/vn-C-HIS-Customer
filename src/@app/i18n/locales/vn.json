@@ -187,5 +187,14 @@
     "Reset password failed": "Đặt lại mật khẩu thất bại",
     "Enter secutiry question answer": "Nhập câu trả lời",
     "This feature is developing": "Tính năng này đang phát triển",
-    "Confirm new password is not match": "Mật khẩu nhập lại không khớp"
+    "Confirm new password is not match": "Mật khẩu nhập lại không khớp",
+    "Examination information": "Thông tin xét nghiệm",
+    "Result information": "Thông tin kết quả",
+    "Test": "Xét nghiệm",
+    "Advise": "Tư vấn",
+    "Test address": "Địa chỉ xét nghiệm",
+    "Test Type": "Loại xét nghiệm",
+    "Test Date": "Ngày xét nghiệm",
+    "Result Day": "Ngày trả kết quả",
+    "Test Results": "Kết quả xét nghiệm"
 }

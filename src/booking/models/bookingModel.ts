@@ -57,5 +57,7 @@ export interface BookingModel {
         destination: string,
         exitingDate: string,
         entryingDate: string
-    }
+    },
+    result: string;
+    resultDate: string;
 }

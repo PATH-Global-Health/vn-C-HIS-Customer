@@ -139,9 +139,30 @@ const putUserProfile = async (da: UserProfile): Promise<UserProfile> => {
     return response.data as UserProfile;
 };
 
+const downloadResultFile = async (examId: string): Promise<void> => {
+    const result = await httpClient.get({
+      url: apiLinks.bookingService.resultForm,
+      responseType: 'blob',
+      params: {
+        examId
+        // dateTaken: moment(dateTaken).format('YYYY-MM-DD'),
+      },
+    });
+    const url = window.URL.createObjectURL(new Blob([result.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute(
+      'download',
+      `report.pdf`,
+    );
+    document.body.appendChild(link);
+    link.click();
+  };
+
 
 
 const examinationServices = {
+    downloadResultFile,
     postExaminations,
     getExaminationList,
     getUserInfo,

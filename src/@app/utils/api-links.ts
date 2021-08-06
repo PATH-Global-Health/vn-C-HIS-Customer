@@ -86,6 +86,7 @@ const apiLinks = {
   },
   bookingService: {
     postExaminations: `${apiBookingService}/api/Examinations`,
+    resultForm: `${apiBookingService}/api/Examinations/ResultForm`
   },
 };
 

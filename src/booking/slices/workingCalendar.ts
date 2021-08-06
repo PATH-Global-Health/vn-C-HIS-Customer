@@ -59,6 +59,8 @@ const initialState: State = {
     },
     bookingModelResponse: {
         data: {
+            resultDate: "",
+            result: "",
             rate: "",
             status: 0,
             id: "",
@@ -121,9 +123,12 @@ const initialState: State = {
         },
         errorMessage: null,
         succeed: false,
+        
     }
     ,
     bookingModel: {
+        resultDate: "",
+        result: "",
         rate: "",
         status: 0,
         id: "",

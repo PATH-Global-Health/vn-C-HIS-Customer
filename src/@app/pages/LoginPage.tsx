@@ -13,6 +13,7 @@ import logo from '../assets/img/logo.png';
 import { useTranslation } from 'react-i18next';
 import Facebook from '@app/components/login/FacebookLogin';
 import GoogleAuthen from '@app/components/login/GoogleLogin';
+import FacebookAuthen from '@app/components/login/FacebookLogin';
 
 const StyleWrapperInput = styled(IonItem)`
   background-color: white;
@@ -130,14 +131,17 @@ const LoginPage: React.FC = () => {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const handleLogin = async (data: LoginModel): Promise<void> => {
+    setSubmitting(true);
     try {
       const { username, password } = data;
       await login(username, password, remember, permissionQuery);
+      setSubmitting(false);
       setShowSuccessToast(true);
       setTimeout(() => history.push('/home'), 1500);
     } catch (error) {
+      setSubmitting(false);
       setShowFailedToast(true);
     }
   };
@@ -146,7 +150,8 @@ const LoginPage: React.FC = () => {
       'username',
       {
         required: { value: true, message: t('No phone number entered') },
-        maxLength: { value: 10, message: t('Phone numbers with up to 10 digits') },
+        minLength: { value: 10, message: t('Phone numbers with minnimun is 10 digits') },
+        maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
         pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
       }
     );
@@ -154,7 +159,8 @@ const LoginPage: React.FC = () => {
       'password',
       {
         required: { value: true, message: t('Password not entered') },
-        minLength: { value: 8, message: t('Password minimum 8 characters') },
+        minLength: { value: 8, message: t('Password minimum is 8 characters') },
+        maxLength: { value: 12, message: t('Password maximum is 12 characters') },
       }
     );
   }, [register]);
@@ -273,15 +279,15 @@ const LoginPage: React.FC = () => {
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" size-sm='4' size-lg='3'>
               <div style={{ textAlign: 'center', marginTop: '10px' }}>
-                <StyledButton type='submit'>{t('Login')}</StyledButton>
+                <StyledButton type='submit' disabled={submitting}>{t('Login')}</StyledButton>
               </div>
             </IonCol>
           </IonRow>
         </form>
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='4'>
-            <div style={{ textAlign: 'center', marginTop: '10px', color: '#496fb0' }}>
-              {t('ignore')}
+            <div onClick={() => history.push('/home')} style={{ textAlign: 'center', marginTop: '10px', color: '#496fb0', fontSize: '17px' }}>
+              {t('Anonymous login')}
             </div>
           </IonCol>
         </IonRow>
@@ -296,7 +302,7 @@ const LoginPage: React.FC = () => {
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" size-sm='4'>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <StyledIconSocial icon={logoFacebook} color='primary' onClick={() => setShowModal(true)} />
+                <div><FacebookAuthen /></div>
                 <div><GoogleAuthen /></div>
               </div>
             </IonCol>
@@ -315,10 +321,6 @@ const LoginPage: React.FC = () => {
             </IonCol>
           </IonRow>
         </div>
-        <IonModal isOpen={showModal} cssClass='my-custom-class'>
-          <Facebook />
-          <IonButton onClick={() => setShowModal(false)}>{t('Close Modal')}</IonButton>
-        </IonModal>
       </IonContent >
     </>
   );

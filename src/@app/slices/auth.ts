@@ -70,9 +70,9 @@ const loginWithFacebook = createAsyncThunk(
 
 const loginWithGoogle = createAsyncThunk(
   'auth/loginWithGoogle',
-  async (arg: { accessToken: string }) => {
-    const { accessToken } = arg;
-    const result = await authService.loginWithGoogle({ accessToken });
+  async (arg: { idToken: string }) => {
+    const { idToken } = arg;
+    const result = await authService.loginWithGoogle({ idToken });
     return result;
   },
 );

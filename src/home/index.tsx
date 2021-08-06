@@ -2,12 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   IonCard,
-  IonCardHeader,
-  IonCardTitle,
   IonCol,
   IonContent,
   IonIcon,
-  IonInput,
   IonItem,
   IonLabel,
   IonNote,
@@ -20,7 +17,6 @@ import {
   alarmOutline,
   arrowForwardOutline,
   eyedropOutline,
-  newspaperOutline,
 } from 'ionicons/icons';
 
 import { useHistory } from "react-router-dom";
@@ -29,7 +25,6 @@ import PostCard from "./components/PostCard";
 import logo from '@app/assets/img/logo.png';
 import img from '@app/assets/img/virus.jpg';
 
-import Slider from 'react-slick';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -38,26 +33,13 @@ import { useDispatch, useSelector } from '@app/hooks';
 import { getPosts } from 'news/post/post.slice';
 import { getUserInfo } from 'booking/slices/workingCalendar';
 import { setHandeRisk } from 'risk/QuestionTemplate/question-template.slice';
+import { getProfile } from 'account/profile/profile.slice';
 
-const StyleWrapperInput = styled(IonItem)`
-    background-color: white;
-    border: 1px solid #d6d6c2;
-    padding-left: 5px;
-    margin: 10px 25px 0px 0px;
-    border-radius: 10px;
-    height: 40px;
-    font-size: 18px;
-    text-transform: initial;
-`;
-const StyledInput = styled(IonInput)`
-    color: black;
-    margin-top: 2px;
-`;
 const StyledHeader = styled.div`
   color: black;
   font-size: 20px;
   margin-left: 5%;
-  margin-top: 5%;
+  margin-top: 10px;
 `;
 const Card = styled(IonCard)`
   height: 110px;
@@ -97,13 +79,6 @@ const ResultLabel = styled(IonLabel)`
 const ResultIcon = styled(IonIcon)`
   color: #4c9fc8;
   margin-right: 30px;
-`
-const CardSlider = styled(IonRow)`
-  ion-card {
-    width: 80%;
-    height: 180px;
-    background-color: white;
-  }
 `;
 const Menu = styled(IonRow)`
   padding: 0 10px 0 20px;
@@ -157,17 +132,14 @@ const Home: React.FC = () => {
       color: "#f1c248"
     },
   ];
-  const [searchData, setSearchData] = useState('');
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(50);
   const { data } = useSelector((s) => s.post.postList);
-  const userInfo = useSelector((w) => w.workingCaledar.userProfile);
+  const { profile } = useSelector((s) => s.profile);
   const history = useHistory();
-  const reload = () => {
-    window.location.reload();
-  }
+
   const handleTypeService = (name: string) => {
-    name === "booking" ? history.push("/shomeBooking")
+    name === "booking" ? history.push("/homeBooking")
       : name === "examinationList" ? history.push("/examinationList")
         : RedirectRiskPage();
 
@@ -184,15 +156,15 @@ const Home: React.FC = () => {
     dispatch(getUserInfo());
   }, [pageIndex, pageSize, dispatch]);
   useEffect(getData, [getData]);
-  /* useEffect(() => {
-    if (loading === true)
-      reload()
-  }, [loading]) */
+  const getProfileData = useCallback(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
+  useEffect(getProfileData, [getProfileData]);
 
   return (
     <>
       <IonContent>
-        <IonRow className="ion-justify-content-center" >
+        <IonRow className="ion-justify-content-center ion-margin-top" >
           <IonCol size="4" size-sm="3">
             <div>
               <img src={logo} alt="logo" width='150px' />
@@ -201,20 +173,10 @@ const Home: React.FC = () => {
         </IonRow>
         <StyledHeader>
           <div>
-            {t('Hello')}<b> &nbsp;{userInfo.fullname}</b>
-          </div>
-          <div>
-            <StyleWrapperInput color='light' lines='none'>
-              <StyledInput
-                placeholder={t('Search')}
-                onIonChange={e => setSearchData(e.detail.value!)}
-              >
-              </StyledInput>
-              <IonIcon icon={searchOutline} color='medium' slot='end'></IonIcon>
-            </StyleWrapperInput>
+            {t('Hello')}<b> &nbsp;{profile?.fullname ?? ''}</b>
           </div>
         </StyledHeader>
-        <Menu>
+        <Menu className='ion-margin-top'>
           <IonItem className="ion-no-padding" color="light">
             <IonLabel><span className="title">{t('Featured Services')}</span></IonLabel>
             <IonNote slot="end">{t('View all')}</IonNote>
@@ -263,18 +225,6 @@ const Home: React.FC = () => {
             </ResultButton>
           </IonCol>
         </IonRow>
-        {/* <IonRow >
-          <IonCol size="12" size-sm='12'>
-            <ResultButton color='light' lines='none'>
-              <ResultIcon icon={newspaperOutline} />
-              <ResultLabel >
-                {t('Update test results')}
-              </ResultLabel>
-              <IonIcon icon={arrowForwardOutline} color='medium'>
-              </IonIcon>
-            </ResultButton>
-          </IonCol>
-        </IonRow> */}
         <Menu>
           <IonItem className="ion-no-padding" color="light">
             <IonLabel><span className="title">{t('Featured Posts')}</span></IonLabel>

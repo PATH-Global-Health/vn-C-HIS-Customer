@@ -73,10 +73,10 @@ const MethodCard: React.FC<Props> = ({ methods }) => {
   return (
     <>
       {(methods || []).map(({ name, icon, color, label, content }, index) => (
-        <div>
+        <div key={index}>
           {
             name === 'question' ?
-              <IonRow key={index}>
+              <IonRow >
                 <IonCol size="12" size-sm="3">
                   <StyledItem color="light" >
                     <StyledIcon icon={icon} style={{ backgroundColor: color, minWidth: '35px' }} />

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonNote, IonText } from '@ionic/react';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonNote, IonText, IonAlert } from '@ionic/react';
 import { eyeSharp, eyeOffSharp, chevronBackOutline } from 'ionicons/icons';
 
 import { useHistory } from 'react-router-dom';
@@ -40,7 +40,6 @@ const ErrorText = styled(IonText)`
    font-size: 15px;
 `;
 
-
 interface InputProps {
   name: string;
   fieldType: string;
@@ -57,14 +56,13 @@ interface ChangePasswordModal {
 const ChangePasswordPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const history = useHistory();
-  const { control, handleSubmit, register, formState: { errors }, trigger } = useForm();
+  const { control, handleSubmit, register, formState: { errors }, trigger, getValues } = useForm();
 
+  const [showAlert, setShowAlert] = useState(false);
   const [oldPasswordVisible, setOldPasswordVisible] = useState(false);
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
   const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
-  const [showFailedToast, setShowFailedToast] = useState(false);
-  const [showMatchPasswordFailedToast, setShowMatchPasswordFailedToast] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const formFields: InputProps[] = [
     {
@@ -93,17 +91,13 @@ const ChangePasswordPage: React.FC = () => {
   const handleChangePassword = async (data: ChangePasswordModal): Promise<void> => {
     try {
       const { oldPassword, newPassword, confirmNewPassword } = data;
-      if (newPassword && confirmNewPassword && newPassword !== confirmNewPassword) {
-        setShowMatchPasswordFailedToast(true);
-      }
-      else {
-        const params = { oldPassword: oldPassword, newPassword: newPassword };
-        await authService.changePassword(params);
-        setShowSuccessToast(true);
-        setTimeout(() => history.push('/login'), 2000);
-      }
+      const params = { oldPassword: oldPassword, newPassword: newPassword };
+      await authService.changePassword(params);
+      setSuccess(true);
+      setShowAlert(true);
     } catch (error) {
-      setShowFailedToast(true);
+      setSuccess(false);
+      setShowAlert(true);
     }
   };
   useEffect(() => {
@@ -111,21 +105,25 @@ const ChangePasswordPage: React.FC = () => {
       'oldPassword',
       {
         required: { value: true, message: t('Password not entered') },
-        minLength: { value: 8, message: t('Password minimum 8 characters') },
+        minLength: { value: 8, message: t('Password minimum is 8 characters') },
+        maxLength: { value: 12, message: t('Password maximum is 12 characters') },
       }
     );
     register(
       'newPassword',
       {
         required: { value: true, message: t('Password not entered') },
-        minLength: { value: 8, message: t('Password minimum 8 characters') },
+        minLength: { value: 8, message: t('Password minimum is 8 characters') },
+        maxLength: { value: 12, message: t('Password maximum is 12 characters') },
       }
     );
     register(
       'confirmNewPassword',
       {
         required: { value: true, message: t('Password not entered') },
-        minLength: { value: 8, message: t('Password minimum 8 characters') },
+        minLength: { value: 8, message: t('Password minimum is 8 characters') },
+        maxLength: { value: 12, message: t('Password maximum is 12 characters') },
+        validate: value => value !== getValues('newPassword') ? t('Confirm password is not match').toString() : true
       }
     );
   }, [register]);
@@ -138,34 +136,6 @@ const ChangePasswordPage: React.FC = () => {
         </IonItem>
       </IonHeader>
       <IonContent >
-        <IonToast
-          isOpen={showSuccessToast}
-          onDidDismiss={() => setShowSuccessToast(false)}
-          color='success'
-          message={t('Change password successfully')}
-          duration={1000}
-          position="top"
-          animated={true}
-        />
-        <IonToast
-          isOpen={showFailedToast}
-          onDidDismiss={() => setShowFailedToast(false)}
-          color='danger'
-          message={t('Old password is incorrect')}
-          duration={1000}
-          position="top"
-          animated={true}
-        />
-        <IonToast
-          isOpen={showMatchPasswordFailedToast}
-          onDidDismiss={() => setShowMatchPasswordFailedToast(false)}
-          color='danger'
-          message={t('New password is incorrect')}
-          duration={1000}
-          position="top"
-          animated={true}
-        />
-
         <form onSubmit={handleSubmit(handleChangePassword)} style={{ paddingLeft: '10px', paddingRight: '25px' }}>
           {formFields.map(({ label, name, fieldType, ...otherProps }) => {
             switch (fieldType) {
@@ -183,7 +153,6 @@ const ChangePasswordPage: React.FC = () => {
                         <IonCol size="12" size-sm='3'>
                           <IonItem color='light'>
                             <StyledInput
-                              required={true}
                               onIonBlur={() => {
                                 trigger(name)
                               }}
@@ -251,8 +220,32 @@ const ChangePasswordPage: React.FC = () => {
             </IonCol>
           </IonRow>
         </form>
-
-
+        <IonAlert
+          isOpen={showAlert}
+          onDidDismiss={() => setShowAlert(false)}
+          cssClass='my-custom-class'
+          header={success ? t('Success!') : t('Failed!')}
+          message={success ? t('Change password successfully') : t('Old password is incorrect! Change password failed')}
+          buttons={[
+            {
+              text: t('Back to account'),
+              handler: () => {
+                setTimeout(() => {
+                  history.push('/account');
+                  window.location.reload();
+                }, 0);
+              }
+            },
+            {
+              text: t('Close'),
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: () => {
+                setShowAlert(false);
+              }
+            },
+          ]}
+        />
       </IonContent>
     </IonPage>
   );

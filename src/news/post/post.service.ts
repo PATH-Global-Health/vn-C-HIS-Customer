@@ -4,15 +4,18 @@ import { Tag, PostDetail, PostResponse } from './post.model';
 const getPosts = async ({
   pageIndex = 0,
   pageSize = 10,
+  searchText = '',
 }: {
   pageIndex?: number;
   pageSize?: number;
+  searchText?: string;
 }): Promise<PostResponse> => {
   const response = await httpClient.get({
     url: apiLinks.post.get,
     params: {
       pageIndex,
       pageSize,
+      searchText,
     },
   });
   return response.data as PostResponse;

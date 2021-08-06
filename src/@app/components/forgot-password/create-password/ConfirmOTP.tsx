@@ -44,7 +44,7 @@ const StyleNoteText = styled.div`
 `;
 
 interface confirmOTP {
-  username: string,
+  email: string,
   otp: string,
 }
 const ConfirmOTP: React.FC = () => {
@@ -57,7 +57,7 @@ const ConfirmOTP: React.FC = () => {
   const handleData = async (data: confirmOTP): Promise<void> => {
     try {
       const { otp } = data;
-      const params = { username: inputData, otp: otp };
+      const params = { email: inputData, otp: otp };
       const response = await authService.confirmOTP(params);
       console.log(response?.access_token);
       setShowSuccessToast(true);

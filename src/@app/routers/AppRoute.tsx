@@ -10,6 +10,7 @@ interface Props {
   path?: string;
   exact?: boolean;
   isPrivate?: boolean;
+  isIncognito?: boolean;
 }
 
 const AppRoute: React.FC<Props> = (props) => {
@@ -19,6 +20,7 @@ const AppRoute: React.FC<Props> = (props) => {
     path,
     exact,
     isPrivate = false,
+    isIncognito,
   } = props;
 
   const { isAuthenticated } = useAuth();
@@ -28,7 +30,7 @@ const AppRoute: React.FC<Props> = (props) => {
       path={path}
       exact={exact}
       render={(componentProps): JSX.Element => {
-        if ((isPrivate && isAuthenticated()) || !isPrivate) {
+        if ((isPrivate && isAuthenticated()) || !isPrivate || isIncognito) {
           if (Layout) {
             return (
               <Layout>
@@ -43,16 +45,31 @@ const AppRoute: React.FC<Props> = (props) => {
             </DefaultLayout>
           );
         }
-        return (
-          <Redirect
-            to={{
-              pathname: '/',
-              state: {
-                from: componentProps.location,
-              },
-            }}
-          />
-        );
+        else {
+          if (!isIncognito) {
+            return (
+              <Redirect
+                to={{
+                  pathname: '/incognito',
+                  state: {
+                    from: componentProps.location,
+                  },
+                }}
+              />
+            );
+          }
+          return (
+            <Redirect
+              to={{
+                pathname: '/',
+                state: {
+                  from: componentProps.location,
+                },
+              }}
+            />
+          );
+        }
+
       }}
     />
   );

@@ -28,7 +28,7 @@ type UseAuth = {
     accessToken: string,
   ) => Promise<void>;
   loginWithGoogle: (
-    accessToken: string,
+    idToken: string,
   ) => Promise<void>;
 
   logout: () => void;
@@ -98,9 +98,9 @@ const useAuth = (): UseAuth => {
 
   // login with google
   const loginWithGoogle = async (
-    accessToken: string,
+    idToken: string,
   ): Promise<void> => {
-    const token = unwrapResult(await dispatch(lig({ accessToken })));
+    const token = unwrapResult(await dispatch(lig({ idToken })));
     localStorage.setItem(TOKEN, JSON.stringify(token));
     localStorage.setItem(
       EXPIRED_TIME,

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonText, IonItem } from '@ionic/react';
@@ -11,6 +10,8 @@ import { Controller, useForm } from "react-hook-form";
 import logo from '../assets/img/logo.png';
 import authService from '@app/services/auth';
 import { useTranslation } from 'react-i18next';
+import ReCAPTCHA from 'react-google-recaptcha';
+
 
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
@@ -48,7 +49,7 @@ const StyledHeader = styled.h1`
     font-weight: 700;
     color: #010100;
     padding-left: 35px;
-    margin-top: 30px;
+    margin-top: 20px;
 `;
 const StyledIcon = styled(IonIcon)`
    margin-right: 30px;
@@ -72,12 +73,14 @@ interface RegisterModal {
   password: string;
   phoneNumber: string;
   fullName: string;
+  email: string;
 }
 
 
 const RegisterPage: React.FC = () => {
   const history = useHistory();
   const { t, i18n } = useTranslation();
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
   const formFields: InputProps[] = [
     {
       name: "fullName",
@@ -95,6 +98,14 @@ const RegisterPage: React.FC = () => {
       placeholder: t('PhoneNumber'),
     },
     {
+      name: "email",
+      fieldType: "input",
+      label: t('Email'),
+      type: 'email',
+      icon: mailOutline,
+      placeholder: t('Email'),
+    },
+    {
       name: "password",
       fieldType: "input",
       type: "password",
@@ -106,40 +117,60 @@ const RegisterPage: React.FC = () => {
   const { control, handleSubmit, register, formState: { errors }, trigger, getValues, setError } = useForm();
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
-  const [passWord, setPasswrod] = useState<string>('');
+  const [submitting, setSubmitting] = useState<boolean>(true);
   const handleRegistry = async (data: RegisterModal): Promise<void> => {
-    try {
-      const { fullName, phoneNumber, password } = data;
-      const params = { userName: phoneNumber, password: password, phoneNumber: phoneNumber, fullName: fullName }
-      await authService.createAccount(params);
-      setShowSuccessToast(true);
-      setTimeout(() => history.push('/login'), 1500);
-    } catch (error) {
-      setShowFailedToast(true);
+    const captchaValue = recaptchaRef?.current?.getValue();
+    if (captchaValue?.length !== 0) {
+      try {
+        const { fullName, phoneNumber, password, email } = data;
+        const params = { userName: phoneNumber, password: password, email: email, phoneNumber: phoneNumber, fullName: fullName }
+        console.log(params);
+        await authService.createAccount(params);
+        setShowSuccessToast(true);
+        setTimeout(() => history.push('/login'), 1500);
+      } catch (error) {
+        setShowFailedToast(true);
+      }
     }
   };
+  const onChangeCaptcha = (value: any) => {
+    if (value.length !== 0) {
+      setSubmitting(false);
+    }
+  }
 
   useEffect(() => {
     register(
       'fullName',
       {
         required: { value: true, message: t('Username not enter') },
-        pattern: { value: /^\S*$/, message: t('User name can not contain spaces') }
+        pattern: { value: /^\S*$/, message: t('Username can not contain spaces') },
+        minLength: { value: 8, message: t('Username minnimun is 8 characters') },
+        maxLength: { value: 35, message: t('Username maximum is 35 characters') },
       }
     );
     register(
       'phoneNumber',
       {
         required: { value: true, message: t('No phone number entered') },
-        maxLength: { value: 10, message: t('Phone numbers with up to 10 digits') },
+        minLength: { value: 10, message: t('Phone numbers with minnimun is 10 digits') },
+        maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
         pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
+      }
+    );
+    register(
+      'email',
+      {
+        required: { value: true, message: t('Email is not enter') },
+        pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: t('The email address is not valid') }
       }
     );
     register(
       'password',
       {
         required: { value: true, message: t('Password not entered') },
-        minLength: { value: 8, message: t('Password minimum 8 characters') },
+        minLength: { value: 8, message: t('Password minimum is 8 characters') },
+        maxLength: { value: 12, message: t('Password maximum is 12 characters') },
         validate: value => value === getValues('phoneNumber') ? t('Password is not duplicate with phone number').toString() : true
       }
     );
@@ -167,7 +198,7 @@ const RegisterPage: React.FC = () => {
         />
         <IonRow >
           <IonCol >
-            <div style={{ textAlign: 'center', marginTop: '30px' }}>
+            <div style={{ textAlign: 'center', marginTop: '20px' }}>
               <img width='300px' src={logo} alt="logo" />
             </div>
           </IonCol>
@@ -203,6 +234,7 @@ const RegisterPage: React.FC = () => {
                           </StyleWrapperInput>
                           {(errors?.fullName?.message && name === 'fullName') && <ErrorText color='danger'>{(errors?.fullName?.message)}</ErrorText>}
                           {(errors?.phoneNumber?.message && name === 'phoneNumber') && <ErrorText color='danger'>{(errors?.phoneNumber?.message)}</ErrorText>}
+                          {(errors?.email?.message && name === 'email') && <ErrorText color='danger'>{(errors?.email?.message)}</ErrorText>}
                           {(errors?.password?.message && name === 'password') && <ErrorText color='danger'>{(errors?.password?.message)}</ErrorText>}
                         </IonCol>
                       </IonRow>
@@ -237,23 +269,30 @@ const RegisterPage: React.FC = () => {
               }
             }
           })}
+          <IonRow className="ion-justify-content-start ion-margin-start ion-margin-top">
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey="6Lew_9cbAAAAAF2NMLBtcXq_Xp2IG38X2qKz7chA"
+              onChange={onChangeCaptcha}
+            />
+          </IonRow>
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" size-sm='3'>
               <StyleText >{t('Already have an account') + '?'}<b onClick={() => { history.push('/login') }} style={{ cursor: 'pointer' }} >{t('Login')}</b></StyleText>
             </IonCol>
           </IonRow>
-          <IonRow className="ion-justify-content-center">
+          <IonRow className="ion-justify-content-center ">
             <IonCol size="12" size-sm='3'>
               <div style={{ textAlign: 'center', marginTop: '10px' }}>
-                <StyledButton type='submit'>{t('Sign up')}</StyledButton>
+                <StyledButton type='submit' disabled={submitting} >{t('Sign up')}</StyledButton>
               </div>
             </IonCol>
           </IonRow>
         </form>
-
       </IonContent>
     </>
   );
 };
 
 export default RegisterPage;
+

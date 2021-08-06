@@ -1,20 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonNote, IonSelect, IonSelectOption, IonDatetime, IonText } from '@ionic/react';
-import { eyeSharp, eyeOffSharp, chevronBackOutline } from 'ionicons/icons';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonSelect, IonSelectOption, IonDatetime, IonText, IonAlert } from '@ionic/react';
+import { chevronBackOutline } from 'ionicons/icons';
 
 import { useHistory } from 'react-router-dom';
 import { Controller, useForm } from "react-hook-form";
 
-import authService from '@app/services/auth';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from '@app/hooks';
-import { ProfileUM } from '../profile.model';
+import { useSelector } from '@app/hooks';
 import moment from 'moment';
 import profileService from '../profile.service';
-import { getProfile } from '../profile.slice';
 
 const StyledInput = styled(IonInput)`
     color: black;
@@ -61,25 +58,15 @@ interface InputProps {
   label?: string;
   [otherProps: string]: unknown;
 };
-interface ChangePasswordModal {
-  oldPassword: string,
-  newPassword: string,
-  confirmNewPassword: string,
-}
-
 
 const UpdateProfile: React.FC = () => {
   const { t, i18n } = useTranslation();
   const history = useHistory();
-  const dispatch = useDispatch();
   const { profile: data } = useSelector((s) => s.profile);
-  const { control, handleSubmit, register, formState: { errors }, trigger, reset, watch, setValue } = useForm();
-  const [oldPasswordVisible, setOldPasswordVisible] = useState(false);
-  const [newPasswordVisible, setNewPasswordVisible] = useState(false);
-  const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
-  const [showFailedToast, setShowFailedToast] = useState(false);
-  const [showMatchPasswordFailedToast, setShowMatchPasswordFailedToast] = useState(false);
+  const { control, handleSubmit, register, formState: { errors }, trigger, reset, watch } = useForm();
+
+  const [showAlert, setShowAlert] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const formFields: InputProps[] = [
     {
@@ -115,7 +102,6 @@ const UpdateProfile: React.FC = () => {
       fieldType: "input",
       type: "email",
       label: t('Email'),
-      placeholder: t('Email'),
     },
     {
       name: "identityCard",
@@ -171,28 +157,27 @@ const UpdateProfile: React.FC = () => {
   const onSubmit = async (data: any): Promise<void> => {
     try {
       await profileService.updateProfile(data);
-      setShowSuccessToast(true);
-      setTimeout(() => history.push('/profile'), 1500);
+      setSuccess(true);
+      setShowAlert(true);
     } catch (error) {
-      setShowFailedToast(true);
+      setSuccess(false);
+      setShowAlert(true);
     }
   };
 
   useEffect(() => {
-    register('fullname', { required: { value: true, message: t('full name not enterd') } });
+    register(
+      'fullname',
+      {
+        required: { value: true, message: t('Username not enter') },
+        pattern: { value: /^\S*$/, message: t('Username can not contain spaces') },
+        minLength: { value: 8, message: t('Username minnimun is 8 characters') },
+        maxLength: { value: 35, message: t('Username maximum is 35 characters') },
+      }
+    );
     register('gender', { required: { value: true, message: t('gender not enterd') } });
     register('dateOfBirth', { required: { value: true, message: t('date of birth not enterd') } });
     register('phoneNumber', { required: { value: true, message: t('phone number not enterd') } });
-    register('email', {
-      required: {
-        value: true,
-        message: t('email not enterd')
-      },
-      pattern: {
-        value: /\S+@\S+\.\S+/,
-        message: t("Entered value does not match email format")
-      }
-    });
     register('identityCard', { required: { value: true, message: t('identity card not enterd') } });
     register('address', { required: { value: true, message: t('address not enterd') } });
     register('nation', { required: { value: true, message: t('nation name not enterd') } });
@@ -212,25 +197,6 @@ const UpdateProfile: React.FC = () => {
         </IonItem>
       </IonHeader>
       <IonContent >
-        <IonToast
-          isOpen={showSuccessToast}
-          onDidDismiss={() => setShowSuccessToast(false)}
-          color='success'
-          message={t('Update profile successfully')}
-          duration={1000}
-          position="top"
-          animated={true}
-        />
-        <IonToast
-          isOpen={showFailedToast}
-          onDidDismiss={() => setShowFailedToast(false)}
-          color='danger'
-          message={t('Update profile failed')}
-          duration={1000}
-          position="top"
-          animated={true}
-        />
-
         <form onSubmit={handleSubmit((d) => onSubmit(d))} style={{ paddingLeft: '10px', paddingRight: '25px' }}>
           {formFields.map(({ label, name, fieldType, ...otherProps }) => {
             switch (fieldType) {
@@ -240,17 +206,37 @@ const UpdateProfile: React.FC = () => {
                     key={name}
                     name={name}
                     control={control}
+                    rules={
+                      name === 'fullname' ? {
+                        required: { value: true, message: t('Username not enter') },
+                        //pattern: { value: /^\S*$/, message: t('Username can not contain spaces') },
+                        minLength: { value: 8, message: t('Username minnimun is 8 characters') },
+                        maxLength: { value: 35, message: t('Username maximum is 35 characters') },
+                      }
+                        : name === 'gender' ? { required: { value: true, message: t('gender not enterd') } }
+                          : name === 'dateOfBirth' ? { required: { value: true, message: t('date of birth not enterd') } }
+                            : name === 'phoneNumber' ? {
+                              required: { value: true, message: t('No phone number entered') },
+                              minLength: { value: 10, message: t('Phone numbers with minnimun is 10 digits') },
+                              maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
+                              pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
+                            }
+                              : name === 'identityCard' ? { required: { value: true, message: t('identity card not enterd') } }
+                                : name === 'nation' ? { required: { value: true, message: t('nation name not enterd') } }
+                                  : undefined
+                    }
                     render={({ field: { onChange, onBlur, value } }) => (
-                      <IonRow >
+                      <IonRow>
                         <StyledLabel >
                           {label}
                         </StyledLabel>
                         <IonCol size="12" size-sm='3'>
                           <IonItem color='light'>
                             <StyledInput
-                              onIonBlur={() => {
+                              onIonBlur={(e) => {
                                 trigger(name);
                               }}
+                              readonly={name === 'email' ? true : false}
                               value={watch(name) || undefined}
                               onIonChange={onChange}
                               {...otherProps}
@@ -259,7 +245,6 @@ const UpdateProfile: React.FC = () => {
                           </IonItem>
                           {(errors?.fullname?.message && name === 'fullname') && <ErrorText color='danger'>{(errors?.fullname?.message)}</ErrorText>}
                           {(errors?.phoneNumber?.message && name === 'phoneNumber') && <ErrorText color='danger'>{(errors?.phoneNumber?.message)}</ErrorText>}
-                          {(errors?.email?.message && name === 'email') && <ErrorText color='danger'>{(errors?.email?.message)}</ErrorText>}
                           {(errors?.identityCard?.message && name === 'identityCard') && <ErrorText color='danger'>{(errors?.identityCard?.message)}</ErrorText>}
                           {(errors?.address?.message && name === 'address') && <ErrorText color='danger'>{(errors?.address?.message)}</ErrorText>}
                           {(errors?.nation?.message && name === 'nation') && <ErrorText color='danger'>{(errors?.nation?.message)}</ErrorText>}
@@ -367,8 +352,32 @@ const UpdateProfile: React.FC = () => {
             </IonCol>
           </IonRow>
         </form>
-
-
+        <IonAlert
+          isOpen={showAlert}
+          onDidDismiss={() => setShowAlert(false)}
+          cssClass='my-custom-class'
+          header={success ? t('Success!') : t('Failed!')}
+          message={success ? t('Update profile successfully') : t('Update profile failed')}
+          buttons={[
+            {
+              text: t('Back to account'),
+              handler: () => {
+                setTimeout(() => {
+                  history.push('/account');
+                  window.location.reload();
+                }, 0);
+              }
+            },
+            {
+              text: t('Close'),
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: () => {
+                setShowAlert(false);
+              }
+            },
+          ]}
+        />
       </IonContent>
     </IonPage>
   );

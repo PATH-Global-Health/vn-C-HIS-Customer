@@ -139,7 +139,7 @@ const Home: React.FC = () => {
   const history = useHistory();
 
   const handleTypeService = (name: string) => {
-    name === "booking" ? history.push("/homeBooking")
+    name === "booking" ? history.push("/shomeBooking")
       : name === "examinationList" ? history.push("/examinationList")
         : RedirectRiskPage();
 

@@ -129,7 +129,7 @@ const routes: Route[] = [
   {
     component: HomeBooking,
     layout: AppLayout,
-    path: '/homeBooking',
+    path: '/shomeBooking',
     isPrivate: true,
     isIncognito: false,
   },

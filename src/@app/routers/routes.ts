@@ -118,7 +118,7 @@ const routes: Route[] = [
     layout: AppLayout,
     path: '/risk',
     isPrivate: true,
-    isIncognito: false,
+    isIncognito: true,
   },
   {
     component: HomeBooking,

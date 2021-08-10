@@ -14,13 +14,14 @@ import {
   IonSpinner,
   IonButton,
 } from '@ionic/react';
-import { useDispatch, useSelector } from '@app/hooks';
+import { useAuth, useDispatch, useSelector } from '@app/hooks';
 
 import img from '@app/assets/img/khau_trang.jpg';
 import virus from '@app/assets/img/virus2.jpg';
 import { useTranslation } from 'react-i18next';
 import { getQuestionTemplates, getQuestionTemplatesDetail, setHandeRisk } from '../question-template.slice';
 import { getSurveySession } from 'risk/SurveySession/survey-session.slice';
+
 
 const Card = styled(IonRow)`
   ion-card {
@@ -129,7 +130,7 @@ const QuestionTemplatePage: React.FC = () => {
                   {
                     o?.isCompleted
                       ? <IonButton className='btn done' onClick={() => handleReview(o?.id, 'ans-history')} >{t('Accomplished')}</IonButton>
-                      : <IonButton className='btn' onClick={() => handleTest(o?.id, 'answer')}>{t('Done now')}</IonButton>
+                      : <IonButton className='btn' onClick={() => handleTest(o?.id, 'answer')}>{t('Do now')}</IonButton>
                   }
                 </IonCard>
               </Card>

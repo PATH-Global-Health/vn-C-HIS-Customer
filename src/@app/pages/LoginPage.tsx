@@ -180,7 +180,7 @@ const LoginPage: React.FC = () => {
           isOpen={showFailedToast}
           onDidDismiss={() => setShowFailedToast(false)}
           color='danger'
-          message={t('Wrong password or phone number')}
+          message={t('This account does not exist, please create a new one!')}
           duration={1000}
           position="top"
           animated={true}

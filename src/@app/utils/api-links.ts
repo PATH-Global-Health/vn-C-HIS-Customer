@@ -15,7 +15,9 @@ const apiLinks = {
     token: `${userUrl}/api/Users/Login`,
     loginWithFacebook: `${userUrl}/api/Users/LoginWithFacebook`,
     loginWithGoogle: `${userUrl}/api/Users/LoginWithGoogle`,
-    userInfo: `${userUrl}/api/Users/GetUserInfo`
+    userInfo: `${userUrl}/api/Users/GetUserInfo`,
+    confirmEmail: `${userUrl}/api/Users/SendOTPVerification`,
+    verifyEmailOTp: `${userUrl}/api/Users/VerifyEmailOTP`,
   },
   manageAccount: {
     create: `${userUrl}/api/Users`,

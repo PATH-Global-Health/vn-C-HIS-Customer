@@ -12,8 +12,10 @@ import {
   IonListHeader,
   IonRadio,
 } from '@ionic/react';
+import { useAuth } from '@app/hooks';
 import { useDispatch, useSelector } from '@app/hooks';
 
+import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { setHandeRisk } from '../question-template.slice';
 import surveySessionService from 'risk/SurveySession/survey-session.service';
@@ -48,8 +50,9 @@ const QuestionForm: React.FC = () => {
   const dispatch = useDispatch();
   const detailData = useSelector((s) => s.risk.questionTemplateDetail);
   const userId = useSelector(s => s.auth.token?.userId);
-
+  const { isAuthenticated } = useAuth();
   const handleData = async (data: any): Promise<void> => {
+    console.log(isAuthenticated);
     try {
       const surveySessionResults = Object.entries(data).map((o, i) => {
         return {
@@ -59,7 +62,7 @@ const QuestionForm: React.FC = () => {
       })
       const params = {
         questionTemplateId: detailData?.id ?? '',
-        userId: userId ?? '',
+        userId: isAuthenticated() ? userId : uuidv4(),
         result: '',
         surveySessionResults: surveySessionResults,
       }
@@ -98,7 +101,7 @@ const QuestionForm: React.FC = () => {
                           {
                             o?.answers?.map((ans, idx) => (
                               <IonItem key={idx}>
-                                <IonLabel>{ans?.description ?? ''}</IonLabel>
+                                <IonItem>{ans?.description ?? ''}</IonItem>
                                 <IonRadio slot="start" value={ans?.id} />
                               </IonItem>
                             ))

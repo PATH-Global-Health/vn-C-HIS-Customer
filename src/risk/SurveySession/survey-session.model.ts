@@ -28,7 +28,7 @@ interface SurveyResultDetail {
 }
 export interface SurveySession {
   questionTemplateId: string;
-  userId: string;
+  userId?: string;
   result: string;
   surveySessionResults: SurveySessionResult[];
 }

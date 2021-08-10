@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from '@app/hooks';
 import moment from 'moment';
 import profileService from '../profile.service';
-
 const StyledInput = styled(IonInput)`
     color: black;
     margin-top: 2px;
@@ -29,7 +28,6 @@ const StyledButton = styled(IonButton)`
     margin-left: 20px;
     width: 300px;
     --background: #293978;
-    
 `;
 const StyledLabel = styled(IonLabel)`
     font-size: 18px;
@@ -171,7 +169,7 @@ const UpdateProfile: React.FC = () => {
       {
         required: { value: true, message: t('Username not enter') },
         pattern: { value: /^\S*$/, message: t('Username can not contain spaces') },
-        minLength: { value: 8, message: t('Username minnimun is 8 characters') },
+        minLength: { value: 4, message: t('Username minnimun is 4 characters') },
         maxLength: { value: 35, message: t('Username maximum is 35 characters') },
       }
     );

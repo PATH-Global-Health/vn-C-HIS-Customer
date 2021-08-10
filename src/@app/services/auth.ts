@@ -65,7 +65,30 @@ const createAccount = async ({
     },
   });
 };
-
+const sendMailOTP = async (email?: string): Promise<any> => {
+  const response = await httpClient.post({
+    url: apiLinks.auth.confirmEmail,
+    params: {
+      email
+    }
+  });
+  return response;
+};
+const verifyEmailOTP = async ({
+  email,
+  otp,
+}: {
+  email?: string,
+  otp?: string,
+}): Promise<void> => {
+  await httpClient.post({
+    url: apiLinks.auth.verifyEmailOTp,
+    data: {
+      email,
+      otp
+    },
+  });
+};
 const changePassword = async ({
   oldPassword,
   newPassword
@@ -143,6 +166,8 @@ const authService = {
   loginWithFacebook,
   loginWithGoogle,
   createAccount,
+  sendMailOTP,
+  verifyEmailOTP,
   changePassword,
   generateOTP,
   confirmOTP,

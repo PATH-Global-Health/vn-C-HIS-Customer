@@ -10,12 +10,12 @@ import authService from '@app/services/auth';
 import { Token } from '@app/models/token';
 import { UserInfo } from '@app/models/user-info';
 import { Permission } from '@app/models/permission';
-import { Method } from 'ionicons/dist/types/stencil-public-runtime';
 
 interface State {
   token: Token | null;
   tokenExpiredTime: Date | null;
   loginLoading: boolean;
+  loginError: string | null;
   userInfo: UserInfo | null;
   getUserInfoLoading: boolean;
   permissionList: Permission[];
@@ -31,6 +31,7 @@ const initialState: State = {
   token: null,
   tokenExpiredTime: null,
   loginLoading: false,
+  loginError: null,
   userInfo: null,
   getUserInfoLoading: false,
   permissionList: [
@@ -54,9 +55,13 @@ type CR<T> = CaseReducer<State, PayloadAction<T>>;
 const login = createAsyncThunk(
   'auth/login',
   async (arg: { username: string; password: string; remember: boolean; permissionQuery: {} }) => {
-    const { username, password, permissionQuery, remember } = arg;
-    const result = await authService.login(username, password, remember, permissionQuery);
-    return result;
+    try {
+      const { username, password, permissionQuery, remember } = arg;
+      const result = await authService.login(username, password, remember, permissionQuery);
+      return result;
+    } catch (error) {
+      throw new Error(error.response.data);
+    }
   },
 );
 const loginWithFacebook = createAsyncThunk(
@@ -140,8 +145,9 @@ const slice = createSlice({
             : initialState.permissionList,
       };
     });
-    builder.addCase(login.rejected, (state) => ({
+    builder.addCase(login.rejected, (state, action) => ({
       ...state,
+      loginError: action?.error?.message ?? null,
       loginLoading: false,
     }));
 

@@ -5,12 +5,13 @@ import styled from 'styled-components';
 import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox, IonToast, IonItem, IonText, IonSelect, IonSelectOption, IonModal } from '@ionic/react';
 import { lockClosed, phonePortraitOutline, mailOutline, logoFacebook, language, eyeOffSharp, eyeSharp } from 'ionicons/icons';
 
-import useAuth from '@app/hooks/use-auth';
+import { useSelector, useAuth } from '@app/hooks';
 import { useHistory } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 
 import logo from '../assets/img/logo.png';
 import { useTranslation } from 'react-i18next';
+import {  } from 'react-redux';
 import Facebook from '@app/components/login/FacebookLogin';
 import GoogleAuthen from '@app/components/login/GoogleLogin';
 import FacebookAuthen from '@app/components/login/FacebookLogin';
@@ -132,6 +133,7 @@ const LoginPage: React.FC = () => {
   const [showFailedToast, setShowFailedToast] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const { loginError } = useSelector((state) => state.auth);
   const handleLogin = async (data: LoginModel): Promise<void> => {
     setSubmitting(true);
     try {
@@ -141,6 +143,7 @@ const LoginPage: React.FC = () => {
       setShowSuccessToast(true);
       setTimeout(() => history.push('/home'), 1500);
     } catch (error) {
+      console.log(loginError);
       setSubmitting(false);
       setShowFailedToast(true);
     }

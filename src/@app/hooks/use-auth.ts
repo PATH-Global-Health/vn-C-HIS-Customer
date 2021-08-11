@@ -62,7 +62,7 @@ const useAuth = (): UseAuth => {
     remember: boolean,
     permissionQuery: {},
   ): Promise<void> => {
-    const token = unwrapResult(await dispatch(li({ username, password, remember, permissionQuery })));
+    const token = await unwrapResult(await dispatch(li({ username, password, remember, permissionQuery })));
     if (remember) {
       localStorage.setItem(TOKEN, JSON.stringify(token));
       localStorage.setItem(

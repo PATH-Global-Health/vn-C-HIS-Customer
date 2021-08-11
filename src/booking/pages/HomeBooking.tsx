@@ -25,13 +25,13 @@ const HomeBooking: React.FC = () => {
   return (
     <IonPage className={styles.styledPage}>
       <IonHeader className={styles.header}>
-        <button 
-        className={styles.btnCustomHeader} 
-        onClick={() => history.goBack()}>
-          <IonIcon 
-          className={styles.iconLeft} 
-          icon={chevronBack}></IonIcon>
-          </button>
+        <button
+          className={styles.btnCustomHeader}
+          onClick={() => history.goBack()}>
+          <IonIcon
+            className={styles.iconLeft}
+            icon={chevronBack}></IonIcon>
+        </button>
         <IonLabel className={styles.headerLabel}>{t('Booking')} </IonLabel>
       </IonHeader>
       <IonContent className={styles.content}>

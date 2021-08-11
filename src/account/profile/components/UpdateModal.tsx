@@ -12,6 +12,8 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from '@app/hooks';
 import moment from 'moment';
 import profileService from '../profile.service';
+import location from '@app/mock/locations.json';
+import nation from '@app/mock/nations.json';
 const StyledInput = styled(IonInput)`
     color: black;
     margin-top: 2px;
@@ -23,6 +25,12 @@ const StyledSelect = styled(IonSelect)`
     margin-top: 2px;
     margin-left: 5px;
     --placeholder-color:#91969c;
+    ::part(icon) {
+      position: absolute;
+      right: 6%;
+      color: #666666;
+      opacity: 1;
+    }
 `;
 const StyledButton = styled(IonButton)`
     margin-left: 20px;
@@ -56,7 +64,10 @@ interface InputProps {
   label?: string;
   [otherProps: string]: unknown;
 };
-
+const gender = [
+  { value: true, label: 'Male' },
+  { value: false, label: 'Female' }
+];
 const UpdateProfile: React.FC = () => {
   const { t, i18n } = useTranslation();
   const history = useHistory();
@@ -117,21 +128,21 @@ const UpdateProfile: React.FC = () => {
     },
     {
       name: "province",
-      fieldType: "input",
+      fieldType: "select",
       type: "text",
       label: t('Province/City'),
       placeholder: t('Province/City'),
     },
     {
       name: "district",
-      fieldType: "input",
+      fieldType: "select",
       type: "text",
       label: t('District'),
       placeholder: t('District'),
     },
     {
       name: "ward",
-      fieldType: "input",
+      fieldType: "select",
       type: "text",
       label: t('Ward'),
       placeholder: t('Ward'),
@@ -139,13 +150,13 @@ const UpdateProfile: React.FC = () => {
     {
       name: "passportNumber",
       fieldType: "input",
-      type: "number",
+      type: "text",
       label: t('Passport number'),
       placeholder: t('Passport number'),
     },
     {
       name: "nation",
-      fieldType: "input",
+      fieldType: "select",
       type: "text",
       label: t('Nation'),
       placeholder: t('Nation'),
@@ -266,14 +277,38 @@ const UpdateProfile: React.FC = () => {
                         <IonCol size="12" size-sm='3'>
                           <IonItem color='light'>
                             <StyledSelect
+                              cancelText={t('Cancel')}
+                              okText={t('Okay')}
                               onIonBlur={() => {
                                 trigger(name)
                               }}
                               value={watch(name)}
                               onIonChange={onChange}
                             >
-                              <IonSelectOption value={true}>{t('Male')}</IonSelectOption>
-                              <IonSelectOption value={false}>{t('Female')}</IonSelectOption>
+                              {
+                                name === 'province' ?
+                                  location.map((lo) => (
+                                    <IonSelectOption key={lo.value} value={lo.value}>{lo.label}</IonSelectOption>
+                                  ))
+                                  : name === 'district' ?
+                                    Boolean(location.find((lo) => lo.value === watch('province'))) === true ?
+                                      location.filter((lo) => lo.value === watch('province'))[0].districts.map((districts) => (
+                                        <IonSelectOption key={districts.value} value={districts.value}>{districts.label}</IonSelectOption>
+                                      )) : ""
+                                    : name === 'ward' ?
+                                      Boolean(location.find((lo) => lo.value === watch('province'))) === true &&
+                                        location.filter((lo) => lo.value === watch('province'))[0].districts.filter((dis) => dis.value === watch('district'))[0] !== undefined ?
+                                        location.filter((lo) => lo.value === watch('province'))[0].districts.filter((dis) => dis.value === watch('district'))[0].wards.map((ward) => (
+                                          <IonSelectOption key={ward.value} value={ward.value}>{ward.label}</IonSelectOption>
+                                        )) : ""
+                                      : name === 'nation' ?
+                                        nation.map((na) => (
+                                          <IonSelectOption key={na.countryCode} value={na.countryCode}>{na.name}</IonSelectOption>
+                                        ))
+                                        : gender.map((i, idx) => (
+                                          <IonSelectOption key={idx} value={i.value}>{t(i.label)}</IonSelectOption>
+                                        ))
+                              }
                             </StyledSelect>
                           </IonItem>
                           {(errors?.gender?.message && name === 'gender') && <ErrorText color='danger'>{(errors?.gender?.message)}</ErrorText>}
@@ -297,6 +332,8 @@ const UpdateProfile: React.FC = () => {
                         <IonCol size="12" size-sm='3'>
                           <IonItem color='light'>
                             <StyledDatePicker
+                              cancelText={t('Cancel')}
+                              doneText={t('Okay')}
                               pickerFormat="DDDDD MMMM YYYY"
                               placeholder={t('day/month/year')}
                               displayFormat="MM/DD/YYYY"

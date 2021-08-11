@@ -115,7 +115,8 @@ const RegisterPage: React.FC = () => {
       await authService.sendMailOTP(email);
       setShowAlert(true);
     }
-    catch {
+    catch (err) {
+      console.log(err);
       setConfirmMail(true);
     }
   }
@@ -123,7 +124,7 @@ const RegisterPage: React.FC = () => {
     const { email, otp } = getValues();
     authService.verifyEmailOTP({ email: email, otp: otp })
       .then(() => {
-        handleRegistry();
+        //handleRegistry();
         setShowAlert(false);
       })
       .catch(() => {
@@ -138,6 +139,7 @@ const RegisterPage: React.FC = () => {
         const { fullName, phoneNumber, password, email } = getValues();
         const params = { userName: phoneNumber, password: password, email: email, phoneNumber: phoneNumber, fullName: fullName }
         await authService.createAccount(params);
+        await handleMailAction(email);
         setSuccess(true);
         setShowAlertRegistry(true);
       } catch (error) {
@@ -186,7 +188,7 @@ const RegisterPage: React.FC = () => {
         validate: value => value === getValues('phoneNumber') ? t('Password is not duplicate with phone number').toString() : true
       }
     );
-    register('otp', { required: { value: true, message: t('Otp not enterd') } });
+    register('otp');
   }, [register]);
   return (
     < >
@@ -308,7 +310,7 @@ const RegisterPage: React.FC = () => {
             ]}
             buttons={[
               {
-                text: t('Cancel'),
+                text: t('Close'),
                 role: 'cancel',
                 cssClass: 'secondary',
                 handler: () => {
@@ -358,7 +360,7 @@ const RegisterPage: React.FC = () => {
           <IonRow className="ion-justify-content-center ">
             <IonCol size="12" size-sm='3'>
               <div style={{ textAlign: 'center', marginTop: '10px' }}>
-                <StyledButton disabled={submitting} onClick={() => handleMailAction(getValues('email'))}>{t('Sign up')}</StyledButton>
+                <StyledButton type='submit' disabled={submitting} /* onClick={() => handleMailAction(getValues('email'))} */>{t('Sign up')}</StyledButton>
               </div>
             </IonCol>
           </IonRow>

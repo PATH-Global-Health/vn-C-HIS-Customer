@@ -184,6 +184,8 @@ const routes: Route[] = [
   {
     component: ResultExaminations,
     layout: AppLayout,
+    isPrivate: true,
+    isIncognito: false,
     path: '/resultExaminations'
   },
   {

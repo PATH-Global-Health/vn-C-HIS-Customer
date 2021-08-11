@@ -190,6 +190,15 @@
     "Enter secutiry question answer": "Nhập câu trả lời",
     "This feature is developing": "Tính năng này đang phát triển",
     "Confirm new password is not match": "Mật khẩu nhập lại không khớp",
+    "Examination information": "Thông tin xét nghiệm",
+    "Result information": "Thông tin kết quả",
+    "Test": "Xét nghiệm",
+    "Advise": "Tư vấn",
+    "Test address": "Địa chỉ xét nghiệm",
+    "Test Type": "Loại xét nghiệm",
+    "Test Date": "Ngày xét nghiệm",
+    "Result Day": "Ngày trả kết quả",
+    "Test Results": "Kết quả xét nghiệm",
     "The email address is not valid": "Địa chỉ email không hợp lệ",
     "Email is not enter": "Chưa nhập địa chỉ email",
     "Old password is incorrect! Change password failed": "Mật khẩu cũ không đúng! cập nhật thất bại",
@@ -219,5 +228,7 @@
     "Enter verification code": "Nhập mã xác thực OTP",
     "Enter the verification code that was sent to your email": "Nhập mã xác thực đã được gửi qua email của bạn",
     "verification code": "Mã xác thực",
-    "Back to login": "Quay lại đăng nhập"
+    "Back to login": "Quay lại đăng nhập",
+    "Download file success": "Tải file thành công",
+    "Download file failed": "Tải file thất bại"
 }

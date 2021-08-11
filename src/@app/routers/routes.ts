@@ -19,14 +19,20 @@ import ChoosingTime from 'booking/pages/ChoosingTime';
 import ConfirmProfile from 'booking/pages/ConfirmProfile';
 import ApointmentInfo from 'booking/pages/ApointmentInfo';
 import ExaminationList from 'booking/pages/ExaminationList';
+import ResultExaminations from 'booking/pages/ResultExaminations';
 import PostDetailPage from 'news/PostDetail';
 import Evaluate from 'booking/pages/Evaluate';
 import RiskPage from 'risk/QuestionTemplate';
 import Profile from 'account/profile/components/Personal';
 import SecurityQuestion from 'account/security-question';
 import UpdateProfile from 'account/profile/components/UpdateModal';
+
 import notify from 'notify/index';
+
+import ExaminationResultInfo from 'booking/pages/ExaminationResultInfo';
+
 import Incognito from 'Incognito/index';
+
 
 interface Route {
   component: React.FC;
@@ -123,7 +129,7 @@ const routes: Route[] = [
   {
     component: HomeBooking,
     layout: AppLayout,
-    path: '/homeBooking',
+    path: '/shomeBooking',
     isPrivate: true,
     isIncognito: false,
   },
@@ -174,6 +180,16 @@ const routes: Route[] = [
     component: Evaluate,
     layout: AppLayout,
     path: '/evaluate'
+  },
+  {
+    component: ResultExaminations,
+    layout: AppLayout,
+    path: '/resultExaminations'
+  },
+  {
+    component: ExaminationResultInfo,
+    layout: AppLayout,
+    path: '/examinationResultInfo'
   },
   {
     component: PageNotFound,

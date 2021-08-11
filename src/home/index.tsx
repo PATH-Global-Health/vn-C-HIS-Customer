@@ -139,7 +139,7 @@ const Home: React.FC = () => {
   const history = useHistory();
 
   const handleTypeService = (name: string) => {
-    name === "booking" ? history.push("/homeBooking")
+    name === "booking" ? history.push("/shomeBooking")
       : name === "examinationList" ? history.push("/examinationList")
         : RedirectRiskPage();
 
@@ -215,7 +215,7 @@ const Home: React.FC = () => {
         </Menu>
         <IonRow className='ion-margin-top'>
           <IonCol size="12" size-sm='12'>
-            <ResultButton color='light' lines='none'>
+            <ResultButton onClick={() => history.push('/resultExaminations')} color='light' lines='none'>
               <ResultIcon icon={eyedropOutline} />
               <ResultLabel >
                 {t('View test results')}
@@ -225,18 +225,6 @@ const Home: React.FC = () => {
             </ResultButton>
           </IonCol>
         </IonRow>
-        {/*      <IonRow >
-          <IonCol size="12" size-sm='12'>
-            <ResultButton color='light' lines='none'>
-              <ResultIcon icon={newspaperOutline} />
-              <ResultLabel >
-                {t('Update test results')}
-              </ResultLabel>
-              <IonIcon icon={arrowForwardOutline} color='medium'>
-              </IonIcon>
-            </ResultButton>
-          </IonCol>
-        </IonRow> */}
         <Menu>
           <IonItem className="ion-no-padding" color="light">
             <IonLabel><span className="title">{t('Featured Posts')}</span></IonLabel>

@@ -79,6 +79,13 @@ const UpdateProfile: React.FC = () => {
 
   const formFields: InputProps[] = [
     {
+      name: "id",
+      fieldType: "input",
+      type: "text",
+      label: t('User ID'),
+      placeholder: t('User ID'),
+    },
+    {
       name: "fullname",
       fieldType: "input",
       type: "text",
@@ -245,7 +252,7 @@ const UpdateProfile: React.FC = () => {
                               onIonBlur={(e) => {
                                 trigger(name);
                               }}
-                              readonly={name === 'email' ? true : false}
+                              readonly={name === 'email' || name === 'id' ? true : false}
                               value={watch(name) || undefined}
                               onIonChange={onChange}
                               {...otherProps}

@@ -234,5 +234,6 @@
     "Back to login": "Quay lại đăng nhập",
     "Wrong password, please check again!": "Sai mật khẩu, vui lòng kiểm tra lại!",
     "Download file success": "Tải file thành công",
-    "Download file failed": "Tải file thất bại"
+    "Download file failed": "Tải file thất bại",
+    "User ID": "ID người dùng"
 }

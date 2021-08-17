@@ -1,12 +1,13 @@
+import axios from 'axios';
 import { httpClient, apiLinks } from '@app/utils';
 
 import { Token } from '@app/models/token';
 //import { UserInfo } from '@app/models/user-info';
 
 const login = async (username: string, password: string, remember: boolean, permissionQuery: {}): Promise<Token> => {
-  const response = await httpClient.post({
+  const response = await axios({
+    method: 'POST',
     url: apiLinks.auth.token,
-    // data: `grant_type=password&username=${username}&password=${password}`,
     data: {
       username,
       password,
@@ -15,6 +16,7 @@ const login = async (username: string, password: string, remember: boolean, perm
   });
   return response.data as Token;
 };
+
 const loginWithFacebook = async ({
   accessToken = '',
 }: {
@@ -41,6 +43,13 @@ const loginWithGoogle = async ({
   });
   return response.data as Token;
 };
+const loginWithIncognito = async (): Promise<Token> => {
+  const response = await axios({
+    method: 'POST',
+    url: apiLinks.auth.loginWithIncognito,
+  });
+  return response.data as Token;
+};
 const createAccount = async ({
   userName,
   password,
@@ -54,7 +63,8 @@ const createAccount = async ({
   email: string;
   fullName: string;
 }): Promise<void> => {
-  await httpClient.post({
+  const response = await axios({
+    method: 'POST',
     url: apiLinks.manageAccount.create,
     data: {
       userName,
@@ -64,6 +74,7 @@ const createAccount = async ({
       email,
     },
   });
+  return response.data;
 };
 const sendMailOTP = async (email?: string): Promise<any> => {
   const response = await httpClient.post({
@@ -165,6 +176,7 @@ const authService = {
   login,
   loginWithFacebook,
   loginWithGoogle,
+  loginWithIncognito,
   createAccount,
   sendMailOTP,
   verifyEmailOTP,

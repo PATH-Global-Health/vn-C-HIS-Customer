@@ -117,7 +117,7 @@ const routes: Route[] = [
     layout: AppLayout,
     path: '/account',
     isPrivate: true,
-    isIncognito: true,
+    isIncognito: false,
   },
   {
     component: RiskPage,
@@ -131,7 +131,7 @@ const routes: Route[] = [
     layout: AppLayout,
     path: '/shomeBooking',
     isPrivate: true,
-    isIncognito: false,
+    isIncognito: true,
   },
   {
     component: TestingAppointment,

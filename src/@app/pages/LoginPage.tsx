@@ -2,17 +2,16 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox, IonToast, IonItem, IonText, IonSelect, IonSelectOption, IonModal } from '@ionic/react';
-import { lockClosed, phonePortraitOutline, mailOutline, logoFacebook, language, eyeOffSharp, eyeSharp } from 'ionicons/icons';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox, IonToast, IonItem, IonText, IonSelect, IonSelectOption } from '@ionic/react';
+import { lockClosed, phonePortraitOutline, eyeOffSharp, eyeSharp } from 'ionicons/icons';
 
-import { useSelector, useAuth } from '@app/hooks';
+import { useAuth } from '@app/hooks';
 import { useHistory } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 
 import logo from '../assets/img/logo.png';
 import { useTranslation } from 'react-i18next';
-import {  } from 'react-redux';
-import Facebook from '@app/components/login/FacebookLogin';
+import { } from 'react-redux';
 import GoogleAuthen from '@app/components/login/GoogleLogin';
 import FacebookAuthen from '@app/components/login/FacebookLogin';
 
@@ -66,32 +65,9 @@ const ErrorText = styled(IonText)`
    margin-left: 5px;
    font-size: 15px;
 `;
-const StyledIconSocial = styled(IonIcon)`
-  margin: 15px 20px 10px 15px;
-  padding: 15px 15px;
-  font-size: 20px;
-  border: 1px solid #9dabdd;
-  border-radius: 50px;
-  color: black;
-  align-item: center;
-`;
-const StyledGoogleAuthen = styled.div`
-  margin: 15px 20px 10px 15px;
-  padding: 15px 15px;
-  font-size: 20px;
-  border: 1px solid #9dabdd;
-  border-radius: 50px;
-  color: black;
-  align-item: center;
-`;
 const StyledIcon = styled(IonIcon)`
    font-size: 20px;
    color: #5d6060;
-`;
-const StyledModal = styled(IonModal)`
-  & .my-custom-class{
-    --background:  white !important;
-  }
 `;
 interface InputProps {
   name: string;
@@ -126,14 +102,14 @@ const LoginPage: React.FC = () => {
     },
   ];
   const { control, handleSubmit, register, formState: { errors }, trigger } = useForm();
-  const { login } = useAuth();
+  const { login, loginWithIncognito } = useAuth();
   const permissionQuery = {};
+  const [errorCode, setErrorCode] = useState<string>('');
   const [remember, setRemember] = useState(true)
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const { loginError } = useSelector((state) => state.auth);
   const handleLogin = async (data: LoginModel): Promise<void> => {
     setSubmitting(true);
     try {
@@ -143,9 +119,18 @@ const LoginPage: React.FC = () => {
       setShowSuccessToast(true);
       setTimeout(() => history.push('/home'), 1500);
     } catch (error) {
-      console.log(loginError);
+      setErrorCode(error.message);
       setSubmitting(false);
       setShowFailedToast(true);
+    }
+  };
+  const handleLoginWithIncognito = async (): Promise<void> => {
+    try {
+      await loginWithIncognito();
+      history.push('/home');
+    }
+    catch (err) {
+      console.log(err);
     }
   };
   useEffect(() => {
@@ -183,7 +168,12 @@ const LoginPage: React.FC = () => {
           isOpen={showFailedToast}
           onDidDismiss={() => setShowFailedToast(false)}
           color='danger'
-          message={t('This account does not exist, please create a new one!')}
+          message={
+            errorCode === 'INCORRECT_USERNAME_PASSWORD' ?
+              t('Wrong password, please check again!')
+              :
+              t('This account does not exist, please create a new one!')
+          }
           duration={1000}
           position="top"
           animated={true}
@@ -289,7 +279,7 @@ const LoginPage: React.FC = () => {
         </form>
         <IonRow className="ion-justify-content-center">
           <IonCol size="12" size-sm='4'>
-            <div onClick={() => history.push('/home')} style={{ textAlign: 'center', marginTop: '10px', color: '#496fb0', fontSize: '17px' }}>
+            <div onClick={() => handleLoginWithIncognito()} style={{ textAlign: 'center', marginTop: '10px', color: '#496fb0', fontSize: '17px' }}>
               {t('Anonymous login')}
             </div>
           </IonCol>

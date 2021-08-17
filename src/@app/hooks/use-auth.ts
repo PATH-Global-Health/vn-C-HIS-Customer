@@ -7,6 +7,7 @@ import {
   logout as lo,
   loginWithFacebook as lif,
   loginWithGoogle as lig,
+  loginWithIncognito as lia,
   setToken,
 } from '../slices/auth';
 
@@ -30,6 +31,7 @@ type UseAuth = {
   loginWithGoogle: (
     idToken: string,
   ) => Promise<void>;
+  loginWithIncognito: () => Promise<void>;
 
   logout: () => void;
 };
@@ -110,6 +112,19 @@ const useAuth = (): UseAuth => {
     );
   };
 
+  //login with incognito
+  const loginWithIncognito = async (
+  ): Promise<void> => {
+    const token = unwrapResult(await dispatch(lia()));
+    localStorage.setItem(TOKEN, JSON.stringify(token));
+    localStorage.setItem(
+      EXPIRED_TIME,
+      moment()
+        .add(token.expires_in * 1000, 'seconds')
+        .toString(),
+    );
+  };
+
   const logout = useCallback((): void => {
     localStorage.removeItem(TOKEN);
     localStorage.removeItem(EXPIRED_TIME);
@@ -123,6 +138,7 @@ const useAuth = (): UseAuth => {
     login,
     loginWithFacebook,
     loginWithGoogle,
+    loginWithIncognito,
     logout,
   };
 };

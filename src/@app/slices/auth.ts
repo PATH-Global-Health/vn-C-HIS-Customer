@@ -82,6 +82,14 @@ const loginWithGoogle = createAsyncThunk(
   },
 );
 
+const loginWithIncognito = createAsyncThunk(
+  'auth/loginWithIncognito',
+  async () => {
+    const result = await authService.loginWithIncognito();
+    return result;
+  },
+);
+
 const setTokenCR: CR<{
   token: Token;
   tokenExpiredTime: Date;
@@ -201,6 +209,32 @@ const slice = createSlice({
       loginLoading: false,
     }));
 
+    //login with incognito
+    builder.addCase(loginWithIncognito.pending, (state) => ({
+      ...state,
+      loginLoading: true,
+    }));
+    builder.addCase(loginWithIncognito.fulfilled, (state, { payload }) => {
+      const { username } = payload;
+      return {
+        ...state,
+        loginLoading: false,
+        token: payload,
+        tokenExpiredTime: new Date(
+          new Date().getTime() + payload.expires_in * 1000,
+        ),
+        permissionList:
+          username === '1'
+            ? [{ code: 'ADMIN' }, { code: 'CSYT_CATALOG' }]
+            : initialState.permissionList,
+      };
+    });
+    builder.addCase(loginWithIncognito.rejected, (state, action) => ({
+      ...state,
+      loginError: action?.error?.message ?? null,
+      loginLoading: false,
+    }));
+
     // get user info
     /*   builder.addCase(getUserInfo.pending, (state) => ({
         ...state,
@@ -218,7 +252,7 @@ const slice = createSlice({
   },
 });
 
-export { login, loginWithFacebook, loginWithGoogle };
+export { login, loginWithFacebook, loginWithGoogle, loginWithIncognito };
 export const {
   logout,
   setToken,

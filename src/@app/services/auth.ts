@@ -43,6 +43,13 @@ const loginWithGoogle = async ({
   });
   return response.data as Token;
 };
+const loginWithIncognito = async (): Promise<Token> => {
+  const response = await axios({
+    method: 'POST',
+    url: apiLinks.auth.loginWithIncognito,
+  });
+  return response.data as Token;
+};
 const createAccount = async ({
   userName,
   password,
@@ -56,7 +63,8 @@ const createAccount = async ({
   email: string;
   fullName: string;
 }): Promise<void> => {
-  await httpClient.post({
+  const response = await axios({
+    method: 'POST',
     url: apiLinks.manageAccount.create,
     data: {
       userName,
@@ -66,6 +74,7 @@ const createAccount = async ({
       email,
     },
   });
+  return response.data;
 };
 const sendMailOTP = async (email?: string): Promise<any> => {
   const response = await httpClient.post({
@@ -167,6 +176,7 @@ const authService = {
   login,
   loginWithFacebook,
   loginWithGoogle,
+  loginWithIncognito,
   createAccount,
   sendMailOTP,
   verifyEmailOTP,

@@ -59,6 +59,11 @@ const ErrorText = styled(IonText)`
    margin-left: 5px;
    font-size: 15px;
 `;
+const StyledAlert = styled(IonAlert)`
+.alert-title sc-ion-alert-md
+    --color:red !important;
+  }
+`;
 interface InputProps {
   name: string;
   fieldType: string;
@@ -104,44 +109,54 @@ const RegisterPage: React.FC = () => {
     },
   ];
   const { control, handleSubmit, register, formState: { errors }, trigger, getValues, setValue } = useForm();
-  const [confirmMail, setConfirmMail] = useState(false);
-  const [verifyEmailOTPFailed, setVerifyEmailOTPFailed] = useState(false);
+  const [errorCode, setErrorCode] = useState<string>('');
+  const [verifyEmailOTPFailed, setVerifyEmailOTPFailed] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(true);
-  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [verifyCode, setVerifyCode] = useState<boolean>(false);
   const [showAlertRegistry, setShowAlertRegistry] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const handleMailAction = async (email: string): Promise<void> => {
     try {
       await authService.sendMailOTP(email);
-      setShowAlert(true);
+      setVerifyCode(true);
     }
-    catch {
-      setConfirmMail(true);
+    catch (err) {
+      console.log(err);
+      //setConfirmMail(true);
     }
   }
   const verifyEmailOTP = async (): Promise<void> => {
     const { email, otp } = getValues();
     authService.verifyEmailOTP({ email: email, otp: otp })
       .then(() => {
-        handleRegistry();
-        setShowAlert(false);
+        setVerifyCode(false);
+        setSuccess(true);
+        setShowAlertRegistry(true);
       })
       .catch(() => {
-        setShowAlert(true);
+        setVerifyCode(true);
         setVerifyEmailOTPFailed(true);
+        /*  setSuccess(false);
+         setShowAlertRegistry(true); */
       })
   };
   const handleRegistry = async (): Promise<void> => {
-    const captchaValue = recaptchaRef?.current?.getValue();
-    if (captchaValue?.length !== 0) {
-      try {
-        const { fullName, phoneNumber, password, email } = getValues();
-        const params = { userName: phoneNumber, password: password, email: email, phoneNumber: phoneNumber, fullName: fullName }
-        await authService.createAccount(params);
-        setSuccess(true);
-        setShowAlertRegistry(true);
-      } catch (error) {
-        setSuccess(false);
+    setSuccess(false);
+    /*  const captchaValue = recaptchaRef?.current?.getValue();
+     if (captchaValue?.length !== 0) {
+     } */
+    try {
+      const { fullName, phoneNumber, password, email } = getValues();
+      const params = { userName: phoneNumber, password: password, email: email, phoneNumber: phoneNumber, fullName: fullName }
+      await authService.createAccount(params);
+      await handleMailAction(email);
+    } catch (error) {
+      console.log(error.response.data);
+      setErrorCode(error.response.data);
+      if (error.response.data === 'UNVERIFIED_USER') {
+        setVerifyCode(true);
+      }
+      else {
         setShowAlertRegistry(true);
       }
     }
@@ -186,20 +201,11 @@ const RegisterPage: React.FC = () => {
         validate: value => value === getValues('phoneNumber') ? t('Password is not duplicate with phone number').toString() : true
       }
     );
-    register('otp', { required: { value: true, message: t('Otp not enterd') } });
+    register('otp');
   }, [register]);
   return (
     < >
       <IonContent >
-        <IonToast
-          isOpen={confirmMail}
-          onDidDismiss={() => setConfirmMail(false)}
-          color='danger'
-          message={t('Email address does not exist, please check again!')}
-          duration={1000}
-          position="top"
-          animated={true}
-        />
         <IonToast
           isOpen={verifyEmailOTPFailed}
           onDidDismiss={() => setVerifyEmailOTPFailed(false)}
@@ -290,8 +296,8 @@ const RegisterPage: React.FC = () => {
             />
           </IonRow>
           <IonAlert
-            isOpen={showAlert}
-            onDidDismiss={() => setShowAlert(false)}
+            isOpen={verifyCode}
+            onDidDismiss={() => setVerifyCode(false)}
             cssClass='my-custom-class'
             header={t('Enter verification code')}
             message={t('Enter the verification code that was sent to your email')}
@@ -308,7 +314,7 @@ const RegisterPage: React.FC = () => {
             ]}
             buttons={[
               {
-                text: t('Cancel'),
+                text: t('Close'),
                 role: 'cancel',
                 cssClass: 'secondary',
                 handler: () => {
@@ -324,18 +330,27 @@ const RegisterPage: React.FC = () => {
               }
             ]}
           />
-          <IonAlert
+          <StyledAlert
             isOpen={showAlertRegistry}
             onDidDismiss={() => setShowAlertRegistry(false)}
             cssClass='my-custom-class'
             header={success ? t('Sign Up success!') : t('Sign Up failed!')}
-            message={success ? t('') : t('This email or phone was used, please using another or go to [Password recovery page] to get back your account')}
+            message={
+              success ? t('') :
+                errorCode === 'EXISTED_EMAIL' ?
+                  t('This email was used, please using another or go to Password recovery page to get back your account')
+                  : errorCode === 'EXISTED_USERNAME' ?
+                    t('This phone number was used, please using another or go to Password recovery page to get back your account')
+                    :
+                    t('Error! An error occurred')
+            }
             buttons={[
               {
                 text: t('Close'),
                 role: 'cancel',
                 cssClass: 'secondary',
                 handler: () => {
+                  setSuccess(false)
                   setShowAlertRegistry(false);
                 }
               },
@@ -358,7 +373,7 @@ const RegisterPage: React.FC = () => {
           <IonRow className="ion-justify-content-center ">
             <IonCol size="12" size-sm='3'>
               <div style={{ textAlign: 'center', marginTop: '10px' }}>
-                <StyledButton disabled={submitting} onClick={() => handleMailAction(getValues('email'))}>{t('Sign up')}</StyledButton>
+                <StyledButton type='submit' disabled={submitting}  /* onClick={() => handleMailAction(getValues('email'))} */>{t('Sign up')}</StyledButton>
               </div>
             </IonCol>
           </IonRow>

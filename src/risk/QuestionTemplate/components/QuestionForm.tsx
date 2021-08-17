@@ -15,7 +15,6 @@ import {
 import { useAuth } from '@app/hooks';
 import { useDispatch, useSelector } from '@app/hooks';
 
-import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { setHandeRisk } from '../question-template.slice';
 import surveySessionService from 'risk/SurveySession/survey-session.service';
@@ -52,7 +51,6 @@ const QuestionForm: React.FC = () => {
   const userId = useSelector(s => s.auth.token?.userId);
   const { isAuthenticated } = useAuth();
   const handleData = async (data: any): Promise<void> => {
-    console.log(isAuthenticated);
     try {
       const surveySessionResults = Object.entries(data).map((o, i) => {
         return {
@@ -62,7 +60,7 @@ const QuestionForm: React.FC = () => {
       })
       const params = {
         questionTemplateId: detailData?.id ?? '',
-        userId: isAuthenticated() ? userId : uuidv4(),
+        userId: userId,
         result: '',
         surveySessionResults: surveySessionResults,
       }
@@ -73,6 +71,7 @@ const QuestionForm: React.FC = () => {
       }));
 
     } catch (error) {
+      console.log(error);
       //setShowFailedToast(true);
     }
   };

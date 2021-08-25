@@ -23,7 +23,6 @@ import ResultExaminations from 'booking/pages/ResultExaminations';
 import PostDetailPage from 'news/PostDetail';
 import Evaluate from 'booking/pages/Evaluate';
 import RiskPage from 'risk/QuestionTemplate';
-import Profile from 'account/profile/components/Personal';
 import SecurityQuestion from 'account/security-question';
 import UpdateProfile from 'account/profile/components/UpdateModal';
 
@@ -117,7 +116,7 @@ const routes: Route[] = [
     layout: AppLayout,
     path: '/account',
     isPrivate: true,
-    isIncognito: true,
+    isIncognito: false,
   },
   {
     component: RiskPage,
@@ -131,7 +130,7 @@ const routes: Route[] = [
     layout: AppLayout,
     path: '/shomeBooking',
     isPrivate: true,
-    isIncognito: false,
+    isIncognito: true,
   },
   {
     component: TestingAppointment,
@@ -184,6 +183,8 @@ const routes: Route[] = [
   {
     component: ResultExaminations,
     layout: AppLayout,
+    isPrivate: true,
+    isIncognito: false,
     path: '/resultExaminations'
   },
   {

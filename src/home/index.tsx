@@ -9,6 +9,7 @@ import {
   IonLabel,
   IonNote,
   IonRow,
+  IonSpinner,
 } from '@ionic/react';
 import {
   chevronForwardOutline,
@@ -132,9 +133,7 @@ const Home: React.FC = () => {
       color: "#f1c248"
     },
   ];
-  const [pageIndex, setPageIndex] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(50);
-  const { data } = useSelector((s) => s.post.postList);
+  const { postList: { data }, getPostLoading } = useSelector((s) => s.post);
   const { profile } = useSelector((s) => s.profile);
   const history = useHistory();
 
@@ -148,14 +147,15 @@ const Home: React.FC = () => {
     history.push("/risk");
     dispatch(setHandeRisk({ type: undefined }));
   }
-  const getData = useCallback(() => {
-    dispatch(getPosts({
-      pageIndex,
-      pageSize
-    }));
-    dispatch(getUserInfo());
-  }, [pageIndex, pageSize, dispatch]);
-  useEffect(getData, [getData]);
+  /*   const getData = useCallback(() => {
+      dispatch(getPosts({
+        pageIndex,
+        pageSize
+      }));
+      dispatch(getUserInfo());
+    }, [pageIndex, pageSize, dispatch]);
+    useEffect(getData, [getData]); */
+
   const getProfileData = useCallback(() => {
     dispatch(getProfile());
   }, [dispatch]);
@@ -163,6 +163,7 @@ const Home: React.FC = () => {
 
   return (
     <>
+
       <IonContent>
         <IonRow className="ion-justify-content-center ion-margin-top" >
           <IonCol size="4" size-sm="3">
@@ -232,7 +233,7 @@ const Home: React.FC = () => {
             <IonIcon className="ion-align-self-center" slot="end" size="small" icon={chevronForwardOutline} />
           </IonItem>
         </Menu>
-        <PostCard data={data} />
+        <PostCard />
       </IonContent>
     </>
   );

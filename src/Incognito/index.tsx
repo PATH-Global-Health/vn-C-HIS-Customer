@@ -11,10 +11,12 @@ import {
 
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
+import { useAuth } from '@app/hooks';
 
 const IncognitoPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const { logout } = useAuth();
   return (
     <IonContent>
       <IonRow className="ion-justify-content-center">
@@ -40,6 +42,7 @@ const IncognitoPage: React.FC = () => {
                   role: 'cancel',
                   cssClass: 'secondary',
                   handler: () => {
+                    logout();
                     setTimeout(() => {
                       history.push('/register');
                       window.location.reload();

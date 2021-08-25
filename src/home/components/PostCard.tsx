@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import {
@@ -8,6 +8,7 @@ import {
   IonItem,
   IonNote,
   IonRow,
+  IonSpinner,
 } from '@ionic/react';
 
 
@@ -21,7 +22,7 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Post } from 'home/home.model';
-import { useDispatch } from '@app/hooks';
+import { useDispatch, useSelector } from '@app/hooks';
 import { getPostDetail, getPosts, setParentPostData } from 'news/post/post.slice';
 
 
@@ -46,9 +47,12 @@ const CardSlider = styled(IonRow)`
 interface Props {
   data: Post[];
 }
-const PostCard: React.FC<Props> = ({ data }) => {
+const PostCard: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { postList: { data }, getPostLoading } = useSelector((s) => s.post);
+  const [pageIndex, setPageIndex] = useState<number>(0);
+  const [pageSize, setPageSize] = useState<number>(50);
   const reverseArr = (arr: Post[]) => {
     let result = [];
     for (let i = arr.length - 1; i >= 0; i--) {
@@ -70,31 +74,41 @@ const PostCard: React.FC<Props> = ({ data }) => {
       }
     })
   }
+  const getData = useCallback(() => {
+    dispatch(getPosts({
+      pageIndex,
+      pageSize
+    }));
+  }, [pageIndex, pageSize, dispatch]);
+  useEffect(getData, [getData]);
 
   return (
-    <>
-      <Slider infinite={false} dots={true} slidesToShow={1.3} slidesToScroll={1} swipeToSlide={true} autoplay={true} >
-        {
-          formatArr(reverseArr(data)).slice(0, 6).map((p, idx) => {
-            return (
-              <CardSlider key={idx}>
-                <IonCard onClick={() => {
-                  dispatch(getPostDetail({ postId: p.id }));
-                  dispatch(setParentPostData({ data: p }));
-                  history.push('/post-detail');
-                }}
-                >
-                  <img src={p?.description !== '' ? p.description : logo} alt="" />
-                  <IonCardHeader className='card-content' >
-                    <IonCardTitle >{p?.name ?? '...'}</IonCardTitle>
-                    <IonNote>{moment(p?.dateCreated).format('DD/MM/YYYY') ?? ''}</IonNote>
-                  </IonCardHeader>
-                </IonCard>
-              </CardSlider>
-            )
-          })
-        }
-      </Slider>
+    <>{
+      getPostLoading ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%', top: '10%' }}></IonSpinner>
+        :
+        <Slider infinite={false} dots={true} slidesToShow={1.3} slidesToScroll={1} swipeToSlide={true} autoplay={true} >
+          {
+            formatArr(reverseArr(data)).slice(0, 6).map((p, idx) => {
+              return (
+                <CardSlider key={idx}>
+                  <IonCard onClick={() => {
+                    dispatch(getPostDetail({ postId: p.id }));
+                    dispatch(setParentPostData({ data: p }));
+                    history.push('/post-detail');
+                  }}
+                  >
+                    <img src={p?.description !== '' ? p.description : logo} alt="" />
+                    <IonCardHeader className='card-content' >
+                      <IonCardTitle >{p?.name ?? '...'}</IonCardTitle>
+                      <IonNote>{moment(p?.dateCreated).format('DD/MM/YYYY') ?? ''}</IonNote>
+                    </IonCardHeader>
+                  </IonCard>
+                </CardSlider>
+              )
+            })
+          }
+        </Slider>
+    }
     </>
   );
 };

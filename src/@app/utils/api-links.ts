@@ -15,6 +15,7 @@ const apiLinks = {
     token: `${userUrl}/api/Users/Login`,
     loginWithFacebook: `${userUrl}/api/Users/LoginWithFacebook`,
     loginWithGoogle: `${userUrl}/api/Users/LoginWithGoogle`,
+    loginWithIncognito: `${userUrl}/api/Users/AnonymousLogin`,
     userInfo: `${userUrl}/api/Users/GetUserInfo`,
     confirmEmail: `${userUrl}/api/Users/SendOTPVerification`,
     verifyEmailOTp: `${userUrl}/api/Users/VerifyEmailOTP`,

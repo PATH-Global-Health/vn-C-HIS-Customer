@@ -232,7 +232,7 @@ const Account: React.FC = () => {
               handler: () => {
                 logout();
                 setTimeout(() => {
-                  history.push('/');
+                  history.push('/login');
                   window.location.reload();
                 }, 0);
               }

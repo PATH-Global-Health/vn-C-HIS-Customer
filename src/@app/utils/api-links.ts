@@ -6,7 +6,7 @@ const cmsApi = 'http://202.78.227.174:44322';
 
 // const smapi = ' https://localhost:44353';
 // https://localhost:44353
-const apiBookingService = 'https://c-his-api.bakco.vn';
+const apiBookingService = 'http://202.78.227.174:14789';
 // const apiBookingService = 'https://localhost:44308';
 // https://localhost:44308/
 

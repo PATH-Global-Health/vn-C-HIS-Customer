@@ -13,4 +13,5 @@ export interface Hospital {
     phone: string,
     email: string,
     introduction: string,
+    isDeleted: boolean,
 }

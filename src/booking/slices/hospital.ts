@@ -11,6 +11,7 @@ interface State {
 const initialState: State = {
     hospitals: [],
     hospitalBooking: {
+        isDeleted: false,
         dateCreated: "",
         dateUpdated: "",
         id: "",

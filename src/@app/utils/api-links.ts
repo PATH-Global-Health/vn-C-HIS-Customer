@@ -1,14 +1,7 @@
-const testApi = 'https://jsonplaceholder.typicode.com';
-const userUrl = 'http://202.78.227.174:14765';
-const smapi = 'http://202.78.227.174:30111';
-// http://202.78.227.174:30111/
-const cmsApi = 'http://202.78.227.174:44322';
-
-// const smapi = ' https://localhost:44353';
-// https://localhost:44353
-const apiBookingService = 'https://c-his-api.bakco.vn';
-// const apiBookingService = 'https://localhost:44308';
-// https://localhost:44308/
+const userUrl = 'https://user-management.bakco.vn';
+const smapi = 'https://schedule-management.bakco.vn';
+const cmsApi = 'https://mini-cms.bakco.vn';
+const apiBookingService = 'http://202.78.227.174:14789';
 
 const apiLinks = {
   auth: {
@@ -40,9 +33,6 @@ const apiLinks = {
     get: `${cmsApi}/api/Post`,
     getDetails: (id: string): string =>
       `${cmsApi}/api/Part/${id}`,
-    create: `${testApi}/api/Post`,
-    update: `${testApi}/Post/`,
-    delete: `${testApi}/Post/`,
   },
   tag: {
     get: `${cmsApi}/api/Tag`,

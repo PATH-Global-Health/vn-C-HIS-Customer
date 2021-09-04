@@ -14,6 +14,7 @@ import {
   IonRow,
   IonSelect,
   IonSelectOption,
+  IonToast,
 } from '@ionic/react';
 import {
   person,
@@ -33,6 +34,8 @@ import avatar from '@app/assets/img/avatar.png';
 import { useTranslation } from 'react-i18next';
 import { useAuth, useDispatch, useSelector } from '@app/hooks';
 import { getProfile } from './profile/profile.slice';
+import { getUserInfo } from '@app/slices/auth';
+import authService from '@app/services/auth';
 
 
 const StyledItem = styled(IonItem)`
@@ -57,7 +60,12 @@ const StyledIcon = styled(IonIcon)`
 const StyledText = styled(IonLabel)`
   font-size: 22px;
   font-weight: 600;
-`
+`;
+const StyledAlert = styled(IonAlert)`
+.alert-title sc-ion-alert-md
+    --color:red !important;
+  }
+`;
 interface OptionProps {
   icon: string;
   label: string;
@@ -72,8 +80,11 @@ const Account: React.FC = () => {
   const dispatch = useDispatch();
   const { logout } = useAuth();
   const [showAlert, setShowAlert] = useState(false);
+  const [verifyCode, setVerifyCode] = useState(false);
+  const [verifyOTPSuccess, setVerifyOTPSucess] = useState<boolean>(false);
+  const [verifyOTPFailed, setVerifyOTPFailed] = useState<boolean>(false);
   const { profile } = useSelector((s) => s.profile);
-
+  const userData = useSelector(s => s.auth.userInfo?.data);
   const optionFields: OptionProps[] = [
     {
       name: "profile",
@@ -100,12 +111,42 @@ const Account: React.FC = () => {
         color: "#3ac6e1"
       }, */
   ];
+  const handlePhoneAction = async (phone?: string): Promise<void> => {
+    try {
+      await authService.sendPhoneOTP(phone);
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+  const verifyPhoneOTP = async (otp: string): Promise<void> => {
+    authService.verifyPhoneOTP({ phoneNumber: userData?.userInfo?.phoneNumber, otp: otp })
+      .then(() => {
+        setVerifyOTPSucess(true);
+
+      })
+      .catch(() => {
+        setVerifyOTPFailed(true);
+      })
+  };
   const getData = useCallback(() => {
     dispatch(getProfile());
+    dispatch(getUserInfo());
   }, [dispatch]);
   useEffect(getData, [getData]);
+
+  useEffect(() => {
+    if (userData?.userInfo) {
+      if (!userData.userInfo?.isConfirmed) {
+        handlePhoneAction(userData.userInfo.phoneNumber);
+        setVerifyCode(true);
+      }
+    }
+  }, [userData]);
   return (
     <>
+      {console.log(userData?.userInfo?.isConfirmed)}
+
       <IonContent>
         <IonRow className="ion-justify-content-center " >
           <IonCol size="4" size-sm="3">
@@ -212,6 +253,60 @@ const Account: React.FC = () => {
             </div>
           </IonCol>
         </IonRow>
+        <IonToast
+          isOpen={verifyOTPSuccess}
+          onDidDismiss={() => setVerifyOTPSucess(false)}
+          color='success'
+          message={t('Successful authentication!')}
+          duration={1000}
+          position="top"
+          animated={true}
+        />
+        <IonToast
+          isOpen={verifyOTPFailed}
+          onDidDismiss={() => setVerifyOTPFailed(false)}
+          color='danger'
+          message={t('Incorrect code!')}
+          duration={1000}
+          position="top"
+          animated={true}
+        />
+        <StyledAlert
+          isOpen={verifyCode}
+          cssClass='my-custom-class'
+          header={t('Unverified account')}
+          message={
+            t('To verify your account, please enter the OTP code sent to phone number') + ` ${userData?.userInfo?.phoneNumber}`
+          }
+          inputs={[
+            {
+              name: 'otp',
+              type: 'number',
+              placeholder: t('verification code'),
+              cssClass: 'pass',
+              attributes: {
+                inputmode: 'decimal'
+              }
+            }
+          ]
+          }
+          buttons={[
+            {
+              text: t('Skip'),
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: () => {
+                console.log('Confirm Cancel');
+              }
+            },
+            {
+              text: t('Confirm'),
+              handler: (data) => {
+                verifyPhoneOTP(data?.otp);
+              }
+            }
+          ]}
+        />
         <IonAlert
           isOpen={showAlert}
           onDidDismiss={() => setShowAlert(false)}

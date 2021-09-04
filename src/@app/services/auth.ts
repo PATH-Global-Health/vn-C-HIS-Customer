@@ -2,6 +2,7 @@ import axios from 'axios';
 import { httpClient, apiLinks } from '@app/utils';
 
 import { Token } from '@app/models/token';
+import { AccountInfo } from '@app/models/accountInfo';
 //import { UserInfo } from '@app/models/user-info';
 
 const login = async (username: string, password: string, remember: boolean, permissionQuery: {}): Promise<Token> => {
@@ -55,12 +56,12 @@ const createAccount = async ({
   password,
   phoneNumber,
   fullName,
-  email,
+  // email,
 }: {
   userName: string;
   password: string;
   phoneNumber: string;
-  email: string;
+  // email: string;
   fullName: string;
 }): Promise<void> => {
   const response = await axios({
@@ -71,10 +72,34 @@ const createAccount = async ({
       password,
       phoneNumber,
       fullName,
-      email,
+      // email,
     },
   });
   return response.data;
+};
+const sendPhoneOTP = async (phoneNumber?: string): Promise<any> => {
+  const response = await httpClient.post({
+    url: apiLinks.manageAccount.generateOTP,
+    params: {
+      phoneNumber,
+    }
+  });
+  return response;
+};
+const verifyPhoneOTP = async ({
+  phoneNumber,
+  otp,
+}: {
+  phoneNumber?: string,
+  otp?: string,
+}): Promise<void> => {
+  await httpClient.post({
+    url: apiLinks.manageAccount.confirmOTP,
+    data: {
+      phoneNumber,
+      otp
+    },
+  });
 };
 const sendMailOTP = async (email?: string): Promise<any> => {
   const response = await httpClient.post({
@@ -165,19 +190,22 @@ const resetPassword = async ({
     },
   });
 };
-/* const getUserInfo = async (): Promise<UserInfo> => {
+const getUserInfo = async (): Promise<AccountInfo> => {
   const response = await httpClient.get({
     url: apiLinks.auth.userInfo,
   });
-  return response.data as UserInfo;
-}; */
+  return response.data as AccountInfo;
+};
 
 const authService = {
   login,
   loginWithFacebook,
   loginWithGoogle,
+  getUserInfo,
   loginWithIncognito,
   createAccount,
+  sendPhoneOTP,
+  verifyPhoneOTP,
   sendMailOTP,
   verifyEmailOTP,
   changePassword,

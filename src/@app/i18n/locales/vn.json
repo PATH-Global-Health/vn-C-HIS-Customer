@@ -235,5 +235,9 @@
     "Wrong password, please check again!": "Sai mật khẩu, vui lòng kiểm tra lại!",
     "Download file success": "Tải file thành công",
     "Download file failed": "Tải file thất bại",
-    "User ID": "ID người dùng"
+    "User ID": "ID người dùng",
+    "Successful authentication!": "Xác thực thành công",
+    "To verify your account, please enter the OTP code sent to phone number": "Để xác thực tài khoản, vui lòng nhập mã OTP đã được gửi tới số điện thoại",
+    "Skip": "Bỏ qua",
+    "Unverified account": "Tài khoản chưa xác thực"
 }

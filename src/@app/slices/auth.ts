@@ -10,13 +10,14 @@ import authService from '@app/services/auth';
 import { Token } from '@app/models/token';
 import { UserInfo } from '@app/models/user-info';
 import { Permission } from '@app/models/permission';
+import { AccountInfo } from '@app/models/accountInfo';
 
 interface State {
   token: Token | null;
   tokenExpiredTime: Date | null;
   loginLoading: boolean;
   loginError: string | null;
-  userInfo: UserInfo | null;
+  userInfo: AccountInfo | null;
   getUserInfoLoading: boolean;
   permissionList: Permission[];
   forgotPasswordData: {
@@ -52,6 +53,13 @@ const initialState: State = {
 
 type CR<T> = CaseReducer<State, PayloadAction<T>>;
 
+const getUserInfo = createAsyncThunk(
+  'user/getUserInfo',
+  async () => {
+    const result = await authService.getUserInfo();
+    return result;
+  },
+);
 const login = createAsyncThunk(
   'auth/login',
   async (arg: { username: string; password: string; remember: boolean; permissionQuery: {} }) => {
@@ -236,23 +244,23 @@ const slice = createSlice({
     }));
 
     // get user info
-    /*   builder.addCase(getUserInfo.pending, (state) => ({
-        ...state,
-        getUserInfoLoading: true,
-      }));
-      builder.addCase(getUserInfo.fulfilled, (state, { payload }) => ({
-        ...state,
-        userInfo: payload,
-        getUserInfoLoading: false,
-      }));
-      builder.addCase(getUserInfo.rejected, (state) => ({
-        ...state,
-        getUserInfoLoading: false,
-      })); */
+    builder.addCase(getUserInfo.pending, (state) => ({
+      ...state,
+      getUserInfoLoading: true,
+    }));
+    builder.addCase(getUserInfo.fulfilled, (state, { payload }) => ({
+      ...state,
+      userInfo: payload,
+      getUserInfoLoading: false,
+    }));
+    builder.addCase(getUserInfo.rejected, (state) => ({
+      ...state,
+      getUserInfoLoading: false,
+    }));
   },
 });
 
-export { login, loginWithFacebook, loginWithGoogle, loginWithIncognito };
+export { login, loginWithFacebook, loginWithGoogle, loginWithIncognito, getUserInfo };
 export const {
   logout,
   setToken,

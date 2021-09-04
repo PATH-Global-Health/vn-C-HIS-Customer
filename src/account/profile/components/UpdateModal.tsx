@@ -252,7 +252,7 @@ const UpdateProfile: React.FC = () => {
                               onIonBlur={(e) => {
                                 trigger(name);
                               }}
-                              readonly={name === 'email' || name === 'id' ? true : false}
+                              readonly={name === 'id' ? true : false}
                               value={watch(name) || undefined}
                               onIonChange={onChange}
                               {...otherProps}

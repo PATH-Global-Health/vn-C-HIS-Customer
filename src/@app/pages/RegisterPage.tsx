@@ -91,14 +91,14 @@ const RegisterPage: React.FC = () => {
       icon: phonePortraitOutline,
       placeholder: t('PhoneNumber'),
     },
-    {
-      name: "email",
-      fieldType: "input",
-      label: t('Email'),
-      type: 'email',
-      icon: mailOutline,
-      placeholder: t('Email'),
-    },
+    // {
+    //   name: "email",
+    //   fieldType: "input",
+    //   label: t('Email'),
+    //   type: 'email',
+    //   icon: mailOutline,
+    //   placeholder: t('Email'),
+    // },
     {
       name: "password",
       fieldType: "input",
@@ -110,54 +110,82 @@ const RegisterPage: React.FC = () => {
   ];
   const { control, handleSubmit, register, formState: { errors }, trigger, getValues, setValue } = useForm();
   const [errorCode, setErrorCode] = useState<string>('');
-  const [verifyEmailOTPFailed, setVerifyEmailOTPFailed] = useState<boolean>(false);
+  const [verifyOTPSuccess, setVerifyOTPSucess] = useState<boolean>(false);
+  const [verifyOTPFailed, setVerifyOTPFailed] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(true);
-  const [verifyCode, setVerifyCode] = useState<boolean>(false);
   const [showAlertRegistry, setShowAlertRegistry] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
-  const handleMailAction = async (email: string): Promise<void> => {
+  // const handleMailAction = async (email: string): Promise<void> => {
+  //   try {
+  //     await authService.sendMailOTP(email);
+  //     setVerifyCode(true);
+  //   }
+  //   catch (err) {
+  //     console.log(err);
+  //     //setConfirmMail(true);
+  //   }
+  // }
+  // const verifyEmailOTP = async (): Promise<void> => {
+  //   const { email, otp } = getValues();
+  //   authService.verifyEmailOTP({ email: email, otp: otp })
+  //     .then(() => {
+  //       setVerifyCode(false);
+  //       setSuccess(true);
+  //       setShowAlertRegistry(true);
+  //     })
+  //     .catch(() => {
+  //       setVerifyCode(true);
+  //       setVerifyEmailOTPFailed(true);
+  //       /*  setSuccess(false);
+  //        setShowAlertRegistry(true); */
+  //     })
+  // };
+  const handlePhoneAction = async (phone: string): Promise<void> => {
     try {
-      await authService.sendMailOTP(email);
-      setVerifyCode(true);
+      await authService.sendPhoneOTP(phone);
     }
     catch (err) {
       console.log(err);
-      //setConfirmMail(true);
     }
   }
-  const verifyEmailOTP = async (): Promise<void> => {
-    const { email, otp } = getValues();
-    authService.verifyEmailOTP({ email: email, otp: otp })
+  const verifyPhoneOTP = async (): Promise<void> => {
+    const { phoneNumber, otp } = getValues();
+    authService.verifyPhoneOTP({ phoneNumber: phoneNumber, otp: otp })
       .then(() => {
-        setVerifyCode(false);
-        setSuccess(true);
-        setShowAlertRegistry(true);
+        setShowAlertRegistry(false);
+        setVerifyOTPSucess(true);
+        setTimeout(() => {
+          history.push('/login');
+        }, 1500);
       })
       .catch(() => {
-        setVerifyCode(true);
-        setVerifyEmailOTPFailed(true);
+        setShowAlertRegistry(true);
+        setVerifyOTPFailed(true);
         /*  setSuccess(false);
          setShowAlertRegistry(true); */
       })
   };
   const handleRegistry = async (): Promise<void> => {
-    setSuccess(false);
     /*  const captchaValue = recaptchaRef?.current?.getValue();
      if (captchaValue?.length !== 0) {
      } */
     try {
-      const { fullName, phoneNumber, password, email } = getValues();
-      const params = { userName: phoneNumber, password: password, email: email, phoneNumber: phoneNumber, fullName: fullName }
+      const { fullName, phoneNumber, password } = getValues();
+      const params = { userName: phoneNumber, password: password, phoneNumber: phoneNumber, fullName: fullName }
       await authService.createAccount(params);
-      await handleMailAction(email);
+      await handlePhoneAction(phoneNumber);
+      setSuccess(true);
+      setShowAlertRegistry(true);
     } catch (error) {
-      setErrorCode(error.response.data);
-      if (error.response.data === 'UNVERIFIED_USER') {
-        setVerifyCode(true);
-      }
-      else {
-        setShowAlertRegistry(true);
-      }
+      setSuccess(false);
+      setShowAlertRegistry(true);
+      // setErrorCode(error.response.data);
+      // if (error.response.data === 'UNVERIFIED_USER') {
+      //   setVerifyCode(true);
+      // }
+      // else {
+      //   setShowAlertRegistry(true);
+      // }
     }
   };
   const onChangeCaptcha = (value: any) => {
@@ -170,7 +198,6 @@ const RegisterPage: React.FC = () => {
       'fullName',
       {
         required: { value: true, message: t('Username not enter') },
-        pattern: { value: /^\S*$/, message: t('Username can not contain spaces') },
         minLength: { value: 4, message: t('Username minnimun is 4 characters') },
         maxLength: { value: 35, message: t('Username maximum is 35 characters') },
       }
@@ -184,13 +211,13 @@ const RegisterPage: React.FC = () => {
         pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
       }
     );
-    register(
-      'email',
-      {
-        required: { value: true, message: t('Email is not enter') },
-        pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: t('The email address is not valid') }
-      }
-    );
+    // register(
+    //   'email',
+    //   {
+    //     required: { value: true, message: t('Email is not enter') },
+    //     pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: t('The email address is not valid') }
+    //   }
+    // );
     register(
       'password',
       {
@@ -206,8 +233,17 @@ const RegisterPage: React.FC = () => {
     < >
       <IonContent >
         <IonToast
-          isOpen={verifyEmailOTPFailed}
-          onDidDismiss={() => setVerifyEmailOTPFailed(false)}
+          isOpen={verifyOTPSuccess}
+          onDidDismiss={() => setVerifyOTPSucess(false)}
+          color='success'
+          message={t('Successful authentication!')}
+          duration={1000}
+          position="top"
+          animated={true}
+        />
+        <IonToast
+          isOpen={verifyOTPFailed}
+          onDidDismiss={() => setVerifyOTPFailed(false)}
           color='danger'
           message={t('Incorrect code!')}
           duration={1000}
@@ -252,7 +288,6 @@ const RegisterPage: React.FC = () => {
                           </StyleWrapperInput>
                           {(errors?.fullName?.message && name === 'fullName') && <ErrorText color='danger'>{(errors?.fullName?.message)}</ErrorText>}
                           {(errors?.phoneNumber?.message && name === 'phoneNumber') && <ErrorText color='danger'>{(errors?.phoneNumber?.message)}</ErrorText>}
-                          {(errors?.email?.message && name === 'email') && <ErrorText color='danger'>{(errors?.email?.message)}</ErrorText>}
                           {(errors?.password?.message && name === 'password') && <ErrorText color='danger'>{(errors?.password?.message)}</ErrorText>}
                         </IonCol>
                       </IonRow>
@@ -294,7 +329,7 @@ const RegisterPage: React.FC = () => {
               onChange={onChangeCaptcha}
             />
           </IonRow>
-          <IonAlert
+          {/*  <IonAlert
             isOpen={verifyCode}
             onDidDismiss={() => setVerifyCode(false)}
             cssClass='my-custom-class'
@@ -324,45 +359,78 @@ const RegisterPage: React.FC = () => {
                 text: t('Confirm'),
                 handler: (data) => {
                   setValue('otp', data.otp);
-                  verifyEmailOTP();
+                  verifyPhoneOTP();
                 }
               }
             ]}
-          />
+          /> */}
           <StyledAlert
             isOpen={showAlertRegistry}
             onDidDismiss={() => setShowAlertRegistry(false)}
             cssClass='my-custom-class'
             header={success ? t('Sign Up success!') : t('Sign Up failed!')}
             message={
-              success ? t('') :
-                errorCode === 'EXISTED_EMAIL' ?
-                  t('This email was used, please using another or go to Password recovery page to get back your account')
-                  : errorCode === 'EXISTED_USERNAME' ?
-                    t('This phone number was used, please using another or go to Password recovery page to get back your account')
-                    :
-                    t('Error! An error occurred')
+              // success ? t('') :
+              //   errorCode === 'EXISTED_EMAIL' ?
+              //     t('This email was used, please using another or go to Password recovery page to get back your account')
+              //     : errorCode === 'EXISTED_USERNAME' ?
+              //       t('This phone number was used, please using another or go to Password recovery page to get back your account')
+              //       :
+              //       t('Error! An error occurred')
+              success ? t('To verify your account, please enter the OTP code sent to phone number') + ` ${getValues('phoneNumber')}` : t('')
+            }
+            inputs={success ? [
+              {
+                name: 'otp',
+                type: 'number',
+                placeholder: t('verification code'),
+                cssClass: 'pass',
+                attributes: {
+                  inputmode: 'decimal'
+                }
+              }
+            ]
+              :
+              []
             }
             buttons={[
               {
-                text: t('Close'),
+                text: t('Skip'),
                 role: 'cancel',
                 cssClass: 'secondary',
                 handler: () => {
-                  setSuccess(false)
-                  setShowAlertRegistry(false);
+                  console.log('Confirm Cancel');
+                  history.push('/login');
                 }
               },
               {
-                text: t('Back to login'),
-                handler: () => {
-                  setTimeout(() => {
-                    history.push('/login');
-                    window.location.reload();
-                  }, 0);
+                text: t('Confirm'),
+                handler: (data) => {
+                  setValue('otp', data.otp);
+                  verifyPhoneOTP();
                 }
-              },
+              }
             ]}
+          /*  buttons={[
+             {
+               text: t('Close'),
+               role: 'cancel',
+               cssClass: 'secondary',
+               handler: () => {
+                 setSuccess(false)
+                 setShowAlertRegistry(false);
+               }
+             },
+             {
+               text: t('Back to login'),
+               handler: () => {
+                 setTimeout(() => {
+                   history.push('/login');
+                   window.location.reload();
+                 }, 0);
+               }
+             },
+           ]}  */
           />
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" size-sm='3'>

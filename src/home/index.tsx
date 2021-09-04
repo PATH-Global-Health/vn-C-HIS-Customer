@@ -134,6 +134,7 @@ const Home: React.FC = () => {
     },
   ];
   const { postList: { data }, getPostLoading } = useSelector((s) => s.post);
+  const userData = useSelector(s => s.auth.userInfo?.data);
   const { profile } = useSelector((s) => s.profile);
   const history = useHistory();
 
@@ -158,6 +159,7 @@ const Home: React.FC = () => {
 
   const getProfileData = useCallback(() => {
     dispatch(getProfile());
+    dispatch(getUserInfo());
   }, [dispatch]);
   useEffect(getProfileData, [getProfileData]);
 

@@ -1,7 +1,0 @@
-{
-  "name": "chis-customer",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react"
-}

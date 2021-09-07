@@ -1,4 +1,4 @@
-import axios, { Method, AxiosResponse, ResponseType } from 'axios';
+import axios, { Method, AxiosResponse, ResponseType, AxiosError } from 'axios';
 import store from '@app/store';
 
 import apiLinks from './api-links';

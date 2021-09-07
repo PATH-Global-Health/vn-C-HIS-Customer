@@ -201,14 +201,14 @@ const PostListCard: React.FC = () => {
     <IonContent>
 
       <IonRow className="ion-justify-content-center" >
-        <IonCol size="4" size-sm="3" size-lg='3'>
+        <IonCol size="4">
           <div>
             <img src={logo} alt="logo" width='150px' />
           </div>
         </IonCol>
       </IonRow>
       <IonRow className='ion-justify-content-center'>
-        <IonCol size="12" size-sm='4' size-lg='3'>
+        <IonCol size="12">
           <StyledHeader>
             <div>
               <StyleWrapperInput color='light' lines='none' onClick={() => { setSearchText(searchData) }}>
@@ -236,8 +236,8 @@ const PostListCard: React.FC = () => {
         }>
           {
             idx === 0 ?
-              <IonRow className='ion-justify-content-center'>
-                <IonCol size="12" size-sm='4' size-lg='3'>
+              <IonRow className='ion-justify-content-center' style={{ cursor: 'pointer' }}>
+                <IonCol size="12">
                   <Card>
                     <IonCard>
                       <img src={p?.description !== '' ? p.description : logo} alt="" height='180px' width='100%' />
@@ -251,8 +251,8 @@ const PostListCard: React.FC = () => {
                 </IonCol>
               </IonRow>
               :
-              <IonRow className='ion-justify-content-center'>
-                <IonCol size="12" size-sm='4' size-lg='3'>
+              <IonRow className='ion-justify-content-center' style={{ cursor: 'pointer' }}>
+                <IonCol size="12">
                   <ChildCard className='card_width'>
                     <IonItem color='light' lines='none' className='item-content'>
                       <img src={p?.description !== '' ? p.description : logo} slot='start' alt='' />

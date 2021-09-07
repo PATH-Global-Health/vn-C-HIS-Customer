@@ -87,7 +87,7 @@ const AnsHistory: React.FC = () => {
               render={({ field: { onChange, onBlur, value } }) => (
                 <WrapperQuestion>
                   <IonRow className="">
-                    <IonCol size="12" size-sm='3'>
+                    <IonCol size="12" >
                       <IonItem color='light' lines='inset' className='group-item'>
                         <IonRadioGroup
                           value={o?.answer?.id}
@@ -114,7 +114,7 @@ const AnsHistory: React.FC = () => {
           ))
         }
         <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='3'>
+          <IonCol size="12">
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
               <StyledButton type='submit'>{t('Review the results')}</StyledButton>
             </div>

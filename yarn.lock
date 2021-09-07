@@ -1371,6 +1371,34 @@
     gud "^1.0.0"
     warning "^4.0.3"
 
+"@ionic-native/barcode-scanner@^5.36.0":
+  version "5.36.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/barcode-scanner/-/barcode-scanner-5.36.0.tgz#55ffe06ae38827b20b1d5a51b4b65cc0e34e932f"
+  integrity sha512-T4Wnu+gjQIBKF0Yifz5f4jEHMN23jnqBgfyXQdyBxq1yrgt5BdwrmaYPrs/a68SGwh3rhBvcW/TyGehdkEC78w==
+  dependencies:
+    "@types/cordova" latest
+
+"@ionic-native/core@^5.35.0":
+  version "5.35.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/core/-/core-5.35.0.tgz#b84cfcc2cf8993c09c2b8fe1fe2e3d8646d44f09"
+  integrity sha512-x2mShlaLOzCxwdqvPOvUFX4g0ctMvEYiYak6Hlh+HP9eNWfruT0EcMoXs6KSvIRFRsyFaYAXHyDZseKtB3aqsA==
+  dependencies:
+    "@types/cordova" latest
+
+"@ionic-native/file-opener@^5.35.0":
+  version "5.35.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/file-opener/-/file-opener-5.35.0.tgz#a1bff8b3c0dde136996e68597af3ebd39b96c757"
+  integrity sha512-1xDQVfsRUdd+b/MNtKuxuBqi2pv63kyuB6VFTP7g3I+e13JW05I0RNlujpcBhGpA1FZyPKs7w7b2era9famNLg==
+  dependencies:
+    "@types/cordova" latest
+
+"@ionic-native/file@^5.35.0":
+  version "5.35.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/file/-/file-5.35.0.tgz#138ac7d95dc7d35e9cff7e9b4ff773c5e16bb09b"
+  integrity sha512-CpD8z7skurzL4Gj1R6AhAvszoc+Ii06+2u1E48/jq6SXBY9S6ufzSlpWosRFkfydRKDIZ1gIb/vAGedCuuRWyQ==
+  dependencies:
+    "@types/cordova" latest
+
 "@ionic/core@5.6.12":
   version "5.6.12"
   resolved "https://registry.yarnpkg.com/@ionic/core/-/core-5.6.12.tgz#2e45556604873aafe948a8525cbb409b393f20b6"
@@ -1892,6 +1920,11 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/cordova@latest":
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/@types/cordova/-/cordova-0.0.34.tgz#ea7addf74ecec3d7629827a0c39e2c9addc73d04"
+  integrity sha1-6nrd907Ow9dimCegw54smt3HPQQ=
+
 "@types/eslint@^7.2.6":
   version "7.28.0"
   resolved "https://registry.yarnpkg.com/@types/eslint/-/eslint-7.28.0.tgz#7e41f2481d301c68e14f483fe10b017753ce8d5a"
@@ -2014,6 +2047,13 @@
   version "1.5.5"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.5.tgz#75a2a8e7d8ab4b230414505d92335d1dcb53a6df"
   integrity sha512-L28j2FcJfSZOnL1WBjDYp2vUHCeIFlyYI/53EwD/rKUBQ7MtUUfbQWiyKJGpcnv4/WgrhWsFKrcPstcAt/J0tQ==
+
+"@types/qrcode.react@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/qrcode.react/-/qrcode.react-1.0.2.tgz#f892432cc41b5dac52e3ca8873b717c8bfea6002"
+  integrity sha512-I9Oq5Cjlkgy3Tw7krCnCXLw2/zMhizkTere49OOcta23tkvH0xBTP0yInimTh0gstLRtb8Ki9NZVujE5UI6ffQ==
+  dependencies:
+    "@types/react" "*"
 
 "@types/react-calendar@^3.1.6":
   version "3.4.2"
@@ -3879,6 +3919,11 @@ copy-descriptor@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
+
+cordova-plugin-file@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-file/-/cordova-plugin-file-6.0.2.tgz#f3911479f8357e9aacb5576674f8d95b31a1fb20"
+  integrity sha512-m7cughw327CjONN/qjzsTpSesLaeybksQh420/gRuSXJX5Zt9NfgsSbqqKDon6jnQ9Mm7h7imgyO2uJ34XMBtA==
 
 core-js-compat@^3.14.0, core-js-compat@^3.16.0, core-js-compat@^3.6.2:
   version "3.16.0"
@@ -9479,6 +9524,20 @@ q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
+
+qr.js@0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
+  integrity sha1-ys6GOG9ZoNuAUPqQ2baw6IoeNk8=
+
+qrcode.react@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-1.0.1.tgz#2834bb50e5e275ffe5af6906eff15391fe9e38a5"
+  integrity sha512-8d3Tackk8IRLXTo67Y+c1rpaiXjoz/Dd2HpcMdW//62/x8J1Nbho14Kh8x974t9prsLHN6XqVgcnRiBGFptQmg==
+  dependencies:
+    loose-envify "^1.4.0"
+    prop-types "^15.6.0"
+    qr.js "0.0.0"
 
 qs@6.7.0:
   version "6.7.0"

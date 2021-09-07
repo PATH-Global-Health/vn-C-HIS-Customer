@@ -1,5 +1,5 @@
 import { httpClient, apiLinks } from '@app/utils';
-import { Hospital } from '../models/hospital';
+import { Doctor, Hospital } from '../models/hospital';
 
 const getHospitalByServiceId = async (serviceId: string): Promise<Hospital[]> => {
   try {
@@ -23,9 +23,21 @@ const getHospitalByServiceIdAndDate = async (serviceId: string, date: string): P
   }
 };
 
+const getAllDoctor = async (): Promise<Doctor[]> => {
+  try {
+    const result = await httpClient.get({
+      url: apiLinks.manageSchedule.doctor.getAllDoctor,
+    });
+    return result.data as Doctor[];
+  } catch (error) {
+    return [];
+  }
+};
+
 const hospitalService = {
   getHospitalByServiceId,
   getHospitalByServiceIdAndDate,
+  getAllDoctor
 };
 
 

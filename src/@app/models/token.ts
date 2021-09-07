@@ -8,6 +8,7 @@ export interface Token {
   token_type: string;
   userId: string;
   username: string;
+  isConfirmed: boolean;
   remember: boolean;
   permissionQuery: {};
 }

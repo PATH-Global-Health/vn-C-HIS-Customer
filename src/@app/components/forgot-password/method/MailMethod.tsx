@@ -82,7 +82,7 @@ const MailMethod: React.FC = () => {
         animated={true}
       />
       <IonRow className="ion-justify-content-center">
-        <IonCol size='12' size-sm='6'>
+        <IonCol size='12'>
           <StyledText >
             {t('Enter email to receive the recovery code')}
           </StyledText>
@@ -96,7 +96,7 @@ const MailMethod: React.FC = () => {
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <IonRow className="ion-justify-content-center ion-margin-bottom">
-              <IonCol size="12" size-sm='3'>
+              <IonCol size="12">
                 <StyleWrapperInput color='light' lines='none'>
                   <StyledInput
                     required={true}
@@ -115,7 +115,7 @@ const MailMethod: React.FC = () => {
           )}
         />
         <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='3'>
+          <IonCol size="12">
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
               <StyledButton type='submit' /* onClick={() => dispatch(setMethodForgotPassword('confirmed'))} */>{t('Confirm')}</StyledButton>
             </div>

@@ -77,7 +77,7 @@ const MethodCard: React.FC<Props> = ({ methods }) => {
           {
             name === 'question' ?
               <IonRow >
-                <IonCol size="12" size-sm="3">
+                <IonCol size="12">
                   <StyledItem color="light" >
                     <StyledIcon icon={icon} style={{ backgroundColor: color, minWidth: '35px' }} />
                     <div style={{ fontSize: '19px', fontWeight: 50, minWidth: '200px' }}>
@@ -97,7 +97,7 @@ const MethodCard: React.FC<Props> = ({ methods }) => {
               </IonRow>
               :
               <IonRow key={index}>
-                <IonCol size="12" size-sm="3">
+                <IonCol size="12">
                   <StyledItem color="light" onClick={() => handeChange(name)}>
                     <StyledIcon icon={icon} style={{ backgroundColor: color }} />
                     <StyledLabel style={{ fontSize: '18px' }}>

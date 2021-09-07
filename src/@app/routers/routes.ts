@@ -23,7 +23,6 @@ import ResultExaminations from 'booking/pages/ResultExaminations';
 import PostDetailPage from 'news/PostDetail';
 import Evaluate from 'booking/pages/Evaluate';
 import RiskPage from 'risk/QuestionTemplate';
-import Profile from 'account/profile/components/Personal';
 import SecurityQuestion from 'account/security-question';
 import UpdateProfile from 'account/profile/components/UpdateModal';
 
@@ -32,6 +31,10 @@ import notify from 'notify/index';
 import ExaminationResultInfo from 'booking/pages/ExaminationResultInfo';
 
 import Incognito from 'Incognito/index';
+import VerifyAccount from '@app/components/verify-account';
+import QrCode from 'account/qr-code';
+import DoctorList from 'booking/pages/DoctorList';
+import DoctorDetail from 'booking/pages/DoctorDetail';
 
 
 interface Route {
@@ -117,21 +120,21 @@ const routes: Route[] = [
     layout: AppLayout,
     path: '/account',
     isPrivate: true,
-    isIncognito: true,
+    isIncognito: false,
   },
   {
     component: RiskPage,
     layout: AppLayout,
     path: '/risk',
     isPrivate: true,
-    isIncognito: false,
+    isIncognito: true,
   },
   {
     component: HomeBooking,
     layout: AppLayout,
-    path: '/homeBooking',
+    path: '/shomeBooking',
     isPrivate: true,
-    isIncognito: false,
+    isIncognito: true,
   },
   {
     component: TestingAppointment,
@@ -184,6 +187,8 @@ const routes: Route[] = [
   {
     component: ResultExaminations,
     layout: AppLayout,
+    isPrivate: true,
+    isIncognito: false,
     path: '/resultExaminations'
   },
   {
@@ -192,8 +197,27 @@ const routes: Route[] = [
     path: '/examinationResultInfo'
   },
   {
+    component: DoctorList,
+    layout: AppLayout,
+    path: '/doctorList'
+  },
+  {
+    component: DoctorDetail,
+    layout: AppLayout,
+    path: '/doctorDetail'
+  },
+  {
+    component: VerifyAccount,
+    path: '/verify-account'
+  },
+  {
+    component: QrCode,
+    path: '/qr-code'
+  },
+  {
     component: PageNotFound,
   },
+
 
 ];
 

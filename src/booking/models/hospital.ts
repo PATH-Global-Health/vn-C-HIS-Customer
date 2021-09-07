@@ -13,4 +13,18 @@ export interface Hospital {
     phone: string,
     email: string,
     introduction: string,
+    isDeleted: boolean,
+}
+
+export interface Doctor {
+    isDeleted: boolean,
+    id: string,
+    code: string,
+    fullName: string,
+    identityCard: string,
+    title: string,
+    academicTitle: string,
+    gender: boolean,
+    email: string,
+    phone: string
 }

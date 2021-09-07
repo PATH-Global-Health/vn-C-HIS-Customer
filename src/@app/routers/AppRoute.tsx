@@ -3,6 +3,8 @@ import { Route, Redirect } from 'react-router-dom';
 import { useAuth } from '@app/hooks';
 
 import DefaultLayout from '@app/components/default-layout';
+import { TOKEN } from '@app/utils/constants';
+import { Token } from '@app/models/token';
 
 interface Props {
   component: React.FC;
@@ -20,8 +22,16 @@ const AppRoute: React.FC<Props> = (props) => {
     path,
     exact,
     isPrivate = false,
-    isIncognito,
+    isIncognito
   } = props;
+  const getStorage = (key: string): string =>
+    (localStorage.getItem(key) || sessionStorage.getItem(key)) ?? 'null';
+
+  const isRegistered = (): boolean => {
+    const token = JSON.parse(getStorage(TOKEN)) as Token;
+    if (token?.username?.length < 12) return true;
+    return false;
+  }
 
   const { isAuthenticated } = useAuth();
   // const isAuth = useMemo(() => isAuthenticated(), [isAuthenticated]);
@@ -30,7 +40,7 @@ const AppRoute: React.FC<Props> = (props) => {
       path={path}
       exact={exact}
       render={(componentProps): JSX.Element => {
-        if ((isPrivate && isAuthenticated()) || !isPrivate || isIncognito) {
+        if ((isPrivate && isAuthenticated() && (isIncognito || isRegistered())) || !isPrivate) {
           if (Layout) {
             return (
               <Layout>
@@ -46,7 +56,7 @@ const AppRoute: React.FC<Props> = (props) => {
           );
         }
         else {
-          if (!isIncognito) {
+          if (!isIncognito && isAuthenticated()) {
             return (
               <Redirect
                 to={{

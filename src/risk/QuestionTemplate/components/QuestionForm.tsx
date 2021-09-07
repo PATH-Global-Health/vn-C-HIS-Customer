@@ -12,6 +12,7 @@ import {
   IonListHeader,
   IonRadio,
 } from '@ionic/react';
+import { useAuth } from '@app/hooks';
 import { useDispatch, useSelector } from '@app/hooks';
 
 import { useTranslation } from 'react-i18next';
@@ -48,7 +49,7 @@ const QuestionForm: React.FC = () => {
   const dispatch = useDispatch();
   const detailData = useSelector((s) => s.risk.questionTemplateDetail);
   const userId = useSelector(s => s.auth.token?.userId);
-
+  const { isAuthenticated } = useAuth();
   const handleData = async (data: any): Promise<void> => {
     try {
       const surveySessionResults = Object.entries(data).map((o, i) => {
@@ -59,7 +60,7 @@ const QuestionForm: React.FC = () => {
       })
       const params = {
         questionTemplateId: detailData?.id ?? '',
-        userId: userId ?? '',
+        userId: userId,
         result: '',
         surveySessionResults: surveySessionResults,
       }
@@ -70,6 +71,7 @@ const QuestionForm: React.FC = () => {
       }));
 
     } catch (error) {
+      console.log(error);
       //setShowFailedToast(true);
     }
   };
@@ -86,7 +88,7 @@ const QuestionForm: React.FC = () => {
               render={({ field: { onChange, onBlur, value } }) => (
                 <WrapperQuestion>
                   <IonRow className="">
-                    <IonCol size="12" size-sm='3'>
+                    <IonCol size="12">
                       <IonItem color='light' lines='inset' className='group-item'>
                         <IonRadioGroup
                           value={value}
@@ -98,7 +100,7 @@ const QuestionForm: React.FC = () => {
                           {
                             o?.answers?.map((ans, idx) => (
                               <IonItem key={idx}>
-                                <IonLabel>{ans?.description ?? ''}</IonLabel>
+                                <IonItem>{ans?.description ?? ''}</IonItem>
                                 <IonRadio slot="start" value={ans?.id} />
                               </IonItem>
                             ))
@@ -113,7 +115,7 @@ const QuestionForm: React.FC = () => {
           ))
         }
         <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='3'>
+          <IonCol size="12">
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
               <StyledButton type='submit'>{t('View results')}</StyledButton>
             </div>

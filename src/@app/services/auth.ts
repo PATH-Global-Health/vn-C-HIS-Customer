@@ -1,12 +1,14 @@
+import axios from 'axios';
 import { httpClient, apiLinks } from '@app/utils';
 
 import { Token } from '@app/models/token';
+import { AccountInfo } from '@app/models/accountInfo';
 //import { UserInfo } from '@app/models/user-info';
 
 const login = async (username: string, password: string, remember: boolean, permissionQuery: {}): Promise<Token> => {
-  const response = await httpClient.post({
+  const response = await axios({
+    method: 'POST',
     url: apiLinks.auth.token,
-    // data: `grant_type=password&username=${username}&password=${password}`,
     data: {
       username,
       password,
@@ -15,6 +17,7 @@ const login = async (username: string, password: string, remember: boolean, perm
   });
   return response.data as Token;
 };
+
 const loginWithFacebook = async ({
   accessToken = '',
 }: {
@@ -41,31 +44,103 @@ const loginWithGoogle = async ({
   });
   return response.data as Token;
 };
+const loginWithIncognito = async (): Promise<Token> => {
+  const response = await axios({
+    method: 'POST',
+    url: apiLinks.auth.loginWithIncognito,
+  });
+  return response.data as Token;
+};
 const createAccount = async ({
   userName,
   password,
   phoneNumber,
   fullName,
-  email,
+  // email,
 }: {
   userName: string;
   password: string;
   phoneNumber: string;
-  email: string;
+  // email: string;
   fullName: string;
 }): Promise<void> => {
-  await httpClient.post({
+  const response = await axios({
+    method: 'POST',
     url: apiLinks.manageAccount.create,
     data: {
       userName,
       password,
       phoneNumber,
       fullName,
-      email,
+      // email,
+    },
+  });
+  return response.data;
+};
+const updatePhoneNumber = async ({
+  fullName,
+  phoneNumber,
+}: {
+  fullName: string,
+  phoneNumber: string,
+}
+): Promise<void> => {
+  await httpClient.put({
+    url: apiLinks.manageAccount.updatePhoneNumber,
+    data: {
+      fullName,
+      phoneNumber
+    }
+  })
+}
+const sendPhoneOTP = async (phoneNumber?: string): Promise<any> => {
+  const response = await httpClient.post({
+    url: apiLinks.manageAccount.generateOTP,
+    params: {
+      phoneNumber,
+    }
+  });
+  return response;
+};
+const verifyPhoneOTP = async ({
+  phoneNumber,
+  otp,
+}: {
+  phoneNumber?: string,
+  otp?: string,
+}): Promise<void> => {
+  await httpClient.post({
+    url: apiLinks.manageAccount.confirmOTP,
+    data: {
+      phoneNumber,
+      otp
     },
   });
 };
-
+const sendMailOTP = async (email?: string): Promise<any> => {
+  const response = await httpClient.post({
+    url: apiLinks.auth.confirmEmail,
+    params: {
+      email
+    }
+  });
+  return response;
+};
+const verifyEmailOTP = async ({
+  email,
+  otp,
+}: {
+  email?: string,
+  otp?: string,
+}): Promise<void> => {
+  await httpClient.post({
+    url: apiLinks.auth.verifyEmailOTp,
+    data: {
+      email,
+      otp
+    },
+  });
+};
 const changePassword = async ({
   oldPassword,
   newPassword
@@ -131,18 +206,25 @@ const resetPassword = async ({
     },
   });
 };
-/* const getUserInfo = async (): Promise<UserInfo> => {
+const getUserInfo = async (): Promise<AccountInfo> => {
   const response = await httpClient.get({
     url: apiLinks.auth.userInfo,
   });
-  return response.data as UserInfo;
-}; */
+  return response.data as AccountInfo;
+};
 
 const authService = {
   login,
   loginWithFacebook,
   loginWithGoogle,
+  getUserInfo,
+  loginWithIncognito,
   createAccount,
+  updatePhoneNumber,
+  sendPhoneOTP,
+  verifyPhoneOTP,
+  sendMailOTP,
+  verifyEmailOTP,
   changePassword,
   generateOTP,
   confirmOTP,

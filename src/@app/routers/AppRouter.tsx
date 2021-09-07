@@ -13,7 +13,7 @@ const AppRouter: React.FC = () => {
   const { appMenu } = useSelector((state) => state.global);
   const { t } = useTranslation();
   return (
-    <IonApp>
+    <IonApp style={{ margin: '0 auto', maxWidth: '430px' }}>
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
@@ -29,7 +29,7 @@ const AppRouter: React.FC = () => {
               />
             ))}
           </IonRouterOutlet>
-          <IonTabBar style={appMenu ? { '--border': '1px solid #b4b4b4' } : { '--border': '1px solid #b4b4b4', 'display': 'none' }} slot="bottom">
+          <IonTabBar style={appMenu ? { '--border': '1px solid #b4b4b4', cursor: 'pointer' } : { '--border': '1px solid #b4b4b4', 'display': 'none' }} slot="bottom">
             <IonTabButton tab="home" href="/home">
               <IonIcon icon={home} />
               <IonLabel>{t('Home')}</IonLabel>

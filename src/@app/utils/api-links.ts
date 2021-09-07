@@ -1,24 +1,23 @@
-const testApi = 'https://jsonplaceholder.typicode.com';
-const userUrl = 'http://202.78.227.174:14765';
-const smapi = 'http://202.78.227.174:30111';
-// http://202.78.227.174:30111/
-const cmsApi = 'http://202.78.227.174:44322';
-
-// const smapi = ' https://localhost:44353';
-// https://localhost:44353
+const userUrl = 'https://user-management.bakco.vn';
+const smapi = 'https://schedule-management.bakco.vn';
+const cmsApi = 'https://mini-cms.bakco.vn';
 const apiBookingService = 'http://202.78.227.174:14789';
-// const apiBookingService = 'https://localhost:44308';
-// https://localhost:44308/
 
 const apiLinks = {
   auth: {
     token: `${userUrl}/api/Users/Login`,
     loginWithFacebook: `${userUrl}/api/Users/LoginWithFacebook`,
     loginWithGoogle: `${userUrl}/api/Users/LoginWithGoogle`,
-    userInfo: `${userUrl}/api/Users/GetUserInfo`
+    loginWithIncognito: `${userUrl}/api/Users/AnonymousLogin`,
+    userInfo: `${userUrl}/api/Users/GetUserInfo`,
+    confirmEmail: `${userUrl}/api/Users/SendOTPVerification`,
+    verifyEmailOTp: `${userUrl}/api/Users/VerifyEmailOTP`,
   },
   manageAccount: {
     create: `${userUrl}/api/Users`,
+    updatePhoneNumber: `${userUrl}/api/Users`,
+    generateOTP: `${userUrl}/api/Users/SendOTPVerification`,
+    confirmOTP: `${userUrl}/api/Users/VerifyOTPOfPhoneNumber`,
     changePassword: `${userUrl}/api/Users/ChangePassword`,
     resetPassword: `${userUrl}/api/Users/ResetPassword`,
   },
@@ -37,9 +36,6 @@ const apiLinks = {
     get: `${cmsApi}/api/Post`,
     getDetails: (id: string): string =>
       `${cmsApi}/api/Part/${id}`,
-    create: `${testApi}/api/Post`,
-    update: `${testApi}/Post/`,
-    delete: `${testApi}/Post/`,
   },
   tag: {
     get: `${cmsApi}/api/Tag`,
@@ -82,6 +78,9 @@ const apiLinks = {
     },
     profile: {
       get: `${smapi}/api/Profiles`
+    },
+    doctor: {
+      getAllDoctor: `${smapi}/api/Doctors/GetAllDoctor`
     }
   },
   bookingService: {

@@ -10,13 +10,14 @@ import authService from '@app/services/auth';
 import { Token } from '@app/models/token';
 import { UserInfo } from '@app/models/user-info';
 import { Permission } from '@app/models/permission';
-import { Method } from 'ionicons/dist/types/stencil-public-runtime';
+import { AccountInfo } from '@app/models/accountInfo';
 
 interface State {
   token: Token | null;
   tokenExpiredTime: Date | null;
   loginLoading: boolean;
-  userInfo: UserInfo | null;
+  loginError: string | null;
+  userInfo: AccountInfo | null;
   getUserInfoLoading: boolean;
   permissionList: Permission[];
   forgotPasswordData: {
@@ -31,6 +32,7 @@ const initialState: State = {
   token: null,
   tokenExpiredTime: null,
   loginLoading: false,
+  loginError: null,
   userInfo: null,
   getUserInfoLoading: false,
   permissionList: [
@@ -51,12 +53,23 @@ const initialState: State = {
 
 type CR<T> = CaseReducer<State, PayloadAction<T>>;
 
+const getUserInfo = createAsyncThunk(
+  'user/getUserInfo',
+  async () => {
+    const result = await authService.getUserInfo();
+    return result;
+  },
+);
 const login = createAsyncThunk(
   'auth/login',
   async (arg: { username: string; password: string; remember: boolean; permissionQuery: {} }) => {
-    const { username, password, permissionQuery, remember } = arg;
-    const result = await authService.login(username, password, remember, permissionQuery);
-    return result;
+    try {
+      const { username, password, permissionQuery, remember } = arg;
+      const result = await authService.login(username, password, remember, permissionQuery);
+      return result;
+    } catch (error) {
+      throw new Error(error.response.data);
+    }
   },
 );
 const loginWithFacebook = createAsyncThunk(
@@ -73,6 +86,14 @@ const loginWithGoogle = createAsyncThunk(
   async (arg: { idToken: string }) => {
     const { idToken } = arg;
     const result = await authService.loginWithGoogle({ idToken });
+    return result;
+  },
+);
+
+const loginWithIncognito = createAsyncThunk(
+  'auth/loginWithIncognito',
+  async () => {
+    const result = await authService.loginWithIncognito();
     return result;
   },
 );
@@ -140,8 +161,9 @@ const slice = createSlice({
             : initialState.permissionList,
       };
     });
-    builder.addCase(login.rejected, (state) => ({
+    builder.addCase(login.rejected, (state, action) => ({
       ...state,
+      loginError: action?.error?.message ?? null,
       loginLoading: false,
     }));
 
@@ -195,24 +217,50 @@ const slice = createSlice({
       loginLoading: false,
     }));
 
+    //login with incognito
+    builder.addCase(loginWithIncognito.pending, (state) => ({
+      ...state,
+      loginLoading: true,
+    }));
+    builder.addCase(loginWithIncognito.fulfilled, (state, { payload }) => {
+      const { username } = payload;
+      return {
+        ...state,
+        loginLoading: false,
+        token: payload,
+        tokenExpiredTime: new Date(
+          new Date().getTime() + payload.expires_in * 1000,
+        ),
+        permissionList:
+          username === '1'
+            ? [{ code: 'ADMIN' }, { code: 'CSYT_CATALOG' }]
+            : initialState.permissionList,
+      };
+    });
+    builder.addCase(loginWithIncognito.rejected, (state, action) => ({
+      ...state,
+      loginError: action?.error?.message ?? null,
+      loginLoading: false,
+    }));
+
     // get user info
-    /*   builder.addCase(getUserInfo.pending, (state) => ({
-        ...state,
-        getUserInfoLoading: true,
-      }));
-      builder.addCase(getUserInfo.fulfilled, (state, { payload }) => ({
-        ...state,
-        userInfo: payload,
-        getUserInfoLoading: false,
-      }));
-      builder.addCase(getUserInfo.rejected, (state) => ({
-        ...state,
-        getUserInfoLoading: false,
-      })); */
+    builder.addCase(getUserInfo.pending, (state) => ({
+      ...state,
+      getUserInfoLoading: true,
+    }));
+    builder.addCase(getUserInfo.fulfilled, (state, { payload }) => ({
+      ...state,
+      userInfo: payload,
+      getUserInfoLoading: false,
+    }));
+    builder.addCase(getUserInfo.rejected, (state) => ({
+      ...state,
+      getUserInfoLoading: false,
+    }));
   },
 });
 
-export { login, loginWithFacebook, loginWithGoogle };
+export { login, loginWithFacebook, loginWithGoogle, loginWithIncognito, getUserInfo };
 export const {
   logout,
   setToken,

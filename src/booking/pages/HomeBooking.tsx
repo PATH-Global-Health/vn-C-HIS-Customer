@@ -8,11 +8,12 @@ import {
 } from '@ionic/react';
 import { useDispatch } from '@app/hooks';
 import { useHistory } from "react-router-dom";
-import { arrowForward, chatbubble, chevronBack, flash } from 'ionicons/icons';
+import { arrowForward, chatbubble, chevronBack, flash, people } from 'ionicons/icons';
 import { getServiceId } from 'booking/slices/workingCalendar';
 import { useTranslation } from 'react-i18next';
 import { getUserInfo } from '../slices/workingCalendar';
 import styles from '../css/homeBooking.module.css';
+import { getAllDoctor } from 'booking/slices/hospital';
 
 
 const HomeBooking: React.FC = () => {
@@ -25,13 +26,13 @@ const HomeBooking: React.FC = () => {
   return (
     <IonPage className={styles.styledPage}>
       <IonHeader className={styles.header}>
-        <button 
-        className={styles.btnCustomHeader} 
-        onClick={() => history.goBack()}>
-          <IonIcon 
-          className={styles.iconLeft} 
-          icon={chevronBack}></IonIcon>
-          </button>
+        <button
+          className={styles.btnCustomHeader}
+          onClick={() => history.goBack()}>
+          <IonIcon
+            className={styles.iconLeft}
+            icon={chevronBack}></IonIcon>
+        </button>
         <IonLabel className={styles.headerLabel}>{t('Booking')} </IonLabel>
       </IonHeader>
       <IonContent className={styles.content}>
@@ -53,6 +54,17 @@ const HomeBooking: React.FC = () => {
           }>{t('Schedule a test')}
           <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
           <IonIcon className={styles.iconLeft} icon={flash}></IonIcon>
+        </button>
+
+        <button
+          className={styles.btnCustom}
+          onClick={() => {
+            dispatch(getAllDoctor());
+            history.push('/doctorList')
+          }
+          }>{t('List of doctors')}
+          <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
+          <IonIcon className={styles.iconLeft} icon={people}></IonIcon>
         </button>
       </IonContent>
     </IonPage>

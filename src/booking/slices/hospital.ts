@@ -1,16 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { Hospital } from '../models/hospital';
+import { Doctor, Hospital } from '../models/hospital';
 import bookingServices from '../services/index';
 
 interface State {
     hospitals: Hospital[];
     hospitalBooking: Hospital;
+    doctorList: Doctor[];
     loading: boolean;
 }
 
 const initialState: State = {
     hospitals: [],
+    doctorList: [],
     hospitalBooking: {
+        isDeleted: false,
         dateCreated: "",
         dateUpdated: "",
         id: "",
@@ -36,6 +39,11 @@ const getHospitalByServiceId = createAsyncThunk('hospital/getHospitalByServiceId
 
 const getHospitalByServiceIdAndDate = createAsyncThunk('hospital/getHospitalByServiceIdAndDate', async (arg: { serviceId: string, date: string }) => {
     const result = await bookingServices.hospitalService.getHospitalByServiceIdAndDate(arg.serviceId, arg.date);
+    return result;
+});
+
+const getAllDoctor = createAsyncThunk('doctor/getAllDoctor', async () => {
+    const result = await bookingServices.hospitalService.getAllDoctor();
     return result;
 });
 
@@ -77,11 +85,26 @@ const slice = createSlice({
             loading: false,
         }));
 
+        //getAllDoctor
+        builder.addCase(getAllDoctor.pending, (state) => ({
+            ...state,
+            loading: true,
+        }));
+        builder.addCase(getAllDoctor.fulfilled, (state, { payload }) => ({
+            ...state,
+            loading: false,
+            doctorList: payload,
+        }));
+        builder.addCase(getAllDoctor.rejected, (state) => ({
+            ...state,
+            loading: false,
+        }));
+
 
     },
 });
 
-export { getHospitalByServiceId, getHospitalByServiceIdAndDate };
+export { getHospitalByServiceId, getHospitalByServiceIdAndDate, getAllDoctor };
 export const { getHospitalBooking } = slice.actions;
 
 export default slice.reducer;

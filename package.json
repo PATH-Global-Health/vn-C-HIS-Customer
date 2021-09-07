@@ -6,6 +6,7 @@
     "@capacitor-community/facebook-login": "^3.1.1",
     "@capacitor/android": "^3.1.2",
     "@capacitor/core": "^3.1.2",
+    "@capacitor/filesystem": "^1.0.3",
     "@codetrix-studio/capacitor-google-auth": "^3.0.2",
     "@hookform/strictly-typed": "^0.0.4",
     "@ionic-native/barcode-scanner": "^5.36.0",

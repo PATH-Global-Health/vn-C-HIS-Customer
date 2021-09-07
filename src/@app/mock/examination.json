@@ -1,0 +1,32 @@
+[
+    {
+        "type": "blood",
+        "nameService": "Xét nghiệm máu",
+        "time": "9:00",
+        "date": "Thứ 5 ngày 19",
+        "unit": {
+            "nameUnit": "Trung tâm abc",
+            "addressUnit": "1232 Xa lộ Hà Nội, p Thảo Điền, quận 2"
+        }
+    },
+    {
+        "type": "aids",
+        "nameService": "Tư vấn AIDS",
+        "time": "9:00",
+        "date": "Thứ 5 ngày 19",
+        "unit": {
+            "nameUnit": "Trung tâm abc",
+            "addressUnit": "1232 Xa lộ Hà Nội, p Thảo Điền, quận 2"
+        }
+    },
+    {
+        "type": "blood",
+        "nameService": "Xét nghiệm máu",
+        "time": "9:00",
+        "date": "Thứ 5 ngày 19",
+        "unit": {
+            "nameUnit": "Trung tâm abc",
+            "addressUnit": "1232 Xa lộ Hà Nội, p Thảo Điền, quận 2"
+        }
+    }
+]

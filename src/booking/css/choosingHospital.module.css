@@ -1,0 +1,103 @@
+.btnCustom {
+    width: 90%;
+    height: 50px;
+    background: white;
+    text-align: center;
+    color: black;
+    border: 1px solid #d7d8da;
+    border-radius: 11px;
+    position: relative;
+    font-family: system-ui;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.btnCustomHeader {
+    background: white;
+    left: 10px;
+    top: 20px;
+    position: absolute;
+}
+
+.headerLabel {
+    font-weight: bold;
+    font-size: 23px;
+}
+
+.header {
+    height: 60px;
+    border-bottom: 1px solid #b3b3b3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    position: relative,
+}
+
+.iconRight {
+    font-size: larger;
+    color: #b3b3b3;
+    right: 10px;
+    position: absolute;
+}
+
+.iconLeft {
+    font-size: x-large;
+    color: #b3b3b3;
+    left: 10px;
+    position: absolute;
+}
+
+.content {
+    text-align: center;
+}
+
+.img {
+    right: 10px;
+    top: -2px;
+    width: 50px;
+    height: 55px;
+    position: absolute;
+}
+
+.render {
+    padding-left: 9%;
+}
+
+.styledInput {
+    height: 37px;
+    border: 1px solid #b3b3b3;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.styledButtonMenu {
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid #b3b3b3;
+    height: 37px;
+    width: 37px;
+    margin-right: 10px;
+}
+
+.styleModal {
+    padding-top: 20px;
+}
+
+.styledSelect {
+    margin: 10px 32px;
+}
+
+.styledButtonCloseModal {
+    background-color: #293978;
+    height: 50px;
+    color: white;
+    width: 80%;
+    margin: 8% auto;
+    border-radius: 10px;
+}
+
+.styledPage {
+    margin-top: 10%;
+}

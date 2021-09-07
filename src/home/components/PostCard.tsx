@@ -91,11 +91,13 @@ const PostCard: React.FC = () => {
             formatArr(reverseArr(data)).slice(0, 6).map((p, idx) => {
               return (
                 <CardSlider key={idx}>
-                  <IonCard onClick={() => {
-                    dispatch(getPostDetail({ postId: p.id }));
-                    dispatch(setParentPostData({ data: p }));
-                    history.push('/post-detail');
-                  }}
+                  <IonCard
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => {
+                      dispatch(getPostDetail({ postId: p.id }));
+                      dispatch(setParentPostData({ data: p }));
+                      history.push('/post-detail');
+                    }}
                   >
                     <img src={p?.description !== '' ? p.description : logo} alt="" />
                     <IonCardHeader className='card-content' >

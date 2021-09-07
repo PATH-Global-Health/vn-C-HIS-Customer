@@ -119,7 +119,7 @@ const QuestionTemplatePage: React.FC = () => {
       {
         (data || []).map((o, i) => (
           <IonRow key={i} className='ion-justify-content-center' >
-            <IonCol size="12" size-sm='4' size-lg='3'>
+            <IonCol size="12">
               <Card>
                 <IonCard>
                   <img src={virus} alt="" />

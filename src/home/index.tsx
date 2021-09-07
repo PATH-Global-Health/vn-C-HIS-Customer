@@ -58,16 +58,13 @@ const CardIcon = styled(IonIcon)`
   align-item: center;
 `;
 const CardLabel = styled(IonLabel)`
-  margin: -30px 0px 10px 6px;
+  margin: 0px 0px 10px 6px;
   font-size: 21px;
   font-weight: 300;
   color: white;
+  position: absolute;
+  left: 5%;
 `;
-const CardNote = styled(IonNote)`
-  font-size: 12px;
-  color: #2e2d2d;
-  margin-left: 7px;
-`
 const ResultButton = styled(IonItem)`
   border: 1px solid #bcbcbc;
   border-radius: 10px;
@@ -105,7 +102,6 @@ const Home: React.FC = () => {
   interface OptionProps {
     icon: string;
     label: string;
-    note: string
     color: string;
     [otherProps: string]: unknown;
   };
@@ -114,22 +110,19 @@ const Home: React.FC = () => {
     {
       name: "booking",
       icon: calendarOutline,
-      label: t('Booking'),
-      note: t('Consultation') + ',' + t('Testing'),
+      label: t('Dịch vụ'),
       color: "#4c8dff",
     },
     {
       name: "examinationList",
       icon: alarmOutline,
       label: t('Schedule'),
-      note: t('Check appointment'),
       color: "#409f4e"
     },
     {
       name: "risk",
       icon: searchOutline,
-      label: t('Risk'),
-      note: t('Risk check'),
+      label: t('Đánh giá nguy cơ'),
       color: "#f1c248"
     },
   ];
@@ -188,11 +181,11 @@ const Home: React.FC = () => {
         </Menu>
         <IonRow className="ion-justify-content-center">
           {
-            optionFields.map(({ name, icon, label, color, note }, idx) => {
+            optionFields.map(({ name, icon, label, color }, idx) => {
               return (
                 <IonCol key={idx}>
                   <Card
-                    style={{ backgroundColor: color }}
+                    style={{ backgroundColor: color, cursor: 'pointer' }}
                     onClick={() => { handleTypeService(name + "") }}
                   >
                     <div>
@@ -201,9 +194,6 @@ const Home: React.FC = () => {
                     <CardLabel>
                       {label}
                     </CardLabel>
-                    <div>
-                      <CardNote>{note}</CardNote>
-                    </div>
                   </Card>
                 </IonCol>
 
@@ -216,7 +206,7 @@ const Home: React.FC = () => {
             <IonLabel><span className="title">{t('Your test results')}</span></IonLabel>
           </IonItem>
         </Menu>
-        <IonRow className='ion-margin-top'>
+        <IonRow className='ion-margin-top' style={{ cursor: 'pointer' }}>
           <IonCol size="12" size-sm='12'>
             <ResultButton onClick={() => history.push('/resultExaminations')} color='light' lines='none'>
               <ResultIcon icon={eyedropOutline} />

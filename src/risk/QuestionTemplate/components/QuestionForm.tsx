@@ -88,7 +88,7 @@ const QuestionForm: React.FC = () => {
               render={({ field: { onChange, onBlur, value } }) => (
                 <WrapperQuestion>
                   <IonRow className="">
-                    <IonCol size="12" size-sm='3'>
+                    <IonCol size="12">
                       <IonItem color='light' lines='inset' className='group-item'>
                         <IonRadioGroup
                           value={value}
@@ -115,7 +115,7 @@ const QuestionForm: React.FC = () => {
           ))
         }
         <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='3'>
+          <IonCol size="12">
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
               <StyledButton type='submit'>{t('View results')}</StyledButton>
             </div>

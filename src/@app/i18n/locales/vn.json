@@ -239,5 +239,10 @@
     "Successful authentication!": "Xác thực thành công",
     "To verify your account, please enter the OTP code sent to phone number": "Để xác thực tài khoản, vui lòng nhập mã OTP đã được gửi tới số điện thoại",
     "Skip": "Bỏ qua",
-    "Unverified account": "Tài khoản chưa xác thực"
+    "Unverified account": "Tài khoản chưa xác thực",
+    "Verify account": "Xác thực tài khoản",
+    "Enter your phone number to continue": "Nhập số điện thoại của bạn để tiếp tục",
+    "This phone number is already registered!": "Số điện thoại này đã được đăng kí",
+    "full name not enterd": "Tên người dùng chưa nhập",
+    "user name not enterd": "Chưa nhập tên đăng nhập"
 }

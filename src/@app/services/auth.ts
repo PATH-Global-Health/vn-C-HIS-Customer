@@ -77,6 +77,22 @@ const createAccount = async ({
   });
   return response.data;
 };
+const updatePhoneNumber = async ({
+  fullName,
+  phoneNumber,
+}: {
+  fullName: string,
+  phoneNumber: string,
+}
+): Promise<void> => {
+  await httpClient.put({
+    url: apiLinks.manageAccount.updatePhoneNumber,
+    data: {
+      fullName,
+      phoneNumber
+    }
+  })
+}
 const sendPhoneOTP = async (phoneNumber?: string): Promise<any> => {
   const response = await httpClient.post({
     url: apiLinks.manageAccount.generateOTP,
@@ -204,6 +220,7 @@ const authService = {
   getUserInfo,
   loginWithIncognito,
   createAccount,
+  updatePhoneNumber,
   sendPhoneOTP,
   verifyPhoneOTP,
   sendMailOTP,

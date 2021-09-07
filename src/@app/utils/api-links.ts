@@ -15,6 +15,7 @@ const apiLinks = {
   },
   manageAccount: {
     create: `${userUrl}/api/Users`,
+    updatePhoneNumber: `${userUrl}/api/Users`,
     generateOTP: `${userUrl}/api/Users/SendOTPVerification`,
     confirmOTP: `${userUrl}/api/Users/VerifyOTPOfPhoneNumber`,
     changePassword: `${userUrl}/api/Users/ChangePassword`,

@@ -80,7 +80,7 @@ const MessageMethod: React.FC = () => {
         animated={true}
       />
       <IonRow className="ion-justify-content-center">
-        <IonCol size='12' size-sm='6'>
+        <IonCol size='12'>
           <StyledText >
             {t('Enter the phone number to receive the verification code')}
             <br />
@@ -95,7 +95,7 @@ const MessageMethod: React.FC = () => {
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <IonRow className="ion-justify-content-center">
-              <IonCol size="12" size-sm='3'>
+              <IonCol size="12">
                 <StyleWrapperInput color='light' lines='none'>
                   <StyledInput
                     required={true}
@@ -114,7 +114,7 @@ const MessageMethod: React.FC = () => {
         />
 
         <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='3'>
+          <IonCol size="12">
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
               <StyledButton type='submit' >{t('Confirm')}</StyledButton>
             </div>

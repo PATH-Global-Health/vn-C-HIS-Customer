@@ -108,7 +108,7 @@ const SecurityQuestionMehod: React.FC = () => {
         animated={true}
       />
       <IonRow className="ion-justify-content-center">
-        <IonCol size='12' size-sm='6'>
+        <IonCol size='12'>
           <StyledText >
             {t('Security question') + ' :'}
             <br />
@@ -123,7 +123,7 @@ const SecurityQuestionMehod: React.FC = () => {
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <IonRow className="ion-justify-content-center">
-              <IonCol size="12" size-sm='3'>
+              <IonCol size="12">
                 <StyleWrapperInput color='light'>
                   <StyledInput
                     placeholder={t('Enter secutiry question answer')}
@@ -173,12 +173,12 @@ const SecurityQuestionMehod: React.FC = () => {
           ]}
         />
         <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='3'>
+          <IonCol size="12">
             <StyleNoteText >{t('Unknown ?')} <b onClick={() => back()} style={{ cursor: 'pointer' }} >{t('Choose another method')}</b></StyleNoteText>
           </IonCol>
         </IonRow>
         <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='3'>
+          <IonCol size="12">
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
               <StyledButton onClick={() => setShowAlert(true)}>{t('Confirm')}</StyledButton>
             </div>

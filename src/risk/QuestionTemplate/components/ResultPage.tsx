@@ -50,21 +50,21 @@ const ResultPage: React.FC = () => {
   return (
     <IonContent>
       <IonRow className="ion-justify-content-center">
-        <IonCol size="12" size-sm='3'>
+        <IonCol size="12">
           <div style={{ textAlign: 'center', marginTop: '20px', color: '#1145a0', fontSize: '20px', fontWeight: 500 }}>
             {data}
           </div>
         </IonCol>
       </IonRow>
       <Wrapper className="ion-margin-top">
-        <IonCol size="12" size-sm='3'>
+        <IonCol size="12">
           <IonItem color='light' lines='none' className='group-item'>
             <IonText className='content'>{'Mời bạn tiếp tục tham gia tìm hiểu các nguy cơ sức khỏe cùng chủ để hoặc các chủ đề liên quan để bảo vệ sức khỏe cho bản thân và gia đình'}</IonText>
           </IonItem>
         </IonCol>
       </Wrapper>
       <IonRow className="ion-justify-content-center">
-        <IonCol size="12" size-sm='3'>
+        <IonCol size="12" >
           <div style={{ textAlign: 'center', marginTop: '10px' }}>
             <StyledButton onClick={() => dispatch(setHandeRisk({ type: undefined }))}>{t('Continue')}</StyledButton>
           </div>

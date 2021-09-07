@@ -10,7 +10,8 @@ import { Controller, useForm } from "react-hook-form";
 import logo from '../assets/img/logo.png';
 import authService from '@app/services/auth';
 import { useTranslation } from 'react-i18next';
-import ReCAPTCHA from 'react-google-recaptcha';
+import { useAuth } from '@app/hooks';
+//import ReCAPTCHA from 'react-google-recaptcha';
 
 const StyleWrapperInput = styled(IonItem)`
     background-color: white;
@@ -74,8 +75,30 @@ interface InputProps {
 const RegisterPage: React.FC = () => {
   const history = useHistory();
   const { t, i18n } = useTranslation();
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
   const formFields: InputProps[] = [
+    // {
+    //   name: "email",
+    //   fieldType: "input",
+    //   label: t('Email'),
+    //   type: 'email',
+    //   icon: mailOutline,
+    //   placeholder: t('Email'),
+    // },
+    {
+      name: "userName",
+      fieldType: "input",
+      label: t('Username'),
+      icon: person,
+      placeholder: t('Tên đăng nhập'),
+    },
+    {
+      name: "password",
+      fieldType: "input",
+      type: "password",
+      icon: lockClosed,
+      label: t('Password'),
+      placeholder: t('Password'),
+    },
     {
       name: "fullName",
       fieldType: "input",
@@ -91,91 +114,36 @@ const RegisterPage: React.FC = () => {
       icon: phonePortraitOutline,
       placeholder: t('PhoneNumber'),
     },
-    // {
-    //   name: "email",
-    //   fieldType: "input",
-    //   label: t('Email'),
-    //   type: 'email',
-    //   icon: mailOutline,
-    //   placeholder: t('Email'),
-    // },
-    {
-      name: "password",
-      fieldType: "input",
-      type: "password",
-      icon: lockClosed,
-      label: t('Password'),
-      placeholder: t('Password'),
-    },
   ];
   const { control, handleSubmit, register, formState: { errors }, trigger, getValues, setValue } = useForm();
   const [errorCode, setErrorCode] = useState<string>('');
+  const [remember, setRemember] = useState<boolean>(false)
   const [verifyOTPSuccess, setVerifyOTPSucess] = useState<boolean>(false);
   const [verifyOTPFailed, setVerifyOTPFailed] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(true);
   const [showAlertRegistry, setShowAlertRegistry] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
-  // const handleMailAction = async (email: string): Promise<void> => {
-  //   try {
-  //     await authService.sendMailOTP(email);
-  //     setVerifyCode(true);
-  //   }
-  //   catch (err) {
-  //     console.log(err);
-  //     //setConfirmMail(true);
-  //   }
-  // }
-  // const verifyEmailOTP = async (): Promise<void> => {
-  //   const { email, otp } = getValues();
-  //   authService.verifyEmailOTP({ email: email, otp: otp })
-  //     .then(() => {
-  //       setVerifyCode(false);
-  //       setSuccess(true);
-  //       setShowAlertRegistry(true);
-  //     })
-  //     .catch(() => {
-  //       setVerifyCode(true);
-  //       setVerifyEmailOTPFailed(true);
-  //       /*  setSuccess(false);
-  //        setShowAlertRegistry(true); */
-  //     })
-  // };
-  const handlePhoneAction = async (phone: string): Promise<void> => {
+  const { login } = useAuth();
+
+  const handleLogin = async (): Promise<void> => {
+    const permissionQuery = {};
     try {
-      await authService.sendPhoneOTP(phone);
+      const { userName, password } = getValues();
+      await login(userName, password, remember, permissionQuery);
+      history.push('/verify-account');
+    } catch (error) {
+      console.log(error);
     }
-    catch (err) {
-      console.log(err);
-    }
-  }
-  const verifyPhoneOTP = async (): Promise<void> => {
-    const { phoneNumber, otp } = getValues();
-    authService.verifyPhoneOTP({ phoneNumber: phoneNumber, otp: otp })
-      .then(() => {
-        setShowAlertRegistry(false);
-        setVerifyOTPSucess(true);
-        setTimeout(() => {
-          history.push('/login');
-        }, 1500);
-      })
-      .catch(() => {
-        setShowAlertRegistry(true);
-        setVerifyOTPFailed(true);
-        /*  setSuccess(false);
-         setShowAlertRegistry(true); */
-      })
   };
   const handleRegistry = async (): Promise<void> => {
-    /*  const captchaValue = recaptchaRef?.current?.getValue();
-     if (captchaValue?.length !== 0) {
-     } */
+
     try {
-      const { fullName, phoneNumber, password } = getValues();
-      const params = { userName: phoneNumber, password: password, phoneNumber: phoneNumber, fullName: fullName }
+      const { fullName, phoneNumber, password, userName } = getValues();
+      const params = { userName: userName, password: password, phoneNumber: phoneNumber, fullName: fullName }
       await authService.createAccount(params);
-      await handlePhoneAction(phoneNumber);
-      setSuccess(true);
-      setShowAlertRegistry(true);
+      await handleLogin();
+      // setSuccess(true);
+      // setShowAlertRegistry(true);
     } catch (error) {
       setSuccess(false);
       setShowAlertRegistry(true);
@@ -197,18 +165,24 @@ const RegisterPage: React.FC = () => {
     register(
       'fullName',
       {
-        required: { value: true, message: t('Username not enter') },
+        required: { value: true, message: t('full name not enterd') },
         minLength: { value: 4, message: t('Username minnimun is 4 characters') },
         maxLength: { value: 35, message: t('Username maximum is 35 characters') },
       }
     );
     register(
+      'userName',
+      {
+        required: { value: true, message: t('user name not enterd') },
+      }
+    );
+    register(
       'phoneNumber',
       {
-        required: { value: true, message: t('No phone number entered') },
-        minLength: { value: 10, message: t('Phone numbers with minnimun is 10 digits') },
-        maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
-        pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
+        //required: { value: true, message: t('No phone number entered') },
+        // minLength: { value: 10, message: t('Phone numbers with minnimun is 10 digits') },
+        // maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
+        // pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
       }
     );
     // register(
@@ -258,7 +232,7 @@ const RegisterPage: React.FC = () => {
           </IonCol>
         </IonRow>
         <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='3'>
+          <IonCol size="12">
             <StyledHeader >{t('Sign up')}</StyledHeader>
             <StyleNote>{t('Please complete all information')}</StyleNote>
           </IonCol>
@@ -275,7 +249,7 @@ const RegisterPage: React.FC = () => {
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                       <IonRow className="ion-justify-content-center">
-                        <IonCol size="12" size-sm='3'>
+                        <IonCol size="12">
                           <StyleWrapperInput color='light' lines='none'>
                             <StyledInput
                               onIonChange={onChange}
@@ -286,6 +260,7 @@ const RegisterPage: React.FC = () => {
                               <StyledIcon icon={icon} />
                             </StyledInput>
                           </StyleWrapperInput>
+                          {(errors?.userName?.message && name === 'userName') && <ErrorText color='danger'>{(errors?.userName?.message)}</ErrorText>}
                           {(errors?.fullName?.message && name === 'fullName') && <ErrorText color='danger'>{(errors?.fullName?.message)}</ErrorText>}
                           {(errors?.phoneNumber?.message && name === 'phoneNumber') && <ErrorText color='danger'>{(errors?.phoneNumber?.message)}</ErrorText>}
                           {(errors?.password?.message && name === 'password') && <ErrorText color='danger'>{(errors?.password?.message)}</ErrorText>}
@@ -303,7 +278,7 @@ const RegisterPage: React.FC = () => {
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                       <IonRow className="ion-justify-content-center">
-                        <IonCol size="12" size-sm='3'>
+                        <IonCol size="12">
                           <StyleWrapperInput color='light' lines='none'>
                             <StyledInput
                               onIonBlur={onBlur}
@@ -322,125 +297,15 @@ const RegisterPage: React.FC = () => {
               }
             }
           })}
-          <IonRow className="ion-justify-content-start ion-margin-start ion-margin-top">
-            <ReCAPTCHA
-              ref={recaptchaRef}
-              sitekey="6Lew_9cbAAAAAF2NMLBtcXq_Xp2IG38X2qKz7chA"
-              onChange={onChangeCaptcha}
-            />
-          </IonRow>
-          {/*  <IonAlert
-            isOpen={verifyCode}
-            onDidDismiss={() => setVerifyCode(false)}
-            cssClass='my-custom-class'
-            header={t('Enter verification code')}
-            message={t('Enter the verification code that was sent to your email')}
-            inputs={[
-              {
-                name: 'otp',
-                type: 'number',
-                placeholder: t('verification code'),
-                cssClass: 'pass',
-                attributes: {
-                  inputmode: 'decimal'
-                }
-              }
-            ]}
-            buttons={[
-              {
-                text: t('Close'),
-                role: 'cancel',
-                cssClass: 'secondary',
-                handler: () => {
-                  console.log('Confirm Cancel');
-                }
-              },
-              {
-                text: t('Confirm'),
-                handler: (data) => {
-                  setValue('otp', data.otp);
-                  verifyPhoneOTP();
-                }
-              }
-            ]}
-          /> */}
-          <StyledAlert
-            isOpen={showAlertRegistry}
-            onDidDismiss={() => setShowAlertRegistry(false)}
-            cssClass='my-custom-class'
-            header={success ? t('Sign Up success!') : t('Sign Up failed!')}
-            message={
-              // success ? t('') :
-              //   errorCode === 'EXISTED_EMAIL' ?
-              //     t('This email was used, please using another or go to Password recovery page to get back your account')
-              //     : errorCode === 'EXISTED_USERNAME' ?
-              //       t('This phone number was used, please using another or go to Password recovery page to get back your account')
-              //       :
-              //       t('Error! An error occurred')
-              success ? t('To verify your account, please enter the OTP code sent to phone number') + ` ${getValues('phoneNumber')}` : t('')
-            }
-            inputs={success ? [
-              {
-                name: 'otp',
-                type: 'number',
-                placeholder: t('verification code'),
-                cssClass: 'pass',
-                attributes: {
-                  inputmode: 'decimal'
-                }
-              }
-            ]
-              :
-              []
-            }
-            buttons={[
-              {
-                text: t('Skip'),
-                role: 'cancel',
-                cssClass: 'secondary',
-                handler: () => {
-                  console.log('Confirm Cancel');
-                  history.push('/login');
-                }
-              },
-              {
-                text: t('Confirm'),
-                handler: (data) => {
-                  setValue('otp', data.otp);
-                  verifyPhoneOTP();
-                }
-              }
-            ]}
-          /*  buttons={[
-             {
-               text: t('Close'),
-               role: 'cancel',
-               cssClass: 'secondary',
-               handler: () => {
-                 setSuccess(false)
-                 setShowAlertRegistry(false);
-               }
-             },
-             {
-               text: t('Back to login'),
-               handler: () => {
-                 setTimeout(() => {
-                   history.push('/login');
-                   window.location.reload();
-                 }, 0);
-               }
-             },
-           ]}  */
-          />
           <IonRow className="ion-justify-content-center">
-            <IonCol size="12" size-sm='3'>
+            <IonCol size="12" >
               <StyleText >{t('Already have an account') + '?'}<b onClick={() => { history.push('/login') }} style={{ cursor: 'pointer' }} >{t('Login')}</b></StyleText>
             </IonCol>
           </IonRow>
           <IonRow className="ion-justify-content-center ">
-            <IonCol size="12" size-sm='3'>
+            <IonCol size="12">
               <div style={{ textAlign: 'center', marginTop: '10px' }}>
-                <StyledButton type='submit' disabled={submitting}  /* onClick={() => handleMailAction(getValues('email'))} */>{t('Sign up')}</StyledButton>
+                <StyledButton type='submit'>{t('Sign up')}</StyledButton>
               </div>
             </IonCol>
           </IonRow>

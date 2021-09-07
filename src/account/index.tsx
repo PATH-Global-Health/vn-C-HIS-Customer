@@ -25,6 +25,7 @@ import {
   lockClosed,
   shieldCheckmark,
   language,
+  informationCircleOutline,
 } from 'ionicons/icons';
 
 import { useHistory } from "react-router-dom";
@@ -36,6 +37,7 @@ import { useAuth, useDispatch, useSelector } from '@app/hooks';
 import { getProfile } from './profile/profile.slice';
 import { getUserInfo } from '@app/slices/auth';
 import authService from '@app/services/auth';
+import { useForm } from 'react-hook-form';
 
 
 const StyledItem = styled(IonItem)`
@@ -79,10 +81,14 @@ const Account: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { logout } = useAuth();
-  const [showAlert, setShowAlert] = useState(false);
-  const [verifyCode, setVerifyCode] = useState(false);
+  const { control, handleSubmit, register, formState: { errors }, trigger, getValues, setValue } = useForm();
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [verifyCode, setVerifyCode] = useState<boolean>(false);
   const [verifyOTPSuccess, setVerifyOTPSucess] = useState<boolean>(false);
   const [verifyOTPFailed, setVerifyOTPFailed] = useState<boolean>(false);
+  const [verifyPhoneNumber, setVerifyPhoneNumber] = useState<boolean>(false);
+  const [updatePhoneNumberFailed, setUpdatePhoneNumberFailed] = useState<boolean>(false);
+  const [verifyOTP, setVerifyOTP] = useState<boolean>(false);
   const { profile } = useSelector((s) => s.profile);
   const userData = useSelector(s => s.auth.userInfo?.data);
   const optionFields: OptionProps[] = [
@@ -104,26 +110,28 @@ const Account: React.FC = () => {
       label: t('Security Settings'),
       color: "#f1c248"
     },
-    /*   {
-        name: "qr",
-        icon: "qr",
-        label: t('My QR Code'),
-        color: "#3ac6e1"
-      }, */
+    {
+      name: "qr",
+      icon: "qr",
+      label: t('My QR Code'),
+      color: "#3ac6e1"
+    },
   ];
-  const handlePhoneAction = async (phone?: string): Promise<void> => {
+  const handlePhoneAction = async (): Promise<void> => {
+    const phoneNumber = getValues('phoneNumber');
     try {
-      await authService.sendPhoneOTP(phone);
+      await authService.updatePhoneNumber({ fullName: '', phoneNumber: phoneNumber });
+      await authService.sendPhoneOTP(phoneNumber);
+      setVerifyOTP(true);
     }
-    catch (err) {
-      console.log(err);
+    catch {
+      setUpdatePhoneNumberFailed(true);
     }
   }
   const verifyPhoneOTP = async (otp: string): Promise<void> => {
-    authService.verifyPhoneOTP({ phoneNumber: userData?.userInfo?.phoneNumber, otp: otp })
+    authService.verifyPhoneOTP({ phoneNumber: getValues('phoneNumber'), otp: otp })
       .then(() => {
         setVerifyOTPSucess(true);
-
       })
       .catch(() => {
         setVerifyOTPFailed(true);
@@ -135,28 +143,38 @@ const Account: React.FC = () => {
   }, [dispatch]);
   useEffect(getData, [getData]);
 
+  // useEffect(() => {
+  //   if (userData?.userInfo) {
+  //     if (!userData.userInfo?.isConfirmed) {
+  //       handlePhoneAction(userData.userInfo.phoneNumber);
+  //       // setVerifyCode(true);
+  //     }
+  //   }
+  // }, [userData]);
   useEffect(() => {
-    if (userData?.userInfo) {
-      if (!userData.userInfo?.isConfirmed) {
-        handlePhoneAction(userData.userInfo.phoneNumber);
-        setVerifyCode(true);
+    register(
+      'phoneNumber',
+      {
+        required: { value: true, message: t('No phone number entered') },
+        minLength: { value: 10, message: t('Phone numbers with minnimun is 10 digits') },
+        maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
+        pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
       }
-    }
-  }, [userData]);
+    );
+    register('otp');
+  }, [register]);
   return (
     <>
-      {console.log(userData?.userInfo?.isConfirmed)}
-
       <IonContent>
-        <IonRow className="ion-justify-content-center " >
-          <IonCol size="4" size-sm="3">
+        <IonRow className="ion-justify-content-center" >
+          <IonCol size="4" >
             <div>
               <img src={logo} alt="logo" width='150px' />
             </div>
           </IonCol>
         </IonRow>
         <IonRow className="ion-justify-content-center">
-          <IonCol size="6" size-sm="4" offset='4'>
+          <IonCol size="2" >
             <IonAvatar style={{
               '--border-radius': '50px'
             }}>
@@ -180,16 +198,16 @@ const Account: React.FC = () => {
           {
             optionFields.map(({ name, icon, label, color, ...otherProps }, idx) => {
               return (
-                <IonRow key={idx}>
-                  <IonCol size="12" size-sm='3'>
+                <IonRow key={idx} style={{ cursor: 'pointer' }}>
+                  <IonCol size="12" >
                     <StyledItem color='light'
                       onClick={() => {
                         name === 'change-password' ? history.push('/change-password')
                           : name === 'profile' ? history.push('/profile')
                             : name === 'security' ? history.push('/security-question')
-                              : history.push('/account')
+                              : name === 'qr' ? history.push('/qr-code')
+                                : history.push('/account')
                       }}
-
                     >
                       <StyledIcon
                         icon={
@@ -214,7 +232,7 @@ const Account: React.FC = () => {
             })
           }
           <IonRow >
-            <IonCol size="12" size-sm='3'>
+            <IonCol size="12">
               <StyledItem color='light'
               // onClick={() => { icon === 'change' ? history.push('/change-password') : history.push('/account') }}
               >
@@ -233,8 +251,22 @@ const Account: React.FC = () => {
             </IonCol>
           </IonRow>
         </div>
+        <IonRow className="ion-justify-content-center" style={{ display: userData?.userInfo?.isConfirmed ? 'none' : '' }} >
+          <IonCol size="12">
+            <div style={{ textAlign: 'center', marginTop: '10px' }}>
+              <StyledSocialButton
+                color='danger'
+                type='submit'
+                onClick={() => setVerifyCode(true)}
+              >
+                <IonIcon icon={informationCircleOutline} style={{ marginRight: '20px' }} ></IonIcon>
+                {t('Xác thực tài khoản')}
+              </StyledSocialButton>
+            </div>
+          </IonCol>
+        </IonRow>
         <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='4' size-lg='3'>
+          <IonCol size="12">
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
               <StyledSocialButton
                 type='submit'
@@ -271,7 +303,88 @@ const Account: React.FC = () => {
           position="top"
           animated={true}
         />
+        <IonToast
+          isOpen={updatePhoneNumberFailed}
+          onDidDismiss={() => setUpdatePhoneNumberFailed(false)}
+          color='danger'
+          message={t('This phone number is already registered!')}
+          duration={1000}
+          position="top"
+          animated={true}
+        />
         <StyledAlert
+          isOpen={verifyCode}
+          onDidDismiss={() => setVerifyCode(false)}
+          cssClass='my-custom-class'
+          header={t('Verify account')}
+          message={t('Enter your phone number to continue')}
+          inputs={[
+            {
+              name: 'phoneNumber',
+              type: 'number',
+              placeholder: t('Phone number'),
+              cssClass: 'pass',
+              attributes: {
+                inputmode: 'decimal'
+              }
+            }
+          ]
+          }
+          buttons={[
+            {
+              text: t('Skip'),
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: () => {
+                console.log('Confirm Cancel');
+              }
+            },
+            {
+              text: t('Confirm'),
+              handler: (data) => {
+                setValue('phoneNumber', data.phoneNumber);
+                handlePhoneAction();
+
+              }
+            }
+          ]}
+        />
+        <IonAlert
+          isOpen={verifyOTP}
+          onDidDismiss={() => setVerifyPhoneNumber(false)}
+          cssClass='my-custom-class'
+          header={'Nhập mã OTP'}
+          message={t('To verify your account, please enter the OTP code sent to phone number') + ` ${getValues('phoneNumber')}`}
+          inputs={[
+            {
+              name: 'otp',
+              type: 'number',
+              placeholder: t('Số điện thoại'),
+              cssClass: 'pass',
+              attributes: {
+                inputmode: 'decimal'
+              }
+            }
+          ]
+          }
+          buttons={[
+            {
+              text: t('Skip'),
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: () => {
+                console.log('Confirm Cancel');
+              }
+            },
+            {
+              text: t('Confirm'),
+              handler: (data) => {
+                //setValue('otp', data.otp);
+                verifyPhoneOTP(data?.otp);
+              }
+            }
+          ]} />
+        {/* <StyledAlert
           isOpen={verifyCode}
           cssClass='my-custom-class'
           header={t('Unverified account')}
@@ -306,7 +419,7 @@ const Account: React.FC = () => {
               }
             }
           ]}
-        />
+        /> */}
         <IonAlert
           isOpen={showAlert}
           onDidDismiss={() => setShowAlert(false)}

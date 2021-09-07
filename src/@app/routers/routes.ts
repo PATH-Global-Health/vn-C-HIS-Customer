@@ -31,6 +31,8 @@ import notify from 'notify/index';
 import ExaminationResultInfo from 'booking/pages/ExaminationResultInfo';
 
 import Incognito from 'Incognito/index';
+import VerifyAccount from '@app/components/verify-account';
+import QrCode from 'account/qr-code';
 
 
 interface Route {
@@ -193,8 +195,17 @@ const routes: Route[] = [
     path: '/examinationResultInfo'
   },
   {
+    component: VerifyAccount,
+    path: '/verify-account'
+  },
+  {
+    component: QrCode,
+    path: '/qr-code'
+  },
+  {
     component: PageNotFound,
   },
+
 
 ];
 

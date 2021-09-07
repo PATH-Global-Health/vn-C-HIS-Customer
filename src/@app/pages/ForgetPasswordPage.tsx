@@ -81,7 +81,7 @@ const ForgetPassword: React.FC = () => {
       {(method !== undefined ||
         <div>
           <IonRow className="ion-justify-content-center">
-            <IonCol size='12' size-sm='6'>
+            <IonCol size='12'>
               <StyledText >
                 {t('Choose password recovery method')}
               </StyledText>

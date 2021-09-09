@@ -1,17 +1,25 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { Doctor, Hospital } from '../models/hospital';
+import { Doctor, DoctorData, Hospital } from '../models/hospital';
 import bookingServices from '../services/index';
 
 interface State {
     hospitals: Hospital[];
     hospitalBooking: Hospital;
-    doctorList: Doctor[];
+    doctorList: Doctor;
+    listDoctorRender: DoctorData[],
     loading: boolean;
 }
 
 const initialState: State = {
     hospitals: [],
-    doctorList: [],
+    listDoctorRender: [],
+    doctorList: {
+        data: [],
+        pageIndex: 0,
+        pageSize: 5,
+        totalPage: 0,
+        totalSize: 0
+    },
     hospitalBooking: {
         isDeleted: false,
         dateCreated: "",
@@ -42,8 +50,8 @@ const getHospitalByServiceIdAndDate = createAsyncThunk('hospital/getHospitalBySe
     return result;
 });
 
-const getAllDoctor = createAsyncThunk('doctor/getAllDoctor', async () => {
-    const result = await bookingServices.hospitalService.getAllDoctor();
+const getAllDoctor = createAsyncThunk('doctor/getAllDoctor', async (arg: {pageIndex: number, pageSize: number}) => {
+    const result = await bookingServices.hospitalService.getAllDoctor(arg.pageIndex, arg.pageSize);
     return result;
 });
 
@@ -53,6 +61,9 @@ const slice = createSlice({
     reducers: {
         getHospitalBooking: (state, action) => {
             state.hospitalBooking = action.payload;
+        },
+        setListDoctorRender: (state, action) => {
+            state.listDoctorRender.push(action.payload);
         }
     },
     extraReducers: (builder) => {
@@ -94,6 +105,7 @@ const slice = createSlice({
             ...state,
             loading: false,
             doctorList: payload,
+            listDoctorRender: [...state.listDoctorRender, ...payload.data]
         }));
         builder.addCase(getAllDoctor.rejected, (state) => ({
             ...state,
@@ -105,6 +117,6 @@ const slice = createSlice({
 });
 
 export { getHospitalByServiceId, getHospitalByServiceIdAndDate, getAllDoctor };
-export const { getHospitalBooking } = slice.actions;
+export const { getHospitalBooking, setListDoctorRender } = slice.actions;
 
 export default slice.reducer;

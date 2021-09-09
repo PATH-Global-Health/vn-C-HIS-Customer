@@ -18,6 +18,7 @@ import {
   alarmOutline,
   arrowForwardOutline,
   eyedropOutline,
+  peopleCircleSharp,
 } from 'ionicons/icons';
 
 import { useHistory } from "react-router-dom";
@@ -125,6 +126,13 @@ const Home: React.FC = () => {
       label: t('Đánh giá nguy cơ'),
       color: "#f1c248"
     },
+
+    {
+      name: "doctorList",
+      icon: peopleCircleSharp,
+      label: t('CBO support'),
+      color: "#EB5757"
+    },
   ];
   const { postList: { data }, getPostLoading } = useSelector((s) => s.post);
   const userData = useSelector(s => s.auth.userInfo?.data);
@@ -134,6 +142,7 @@ const Home: React.FC = () => {
   const handleTypeService = (name: string) => {
     name === "booking" ? history.push("/shomeBooking")
       : name === "examinationList" ? history.push("/examinationList")
+      : name === "doctorList" ? history.push("/doctorList")
         : RedirectRiskPage();
 
   }

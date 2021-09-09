@@ -17,8 +17,16 @@ export interface Hospital {
 }
 
 export interface Doctor {
-    isDeleted: boolean,
+    pageIndex: number,
+    pageSize: number,
+    totalPage: number,
+    totalSize: number,
+    data: DoctorData[] | [],
+}
+
+export interface DoctorData {
     id: string,
+    isDeleted: boolean,
     code: string,
     fullName: string,
     identityCard: string,

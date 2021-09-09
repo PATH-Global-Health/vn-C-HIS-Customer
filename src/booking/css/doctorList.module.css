@@ -61,6 +61,7 @@
 }
 
 .headerSearch {
+    /* width: 100%; */
     height: 60px;
     display: flex;
     border-bottom: 1px solid white;
@@ -95,7 +96,7 @@
 
 .searchBar {
     height: 45px;
-    width: 80%;
+    width: 100%;
     --background: white;
     border: 0px solid white;
     --box-shadow: none;
@@ -103,8 +104,8 @@
     border-radius: 10px;
 }
 
-.cancelSearch {
-    width: 20%;
+.btnFilter {
+    /* width: 20%; */
     height: 45px;
     background-color: white;
     font-size: medium;
@@ -112,24 +113,29 @@
     margin-right: 10px;
 }
 
-.styledDivIconBlood {
-    width: 35px;
-    height: 30px;
-    /* border-radius: 50%; */
-    background-color: rgb(55, 230, 163);
+.iconFilter{
+    font-size: 30px;
+    color:rgb(204, 198, 198)
+}
+
+.styledDivIcon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #FFFFFF;
     position: absolute;
-    top: 10%;
-    left: 8%;
+    top: 22%;
+    left: 5%;
     text-align: center;
 }
 
 .styledIcon {
-    color: white;
+    color: black;
     /* margin-top: 5px; */
-    font-size: 27px;
+    font-size: 35px;
     position: absolute;
-    left: 3px;
-    top: 2px;
+    left: 8px;
+    top: 8px;
 }
 
 .styledCardTitle {
@@ -168,19 +174,19 @@
 }
 
 .styledCardDiv {
-    background-color: #3b4a74;
+    /* background-color: #3b4a74; */
     position: relative;
     z-index: 0;
     width: 93%;
     margin: 15px auto;
-    border-radius: 5px;
+    border-radius: 20px;
 }
 
-.styledCardAids {
-    background-color: #e4eee9;
+.styledCard {
+    background-color: #FAFAFA;
     width: 100%;
-    height: 200px;
+    height: 94px;
     padding: 0px;
     margin: 0px;
-    border-radius: 5px;
+    border-radius: 20px;
 }

@@ -56,7 +56,7 @@ const HomeBooking: React.FC = () => {
           <IonIcon className={styles.iconLeft} icon={flash}></IonIcon>
         </button>
 
-        <button
+        {/* <button
           className={styles.btnCustom}
           onClick={() => {
             dispatch(getAllDoctor());
@@ -65,7 +65,7 @@ const HomeBooking: React.FC = () => {
           }>{t('List of doctors')}
           <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>
           <IonIcon className={styles.iconLeft} icon={people}></IonIcon>
-        </button>
+        </button> */}
       </IonContent>
     </IonPage>
   );

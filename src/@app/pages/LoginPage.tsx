@@ -137,8 +137,8 @@ const LoginPage: React.FC = () => {
     register(
       'username',
       {
-        required: { value: true, message: t('Tên đăng nhập chưa nhập') },
-        //pattern: { value: /^[0-9\b]+$/, message: t('Tên đăng nhập không chứa khoảng trắng') }
+        required: { value: true, message: t('Username not enter') },
+        pattern: { value: /^\S*$/, message: t('Username can not contain spaces') }
       }
     );
     register(

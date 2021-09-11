@@ -3,6 +3,7 @@
 import auth from '@app/slices/auth';
 import global from '@app/slices/global';
 import post from 'news/post/post.slice';
+import laytest from 'laytest/laytest.slice';
 import risk from 'risk/QuestionTemplate/question-template.slice';
 import surveySession from 'risk/SurveySession/survey-session.slice';
 import profile from 'account/profile/profile.slice';
@@ -23,5 +24,6 @@ export default {
   risk,
   surveySession,
   profile,
-  securityQuestion
+  securityQuestion,
+  laytest,
 };

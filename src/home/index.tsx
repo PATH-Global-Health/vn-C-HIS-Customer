@@ -215,9 +215,21 @@ const Home: React.FC = () => {
             <IonLabel><span className="title">{t('Your test results')}</span></IonLabel>
           </IonItem>
         </Menu>
-        <IonRow className='ion-margin-top' style={{ cursor: 'pointer' }}>
+        {/* <IonRow className='ion-margin-top' style={{ cursor: 'pointer' }}>
           <IonCol size="12" size-sm='12'>
             <ResultButton onClick={() => history.push('/resultExaminations')} color='light' lines='none'>
+              <ResultIcon icon={eyedropOutline} />
+              <ResultLabel >
+                {t('View test results')}
+              </ResultLabel>
+              <IonIcon icon={arrowForwardOutline} color='medium'>
+              </IonIcon>
+            </ResultButton>
+          </IonCol>
+        </IonRow> */}
+        <IonRow className='ion-margin-top' style={{ cursor: 'pointer' }}>
+          <IonCol size="12" size-sm='12'>
+            <ResultButton onClick={() => history.push('/laytest')} color='light' lines='none'>
               <ResultIcon icon={eyedropOutline} />
               <ResultLabel >
                 {t('View test results')}

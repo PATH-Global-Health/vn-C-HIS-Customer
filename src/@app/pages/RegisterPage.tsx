@@ -102,9 +102,9 @@ const RegisterPage: React.FC = () => {
     {
       name: "fullName",
       fieldType: "input",
-      label: t('User name'),
+      label: t('Your name'),
       icon: person,
-      placeholder: t('User name'),
+      placeholder: t('Your name'),
     },
     {
       name: "phoneNumber",
@@ -163,6 +163,13 @@ const RegisterPage: React.FC = () => {
   }
   useEffect(() => {
     register(
+      'userName',
+      {
+        required: { value: true, message: t('Username not enter') },
+        pattern: { value: /^\S*$/, message: t('Username can not contain spaces') }
+      }
+    );
+    register(
       'fullName',
       {
         required: { value: true, message: t('full name not enterd') },
@@ -171,18 +178,12 @@ const RegisterPage: React.FC = () => {
       }
     );
     register(
-      'userName',
-      {
-        required: { value: true, message: t('user name not enterd') },
-      }
-    );
-    register(
       'phoneNumber',
       {
         //required: { value: true, message: t('No phone number entered') },
-        // minLength: { value: 10, message: t('Phone numbers with minnimun is 10 digits') },
-        // maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
-        // pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
+        minLength: { value: 10, message: t('Phone numbers with minnimun is 10 digits') },
+        maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
+        pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
       }
     );
     // register(
@@ -237,7 +238,6 @@ const RegisterPage: React.FC = () => {
             <StyleNote>{t('Please complete all information')}</StyleNote>
           </IonCol>
         </IonRow>
-
         <form onSubmit={handleSubmit(handleRegistry)} style={{ paddingLeft: '25px', paddingRight: '25px' }}>
           {formFields.map(({ label, name, icon, fieldType, ...otherProps }) => {
             switch (fieldType) {

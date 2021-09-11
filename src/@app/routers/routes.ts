@@ -33,6 +33,8 @@ import ExaminationResultInfo from 'booking/pages/ExaminationResultInfo';
 import Incognito from 'Incognito/index';
 import VerifyAccount from '@app/components/verify-account';
 import QrCode from 'account/qr-code';
+import LaytestPage from 'laytest';
+import UpdateLaytest from 'laytest/conponents/UpdateLaytest';
 
 
 interface Route {
@@ -131,6 +133,19 @@ const routes: Route[] = [
     component: HomeBooking,
     layout: AppLayout,
     path: '/shomeBooking',
+    isPrivate: true,
+    isIncognito: true,
+  },
+  {
+    component: LaytestPage,
+    layout: AppLayout,
+    path: '/laytest',
+    isPrivate: true,
+    isIncognito: false,
+  },
+  {
+    component: UpdateLaytest,
+    path: '/update-laytest',
     isPrivate: true,
     isIncognito: true,
   },

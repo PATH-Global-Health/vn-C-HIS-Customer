@@ -102,7 +102,6 @@ const VerifyAccount: React.FC = () => {
   useEffect(getData, [getData, userData?.userInfo?.phoneNumber]);
   return (
     <IonContent>
-      {console.log(userData?.userInfo?.isConfirmed)}
       <IonRow className="ion-justify-content-center ">
         <IonCol size="12" >
           <div className="ion-align-items-center" style={{ textAlign: 'center', marginTop: '200px', color: '#1145a0', fontSize: '20px', fontWeight: 500 }}>

@@ -27,6 +27,7 @@ export interface Doctor {
 export interface DoctorData {
     id: string,
     isDeleted: boolean,
+    unit: Hospital[] | []
     code: string,
     fullName: string,
     identityCard: string,

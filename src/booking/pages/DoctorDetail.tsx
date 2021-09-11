@@ -95,6 +95,13 @@ const DoctorDetail: React.FC = () => {
                                 </IonInput>
                             </IonItem>
 
+                            <IonItem>
+                                <IonLabel className={styles.styledLabel} position="stacked">{t('Unit Name')}</IonLabel>
+                                <IonInput className={styles.styledInput} readonly value={doctor?.unit[0]?.name}>
+                                    {/* <IonIcon className={styles.styledIconInput} icon={people}></IonIcon> */}
+                                </IonInput>
+                            </IonItem>
+
                         </IonList>
 
                         <div style={{ width: '100%', display: 'flex' }}>

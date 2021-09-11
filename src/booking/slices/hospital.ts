@@ -50,8 +50,8 @@ const getHospitalByServiceIdAndDate = createAsyncThunk('hospital/getHospitalBySe
     return result;
 });
 
-const getAllDoctor = createAsyncThunk('doctor/getAllDoctor', async (arg: {pageIndex: number, pageSize: number}) => {
-    const result = await bookingServices.hospitalService.getAllDoctor(arg.pageIndex, arg.pageSize);
+const getAllDoctor = createAsyncThunk('doctor/getAllDoctor', async (arg: {pageIndex: number, pageSize: number, textSearch: string}) => {
+    const result = await bookingServices.hospitalService.getAllDoctor(arg.pageIndex, arg.pageSize, arg.textSearch);
     return result;
 });
 

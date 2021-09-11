@@ -32,18 +32,19 @@ import { getAllDoctor } from "booking/slices/hospital";
 const DoctorList: React.FC = () => {
   const dispatch = useDispatch();
   const [searchInput, setSearchInput] = useState(false);
+  const [textSearch, setTextSearch] = useState('');
   const { t } = useTranslation();
   const history = useHistory();
   const { loading, doctorList, } = useSelector((b) => b.hospital);
 
   const [pageSize, setPageSize] = useState<number>(5);
-  const [nameSearch, setNameSearch] = useState("")
+  // const [nameSearch, setNameSearch] = useState("")
   var cx = classNames.bind(styles);
   const doctorListSuccess = doctorList?.data;
 
   const getData = useCallback(() => {
-    dispatch(getAllDoctor({ pageIndex: 0, pageSize: pageSize }));
-  }, [pageSize]);
+    dispatch(getAllDoctor({ pageIndex: 0, pageSize: pageSize, textSearch: textSearch }));
+  }, [pageSize, textSearch]);
 
   const fetchData = () => {
     pageSize <= doctorList.totalPage * 5 ? 
@@ -71,7 +72,7 @@ const DoctorList: React.FC = () => {
 
         <div className={styles.headerSearch}>
           <IonSearchbar
-            onIonChange={(e) => setNameSearch(e.detail.value!)}
+            onIonChange={(e) => {setTextSearch(e.detail.value!); setPageSize(5)}}
             placeholder={t('Enter CBO Information')}
             className={styles.searchBar}></IonSearchbar>
           <button onClick={() => setSearchInput(false)} className={styles.btnFilter}>
@@ -103,7 +104,7 @@ const DoctorList: React.FC = () => {
                   >{d?.phone}</IonCardSubtitle>
                   <IonCardSubtitle
                     className={cx('styledSubtitle')}
-                  >{d?.email}</IonCardSubtitle>
+                  >{d?.unit[0]?.name}</IonCardSubtitle>
                 </IonCardHeader>
               </IonCard>
             </div>

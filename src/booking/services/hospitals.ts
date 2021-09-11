@@ -23,12 +23,13 @@ const getHospitalByServiceIdAndDate = async (serviceId: string, date: string): P
   }
 };
 
-const getAllDoctor = async (pageIndex: number, pageSize: number): Promise<Doctor> => {
+const getAllDoctor = async (pageIndex: number, pageSize: number, textSearch: string): Promise<Doctor> => {
     const result = await httpClient.get({
       url: apiLinks.manageSchedule.doctor.getAllDoctor,
       params: {
         pageIndex: pageIndex,
-        pageSize: pageSize
+        pageSize: pageSize,
+        textSearch
       }
     });
     return result.data as Doctor;

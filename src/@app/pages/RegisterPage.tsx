@@ -120,6 +120,7 @@ const RegisterPage: React.FC = () => {
   const [remember, setRemember] = useState<boolean>(false)
   const [verifyOTPSuccess, setVerifyOTPSucess] = useState<boolean>(false);
   const [verifyOTPFailed, setVerifyOTPFailed] = useState<boolean>(false);
+  const [resgistryFailed, setResgistryFailed] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(true);
   const [showAlertRegistry, setShowAlertRegistry] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
@@ -136,7 +137,6 @@ const RegisterPage: React.FC = () => {
     }
   };
   const handleRegistry = async (): Promise<void> => {
-
     try {
       const { fullName, phoneNumber, password, userName } = getValues();
       const params = { userName: userName, password: password, phoneNumber: phoneNumber, fullName: fullName }
@@ -147,6 +147,7 @@ const RegisterPage: React.FC = () => {
     } catch (error) {
       setSuccess(false);
       setShowAlertRegistry(true);
+      setResgistryFailed(true);
       // setErrorCode(error.response.data);
       // if (error.response.data === 'UNVERIFIED_USER') {
       //   setVerifyCode(true);
@@ -221,6 +222,15 @@ const RegisterPage: React.FC = () => {
           onDidDismiss={() => setVerifyOTPFailed(false)}
           color='danger'
           message={t('Incorrect code!')}
+          duration={1000}
+          position="top"
+          animated={true}
+        />
+        <IonToast
+          isOpen={resgistryFailed}
+          onDidDismiss={() => setResgistryFailed(false)}
+          color='danger'
+          message={t('Registry failed! This account already exist')}
           duration={1000}
           position="top"
           animated={true}

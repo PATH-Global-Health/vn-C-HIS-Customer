@@ -260,8 +260,10 @@
     "Laytest code": "Mã xét nghiệm",
     "Result testing": "Kết quả xét nghiệm",
     "Update laytest result": "Cập nhật kết quả",
+    "Your service": "Danh sách dịch vụ",
     "Update result laytest successfully": "Cập nhật kết quả xét nghiệm thành công",
     "Update result laytest failed": "Cập nhật kết quả xét nghiệm thất bại",
     "Back to laytest history": "Trở về",
-    "Your name": "Họ tên người dùng"
+    "Your name": "Họ tên người dùng",
+    "Registry failed! This account already exist": "Đăng kí thất bại! tài khoản này đã được đăng kí"
 }

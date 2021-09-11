@@ -37,6 +37,7 @@ import DoctorList from 'booking/pages/DoctorList';
 import DoctorDetail from 'booking/pages/DoctorDetail';
 import LaytestPage from 'laytest';
 import UpdateLaytest from 'laytest/conponents/UpdateLaytest';
+import CustomerService from 'home/components/CustomerService';
 
 
 interface Route {
@@ -101,6 +102,12 @@ const routes: Route[] = [
     component: Home,
     layout: AppLayout,
     path: '/home',
+    isPrivate: true,
+    isIncognito: true,
+  },
+  {
+    component: CustomerService,
+    path: '/customer-service',
     isPrivate: true,
     isIncognito: true,
   },

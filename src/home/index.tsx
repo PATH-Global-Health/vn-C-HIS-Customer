@@ -86,7 +86,8 @@ const Menu = styled(IonRow)`
   }
   ion-note {
     margin: 0 !important;
-    font-size: 14px;
+    font-size: 15px;
+    cursor: pointer;
   }
   ion-icon {
     font-size: 8px;
@@ -126,13 +127,6 @@ const Home: React.FC = () => {
       label: t('Đánh giá nguy cơ'),
       color: "#f1c248"
     },
-
-    {
-      name: "doctorList",
-      icon: peopleCircleSharp,
-      label: t('CBO support'),
-      color: "#EB5757"
-    },
   ];
   const { postList: { data }, getPostLoading } = useSelector((s) => s.post);
   const userData = useSelector(s => s.auth.userInfo?.data);
@@ -142,9 +136,8 @@ const Home: React.FC = () => {
   const handleTypeService = (name: string) => {
     name === "booking" ? history.push("/shomeBooking")
       : name === "examinationList" ? history.push("/examinationList")
-      : name === "doctorList" ? history.push("/doctorList")
-        : RedirectRiskPage();
-
+        : name === "doctorList" ? history.push("/doctorList")
+          : RedirectRiskPage();
   }
   const RedirectRiskPage = () => {
     history.push("/risk");
@@ -184,7 +177,7 @@ const Home: React.FC = () => {
         <Menu className='ion-margin-top'>
           <IonItem className="ion-no-padding" color="light">
             <IonLabel><span className="title">{t('Featured Services')}</span></IonLabel>
-            <IonNote slot="end">{t('View all')}</IonNote>
+            <IonNote slot="end" onClick={() => history.push('/customer-service')}>{t('View all')}</IonNote>
             <IonIcon className="ion-align-self-center" slot="end" size="small" icon={chevronForwardOutline} />
           </IonItem>
         </Menu>
@@ -215,18 +208,6 @@ const Home: React.FC = () => {
             <IonLabel><span className="title">{t('Your test results')}</span></IonLabel>
           </IonItem>
         </Menu>
-        {/* <IonRow className='ion-margin-top' style={{ cursor: 'pointer' }}>
-          <IonCol size="12" size-sm='12'>
-            <ResultButton onClick={() => history.push('/resultExaminations')} color='light' lines='none'>
-              <ResultIcon icon={eyedropOutline} />
-              <ResultLabel >
-                {t('View test results')}
-              </ResultLabel>
-              <IonIcon icon={arrowForwardOutline} color='medium'>
-              </IonIcon>
-            </ResultButton>
-          </IonCol>
-        </IonRow> */}
         <IonRow className='ion-margin-top' style={{ cursor: 'pointer' }}>
           <IonCol size="12" size-sm='12'>
             <ResultButton onClick={() => history.push('/laytest')} color='light' lines='none'>

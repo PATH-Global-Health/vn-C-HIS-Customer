@@ -1,7 +1,7 @@
 const userUrl = 'https://user-management.bakco.vn';
 const smapi = 'https://schedule-management.bakco.vn';
 const cmsApi = 'https://mini-cms.bakco.vn';
-const apiBookingService = 'http://202.78.227.174:14789';
+const apiBookingService = 'https://booking-management.bakco.vn';
 
 const apiLinks = {
   auth: {

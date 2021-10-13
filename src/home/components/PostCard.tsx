@@ -84,7 +84,7 @@ const PostCard: React.FC = () => {
 
   return (
     <>{
-      getPostLoading ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%', top: '10%' }}></IonSpinner>
+      getPostLoading ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%', top: '20%' }}></IonSpinner>
         :
         <Slider infinite={false} dots={true} slidesToShow={1.3} slidesToScroll={1} swipeToSlide={true} autoplay={true} >
           {

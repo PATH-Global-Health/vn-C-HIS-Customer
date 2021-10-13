@@ -14,7 +14,7 @@ import {
   IonSpinner,
   IonButton,
 } from '@ionic/react';
-import { useAuth, useDispatch, useSelector } from '@app/hooks';
+import { useDispatch, useSelector } from '@app/hooks';
 
 import img from '@app/assets/img/khau_trang.jpg';
 import virus from '@app/assets/img/virus2.jpg';

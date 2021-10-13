@@ -10,7 +10,7 @@ const AuthPage: React.FC = () => {
     if (history) {
       history.push(isAuthenticated() ? '/home' : '/login');
     }
-  }, [history]);
+  }, [history, isAuthenticated]);
 
   return <div>Loading...</div>;
 };

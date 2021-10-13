@@ -1,25 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import {
-
-  IonButton,
   IonCol,
   IonContent,
-  IonHeader,
-  IonIcon,
   IonRow,
-
 } from '@ionic/react';
 
-import { useTranslation } from 'react-i18next';
-import { chevronBackOutline } from 'ionicons/icons';
-import { useHistory } from 'react-router';
 import { useSelector } from '@app/hooks';
 import QrCode from 'qrcode.react';
-const StyledIcon = styled(IonIcon)`
-   font-size: 20px;
-`;
 const StyledQR = styled(QrCode)`
   height: 128px;
   width: 128px;
@@ -29,39 +17,8 @@ const StyledQR = styled(QrCode)`
   min-width: 220px;
   min-height: 220px;
 `;
-
 const GenerateQrCode: React.FC = () => {
-  const { t } = useTranslation();
-  const history = useHistory();
   const { profile: data } = useSelector((s) => s.profile);
-  const [qrText, setQrText] = useState({
-    encodedText: '',
-    encodeData: '',
-    textToEncode: ''
-  });
-  const handleChange = (data: any) => {
-    const { value, name } = data.target;
-
-    setQrText({ ...qrText, textToEncode: data });
-    console.log(qrText);
-
-  };
-
-  const scanCode = async () => {
-    const data = await BarcodeScanner.scan();
-    alert(JSON.stringify(data));
-    setQrText({ ...qrText, encodedText: data.text });
-  };
-
-  const generateCode = () => {
-    BarcodeScanner.encode(BarcodeScanner.Encode.TEXT_TYPE, qrText.encodeData)
-      .then(data => {
-        console.log(data);
-        //this.setState({ textToEncode: encodedData });
-      }, err => {
-        console.log("Error occured : " + err);
-      });
-  };
   return (
     <IonContent >
       <StyledQR value={data?.id ?? ''} />

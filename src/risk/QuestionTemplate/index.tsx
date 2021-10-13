@@ -1,7 +1,7 @@
+import React from 'react';
 import { IonContent, IonHeader, IonIcon, IonItem, IonTitle } from '@ionic/react';
 import { chevronBackOutline } from 'ionicons/icons';
 import styled from 'styled-components';
-import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from '@app/hooks';
 import { useHistory } from 'react-router';
 import QuestionForm from './components/QuestionForm';

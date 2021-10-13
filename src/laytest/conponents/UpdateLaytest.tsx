@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonSelect, IonSelectOption, IonDatetime, IonText, IonAlert, IonCard } from '@ionic/react';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonSelect, IonSelectOption, IonText, IonAlert } from '@ionic/react';
 import { chevronBackOutline } from 'ionicons/icons';
 
 import { useHistory } from 'react-router-dom';
@@ -10,9 +10,6 @@ import { Controller, useForm } from "react-hook-form";
 
 import { useTranslation } from 'react-i18next';
 import { useSelector } from '@app/hooks';
-import moment from 'moment';
-import location from '@app/mock/locations.json';
-import nation from '@app/mock/nations.json';
 import LaytestService from 'laytest/laytest.service';
 const StyledInput = styled(IonInput)`
     color: black;
@@ -44,15 +41,6 @@ const StyledLabel = styled(IonLabel)`
     padding-left: 25px;
     padding-top: 15px;
 `;
-const StyledIcon = styled(IonIcon)`
-   font-size: 20px;
-`;
-const StyledDatePicker = styled(IonDatetime)`
-    color: black;
-    margin-top: 2px;
-    margin-left: 5px;
-    --placeholder-color:#91969c;
-`;
 const ErrorText = styled(IonText)`
    color: #f46a6a;
    margin-left: 20px;
@@ -71,11 +59,10 @@ const resultTesting = [
   { value: 'Chưa xác định', label: 'Chưa xác định' }
 ];
 const UpdateLaytest: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const history = useHistory();
-  const { profile: data } = useSelector((s) => s.profile);
   const laytestDetail = useSelector((s) => s.laytest.laytestDetail);
-  const { control, handleSubmit, register, formState: { errors }, trigger, reset, watch, getValues, setValue } = useForm();
+  const { control, handleSubmit, register, formState: { errors }, trigger, reset, watch } = useForm();
   const [showAlert, setShowAlert] = useState(false);
   const [success, setSuccess] = useState(false);
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import {
   IonBadge,
@@ -6,7 +6,7 @@ import {
 } from '@ionic/react';
 
 import { useDispatch, useSelector } from '@app/hooks';
-import { getTags, setFilter } from 'news/post/post.slice';
+import { getTags } from 'news/post/post.slice';
 
 
 const WrapperKeyword = styled.div`

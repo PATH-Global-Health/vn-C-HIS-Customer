@@ -2,16 +2,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonNote, IonSelect, IonSelectOption, IonDatetime, IonText, IonAlert } from '@ionic/react';
-import { eyeSharp, eyeOffSharp, chevronBackOutline } from 'ionicons/icons';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonSelect, IonSelectOption, IonDatetime, IonText, IonAlert } from '@ionic/react';
+import { chevronBackOutline } from 'ionicons/icons';
 
 import { useHistory } from 'react-router-dom';
 import { Controller, useForm } from "react-hook-form";
 
-import authService from '@app/services/auth';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from '@app/hooks';
-import moment from 'moment';
 import { getQuestions } from '../security-question.slice';
 import securityQuestionService from '../security-question.service';
 
@@ -43,12 +41,6 @@ const StyledLabel = styled(IonLabel)`
 const StyledIcon = styled(IonIcon)`
    font-size: 20px;
 `;
-const StyledDatePicker = styled(IonDatetime)`
-    color: black;
-    margin-top: 2px;
-    margin-left: 5px;
-    --placeholder-color:#91969c;
-`;
 const ErrorText = styled(IonText)`
    color: #f46a6a;
    margin-left: 20px;
@@ -60,22 +52,10 @@ const StyledAlertForm = styled(IonAlert)`
   .pass{
     color: black !important;
   }
-`
-interface InputProps {
-  name: string;
-  fieldType: string;
-  label?: string;
-  [otherProps: string]: unknown;
-};
-interface ChangePasswordModal {
-  oldPassword: string,
-  newPassword: string,
-  confirmNewPassword: string,
-}
-
+`;
 
 const CreateModal: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
   const { control, handleSubmit, register, formState: { errors }, trigger, getValues, setValue } = useForm();
@@ -108,7 +88,7 @@ const CreateModal: React.FC = () => {
     register('question', { required: { value: true, message: t('Question not selected') } });
     register('password', { required: { value: true, message: t('Password not selected') } });
     register('answer', { required: { value: true, message: t('Answer not enterd') } });
-  }, [register]);
+  }, [register, t]);
   return (
     <IonPage >
       <IonHeader className='ion-margin-bottom' >

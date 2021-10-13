@@ -1,16 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import {
-  IonBadge,
   IonCard,
   IonCardHeader,
-  IonCardTitle,
   IonCol,
   IonContent,
   IonIcon,
-  IonInput,
   IonItem,
-  IonLabel,
   IonNote,
   IonRow,
   useIonViewWillEnter,
@@ -24,83 +20,25 @@ import {
 import {
   chevronBackOutline,
   eyedropOutline,
-  searchOutline,
-
 } from 'ionicons/icons';
 import { useDispatch, useSelector } from '@app/hooks';
-import { getPostDetail, getPosts, setParentPostData } from 'news/post/post.slice';
-
-import logo from '@app/assets/img/logo.png';
-import img from '@app/assets/img/khau_trang.jpg';
-import img_small from '@app/assets/img/virus2.jpg';
 import moment from 'moment';
 import { useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { getLaytests, setLaytestDetail } from 'laytest/laytest.slice';
 
-const StyleWrapperInput = styled(IonItem)`
-    position: relative;
-    background-color: white;
-    border: 1px solid #d6d6c2;
-    padding-left: 5px;
-    margin: 10px 25px 0px 0px;
-    border-radius: 10px;
-    height: 40px;
-    font-size: 18px;
-    text-transform: initial;
-    ion-icon{
-      color: white;
-      background-color:#58b1e8;
-      position:absolute;
-      margin-bottom: 5px;
-      right: -2%;
-      padding: 10px 15px 10px 10px;
+const Header = styled.div`
+    & .header{
+      margin-left: -10px;
+      height: 40px;
+      
     }
-`;
-const StyledInput = styled(IonInput)`
-    color: black;
-    margin-top: 2px;
-`;
-const StyledHeader = styled.div`
-  color: black;
-  font-size: 20px;
-  margin-left: 5%;
-  margin-top: 5%;
-`;
-const SearchNote = styled(IonNote)`
-  font-size: 13px;
-  color: #767676;
-  margin: 10px 0px 10px 7px;
+    & .title{
+      font-weight: 600;
+      text-align: center;
+      margin: 10px 0px !important
+    }
 `
-const Card = styled(IonRow)`
-  ion-card {
-    width: 100%;
-    min-height: 300px;
-    border-radius: 5px;
-    background-color: white;
-    padding: 0;
-    margin:0;
-  }
-  ion-card {
-    width: 100%;
-    min-height: 240px;
-    border-radius: 5px;
-    background-color: white;
-    padding: 0;
-    margin: 15px 15px 0px 15px;
-  }
-  .main-title  {
-    color: black;
-    font-size: 28px;
-    font-weight: 600;
-  }
-  .main-card {
-    margin-top: 8px;
-    font-size: 15px;
-    color: #000000;
-    display: block;
-  }
-`;
 const ChildCard = styled(IonRow)`
   position: relative;
   ion-item{
@@ -165,17 +103,11 @@ const ChildCard = styled(IonRow)`
     --border-radius:5px;
   }
 `;
-
-const WrapperKeyword = styled.div`
-  margin: 5px 0px 10px 10px;
-`;
 const CustomerLaytest: React.FC = () => {
   const history = useHistory();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(5);
-  const [tagId, setTagId] = useState<string>('');
-  const [totalPostLoading, setTotalPostLoading] = useState<number>(5);
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { data } = useSelector((s) => s.laytest.laytestList);
@@ -203,14 +135,16 @@ const CustomerLaytest: React.FC = () => {
   useEffect(getData, [getData]);
   return (
     <IonContent>
-      <IonHeader className="header">
-        <IonItem color="light" onClick={() => history.push('/home')} >
-          <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
-          <IonTitle className="title">
-            {t('Laytest result')}
-          </IonTitle>
-        </IonItem>
-      </IonHeader>
+      <Header>
+        <IonHeader className="header">
+          <IonItem color="light" onClick={() => history.push('/home')} >
+            <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
+            <IonTitle className="title">
+              {t('Laytest result')}
+            </IonTitle>
+          </IonItem>
+        </IonHeader>
+      </Header>
       {(data || []).map((o, idx) => (
         <div key={idx} onClick={() => {
           // dispatch(getPostDetail({ postId: p.id }));

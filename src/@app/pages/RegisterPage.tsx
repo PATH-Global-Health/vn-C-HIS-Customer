@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonText, IonItem, IonAlert } from '@ionic/react';
-import { person, lockClosed, phonePortraitOutline, mailOutline } from 'ionicons/icons';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonText, IonItem } from '@ionic/react';
+import { person, lockClosed, phonePortraitOutline } from 'ionicons/icons';
 
 import { useHistory } from 'react-router-dom';
 import { Controller, useForm } from "react-hook-form";
@@ -60,11 +60,6 @@ const ErrorText = styled(IonText)`
    margin-left: 5px;
    font-size: 15px;
 `;
-const StyledAlert = styled(IonAlert)`
-.alert-title sc-ion-alert-md
-    --color:red !important;
-  }
-`;
 interface InputProps {
   name: string;
   fieldType: string;
@@ -74,16 +69,8 @@ interface InputProps {
 };
 const RegisterPage: React.FC = () => {
   const history = useHistory();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const formFields: InputProps[] = [
-    // {
-    //   name: "email",
-    //   fieldType: "input",
-    //   label: t('Email'),
-    //   type: 'email',
-    //   icon: mailOutline,
-    //   placeholder: t('Email'),
-    // },
     {
       name: "userName",
       fieldType: "input",
@@ -115,15 +102,11 @@ const RegisterPage: React.FC = () => {
       placeholder: t('PhoneNumber'),
     },
   ];
-  const { control, handleSubmit, register, formState: { errors }, trigger, getValues, setValue } = useForm();
-  const [errorCode, setErrorCode] = useState<string>('');
+  const { control, handleSubmit, register, formState: { errors }, trigger, getValues } = useForm();
   const [remember, setRemember] = useState<boolean>(false)
   const [verifyOTPSuccess, setVerifyOTPSucess] = useState<boolean>(false);
   const [verifyOTPFailed, setVerifyOTPFailed] = useState<boolean>(false);
   const [resgistryFailed, setResgistryFailed] = useState<boolean>(false);
-  const [submitting, setSubmitting] = useState<boolean>(true);
-  const [showAlertRegistry, setShowAlertRegistry] = useState<boolean>(false);
-  const [success, setSuccess] = useState<boolean>(false);
   const { login } = useAuth();
 
   const handleLogin = async (): Promise<void> => {
@@ -142,26 +125,10 @@ const RegisterPage: React.FC = () => {
       const params = { userName: userName, password: password, phoneNumber: phoneNumber, fullName: fullName }
       await authService.createAccount(params);
       await handleLogin();
-      // setSuccess(true);
-      // setShowAlertRegistry(true);
     } catch (error) {
-      setSuccess(false);
-      setShowAlertRegistry(true);
       setResgistryFailed(true);
-      // setErrorCode(error.response.data);
-      // if (error.response.data === 'UNVERIFIED_USER') {
-      //   setVerifyCode(true);
-      // }
-      // else {
-      //   setShowAlertRegistry(true);
-      // }
     }
   };
-  const onChangeCaptcha = (value: any) => {
-    if (value.length !== 0) {
-      setSubmitting(false);
-    }
-  }
   useEffect(() => {
     register(
       'userName',
@@ -187,13 +154,6 @@ const RegisterPage: React.FC = () => {
         pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
       }
     );
-    // register(
-    //   'email',
-    //   {
-    //     required: { value: true, message: t('Email is not enter') },
-    //     pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: t('The email address is not valid') }
-    //   }
-    // );
     register(
       'password',
       {
@@ -204,7 +164,7 @@ const RegisterPage: React.FC = () => {
       }
     );
     register('otp');
-  }, [register]);
+  }, [register, t, getValues]);
   return (
     < >
       <IonContent >

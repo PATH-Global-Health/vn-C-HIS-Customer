@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import {
-  IonBadge,
   IonCard,
   IonCardHeader,
   IonCardTitle,
@@ -10,7 +9,6 @@ import {
   IonIcon,
   IonInput,
   IonItem,
-  IonLabel,
   IonNote,
   IonRow,
   useIonViewWillEnter,
@@ -28,7 +26,6 @@ import TagList from './TagList'
 
 import logo from '@app/assets/img/logo.png';
 import img from '@app/assets/img/khau_trang.jpg';
-import img_small from '@app/assets/img/virus2.jpg';
 import moment from 'moment';
 import { useHistory } from 'react-router';
 import { Post } from '../post.model';
@@ -122,12 +119,9 @@ const ChildCard = styled(IonRow)`
   }
 `;
 
-const WrapperKeyword = styled.div`
-  margin: 5px 0px 10px 10px;
-`;
 const PostListCard: React.FC = () => {
   const history = useHistory();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [searchData, setSearchData] = useState('');
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(50);
@@ -256,9 +250,7 @@ const PostListCard: React.FC = () => {
                   <ChildCard className='card_width'>
                     <IonItem color='light' lines='none' className='item-content'>
                       <img src={p?.description !== '' ? p.description : logo} slot='start' alt='' />
-                      {/* <IonLabel></IonLabel> */}
                       <IonCardHeader>
-                        {/* <b className="main-title">{p?.name ?? '...'}</b> */}
                         <IonCardTitle className='main-card'>{p?.name ?? '...'}</IonCardTitle>
                         <IonNote className='main-card'>{moment(p?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
                         <IonNote className='main-card'>{p?.writter ?? '...'}</IonNote>

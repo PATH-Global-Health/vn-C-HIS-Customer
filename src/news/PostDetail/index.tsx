@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import {
@@ -74,9 +74,6 @@ const CardContent = styled.div`
 
 `;
 
-const WrapperKeyword = styled.div`
-  margin: 5px 0px 10px 10px;
-`;
 const PostDetailPage: React.FC = () => {
   const parentPostData = useSelector((s) => s.post.parentPostData);
   const detailPostList = useSelector((s) => s.post.postDetail);

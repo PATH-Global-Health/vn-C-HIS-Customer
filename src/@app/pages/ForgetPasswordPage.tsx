@@ -36,7 +36,7 @@ const StyledText = styled.div`
 `;
 
 const ForgetPassword: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { forgotPasswordData: { method } } = useSelector((state) => state.auth);
   const history = useHistory();
   const dispatch = useDispatch();

@@ -1,13 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React from 'react';
 import {
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCol,
   IonContent,
-
-  IonRow,
 } from '@ionic/react';
 import CreateModal from './components/CreateModal';
 

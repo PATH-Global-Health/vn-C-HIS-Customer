@@ -81,12 +81,11 @@ const Account: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { logout } = useAuth();
-  const { control, handleSubmit, register, formState: { errors }, trigger, getValues, setValue } = useForm();
+  const { register, formState: { errors }, getValues, setValue } = useForm();
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [verifyCode, setVerifyCode] = useState<boolean>(false);
   const [verifyOTPSuccess, setVerifyOTPSucess] = useState<boolean>(false);
   const [verifyOTPFailed, setVerifyOTPFailed] = useState<boolean>(false);
-  const [verifyPhoneNumber, setVerifyPhoneNumber] = useState<boolean>(false);
   const [updatePhoneNumberFailed, setUpdatePhoneNumberFailed] = useState<boolean>(false);
   const [verifyOTP, setVerifyOTP] = useState<boolean>(false);
   const { profile } = useSelector((s) => s.profile);
@@ -117,11 +116,28 @@ const Account: React.FC = () => {
       color: "#3ac6e1"
     },
   ];
+  const sendOTP = async (phoneNumber: string): Promise<void> => {
+    try {
+      await authService.sendPhoneOTP(phoneNumber);
+      setVerifyOTP(true);
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+  const handleVerifyAccount = (phoneNumber: string) => {
+    if (phoneNumber !== '') {
+      sendOTP(phoneNumber)
+    }
+    else {
+      setVerifyCode(true);
+    }
+  }
   const handlePhoneAction = async (): Promise<void> => {
     const phoneNumber = getValues('phoneNumber');
     try {
       await authService.updatePhoneNumber({ fullName: '', phoneNumber: phoneNumber });
-      await authService.sendPhoneOTP(phoneNumber);
+      sendOTP(phoneNumber);
       setVerifyOTP(true);
     }
     catch {
@@ -141,16 +157,7 @@ const Account: React.FC = () => {
     dispatch(getProfile());
     dispatch(getUserInfo());
   }, [dispatch]);
-  useEffect(getData, [getData]);
-
-  // useEffect(() => {
-  //   if (userData?.userInfo) {
-  //     if (!userData.userInfo?.isConfirmed) {
-  //       handlePhoneAction(userData.userInfo.phoneNumber);
-  //       // setVerifyCode(true);
-  //     }
-  //   }
-  // }, [userData]);
+  useEffect(getData, [getData, userData?.userInfo?.phoneNumber]);
   useEffect(() => {
     register(
       'phoneNumber',
@@ -162,7 +169,7 @@ const Account: React.FC = () => {
       }
     );
     register('otp');
-  }, [register]);
+  }, [register, t]);
   return (
     <>
       <IonContent>
@@ -178,7 +185,7 @@ const Account: React.FC = () => {
             <IonAvatar style={{
               '--border-radius': '50px'
             }}>
-              <img src={avatar} width='100px' />
+              <img src={avatar} width='100px' alt='' />
             </IonAvatar>
           </IonCol>
         </IonRow>
@@ -233,9 +240,7 @@ const Account: React.FC = () => {
           }
           <IonRow >
             <IonCol size="12">
-              <StyledItem color='light'
-              // onClick={() => { icon === 'change' ? history.push('/change-password') : history.push('/account') }}
-              >
+              <StyledItem color='light'>
                 <StyledIcon
                   icon={language}
                   style={{ backgroundColor: "#293978" }}>
@@ -257,7 +262,7 @@ const Account: React.FC = () => {
               <StyledSocialButton
                 color='danger'
                 type='submit'
-                onClick={() => setVerifyCode(true)}
+                onClick={() => handleVerifyAccount(userData?.userInfo?.phoneNumber ?? '')}
               >
                 <IonIcon icon={informationCircleOutline} style={{ marginRight: '20px' }} ></IonIcon>
                 {t('Xác thực tài khoản')}
@@ -344,22 +349,21 @@ const Account: React.FC = () => {
               handler: (data) => {
                 setValue('phoneNumber', data.phoneNumber);
                 handlePhoneAction();
-
               }
             }
           ]}
         />
         <IonAlert
           isOpen={verifyOTP}
-          onDidDismiss={() => setVerifyPhoneNumber(false)}
+          onDidDismiss={() => setVerifyOTP(false)}
           cssClass='my-custom-class'
           header={'Nhập mã OTP'}
-          message={t('To verify your account, please enter the OTP code sent to phone number') + ` ${getValues('phoneNumber')}`}
+          message={t('To verify your account, please enter the OTP code sent to phone number') + ` ${getValues('phoneNumber') || userData?.userInfo?.phoneNumber}`}
           inputs={[
             {
               name: 'otp',
               type: 'number',
-              placeholder: t('Số điện thoại'),
+              placeholder: t('Mã OTP'),
               cssClass: 'pass',
               attributes: {
                 inputmode: 'decimal'
@@ -384,42 +388,6 @@ const Account: React.FC = () => {
               }
             }
           ]} />
-        {/* <StyledAlert
-          isOpen={verifyCode}
-          cssClass='my-custom-class'
-          header={t('Unverified account')}
-          message={
-            t('To verify your account, please enter the OTP code sent to phone number') + ` ${userData?.userInfo?.phoneNumber}`
-          }
-          inputs={[
-            {
-              name: 'otp',
-              type: 'number',
-              placeholder: t('verification code'),
-              cssClass: 'pass',
-              attributes: {
-                inputmode: 'decimal'
-              }
-            }
-          ]
-          }
-          buttons={[
-            {
-              text: t('Skip'),
-              role: 'cancel',
-              cssClass: 'secondary',
-              handler: () => {
-                console.log('Confirm Cancel');
-              }
-            },
-            {
-              text: t('Confirm'),
-              handler: (data) => {
-                verifyPhoneOTP(data?.otp);
-              }
-            }
-          ]}
-        /> */}
         <IonAlert
           isOpen={showAlert}
           onDidDismiss={() => setShowAlert(false)}

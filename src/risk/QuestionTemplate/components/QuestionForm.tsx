@@ -5,16 +5,13 @@ import {
   IonCol,
   IonContent,
   IonItem,
-  IonLabel,
   IonRow,
   IonButton,
   IonRadioGroup,
   IonListHeader,
   IonRadio,
 } from '@ionic/react';
-import { useAuth } from '@app/hooks';
 import { useDispatch, useSelector } from '@app/hooks';
-
 import { useTranslation } from 'react-i18next';
 import { setHandeRisk } from '../question-template.slice';
 import surveySessionService from 'risk/SurveySession/survey-session.service';
@@ -49,7 +46,6 @@ const QuestionForm: React.FC = () => {
   const dispatch = useDispatch();
   const detailData = useSelector((s) => s.risk.questionTemplateDetail);
   const userId = useSelector(s => s.auth.token?.userId);
-  const { isAuthenticated } = useAuth();
   const handleData = async (data: any): Promise<void> => {
     try {
       const surveySessionResults = Object.entries(data).map((o, i) => {

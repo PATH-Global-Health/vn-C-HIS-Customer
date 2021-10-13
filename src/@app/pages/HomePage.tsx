@@ -4,7 +4,6 @@ import {
   IonIcon,
   IonItem,
   IonLabel,
-  IonThumbnail,
 } from '@ionic/react';
 import { home } from 'ionicons/icons';
 import logo from '../assets/img/logo.png';

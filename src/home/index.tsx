@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import {
   IonCard,
@@ -9,7 +9,6 @@ import {
   IonLabel,
   IonNote,
   IonRow,
-  IonSpinner,
 } from '@ionic/react';
 import {
   chevronForwardOutline,
@@ -18,7 +17,6 @@ import {
   alarmOutline,
   arrowForwardOutline,
   eyedropOutline,
-  peopleCircleSharp,
 } from 'ionicons/icons';
 
 import { useHistory } from "react-router-dom";
@@ -32,7 +30,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from '@app/hooks';
-import { getPosts } from 'news/post/post.slice';
 import { getUserInfo } from 'booking/slices/workingCalendar';
 import { setHandeRisk } from 'risk/QuestionTemplate/question-template.slice';
 import { getProfile } from 'account/profile/profile.slice';
@@ -44,13 +41,13 @@ const StyledHeader = styled.div`
   margin-top: 10px;
 `;
 const Card = styled(IonCard)`
-  height: 110px;
+  min-height: 115px;
   background-color: blue;
   margin-inline: 0 !important;
   width: 100%;
 `;
 const CardIcon = styled(IonIcon)`
-  font-size: 20px;
+  font-size: 23px;
   color: black;
   background-color: white;
   margin: 10px 0px 5px 10px;
@@ -59,7 +56,7 @@ const CardIcon = styled(IonIcon)`
   align-item: center;
 `;
 const CardLabel = styled(IonLabel)`
-  margin: 0px 0px 10px 6px;
+  margin: 0px 0px 10px 6px ;
   font-size: 21px;
   font-weight: 300;
   color: white;
@@ -99,7 +96,7 @@ const Menu = styled(IonRow)`
   }
 `;
 const Home: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   interface OptionProps {
     icon: string;
@@ -128,8 +125,6 @@ const Home: React.FC = () => {
       color: "#f1c248"
     },
   ];
-  const { postList: { data }, getPostLoading } = useSelector((s) => s.post);
-  const userData = useSelector(s => s.auth.userInfo?.data);
   const { profile } = useSelector((s) => s.profile);
   const history = useHistory();
 
@@ -143,15 +138,6 @@ const Home: React.FC = () => {
     history.push("/risk");
     dispatch(setHandeRisk({ type: undefined }));
   }
-  /*   const getData = useCallback(() => {
-      dispatch(getPosts({
-        pageIndex,
-        pageSize
-      }));
-      dispatch(getUserInfo());
-    }, [pageIndex, pageSize, dispatch]);
-    useEffect(getData, [getData]); */
-
   const getProfileData = useCallback(() => {
     dispatch(getProfile());
     dispatch(getUserInfo());
@@ -160,7 +146,6 @@ const Home: React.FC = () => {
 
   return (
     <>
-
       <IonContent>
         <IonRow className="ion-justify-content-center ion-margin-top" >
           <IonCol size="4" size-sm="3">
@@ -198,7 +183,6 @@ const Home: React.FC = () => {
                     </CardLabel>
                   </Card>
                 </IonCol>
-
               )
             })
           }

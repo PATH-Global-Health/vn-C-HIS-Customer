@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonNote, IonText, IonAlert } from '@ionic/react';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonNote, IonText, IonAlert } from '@ionic/react';
 import { eyeSharp, eyeOffSharp, chevronBackOutline } from 'ionicons/icons';
 
 import { useHistory } from 'react-router-dom';
@@ -54,7 +54,7 @@ interface ChangePasswordModal {
 
 
 const ChangePasswordPage: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const history = useHistory();
   const { control, handleSubmit, register, formState: { errors }, trigger, getValues } = useForm();
 
@@ -90,7 +90,7 @@ const ChangePasswordPage: React.FC = () => {
 
   const handleChangePassword = async (data: ChangePasswordModal): Promise<void> => {
     try {
-      const { oldPassword, newPassword, confirmNewPassword } = data;
+      const { oldPassword, newPassword } = data;
       const params = { oldPassword: oldPassword, newPassword: newPassword };
       await authService.changePassword(params);
       setSuccess(true);
@@ -126,7 +126,7 @@ const ChangePasswordPage: React.FC = () => {
         validate: value => value !== getValues('newPassword') ? t('Confirm password is not match').toString() : true
       }
     );
-  }, [register]);
+  }, [register, getValues, t]);
   return (
     <IonPage >
       <IonHeader className='ion-margin-bottom' >

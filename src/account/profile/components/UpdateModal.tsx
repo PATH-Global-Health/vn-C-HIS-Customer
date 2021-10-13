@@ -69,7 +69,7 @@ const gender = [
   { value: false, label: 'Female' }
 ];
 const UpdateProfile: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const history = useHistory();
   const { profile: data } = useSelector((s) => s.profile);
   const { control, handleSubmit, register, formState: { errors }, trigger, reset, watch } = useForm();
@@ -205,7 +205,7 @@ const UpdateProfile: React.FC = () => {
     register('identityCard', { required: { value: true, message: t('identity card not enterd') } });
     register('address', { required: { value: true, message: t('address not enterd') } });
     register('nation', { required: { value: true, message: t('nation name not enterd') } });
-  }, [register]);
+  }, [register, t]);
   useEffect(() => {
     reset({
       ...data,
@@ -256,7 +256,7 @@ const UpdateProfile: React.FC = () => {
                         <StyledLabel >
                           {label}
                         </StyledLabel>
-                        <IonCol size="12" size-sm='3'>
+                        <IonCol size="12">
                           <IonItem color='light'>
                             <StyledInput
                               onIonBlur={(e) => {
@@ -292,7 +292,7 @@ const UpdateProfile: React.FC = () => {
                         <StyledLabel >
                           {label}
                         </StyledLabel>
-                        <IonCol size="12" size-sm='3'>
+                        <IonCol size="12">
                           <IonItem color='light'>
                             <StyledSelect
                               cancelText={t('Cancel')}
@@ -347,7 +347,7 @@ const UpdateProfile: React.FC = () => {
                         <StyledLabel >
                           {label}
                         </StyledLabel>
-                        <IonCol size="12" size-sm='3'>
+                        <IonCol size="12">
                           <IonItem color='light'>
                             <StyledDatePicker
                               cancelText={t('Cancel')}
@@ -378,7 +378,7 @@ const UpdateProfile: React.FC = () => {
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                       <IonRow className="ion-justify-content-center">
-                        <IonCol size="12" size-sm='3'>
+                        <IonCol size="12">
                           <IonItem color='light' >
                             <StyledInput
                               onIonBlur={onBlur}
@@ -398,7 +398,7 @@ const UpdateProfile: React.FC = () => {
             }
           })}
           <IonRow className="ion-justify-content-center">
-            <IonCol size="12" size-sm='3'>
+            <IonCol size="12">
               <div style={{ textAlign: 'center', marginTop: '50px' }}>
                 <StyledButton type='submit'>{t('Update')}</StyledButton>
               </div>

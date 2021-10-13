@@ -61,23 +61,19 @@ const VerifyAccount: React.FC = () => {
         setVerifyOTPFailed(true);
       })
   };
-  const handlePhoneAction = (phoneNumber: any): void => {
+  const handlePhoneAction = (phoneNumber: string): void => {
     if (phoneNumber !== '') {
       sendOTP(phoneNumber)
     }
     else {
-      if (getValues('phoneNumer')) {
-        sendOTP(getValues('phoneNumer'));
-      }
-      else {
-        setVerifyPhoneNumber(true);
-      }
+      setVerifyPhoneNumber(true);
     }
   }
   const updatePhoneNumber = async (phoneNumber: string): Promise<void> => {
     try {
       await authService.updatePhoneNumber({ fullName: '', phoneNumber: phoneNumber });
-      await authService.sendPhoneOTP(phoneNumber);
+      getData();
+      sendOTP(phoneNumber);
       setVerifyOTP(true);
     }
     catch {
@@ -113,7 +109,7 @@ const VerifyAccount: React.FC = () => {
         <IonCol size="12" >
           <div className="ion-align-items-center" style={{ textAlign: 'center', marginTop: '30px', color: '#1145a0', fontSize: '20px', fontWeight: 500 }}>
             <StyledButton onClick={() => history.push('/home')}>Bỏ Qua</StyledButton>
-            <StyledButton onClick={() => handlePhoneAction(userData?.userInfo?.phoneNumber)}>Xác thực ngay</StyledButton>
+            <StyledButton onClick={() => handlePhoneAction(userData?.userInfo?.phoneNumber ?? '')}>Xác thực ngay</StyledButton>
           </div>
         </IonCol>
       </IonRow>
@@ -190,7 +186,7 @@ const VerifyAccount: React.FC = () => {
           {
             name: 'otp',
             type: 'number',
-            placeholder: t('Số điện thoại'),
+            placeholder: t('Mã OTP'),
             cssClass: 'pass',
             attributes: {
               inputmode: 'decimal'

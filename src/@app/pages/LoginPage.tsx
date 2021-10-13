@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox, IonToast, IonItem, IonText, IonSelect, IonSelectOption } from '@ionic/react';
-import { lockClosed, phonePortraitOutline, eyeOffSharp, eyeSharp, person } from 'ionicons/icons';
+import { lockClosed, eyeOffSharp, eyeSharp, person } from 'ionicons/icons';
 
 import { useAuth } from '@app/hooks';
 import { useHistory } from "react-router-dom";
@@ -101,7 +101,7 @@ const LoginPage: React.FC = () => {
       placeholder: t('Password'),
     },
   ];
-  const { control, handleSubmit, register, formState: { errors }, trigger } = useForm();
+  const { control, handleSubmit, register, formState: { errors }, trigger, getValues } = useForm();
   const { login, loginWithIncognito } = useAuth();
   const permissionQuery = {};
   const [errorCode, setErrorCode] = useState<string>('');
@@ -109,7 +109,7 @@ const LoginPage: React.FC = () => {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState<boolean>(true);
   const handleLogin = async (data: LoginModel): Promise<void> => {
     setSubmitting(true);
     try {
@@ -118,7 +118,7 @@ const LoginPage: React.FC = () => {
       setSubmitting(false);
       setShowSuccessToast(true);
       setTimeout(() => history.push('/home'), 1500);
-    } catch (error) {
+    } catch (error: any) {
       setErrorCode(error.message);
       setSubmitting(false);
       setShowFailedToast(true);
@@ -149,7 +149,7 @@ const LoginPage: React.FC = () => {
         maxLength: { value: 12, message: t('Password maximum is 12 characters') },
       }
     );
-  }, [register]);
+  }, [register, t]);
   return (
     <>
       <IonContent >
@@ -270,7 +270,7 @@ const LoginPage: React.FC = () => {
           <IonRow className="ion-justify-content-center">
             <IonCol size="12">
               <div style={{ textAlign: 'center', marginTop: '10px' }}>
-                <StyledButton type='submit' disabled={submitting}>{t('Login')}</StyledButton>
+                <StyledButton type='submit' disabled={getValues('username') ? false : submitting}>{t('Login')}</StyledButton>
               </div>
             </IonCol>
           </IonRow>

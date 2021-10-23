@@ -40,8 +40,8 @@ const ApointmentInfo: React.FC = () => {
     const { t } = useTranslation();
     const serviceId = useSelector((w) => w.workingCaledar.serviceId);
     useEffect(() => {
-        dispatch(getUserInfo())
-        dispatch(getExaminationById(history.location.state + ""));
+        dispatch(getUserInfo());
+        history.location.state && dispatch(getExaminationById(history.location.state + ""));
     }, []);
     const [showModalBooking, setShowModalBooking] = useState(true);
     return (

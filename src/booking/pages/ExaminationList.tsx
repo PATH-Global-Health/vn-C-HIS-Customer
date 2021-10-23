@@ -54,7 +54,7 @@ const ExaminationList: React.FC = () => {
 
   const examinationListSuccess = examinationList.data.filter(e => e.status === 1);
   const examinationListFinished = examinationList.data.filter(e => e.status === 2);
-  const examinationListSearch = examinationListSuccess.filter(e => deburr(e.service.name + e.unit.name + e.unit.address + e.date + e.interval.from).includes(deburr(nameSearch)));
+  const examinationListSearch = examinationListSuccess.filter(e => deburr(e.service.name + e.unit.name + e.unit.address + e.date + e.interval.from + e.doctor.fullname).includes(deburr(nameSearch)));
   const [cancelExamId, setCancelExamId] = useState("");
   const [rating, setRating] = useState(0);
 
@@ -154,7 +154,10 @@ const ExaminationList: React.FC = () => {
                       </IonCardTitle>
                       <IonCardSubtitle
                         className={cx('styledSubtitle', { 'styledSubtitleBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229" })}
-                      >Vào lúc {e.interval.from}, {moment(e.date).format("DD-MM-YYYY")}</IonCardSubtitle>
+                      >Vào lúc: {e.interval.from}, {moment(e.date).format("DD-MM-YYYY")}</IonCardSubtitle>
+                      <IonCardSubtitle
+                        className={cx('styledSubtitle', { 'styledSubtitleBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229" })}
+                      >Bác sĩ: {e.doctor.fullname}</IonCardSubtitle>
                     </IonCardHeader>
                     <IonCardContent
                       className={cx('styledCardContent', { 'styledCardContentBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229" })}
@@ -218,7 +221,13 @@ const ExaminationList: React.FC = () => {
                               'styledSubtitleBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229",
                               'styledContentExpired': moment(moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from).format("YYYY-MM-DD HH:mm") < moment(new Date()).format("YYYY-MM-DD HH:mm")
                             })}
-                          >Vào lúc {e.interval.from}, {moment(e.date).format("DD-MM-YYYY")}</IonCardSubtitle>
+                          >Vào lúc: {e.interval.from}, {moment(e.date).format("DD-MM-YYYY")}</IonCardSubtitle>
+                          <IonCardSubtitle
+                            className={cx('styledSubtitle', {
+                              'styledSubtitleBlood': e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229",
+                              'styledContentExpired': moment(moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from).format("YYYY-MM-DD HH:mm") < moment(new Date()).format("YYYY-MM-DD HH:mm")
+                            })}
+                          >Bác sĩ: {e.doctor.fullname}</IonCardSubtitle>
                         </IonCardHeader>
                         <IonCardContent
                           className={cx(
@@ -252,7 +261,8 @@ const ExaminationList: React.FC = () => {
                       </div>
                       <IonCardHeader className={styles.styledCardHeader}>
                         <IonCardTitle className={styles.styledCardTitle}>{e.service.name}</IonCardTitle>
-                        <IonCardSubtitle className={styles.styledSubtitle}>Vào lúc {e.interval.to}, {moment(e.date).format("DD-MM-YYYY")}</IonCardSubtitle>
+                        <IonCardSubtitle className={styles.styledSubtitle}>Vào lúc: {e.interval.to}, {moment(e.date).format("DD-MM-YYYY")}</IonCardSubtitle>
+                        <IonCardSubtitle className={styles.styledSubtitle}>Bác sĩ: {e.doctor.fullname}</IonCardSubtitle>
                       </IonCardHeader>
                       <IonCardContent className={styles.styledCardContent}>
                         <p>{e.unit.name}</p>

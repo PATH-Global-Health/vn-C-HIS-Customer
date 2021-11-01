@@ -23,7 +23,6 @@ const FacebookAuthen: React.FC = () => {
     const FACEBOOK_PERMISSIONS = ['email', 'user_birthday', 'user_photos', 'user_gender'];
     const result = await FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS });
     const token = result?.accessToken?.token;
-    console.log(token);
     try {
       if (token) {
         loginWithFacebook(token).then(() => { history.push('/') });

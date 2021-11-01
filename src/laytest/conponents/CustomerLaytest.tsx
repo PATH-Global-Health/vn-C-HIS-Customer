@@ -26,6 +26,7 @@ import moment from 'moment';
 import { useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { getLaytests, setLaytestDetail } from 'laytest/laytest.slice';
+import { getUserInfo } from '@app/slices/auth';
 
 const Header = styled.div`
     & .header{
@@ -79,7 +80,7 @@ const ChildCard = styled(IonRow)`
     left:15%;
   }
   .main-title  {
-    color: black;
+    color: #da0011;
     font-size: 23px;
     font-family: system-ui;
   }
@@ -89,6 +90,9 @@ const ChildCard = styled(IonRow)`
     color: #000000;
     display: block;
     font-family: system-ui;
+  }
+  .note{
+    font-weight: 700;
   }
   & .btn{
     font-size: 13px;
@@ -110,14 +114,8 @@ const CustomerLaytest: React.FC = () => {
   const [pageSize, setPageSize] = useState<number>(5);
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const customerUserName = useSelector(s => s.auth.userInfo?.data.userInfo.username);
   const { data } = useSelector((s) => s.laytest.laytestList);
-
-  const getData = useCallback(() => {
-    dispatch(getLaytests({
-      pageIndex,
-      pageSize,
-    }));
-  }, [pageIndex, pageSize, dispatch]);
 
   async function fetchData() {
     setTimeout(() => { setPageSize(pageSize + 5); setLoading(false) }, 500);
@@ -131,7 +129,17 @@ const CustomerLaytest: React.FC = () => {
     setLoading(true);
     ($event.target as HTMLIonInfiniteScrollElement).complete();
   }
-
+  const getData = useCallback(() => {
+    dispatch(getLaytests({
+      username: customerUserName,
+      pageIndex,
+      pageSize,
+    }));
+  }, [customerUserName, pageIndex, pageSize, dispatch]);
+  const getUserData = useCallback(() => {
+    dispatch(getUserInfo());
+  }, [dispatch]);
+  useEffect(getUserData, [getUserData]);
   useEffect(getData, [getData]);
   return (
     <IonContent>
@@ -148,7 +156,6 @@ const CustomerLaytest: React.FC = () => {
       {(data || []).map((o, idx) => (
         <div key={idx} onClick={() => {
           // dispatch(getPostDetail({ postId: p.id }));
-
         }
         }>
 
@@ -164,9 +171,9 @@ const CustomerLaytest: React.FC = () => {
                     <b className="main-title">{'Kết quả xét nghiệm'}</b>
                     <span></span>
                     <IonNote className='main-card'>{`Mã xét nghiệm: ${o?.result?.code ?? '...'}`}</IonNote>
-                    <IonNote className='main-card'>{`Ngày xét nghiệm: ${moment(o?.result?.resultDate).format('MM/DD/YYYY') ?? '...'}`}</IonNote>
-                    <IonNote className='main-card'>{`Ngày có kết quả: ${moment(o?.result?.resultDate).format('MM/DD/YYYY') ?? '...'}`}</IonNote>
-                    <IonNote className='main-card'>{`Kết quả xét nghiệm: ${o?.result?.resultTesting ?? 'chưa có'}`}</IonNote>
+                    <IonNote className='main-card'>{`Ngày xét nghiệm: ${moment(o?.dateCreate).format('MM/DD/YYYY') ?? '...'}`}</IonNote>
+                    <IonNote className='main-card'>{`Ngày có kết quả: ${o?.result?.resultDate ? moment(o?.result?.resultDate).format('MM/DD/YYYY') : '...'}`}</IonNote>
+                    <IonNote className='main-card note'>{`Kết quả xét nghiệm: ${o?.result?.resultTesting ?? '...'}`}</IonNote>
                   </IonCardHeader>
                   <IonButton
                     onClick={() => {

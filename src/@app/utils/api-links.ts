@@ -59,7 +59,7 @@ const apiLinks = {
     update: `${smapi}/api/Profiles`,
   },
   laytest: {
-    get: `${apiBookingService}/api/TestingHistory/LayTestByCustomer`,
+    get: `${apiBookingService}/api/TestingHistory/LayTest`,
     update: `${apiBookingService}/api/TestingHistory/LayTest`,
   },
   manageSchedule: {

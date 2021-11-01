@@ -59,7 +59,6 @@ const ConfirmOTP: React.FC = () => {
       const { otp } = data;
       const params = { email: inputData, otp: otp };
       const response = await authService.confirmOTP(params);
-      console.log(response?.access_token);
       setShowSuccessToast(true);
       setTimeout(() => dispatch(setDataForgotPassword({ method: 'confirmed', accessToken: response?.access_token })), 1500);
     } catch (error) {
@@ -90,7 +89,7 @@ const ConfirmOTP: React.FC = () => {
         animated={true}
       />
       <IonRow className="ion-justify-content-center">
-        <IonCol size='12' size-sm='6'>
+        <IonCol size='12'>
           <StyledText >
             {t('Enter the OTP code to verify the account')}
           </StyledText>
@@ -103,7 +102,7 @@ const ConfirmOTP: React.FC = () => {
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <IonRow className="ion-justify-content-center">
-              <IonCol size="12" size-sm='3'>
+              <IonCol size="12">
                 <StyleWrapperInput color='light' lines='none'>
                   <StyledInput
                     placeholder=""
@@ -118,12 +117,12 @@ const ConfirmOTP: React.FC = () => {
           )}
         />
         <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='3'>
+          <IonCol size="12" >
             <StyleNoteText >{t('Code not received') + '?'}<b onClick={() => back()} style={{ cursor: 'pointer' }} >{t('Resend code')}</b></StyleNoteText>
           </IonCol>
         </IonRow>
         <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='3'>
+          <IonCol size="12" >
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
               <StyledButton type='submit' >{t('Confirm')}</StyledButton>
             </div>

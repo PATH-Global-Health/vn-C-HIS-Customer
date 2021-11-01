@@ -133,7 +133,7 @@ const CreatePassword: React.FC = () => {
         animated={true}
       />
       <IonRow className="ion-justify-content-center">
-        <IonCol size='12' size-sm='6'>
+        <IonCol size='12'>
           <StyledText >
             {t('Please reset new password')}
             <br />
@@ -152,7 +152,7 @@ const CreatePassword: React.FC = () => {
                   control={control}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <IonRow className="ion-justify-content-center">
-                      <IonCol size="12" size-sm='3'>
+                      <IonCol size="12">
                         <StyleWrapperInput color='light' lines='none'>
                           <StyledInput
                             required={true}
@@ -193,7 +193,7 @@ const CreatePassword: React.FC = () => {
                   control={control}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <IonRow className="ion-justify-content-center">
-                      <IonCol size="12" size-sm='3'>
+                      <IonCol size="12">
                         <StyleWrapperInput>
                           <StyledInput
                             onIonBlur={onBlur}
@@ -214,7 +214,7 @@ const CreatePassword: React.FC = () => {
         })}
 
         <IonRow className="ion-justify-content-center">
-          <IonCol size="12" size-sm='3'>
+          <IonCol size="12">
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
               <StyledButton type='submit'>{t('Update')}</StyledButton>
             </div>

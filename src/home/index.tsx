@@ -148,7 +148,7 @@ const Home: React.FC = () => {
     <>
       <IonContent>
         <IonRow className="ion-justify-content-center ion-margin-top" >
-          <IonCol size="4" size-sm="3">
+          <IonCol size="4">
             <div>
               <img src={logo} alt="logo" width='150px' />
             </div>
@@ -193,7 +193,7 @@ const Home: React.FC = () => {
           </IonItem>
         </Menu>
         <IonRow className='ion-margin-top' style={{ cursor: 'pointer' }}>
-          <IonCol size="12" size-sm='12'>
+          <IonCol size="12">
             <ResultButton onClick={() => history.push('/laytest')} color='light' lines='none'>
               <ResultIcon icon={eyedropOutline} />
               <ResultLabel >

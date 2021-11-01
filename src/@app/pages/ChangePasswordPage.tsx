@@ -150,7 +150,7 @@ const ChangePasswordPage: React.FC = () => {
                         <StyledLabel >
                           {label}
                         </StyledLabel>
-                        <IonCol size="12" size-sm='3'>
+                        <IonCol size="12">
                           <IonItem color='light'>
                             <StyledInput
                               onIonBlur={() => {
@@ -192,7 +192,7 @@ const ChangePasswordPage: React.FC = () => {
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                       <IonRow className="ion-justify-content-center">
-                        <IonCol size="12" size-sm='3'>
+                        <IonCol size="12">
                           <IonItem color='light' >
                             <StyledInput
                               onIonBlur={onBlur}
@@ -213,7 +213,7 @@ const ChangePasswordPage: React.FC = () => {
           })}
           <IonNote style={{ fontSize: '10px', paddingLeft: '25px', color: '#a6a3a3' }}>{t('Password consists of 8 digits, including uppercase and lowercase letters')}</IonNote>
           <IonRow className="ion-justify-content-center">
-            <IonCol size="12" size-sm='3'>
+            <IonCol size="12">
               <div style={{ textAlign: 'center', marginTop: '50px' }}>
                 <StyledButton type='submit'>{t('Update')}</StyledButton>
               </div>

@@ -33,13 +33,16 @@ const setLaytestDetailCR: CR<{
 const getLaytests = createAsyncThunk(
   'laytest/getLaytest',
   async ({
+    username = '',
     pageIndex = 0,
     pageSize = 10,
   }: {
+    username?: string;
     pageIndex?: number;
     pageSize?: number;
   }) => {
     const result = await LaytestService.getLaytests({
+      username,
       pageIndex,
       pageSize
     });

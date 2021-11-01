@@ -2,15 +2,18 @@ import { httpClient, apiLinks } from '@app/utils';
 import { Laytest, LaytestResponse } from './laytest.model';
 
 const getLaytests = async ({
+  username = '',
   pageIndex = 0,
   pageSize = 10,
 }: {
+  username?: string;
   pageIndex?: number;
   pageSize?: number;
 }): Promise<LaytestResponse> => {
   const response = await httpClient.get({
     url: apiLinks.laytest.get,
     params: {
+      username,
       pageIndex,
       pageSize,
     },

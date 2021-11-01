@@ -22,7 +22,6 @@ const GoogleAuthen: React.FC = () => {
   const signIn = async (): Promise<void> => {
     GoogleAuth.init();
     const result = await GoogleAuth.signIn();
-    console.log(result);
     try {
       const { idToken } = result?.authentication;
       loginWithGoogle(idToken).then(() => { history.push('/') });

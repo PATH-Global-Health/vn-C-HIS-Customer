@@ -20,7 +20,7 @@ const IncognitoPage: React.FC = () => {
   return (
     <IonContent>
       <IonRow className="ion-justify-content-center">
-        <IonCol size="12" size-sm='3'>
+        <IonCol size="12">
           <div style={{ textAlign: 'center', marginTop: '20px', color: '#1145a0', fontSize: '20px', fontWeight: 500 }}>
             <IonAlert
               isOpen={true}

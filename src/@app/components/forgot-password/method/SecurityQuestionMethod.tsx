@@ -70,10 +70,8 @@ const SecurityQuestionMehod: React.FC = () => {
       securityQuestionAnswer: answer,
 
     };
-    console.log(params);
     try {
       const response = await securityQuestionService.confirmSecurityQuestion(params);
-      console.log(response?.access_token);
       setShowSuccessToast(true);
       setTimeout(() => dispatch(setDataForgotPassword({ method: 'confirmed', accessToken: response?.access_token })), 1500);
     } catch (error) {

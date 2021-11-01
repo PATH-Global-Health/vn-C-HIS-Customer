@@ -129,7 +129,7 @@ const CustomerService: React.FC = () => {
         {
           optionFields.map(({ name, icon, label, color, note }, idx) => {
             return (
-              <IonCol size="6" size-sm='3' key={idx}>
+              <IonCol size="6" key={idx}>
                 <Card
                   style={{ backgroundColor: color }}
                   onClick={() => { handleTypeService(name + "") }}

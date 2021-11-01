@@ -127,7 +127,7 @@ const CreateModal: React.FC = () => {
                 <StyledLabel >
                   {t('Select security question')}
                 </StyledLabel>
-                <IonCol size="12" size-sm='3'>
+                <IonCol size="12">
                   <IonItem color='light'>
                     <StyledSelect
                       onIonBlur={() => {
@@ -155,7 +155,7 @@ const CreateModal: React.FC = () => {
                 <StyledLabel >
                   {t('Answer')} :
                 </StyledLabel>
-                <IonCol size="12" size-sm='3'>
+                <IonCol size="12">
                   <IonItem color='light'>
                     <StyledInput
                       onIonBlur={() => {
@@ -206,7 +206,7 @@ const CreateModal: React.FC = () => {
             ]}
           />
           <IonRow className="ion-justify-content-center">
-            <IonCol size="12" size-sm='3'>
+            <IonCol size="12">
               <div style={{ textAlign: 'center', marginTop: '50px' }}>
                 <StyledButton onClick={() => setShowAlert(true)}>{t('Save change')}</StyledButton>
               </div>

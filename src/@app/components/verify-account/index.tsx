@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
+import OtpInput from 'react-otp-input';
 import styled from 'styled-components';
 import {
 
@@ -32,6 +33,7 @@ const VerifyAccount: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { register, getValues, setValue } = useForm();
+  const [otp, setOtp] = useState<string>('');
   const [verifyPhoneNumber, setVerifyPhoneNumber] = useState<boolean>(false);
   const [verifyOTP, setVerifyOTP] = useState<boolean>(false);
   const [verifyOTPSuccess, setVerifyOTPSucess] = useState<boolean>(false);
@@ -79,6 +81,9 @@ const VerifyAccount: React.FC = () => {
     catch {
       setUpdatePhoneNumberFailed(true);
     }
+  }
+  const handleChangeOtp = (otp: any) => {
+    console.log(otp);
   }
   useEffect(() => {
     register(
@@ -176,6 +181,7 @@ const VerifyAccount: React.FC = () => {
           }
         ]}
       />
+     
       <IonAlert
         isOpen={verifyOTP}
         onDidDismiss={() => setVerifyOTP(false)}

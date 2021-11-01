@@ -67,7 +67,7 @@ const login = createAsyncThunk(
       const { username, password, permissionQuery, remember } = arg;
       const result = await authService.login(username, password, remember, permissionQuery);
       return result;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(error.response.data);
     }
   },

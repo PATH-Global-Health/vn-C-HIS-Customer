@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-
+import OtpInput from 'react-otp-input';
 import {
   IonAlert,
   IonAvatar,
@@ -10,6 +10,7 @@ import {
   IonIcon,
   IonItem,
   IonLabel,
+  IonModal,
   IonNote,
   IonRow,
   IonSelect,
@@ -68,6 +69,17 @@ const StyledAlert = styled(IonAlert)`
     --color:red !important;
   }
 `;
+const StyledOtpInput = styled(OtpInput)`
+  margin: auto;
+  text-align: center;
+  margin-top: 220px;
+  input{
+    padding: 10px;
+    color: #3e3c3c !important;
+    background-color:white;
+    font-weight:600;  
+  }
+`;
 interface OptionProps {
   icon: string;
   label: string;
@@ -81,6 +93,8 @@ const Account: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { logout } = useAuth();
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [otp, setOtp] = useState<string>('');
   const { register, formState: { errors }, getValues, setValue } = useForm();
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [verifyCode, setVerifyCode] = useState<boolean>(false);
@@ -276,13 +290,7 @@ const Account: React.FC = () => {
               <StyledSocialButton
                 type='submit'
                 onClick={() => setShowAlert(true)}
-              /*  onClick={(): void => {
-                 logout();
-                 setTimeout(() => {
-                   history.push('/');
-                   window.location.reload();
-                 }, 0);
-               }}  */
+              // onClick={() => setShowModal(true)}
               >
                 <IonIcon icon={logOutOutline} style={{ marginRight: '20px' }} ></IonIcon>
                 {t('Logout')}
@@ -388,6 +396,24 @@ const Account: React.FC = () => {
               }
             }
           ]} />
+
+        <IonModal isOpen={showModal} >
+          <StyledOtpInput
+            inputStyle={{
+              width: '2.7rem',
+              height: '2.7rem',
+              marginRight: '10px',
+              fontSize: '1rem',
+              color: 'black',
+              borderRadius: 4,
+              border: '2px solid rgba(0,0,0,0.3)',
+            }}
+            value={otp}
+            onChange={(otp: any) => setOtp(otp)}
+            numInputs={6}
+            separator={<span style={{ color: 'black' }}>-</span>}
+          />
+        </IonModal>
         <IonAlert
           isOpen={showAlert}
           onDidDismiss={() => setShowAlert(false)}

@@ -18,14 +18,14 @@ const StyledQR = styled(QrCode)`
   min-height: 220px;
 `;
 const GenerateQrCode: React.FC = () => {
-  const { profile: data } = useSelector((s) => s.profile);
+  const userData = useSelector(s => s.auth.userInfo?.data.userInfo);
   return (
     <IonContent >
-      <StyledQR value={data?.id ?? ''} />
+      <StyledQR value={userData?.username ?? ''} />
       <IonRow className="ion-justify-content-center">
         <IonCol size="12">
           <div style={{ textAlign: 'center', marginTop: '20px', color: '#1145a0', fontSize: '13px', fontWeight: 500 }}>
-            {data?.id ?? ''}
+            {userData?.id ?? ''}
           </div>
         </IonCol>
       </IonRow>

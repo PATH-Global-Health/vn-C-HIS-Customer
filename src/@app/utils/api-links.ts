@@ -71,6 +71,7 @@ const apiLinks = {
     },
     hospital: {
       get: `${smapi}/api/Hospitals`,
+      getHospitalImage: `${smapi}/api/Hospitals/Logo/`
     },
     workingCalendar: {
       getDaysByUnitAndService: `${smapi}/api/WorkingCalendars/GetDaysByUnitAndService`,

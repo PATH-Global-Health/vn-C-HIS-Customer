@@ -6,6 +6,7 @@ import {
   IonImg,
   IonInput,
   IonLabel,
+  IonList,
   IonModal,
   IonPage,
   IonSelect,
@@ -237,7 +238,7 @@ const ChoosingHospital: React.FC = () => {
               ""
             )}
 
-            <div className={styles.render}>
+            <StyledContent>
               {typeSearch === "unitType"
                 ? searchByUnitType.map((hos) => (
                     <button
@@ -247,7 +248,11 @@ const ChoosingHospital: React.FC = () => {
                         history.push("/hospitalDetail", hos);
                       }}
                     >
-                      {hos.name}
+                      {`${
+                        hos.name.length <= 23
+                          ? hos.name
+                          : hos.name.substring(0, 23) + "..."
+                      }`}
                       <IonIcon
                         className={styles.iconRight}
                         icon={arrowForward}
@@ -273,7 +278,11 @@ const ChoosingHospital: React.FC = () => {
                         history.push("/hospitalDetail", hos);
                       }}
                     >
-                      {hos.name}
+                      {`${
+                        hos.name.length <= 23
+                          ? hos.name
+                          : hos.name.substring(0, 23) + "..."
+                      }`}
                       <IonIcon
                         className={styles.iconRight}
                         icon={arrowForward}
@@ -299,7 +308,11 @@ const ChoosingHospital: React.FC = () => {
                         history.push("/hospitalDetail", hos);
                       }}
                     >
-                      {hos.name}
+                      {`${
+                        hos.name.length <= 23
+                          ? hos.name
+                          : hos.name.substring(0, 23) + "..."
+                      }`}
                       <IonIcon
                         className={styles.iconRight}
                         icon={arrowForward}
@@ -325,7 +338,11 @@ const ChoosingHospital: React.FC = () => {
                         history.push("/hospitalDetail", hos);
                       }}
                     >
-                      {hos.name}
+                      {`${
+                        hos.name.length <= 23
+                          ? hos.name
+                          : hos.name.substring(0, 23) + "..."
+                      }`}
                       <IonIcon
                         className={styles.iconRight}
                         icon={arrowForward}
@@ -341,7 +358,7 @@ const ChoosingHospital: React.FC = () => {
                     </button>
                   ))
                 : ""}
-            </div>
+            </StyledContent>
             <button
               className={styles.styledButtonCloseModal}
               onClick={() => {
@@ -394,7 +411,11 @@ const ChoosingHospital: React.FC = () => {
                         history.push("/hospitalDetail", hos);
                       }}
                     >
-                      {hos.name}
+                      {`${
+                        hos.name.length <= 23
+                          ? hos.name
+                          : hos.name.substring(0, 23) + "..."
+                      }`}
                       <IonIcon
                         className={styles.iconRight}
                         icon={arrowForward}

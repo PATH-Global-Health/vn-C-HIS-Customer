@@ -180,15 +180,18 @@ const generateOTP = async ({
 };
 const confirmOTP = async ({
   email,
+  phoneNumber,
   otp
 }: {
   email?: string;
+  phoneNumber?: string;
   otp: string;
 }): Promise<Token> => {
   const response = await httpClient.post({
     url: apiLinks.forgetPassword.confirmOTP,
     data: {
       email,
+      phoneNumber,
       otp,
     },
   });

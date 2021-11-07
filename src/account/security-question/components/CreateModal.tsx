@@ -87,7 +87,7 @@ const CreateModal: React.FC = () => {
   useEffect(() => {
     register('question', { required: { value: true, message: t('Question not selected') } });
     register('password', { required: { value: true, message: t('Password not selected') } });
-    register('answer', { required: { value: true, message: t('Answer not enterd') } });
+    register('answer', { required: { value: true, message: t('Answer not entered') } });
   }, [register, t]);
   return (
     <IonPage >

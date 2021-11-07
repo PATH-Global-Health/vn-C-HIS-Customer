@@ -94,7 +94,8 @@ const ForgetPassword: React.FC = () => {
       {(method === 'message' && <MessageMethod />)}
       {(method === 'mail' && <MailMethod />)}
       {(method === 'confirmed' && <CreatePassword />)}
-      {(method === 'confirmOTP' && <ConfirmOTP />)}
+      {(method === 'confirmSmsOTP' && <ConfirmOTP />)}
+      {(method === 'confirmEmailOTP' && <ConfirmOTP />)}
     </IonContent>
   );
 };

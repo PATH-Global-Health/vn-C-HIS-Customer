@@ -109,7 +109,7 @@ const Home: React.FC = () => {
     {
       name: "booking",
       icon: calendarOutline,
-      label: t('Dịch vụ'),
+      label: t('Service'),
       color: "#4c8dff",
     },
     {
@@ -121,7 +121,7 @@ const Home: React.FC = () => {
     {
       name: "risk",
       icon: searchOutline,
-      label: t('Đánh giá nguy cơ'),
+      label: t('Risk assessment'),
       color: "#f1c248"
     },
   ];
@@ -163,7 +163,8 @@ const Home: React.FC = () => {
           <IonItem className="ion-no-padding" color="light">
             <IonLabel><span className="title">{t('Featured Services')}</span></IonLabel>
             <IonNote slot="end" onClick={() => history.push('/customer-service')}>{t('View all')}</IonNote>
-            <IonIcon className="ion-align-self-center" slot="end" size="small" icon={chevronForwardOutline} />
+            <IonIcon className="ion-align-self-center" slot="end" size="small" icon={chevronForwardOutline} onClick={() => history.push('/customer-service')} />
+
           </IonItem>
         </Menu>
         <IonRow className="ion-justify-content-center">

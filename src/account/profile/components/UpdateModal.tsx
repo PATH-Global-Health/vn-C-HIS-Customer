@@ -188,8 +188,8 @@ const UpdateProfile: React.FC = () => {
       {
         required: { value: true, message: t('Username not enter') },
         pattern: { value: /^\S*$/, message: t('Username can not contain spaces') },
-        minLength: { value: 4, message: t('Username minnimun is 4 characters') },
-        maxLength: { value: 35, message: t('Username maximum is 35 characters') },
+        minLength: { value: 4, message: t('Fullname minimum is 4 characters') },
+        maxLength: { value: 35, message: t('Fullname maximum is 35 characters') },
       }
     );
     register(
@@ -199,12 +199,12 @@ const UpdateProfile: React.FC = () => {
         pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: t('The email address is not valid') }
       }
     );
-    register('gender', { required: { value: true, message: t('gender not enterd') } });
-    register('dateOfBirth', { required: { value: true, message: t('date of birth not enterd') } });
-    register('phoneNumber', { required: { value: true, message: t('phone number not enterd') } });
-    register('identityCard', { required: { value: true, message: t('identity card not enterd') } });
-    register('address', { required: { value: true, message: t('address not enterd') } });
-    register('nation', { required: { value: true, message: t('nation name not enterd') } });
+    register('gender', { required: { value: true, message: t('gender not entered') } });
+    register('dateOfBirth', { required: { value: true, message: t('date of birth not entered') } });
+    register('phoneNumber', { required: { value: true, message: t('phone number not entered') } });
+    register('identityCard', { required: { value: true, message: t('identity card not entered') } });
+    register('address', { required: { value: true, message: t('address not entered') } });
+    register('nation', { required: { value: true, message: t('nation name not entered') } });
   }, [register, t]);
   useEffect(() => {
     reset({
@@ -231,24 +231,24 @@ const UpdateProfile: React.FC = () => {
                     control={control}
                     rules={
                       name === 'fullname' ? {
-                        required: { value: true, message: t('full name not enterd') },
-                        minLength: { value: 4, message: t('Username minnimun is 4 characters') },
-                        maxLength: { value: 35, message: t('Username maximum is 35 characters') },
+                        required: { value: true, message: t('full name not entered') },
+                        minLength: { value: 4, message: t('Fullname minimum is 4 characters') },
+                        maxLength: { value: 35, message: t('Fullname maximum is 35 characters') },
                       } :
                         name === 'email' ? {
                           required: { value: true, message: t('Email is not enter') },
                           pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: t('The email address is not valid') }
                         }
-                          : name === 'gender' ? { required: { value: true, message: t('gender not enterd') } }
-                            : name === 'dateOfBirth' ? { required: { value: true, message: t('date of birth not enterd') } }
+                          : name === 'gender' ? { required: { value: true, message: t('gender not entered') } }
+                            : name === 'dateOfBirth' ? { required: { value: true, message: t('date of birth not entered') } }
                               : name === 'phoneNumber' ? {
                                 required: { value: true, message: t('No phone number entered') },
-                                minLength: { value: 10, message: t('Phone numbers with minnimun is 10 digits') },
+                                minLength: { value: 10, message: t('Phone numbers with minimum is 10 digits') },
                                 maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
                                 pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
                               }
-                                : name === 'identityCard' ? { required: { value: true, message: t('identity card not enterd') } }
-                                  : name === 'nation' ? { required: { value: true, message: t('nation name not enterd') } }
+                                : name === 'identityCard' ? { required: { value: true, message: t('identity card not entered') } }
+                                  : name === 'nation' ? { required: { value: true, message: t('nation name not entered') } }
                                     : undefined
                     }
                     render={({ field: { onChange, onBlur, value } }) => (
@@ -417,7 +417,6 @@ const UpdateProfile: React.FC = () => {
               handler: () => {
                 setTimeout(() => {
                   history.push('/account');
-                  window.location.reload();
                 }, 0);
               }
             },

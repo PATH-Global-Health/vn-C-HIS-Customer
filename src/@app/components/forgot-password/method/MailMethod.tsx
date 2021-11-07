@@ -53,7 +53,7 @@ const MailMethod: React.FC = () => {
       const params = { email: email }
       await authService.generateOTP(params);
       setShowSuccessToast(true);
-      setTimeout(() => dispatch(setDataForgotPassword({ method: 'confirmOTP', inputData: email })), 1500);
+      setTimeout(() => dispatch(setDataForgotPassword({ method: 'confirmEmailOTP', inputData: email })), 1500);
     } catch (error) {
       setShowFailedToast(true);
     }

@@ -76,7 +76,7 @@ const RegisterPage: React.FC = () => {
       fieldType: "input",
       label: t('Username'),
       icon: person,
-      placeholder: t('Tên đăng nhập'),
+      placeholder: t('User name'),
     },
     {
       name: "password",
@@ -134,22 +134,24 @@ const RegisterPage: React.FC = () => {
       'userName',
       {
         required: { value: true, message: t('Username not enter') },
-        pattern: { value: /^\S*$/, message: t('Username can not contain spaces') }
+        pattern: { value: /^\S*$/, message: t('Username can not contain spaces') },
+        minLength: { value: 4, message: t('Username minimum is 4 characters') },
+        maxLength: { value: 35, message: t('Username maximum is 35 characters') },
       }
     );
     register(
       'fullName',
       {
-        required: { value: true, message: t('full name not enterd') },
-        minLength: { value: 4, message: t('Username minnimun is 4 characters') },
-        maxLength: { value: 35, message: t('Username maximum is 35 characters') },
+        required: { value: true, message: t('full name not entered') },
+        minLength: { value: 4, message: t('Fullname minimum is 4 characters') },
+        maxLength: { value: 35, message: t('Fullname maximum is 35 characters') },
       }
     );
     register(
       'phoneNumber',
       {
         //required: { value: true, message: t('No phone number entered') },
-        minLength: { value: 10, message: t('Phone numbers with minnimun is 10 digits') },
+        minLength: { value: 10, message: t('Phone numbers with minimum is 10 digits') },
         maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
         pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
       }

@@ -80,7 +80,7 @@ const CustomerService: React.FC = () => {
     {
       name: "booking",
       icon: calendarOutline,
-      label: t('Dịch vụ'),
+      label: t('Service'),
       color: "#4c8dff",
     },
     {
@@ -92,7 +92,7 @@ const CustomerService: React.FC = () => {
     {
       name: "risk",
       icon: searchOutline,
-      label: t('Đánh giá nguy cơ'),
+      label: t('Risk assessment'),
       color: "#f1c248"
     },
 
@@ -106,8 +106,9 @@ const CustomerService: React.FC = () => {
   const handleTypeService = (name: string) => {
     name === "booking" ? history.push("/shomeBooking")
       : name === "examinationList" ? history.push("/examinationList")
-        : name === "doctorList" ? history.push("/doctorList")
-          : RedirectRiskPage();
+        : name === "risk" ? history.push("/risk")
+          : name === "doctorList" ? history.push("/doctorList")
+            : RedirectRiskPage();
   }
   const RedirectRiskPage = () => {
     history.push("/home");

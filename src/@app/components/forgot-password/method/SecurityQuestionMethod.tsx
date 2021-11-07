@@ -68,7 +68,6 @@ const SecurityQuestionMehod: React.FC = () => {
       username: username,
       securityQuestionId: questionDetail?.data?.id,
       securityQuestionAnswer: answer,
-
     };
     try {
       const response = await securityQuestionService.confirmSecurityQuestion(params);
@@ -82,8 +81,8 @@ const SecurityQuestionMehod: React.FC = () => {
     dispatch(setDataForgotPassword({}));
   }
   useEffect(() => {
-    register('answer', { required: { value: true, message: t('Answer not enterd') } });
-    register('username', { required: { value: true, message: t('Phone number not enterd') } });
+    register('answer', { required: { value: true, message: t('Answer not entered') } });
+    register('username', { required: { value: true, message: t('Phone number not entered') } });
   }, [register]);
   return (
     <IonContent >
@@ -139,12 +138,12 @@ const SecurityQuestionMehod: React.FC = () => {
           isOpen={showAlert}
           onDidDismiss={() => setShowAlert(false)}
           cssClass='my-custom-class'
-          header={t('Enter Phone number')}
+          header={t('Enter user name')}
           inputs={[
             {
               name: 'username',
-              type: 'number',
-              placeholder: t('Phone number'),
+              type: 'text',
+              placeholder: t('User name'),
               cssClass: 'pass',
               attributes: {
                 maxlength: 10,

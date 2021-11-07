@@ -50,14 +50,16 @@ interface confirmOTP {
 const ConfirmOTP: React.FC = () => {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
-  const { forgotPasswordData: { inputData } } = useSelector((state) => state.auth);
+  const { forgotPasswordData: { inputData, method } } = useSelector((state) => state.auth);
+
   const { control, handleSubmit } = useForm();
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
   const handleData = async (data: confirmOTP): Promise<void> => {
     try {
       const { otp } = data;
-      const params = { email: inputData, otp: otp };
+      console.log(method);
+      const params = method === 'confirmSmsOTP' ? { phoneNumber: inputData, otp: otp } : { email: inputData, otp: otp };
       const response = await authService.confirmOTP(params);
       setShowSuccessToast(true);
       setTimeout(() => dispatch(setDataForgotPassword({ method: 'confirmed', accessToken: response?.access_token })), 1500);

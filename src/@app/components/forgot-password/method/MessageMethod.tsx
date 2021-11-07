@@ -54,7 +54,7 @@ const MessageMethod: React.FC = () => {
       const params = { username: phoneNumber, phoneNumber: phoneNumber }
       await authService.generateOTP(params);
       setShowSuccessToast(true);
-      setTimeout(() => dispatch(setDataForgotPassword({ inputData: phoneNumber, method: 'confirmOTP' })), 1500);
+      setTimeout(() => dispatch(setDataForgotPassword({ inputData: phoneNumber, method: 'confirmSmsOTP' })), 1500);
     } catch (error) {
       setShowFailedToast(true);
     }

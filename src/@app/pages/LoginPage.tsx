@@ -91,7 +91,7 @@ const LoginPage: React.FC = () => {
       name: "username",
       fieldType: "input",
       label: t('username'),
-      placeholder: t('Tên đăng nhập'),
+      placeholder: t('User name'),
     },
     {
       icon: lockClosed,
@@ -138,7 +138,9 @@ const LoginPage: React.FC = () => {
       'username',
       {
         required: { value: true, message: t('Username not enter') },
-        pattern: { value: /^\S*$/, message: t('Username can not contain spaces') }
+        pattern: { value: /^\S*$/, message: t('Username can not contain spaces') },
+        minLength: { value: 4, message: t('Username minimum is 4 characters') },
+        maxLength: { value: 35, message: t('Username maximum is 35 characters') },
       }
     );
     register(

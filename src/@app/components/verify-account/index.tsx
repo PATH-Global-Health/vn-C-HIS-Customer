@@ -82,15 +82,12 @@ const VerifyAccount: React.FC = () => {
       setUpdatePhoneNumberFailed(true);
     }
   }
-  const handleChangeOtp = (otp: any) => {
-    console.log(otp);
-  }
   useEffect(() => {
     register(
       'phoneNumber',
       {
         required: { value: true, message: t('No phone number entered') },
-        minLength: { value: 10, message: t('Phone numbers with minnimun is 10 digits') },
+        minLength: { value: 10, message: t('Phone numbers with minimum is 10 digits') },
         maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
         pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
       }
@@ -181,7 +178,7 @@ const VerifyAccount: React.FC = () => {
           }
         ]}
       />
-     
+
       <IonAlert
         isOpen={verifyOTP}
         onDidDismiss={() => setVerifyOTP(false)}

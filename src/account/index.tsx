@@ -177,7 +177,7 @@ const Account: React.FC = () => {
       'phoneNumber',
       {
         required: { value: true, message: t('No phone number entered') },
-        minLength: { value: 10, message: t('Phone numbers with minnimun is 10 digits') },
+        minLength: { value: 10, message: t('Phone numbers with minimum is 10 digits') },
         maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
         pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
       }
@@ -435,7 +435,6 @@ const Account: React.FC = () => {
                 logout();
                 setTimeout(() => {
                   history.push('/login');
-                  window.location.reload();
                 }, 0);
               }
             }

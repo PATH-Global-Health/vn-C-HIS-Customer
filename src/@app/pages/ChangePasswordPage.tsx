@@ -232,7 +232,6 @@ const ChangePasswordPage: React.FC = () => {
               handler: () => {
                 setTimeout(() => {
                   history.push('/account');
-                  window.location.reload();
                 }, 0);
               }
             },

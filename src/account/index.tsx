@@ -27,6 +27,7 @@ import {
   shieldCheckmark,
   language,
   informationCircleOutline,
+  newspaperOutline,
 } from 'ionicons/icons';
 
 import { useHistory } from "react-router-dom";
@@ -107,9 +108,15 @@ const Account: React.FC = () => {
   const optionFields: OptionProps[] = [
     {
       name: "profile",
-      icon: "person",
+      icon: "profile",
       label: t('Personal information'),
       color: "#409f4e",
+    },
+    {
+      name: "account",
+      icon: "person",
+      label: t('Account information'),
+      color: "#9249ed",
     },
     {
       name: "change-password",
@@ -224,23 +231,25 @@ const Account: React.FC = () => {
                     <StyledItem color='light'
                       onClick={() => {
                         name === 'change-password' ? history.push('/change-password')
-                          : name === 'profile' ? history.push('/profile')
-                            : name === 'security' ? history.push('/security-question')
-                              : name === 'qr' ? history.push('/qr-code')
-                                : history.push('/account')
+                          : name === 'account' ? history.push('/account-update')
+                            : name === 'profile' ? history.push('/profile')
+                              : name === 'security' ? history.push('/security-question')
+                                : name === 'qr' ? history.push('/qr-code')
+                                  : history.push('/account')
                       }}
                     >
                       <StyledIcon
                         icon={
-                          icon === 'person' ? person
-                            : icon === 'update' ? linkOutline
-                              : icon === 'change' ? lockClosed
-                                : icon === 'security' ? shieldCheckmark
-                                  : qrCodeOutline
+                          name === 'profile' ? newspaperOutline
+                            : name === 'account' ? person
+                              : name === 'change-password' ? linkOutline
+                                : name === 'security' ? lockClosed
+                                  : icon === 'security' ? shieldCheckmark
+                                    : qrCodeOutline
                         }
                         style={{ backgroundColor: color }}>
                       </StyledIcon>
-                      <StyledText >
+                      <StyledText className='ion-margin-top'>
                         {label}
                       </StyledText>
                       <IonIcon icon={chevronForwardOutline} color='medium'>

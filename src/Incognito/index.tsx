@@ -33,7 +33,6 @@ const IncognitoPage: React.FC = () => {
                   handler: () => {
                     setTimeout(() => {
                       history.push('/home');
-                      window.location.reload();
                     }, 0);
                   }
                 },
@@ -45,7 +44,6 @@ const IncognitoPage: React.FC = () => {
                     logout();
                     setTimeout(() => {
                       history.push('/register');
-                      window.location.reload();
                     }, 0);
                   }
                 },

@@ -271,5 +271,9 @@
     "Doctor": "Bác sĩ",
     "Risk assessment": "Đánh giá nguy cơ",
     "Service": "Dịch vụ",
-    "Enter user name": "Nhập tên đăng nhập"
+    "Enter user name": "Nhập tên đăng nhập",
+    "Account information": "Thông tin tài khoản",
+    "OTP verification": "Xác thực OTP",
+    "This phone number was registered": "Số điện thoại này đã được đăng ký",
+    "This mail was registered": "Địa chỉ mail này đã được đăng ký"
 }

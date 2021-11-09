@@ -38,6 +38,7 @@ import DoctorDetail from 'booking/pages/DoctorDetail';
 import LaytestPage from 'laytest';
 import UpdateLaytest from 'laytest/conponents/UpdateLaytest';
 import CustomerService from 'home/components/CustomerService';
+import UpdateAccount from 'account/account-data/components/UpdateAccount';
 
 
 interface Route {
@@ -84,6 +85,11 @@ const routes: Route[] = [
   {
     component: UpdateProfile,
     path: '/profile',
+    isPrivate: true,
+  },
+  {
+    component: UpdateAccount,
+    path: '/account-update',
     isPrivate: true,
   },
   {
@@ -143,7 +149,7 @@ const routes: Route[] = [
     layout: AppLayout,
     path: '/shomeBooking',
     isPrivate: true,
-    isIncognito: true,
+    isIncognito: false,
   },
   {
     component: LaytestPage,
@@ -221,6 +227,8 @@ const routes: Route[] = [
   {
     component: DoctorList,
     layout: AppLayout,
+    isPrivate: true,
+    isIncognito: false,
     path: '/doctorList'
   },
   {

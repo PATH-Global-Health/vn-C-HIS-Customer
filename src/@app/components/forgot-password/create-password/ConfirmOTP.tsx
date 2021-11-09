@@ -58,7 +58,6 @@ const ConfirmOTP: React.FC = () => {
   const handleData = async (data: confirmOTP): Promise<void> => {
     try {
       const { otp } = data;
-      console.log(method);
       const params = method === 'confirmSmsOTP' ? { phoneNumber: inputData, otp: otp } : { email: inputData, otp: otp };
       const response = await authService.confirmOTP(params);
       setShowSuccessToast(true);

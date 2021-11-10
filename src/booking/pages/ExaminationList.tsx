@@ -62,7 +62,7 @@ const ExaminationList: React.FC = () => {
       e.service.name +
         e.unit.name +
         e.unit.address +
-        e.date +
+        moment(e.date).format("DD-MM-YYYY") +
         e.interval.from +
         e.doctor.fullname
     ).includes(deburr(nameSearch))
@@ -175,7 +175,10 @@ const ExaminationList: React.FC = () => {
             className={styles.searchBar}
           ></IonSearchbar>
           <button
-            onClick={() => setSearchInput(false)}
+            onClick={() => {
+              setSearchInput(false);
+              setNameSearch("");
+            }}
             className={styles.cancelSearch}
           >
             Cancel

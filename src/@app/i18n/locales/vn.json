@@ -229,7 +229,7 @@
     "Anonymous login": "Đăng nhập ẩn danh",
     "This account does not exist, please create a new one!": "Tài khoản này không tồn tại, vui lòng tạo một tài khoản mới!",
     "Email address does not exist, please check again!": "Địa chỉ email không tồn tại, vui lòng kiểm tra lại!",
-    "Incorrect code!": "Mã xác thực không hợp lệ",
+    "Incorrect code!": "Mã xác thực không chính xác",
     "Enter verification code": "Nhập mã xác thực OTP",
     "Enter the verification code that was sent to your email": "Nhập mã xác thực đã được gửi qua email của bạn",
     "verification code": "Mã xác thực",
@@ -275,5 +275,11 @@
     "Account information": "Thông tin tài khoản",
     "OTP verification": "Xác thực OTP",
     "This phone number was registered": "Số điện thoại này đã được đăng ký",
-    "This mail was registered": "Địa chỉ mail này đã được đăng ký"
+    "This mail was registered": "Địa chỉ mail này đã được đăng ký",
+    "Update result": "Cập nhật kết quả",
+    "Undefined": "Chưa xác định",
+    "Negative": "Âm tính",
+    "Positive": "Dương tính",
+    "Incorrect code! Update account failed": "Mã xác thực không chính xác! Cập nhật tài khoản thất bại",
+    "Update account successfully": "Cập nhật tài khoản thành công"
 }

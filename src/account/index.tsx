@@ -40,6 +40,7 @@ import { getProfile } from './profile/profile.slice';
 import { getUserInfo } from '@app/slices/auth';
 import authService from '@app/services/auth';
 import { useForm } from 'react-hook-form';
+import OtpModal from '@app/components/otp';
 
 
 const StyledItem = styled(IonItem)`
@@ -97,14 +98,19 @@ const Account: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [otp, setOtp] = useState<string>('');
   const { register, formState: { errors }, getValues, setValue } = useForm();
-  const [showAlert, setShowAlert] = useState<boolean>(false);
   const [verifyCode, setVerifyCode] = useState<boolean>(false);
-  const [verifyOTPSuccess, setVerifyOTPSucess] = useState<boolean>(false);
-  const [verifyOTPFailed, setVerifyOTPFailed] = useState<boolean>(false);
-  const [updatePhoneNumberFailed, setUpdatePhoneNumberFailed] = useState<boolean>(false);
-  const [verifyOTP, setVerifyOTP] = useState<boolean>(false);
   const { profile } = useSelector((s) => s.profile);
   const userData = useSelector(s => s.auth.userInfo?.data);
+
+  const [verifyPhoneNumber, setVerifyPhoneNumber] = useState<boolean>(false);
+  const [verifyOTP, setVerifyOTP] = useState<boolean>(false);
+  const [verifyOTPSuccess, setVerifyOTPSucess] = useState<boolean>(false);
+  const [verifyOTPFailed, setVerifyOTPFailed] = useState<boolean>(false);
+  const [modalOtp, setShowModalOtp] = useState<boolean>(false);
+  const [dataEntry, setDataEntry] = useState<any>({});
+  const [showAlert, setShowAlert] = useState(false);
+  const [sendPhoneOtpAlert, setSendPhoneOtpAlert] = useState<boolean>(false);
+
   const optionFields: OptionProps[] = [
     {
       name: "profile",
@@ -137,7 +143,7 @@ const Account: React.FC = () => {
       color: "#3ac6e1"
     },
   ];
-  const sendOTP = async (phoneNumber: string): Promise<void> => {
+  /* const sendOTP = async (phoneNumber: string): Promise<void> => {
     try {
       await authService.sendPhoneOTP(phoneNumber);
       setVerifyOTP(true);
@@ -173,7 +179,58 @@ const Account: React.FC = () => {
       .catch(() => {
         setVerifyOTPFailed(true);
       })
+  }; */
+  const sendOTP = async (data: string, type: string): Promise<void> => {
+    const params = { phoneNumber: data };
+    setDataEntry({ type, data });
+    try {
+      /*  if (userData?.userInfo?.phoneNumber) {
+         await authService.sendPhoneOTP(data);
+       }  
+       else await accountService.sendUpdateOTP(params); */
+      await authService.sendPhoneOTP(data);
+      setShowModalOtp(true);
+    }
+    catch (err) {
+      setSendPhoneOtpAlert(true);
+    }
+  }
+  const updateUserData = async (data: string, type: string): Promise<void> => {
+    setShowModalOtp(false);
+    if (userData?.userInfo?.phoneNumber) {
+      verifyPhoneOTP(userData?.userInfo?.phoneNumber, data);
+    }
+    else {
+      verifyPhoneOTP(getValues('phoneNumber'), data);
+    }
+  }
+  const verifyPhoneOTP = async (phoneNumber?: string, otp?: string): Promise<void> => {
+    const data = phoneNumber || getValues('phoneNumber');
+    authService.verifyPhoneOTP({ phoneNumber: data, otp: otp })
+      .then(() => {
+        setVerifyOTPSucess(true);
+        setTimeout(() => {
+          getData();
+        }, 1500)
+      })
+      .catch(() => {
+        setVerifyOTPFailed(true);
+        getData();
+      })
   };
+  const handlePhoneAction = (phoneNumber: string): void => {
+    if (phoneNumber !== '') {
+      sendOTP(phoneNumber, 'phone');
+    }
+    else {
+      setVerifyPhoneNumber(true);
+    }
+  }
+  const submitPhoneNumber = async (phoneNumber: string): Promise<void> => {
+    if (phoneNumber) {
+      sendOTP(phoneNumber, 'phone');
+    }
+  }
   const getData = useCallback(() => {
     dispatch(getProfile());
     dispatch(getUserInfo());
@@ -271,7 +328,7 @@ const Account: React.FC = () => {
                 <StyledText >
                   {t("Language")}
                 </StyledText>
-                <IonSelect onIonChange={(e) => i18n.changeLanguage(e.detail.value)}>
+                <IonSelect onIonChange={(e) => i18n.changeLanguage(e.detail.value)} cancelText={t('Cancel')} okText={t('Okay')}>
                   <IonSelectOption value='en'>En</IonSelectOption>
                   <IonSelectOption value='vn'>Vi</IonSelectOption>
                 </IonSelect>
@@ -285,7 +342,7 @@ const Account: React.FC = () => {
               <StyledSocialButton
                 color='danger'
                 type='submit'
-                onClick={() => handleVerifyAccount(userData?.userInfo?.phoneNumber ?? '')}
+                onClick={() => handlePhoneAction(userData?.userInfo?.phoneNumber ?? '')}
               >
                 <IonIcon icon={informationCircleOutline} style={{ marginRight: '20px' }} ></IonIcon>
                 {t('Xác thực tài khoản')}
@@ -326,17 +383,17 @@ const Account: React.FC = () => {
           animated={true}
         />
         <IonToast
-          isOpen={updatePhoneNumberFailed}
-          onDidDismiss={() => setUpdatePhoneNumberFailed(false)}
+          isOpen={sendPhoneOtpAlert}
+          onDidDismiss={() => setSendPhoneOtpAlert(false)}
           color='danger'
-          message={t('This phone number is already registered!')}
+          message={t('This phone number was registered')}
           duration={1000}
           position="top"
           animated={true}
         />
         <StyledAlert
-          isOpen={verifyCode}
-          onDidDismiss={() => setVerifyCode(false)}
+          isOpen={verifyPhoneNumber}
+          onDidDismiss={() => setVerifyPhoneNumber(false)}
           cssClass='my-custom-class'
           header={t('Verify account')}
           message={t('Enter your phone number to continue')}
@@ -365,7 +422,7 @@ const Account: React.FC = () => {
               text: t('Confirm'),
               handler: (data) => {
                 setValue('phoneNumber', data.phoneNumber);
-                handlePhoneAction();
+                submitPhoneNumber(data.phoneNumber);
               }
             }
           ]}
@@ -406,23 +463,12 @@ const Account: React.FC = () => {
             }
           ]} />
 
-        <IonModal isOpen={showModal} >
-          <StyledOtpInput
-            inputStyle={{
-              width: '2.7rem',
-              height: '2.7rem',
-              marginRight: '10px',
-              fontSize: '1rem',
-              color: 'black',
-              borderRadius: 4,
-              border: '2px solid rgba(0,0,0,0.3)',
-            }}
-            value={otp}
-            onChange={(otp: any) => setOtp(otp)}
-            numInputs={6}
-            separator={<span style={{ color: 'black' }}>-</span>}
-          />
-        </IonModal>
+        <OtpModal
+          verifyOtp={updateUserData}
+          showModal={modalOtp}
+          data={dataEntry}
+          onClose={() => { setShowModalOtp(false) }}
+        />
         <IonAlert
           isOpen={showAlert}
           onDidDismiss={() => setShowAlert(false)}

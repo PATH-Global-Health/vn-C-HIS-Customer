@@ -25,10 +25,6 @@ const WrapperQuestion = styled.div`
       --background: white;
       --border-style: none;
     }
-    ion-radio{
-      
-    }
-   
 `;
 const StyledButton = styled(IonButton)`
   font-size: 13px;
@@ -90,14 +86,12 @@ const QuestionForm: React.FC = () => {
                           value={value}
                           onIonChange={onChange}
                         >
-                          <IonListHeader>
-                            <IonItem>{`Câu ${i + 1}: ${o?.description ?? ''} ?`}</IonItem>
-                          </IonListHeader>
+                          <IonItem>{`Câu ${i + 1}: ${o?.description ?? ''} ?`}</IonItem>
                           {
                             o?.answers?.map((ans, idx) => (
                               <IonItem key={idx}>
-                                <IonItem>{ans?.description ?? ''}</IonItem>
                                 <IonRadio slot="start" value={ans?.id} />
+                                <div style={{ fontSize: '15px' }}>{ans?.description ?? ''}</div>
                               </IonItem>
                             ))
                           }
@@ -112,7 +106,7 @@ const QuestionForm: React.FC = () => {
         }
         <IonRow className="ion-justify-content-center">
           <IonCol size="12">
-            <div style={{ textAlign: 'center', marginTop: '10px' }}>
+            <div style={{ textAlign: 'center', marginTop: '10px', marginBottom: '40px' }}>
               <StyledButton type='submit'>{t('View results')}</StyledButton>
             </div>
           </IonCol>

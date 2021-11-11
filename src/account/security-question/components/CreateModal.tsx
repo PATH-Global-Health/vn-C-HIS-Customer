@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonSelect, IonSelectOption, IonDatetime, IonText, IonAlert } from '@ionic/react';
-import { chevronBackOutline } from 'ionicons/icons';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonToast, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonSelect, IonSelectOption, IonDatetime, IonText, IonAlert, IonModal, IonRadioGroup, IonRadio } from '@ionic/react';
+import { chevronBackOutline, watch } from 'ionicons/icons';
 
 import { useHistory } from 'react-router-dom';
 import { Controller, useForm } from "react-hook-form";
@@ -53,13 +53,40 @@ const StyledAlertForm = styled(IonAlert)`
     color: black !important;
   }
 `;
-
+const WrapperQuestion = styled(IonRow)`
+    position: absolute !important;
+    top: 8%;
+    ion-label{
+      --color: black !important;
+    }
+    ion-item{
+      color: black;
+      --background: white;
+      --border-style: none;
+    }
+    & .label{
+      font-size:17px;
+    }
+`;
+const Header = styled.div`
+    & .header{
+      margin-left: -10px;
+      height: 40px;
+      
+    }
+    & .title{
+      font-weight: 600;
+      text-align: center;
+      margin: 10px 0px !important
+    }
+`;
 const CreateModal: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { control, handleSubmit, register, formState: { errors }, trigger, getValues, setValue } = useForm();
+  const { control, handleSubmit, register, formState: { errors }, trigger, getValues, setValue, watch } = useForm();
   const [showAlert, setShowAlert] = useState(false);
+  const [modalQuestion, setModalQuestion] = useState<boolean>(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
   const onSubmit = async (data: any): Promise<void> => {
@@ -67,7 +94,7 @@ const CreateModal: React.FC = () => {
     let param = {
       password: password,
       questionAnswer: {
-        id: question,
+        id: question.id,
         answer: answer,
       }
     };
@@ -129,19 +156,17 @@ const CreateModal: React.FC = () => {
                 </StyledLabel>
                 <IonCol size="12">
                   <IonItem color='light'>
-                    <StyledSelect
+                    <StyledInput
                       onIonBlur={() => {
                         trigger('question')
                       }}
-                      onIonChange={onChange}
+                      value={watch('question')?.id ?? ''}
+                      onClick={() => setModalQuestion(true)}
                     >
-                      {data?.map(item => (
-                        <IonSelectOption key={item?.id} value={item?.id}>{item?.question}</IonSelectOption>
-                      ))}
-
-                    </StyledSelect>
+                      {getValues('question')?.question}
+                    </StyledInput>
                   </IonItem>
-                  {(errors?.question?.message) && <ErrorText color='danger'>{(errors?.question?.message)}</ErrorText>}
+                  {(!getValues('question')) && <ErrorText color='danger'>{(errors?.question?.message)}</ErrorText>}
                 </IonCol>
               </IonRow>
             )}
@@ -162,6 +187,7 @@ const CreateModal: React.FC = () => {
                         trigger('answer');
                       }}
                       onIonChange={onChange}
+
                     >
                     </StyledInput>
                   </IonItem>
@@ -214,7 +240,37 @@ const CreateModal: React.FC = () => {
           </IonRow>
         </form>
 
+        <IonModal isOpen={modalQuestion}>
+          <Header>
+            <IonHeader className="header">
+              <IonItem color="light" onClick={() => setModalQuestion(false)} >
+                <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
+                <IonTitle className="title">
+                  {t('Select security question')}
+                </IonTitle>
+              </IonItem>
+            </IonHeader>
+          </Header>
+          <WrapperQuestion>
+            <IonCol size="12">
+              <IonItem color='light' lines='inset' className='group-item'>
+                <IonRadioGroup
+                  onIonChange={(e) => { setValue('question', e.detail?.value); setModalQuestion(false) }}
+                >
 
+                  {
+                    (data || []).map((item) => (
+                      <IonItem key={item?.id}>
+                        <div className='label'>{item?.question ?? ''}</div>
+                        <IonRadio slot="start" value={item} />
+                      </IonItem>
+                    ))
+                  }
+                </IonRadioGroup>
+              </IonItem>
+            </IonCol>
+          </WrapperQuestion>
+        </IonModal>
       </IonContent>
     </IonPage>
   );

@@ -137,11 +137,17 @@ const UpdateAccount: React.FC = () => {
     register(
       'email',
       {
-        required: { value: true, message: t('Email is not enter') },
+        //required: { value: true, message: t('Email is not enter') },
         pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: t('The email address is not valid') }
       }
     );
-    register('phoneNumber', { required: { value: true, message: t('phone number not entered') } });
+    register('phoneNumber',
+      {
+        minLength: { value: 10, message: t('Phone numbers with minimum is 10 digits') },
+        maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
+        pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
+      }
+    );
   }, [register, t]);
   useEffect(() => {
     reset({
@@ -169,11 +175,9 @@ const UpdateAccount: React.FC = () => {
                       control={control}
                       rules={
                         name === 'email' ? {
-                          required: { value: true, message: t('Email is not enter') },
                           pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: t('The email address is not valid') }
                         }
                           : name === 'phoneNumber' ? {
-                            required: { value: true, message: t('No phone number entered') },
                             minLength: { value: 10, message: t('Phone numbers with minimum is 10 digits') },
                             maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
                             pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
@@ -268,7 +272,7 @@ const UpdateAccount: React.FC = () => {
           onDidDismiss={() => setShowAlert(false)}
           cssClass='my-custom-class'
           header={success ? t('Success!') : t('Failed!')}
-          message={success ? t('Update profile successfully') : t('Update profile failed')}
+          message={success ? t('Update account successfully') : t('Incorrect code! Update account failed')}
           buttons={[
             {
               text: t('Back to account'),

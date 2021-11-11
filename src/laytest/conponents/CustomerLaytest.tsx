@@ -182,7 +182,7 @@ const CustomerLaytest: React.FC = () => {
                     }}
                     className='btn'
                   >
-                    {t('Update laytest result')
+                    {t('Update result')
                     }</IonButton>
                 </IonCard>
               </ChildCard>

@@ -56,8 +56,11 @@ const CardIcon = styled(IonIcon)`
   align-item: center;
 `;
 const CardLabel = styled(IonLabel)`
+  @media (max-width: 360px){
+    font-size: 17px !important;
+  }
   margin: 0px 0px 10px 6px ;
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 300;
   color: white;
   position: absolute;
@@ -164,7 +167,6 @@ const Home: React.FC = () => {
             <IonLabel><span className="title">{t('Featured Services')}</span></IonLabel>
             <IonNote slot="end" onClick={() => history.push('/customer-service')}>{t('View all')}</IonNote>
             <IonIcon className="ion-align-self-center" slot="end" size="small" icon={chevronForwardOutline} onClick={() => history.push('/customer-service')} />
-
           </IonItem>
         </Menu>
         <IonRow className="ion-justify-content-center">

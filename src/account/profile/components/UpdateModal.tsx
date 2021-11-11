@@ -107,20 +107,6 @@ const UpdateProfile: React.FC = () => {
       placeholder: t('Date of birth'),
     },
     {
-      name: "phoneNumber",
-      fieldType: "input",
-      type: "number",
-      label: t('Phone number'),
-      placeholder: t('Phone number'),
-    },
-    {
-      name: "email",
-      fieldType: "input",
-      type: "text",
-      label: t('Email'),
-      placeholder: t('Email'),
-    },
-    {
       name: "identityCard",
       fieldType: "input",
       type: "number",
@@ -192,16 +178,8 @@ const UpdateProfile: React.FC = () => {
         maxLength: { value: 35, message: t('Fullname maximum is 35 characters') },
       }
     );
-    register(
-      'email',
-      {
-        required: { value: true, message: t('Email is not enter') },
-        pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: t('The email address is not valid') }
-      }
-    );
     register('gender', { required: { value: true, message: t('gender not entered') } });
     register('dateOfBirth', { required: { value: true, message: t('date of birth not entered') } });
-    register('phoneNumber', { required: { value: true, message: t('phone number not entered') } });
     register('identityCard', { required: { value: true, message: t('identity card not entered') } });
     register('address', { required: { value: true, message: t('address not entered') } });
     register('nation', { required: { value: true, message: t('nation name not entered') } });
@@ -234,22 +212,12 @@ const UpdateProfile: React.FC = () => {
                         required: { value: true, message: t('full name not entered') },
                         minLength: { value: 4, message: t('Fullname minimum is 4 characters') },
                         maxLength: { value: 35, message: t('Fullname maximum is 35 characters') },
-                      } :
-                        name === 'email' ? {
-                          required: { value: true, message: t('Email is not enter') },
-                          pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: t('The email address is not valid') }
-                        }
-                          : name === 'gender' ? { required: { value: true, message: t('gender not entered') } }
-                            : name === 'dateOfBirth' ? { required: { value: true, message: t('date of birth not entered') } }
-                              : name === 'phoneNumber' ? {
-                                required: { value: true, message: t('No phone number entered') },
-                                minLength: { value: 10, message: t('Phone numbers with minimum is 10 digits') },
-                                maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
-                                pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
-                              }
-                                : name === 'identityCard' ? { required: { value: true, message: t('identity card not entered') } }
-                                  : name === 'nation' ? { required: { value: true, message: t('nation name not entered') } }
-                                    : undefined
+                      }
+                        : name === 'gender' ? { required: { value: true, message: t('gender not entered') } }
+                          : name === 'dateOfBirth' ? { required: { value: true, message: t('date of birth not entered') } }
+                            : name === 'identityCard' ? { required: { value: true, message: t('identity card not entered') } }
+                              : name === 'nation' ? { required: { value: true, message: t('nation name not entered') } }
+                                : undefined
                     }
                     render={({ field: { onChange, onBlur, value } }) => (
                       <IonRow>
@@ -270,8 +238,6 @@ const UpdateProfile: React.FC = () => {
                             </StyledInput>
                           </IonItem>
                           {(errors?.fullname?.message && name === 'fullname') && <ErrorText color='danger'>{(errors?.fullname?.message)}</ErrorText>}
-                          {(errors?.email?.message && name === 'email') && <ErrorText color='danger'>{(errors?.email?.message)}</ErrorText>}
-                          {(errors?.phoneNumber?.message && name === 'phoneNumber') && <ErrorText color='danger'>{(errors?.phoneNumber?.message)}</ErrorText>}
                           {(errors?.identityCard?.message && name === 'identityCard') && <ErrorText color='danger'>{(errors?.identityCard?.message)}</ErrorText>}
                           {(errors?.address?.message && name === 'address') && <ErrorText color='danger'>{(errors?.address?.message)}</ErrorText>}
                           {(errors?.nation?.message && name === 'nation') && <ErrorText color='danger'>{(errors?.nation?.message)}</ErrorText>}

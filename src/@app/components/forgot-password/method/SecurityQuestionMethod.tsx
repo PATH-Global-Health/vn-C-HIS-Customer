@@ -146,8 +146,7 @@ const SecurityQuestionMehod: React.FC = () => {
               placeholder: t('User name'),
               cssClass: 'pass',
               attributes: {
-                maxlength: 10,
-                inputmode: 'decimal'
+                maxlength: 35,
               }
             }
           ]}

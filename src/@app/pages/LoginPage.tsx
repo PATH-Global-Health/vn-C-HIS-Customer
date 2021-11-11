@@ -306,6 +306,8 @@ const LoginPage: React.FC = () => {
                 <StyledSocialSelect
                   placeholder={t('Language')}
                   onIonChange={(e) => i18n.changeLanguage(e.detail.value)}
+                  cancelText={t('Cancel')}
+                  okText={t('Okay')}
                 >
                   <IonSelectOption value='en'>En</IonSelectOption>
                   <IonSelectOption value='vn'>Vi</IonSelectOption>

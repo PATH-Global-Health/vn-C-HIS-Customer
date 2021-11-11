@@ -54,9 +54,9 @@ interface InputProps {
   [otherProps: string]: unknown;
 };
 const resultTesting = [
-  { value: 'Âm tính', label: 'Âm tính' },
-  { value: 'Dương tính', label: 'Dương tính' },
-  { value: 'Chưa xác định', label: 'Chưa xác định' }
+  { value: 'Âm tính', label: 'Negative' },
+  { value: 'Dương tính', label: 'Positive' },
+  { value: 'Chưa xác định', label: 'Undefined' }
 ];
 const UpdateLaytest: React.FC = () => {
   const { t } = useTranslation();
@@ -239,7 +239,6 @@ const UpdateLaytest: React.FC = () => {
               handler: () => {
                 setTimeout(() => {
                   history.push('/laytest');
-                  window.location.reload();
                 }, 0);
               }
             },

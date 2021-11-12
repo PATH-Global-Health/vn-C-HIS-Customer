@@ -45,8 +45,11 @@ const CardIcon = styled(IonIcon)`
   align-item: center;
 `;
 const CardLabel = styled(IonLabel)`
+  @media (max-width: 380px){
+    font-size: 17px !important;
+  }
   margin: 0px 0px 10px 6px;
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 300;
   color: white;
   position: absolute;

@@ -36,7 +36,7 @@ import QrCode from 'account/qr-code';
 import DoctorList from 'booking/pages/DoctorList';
 import DoctorDetail from 'booking/pages/DoctorDetail';
 import LaytestPage from 'laytest';
-import UpdateLaytest from 'laytest/conponents/UpdateLaytest';
+import UpdateLaytest from 'laytest/components/UpdateLaytest';
 import CustomerService from 'home/components/CustomerService';
 import UpdateAccount from 'account/account-data/components/UpdateAccount';
 

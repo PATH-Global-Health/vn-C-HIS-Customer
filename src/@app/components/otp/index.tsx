@@ -85,8 +85,8 @@ const OtpModal: React.FC<Props> = ({ showModal, verifyOtp, data, onClose }) => {
           <div className="ion-align-items-center" style={{ textAlign: 'center', marginTop: '150px', color: '#1145a0', fontSize: '20px', fontWeight: 500 }}>
             <IonText style={{ marginBottom: '30px', color: 'black' }}>
               {
-                data?.type === 'phone' ? `Nhập mã xác thực đã được gửi đến số điện thoại ${data?.data || ''}`
-                  : `Nhập mã xác thực đã được gửi đến mail ${data?.data || ''}`
+                data?.type === 'phone' ? `${t('Enter the verification code sent to your phone number')} ${data?.data || ''}`
+                  : `${t('Enter the verification code sent to the mail')} ${data?.data || ''}`
               }
             </IonText>
           </div>

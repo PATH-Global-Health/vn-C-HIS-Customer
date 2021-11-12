@@ -99,7 +99,7 @@
     "Continue with Gmail": "Tiếp tục với Gmail",
     "Continue by facebook": "Tiếp tục bằng Facebook",
     "Continue": "Tiếp tục",
-    "ignore": "Bỏ qua",
+    "Ignore": "Bỏ qua",
     "No account": "Chưa có tài khoản",
     "Register now": "Đăng kí ngay",
     "Username not enter": "Tên đăng nhập chưa nhập",
@@ -281,5 +281,13 @@
     "Negative": "Âm tính",
     "Positive": "Dương tính",
     "Incorrect code! Update account failed": "Mã xác thực không chính xác! Cập nhật tài khoản thất bại",
-    "Update account successfully": "Cập nhật tài khoản thành công"
+    "Update account successfully": "Cập nhật tài khoản thành công",
+    "Test date": "Ngày xét nghiệm",
+    "Result date": "Ngày có kết quả",
+    "Test result": "Kết quả xét nghiệm",
+    "Verify your account": "Xác thực tài khoản",
+    "Enter the verification code sent to your phone number": "Nhập mã xác thực đã được gửi đến số điện thoại",
+    "Enter the verification code sent to the mail": "Nhập mã xác thực đã được gửi đến mail",
+    "Verify now": "Xác thực ngay",
+    "Successful account registration? Verify your account now": "Đăng kí tài khoản thành công? Xác thực tài khoản ngay"
 }

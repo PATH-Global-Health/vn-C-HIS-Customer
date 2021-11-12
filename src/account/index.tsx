@@ -345,7 +345,7 @@ const Account: React.FC = () => {
                 onClick={() => handlePhoneAction(userData?.userInfo?.phoneNumber ?? '')}
               >
                 <IonIcon icon={informationCircleOutline} style={{ marginRight: '20px' }} ></IonIcon>
-                {t('Xác thực tài khoản')}
+                {t('Verify your account')}
               </StyledSocialButton>
             </div>
           </IonCol>

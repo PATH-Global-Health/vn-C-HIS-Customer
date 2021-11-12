@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomerLaytest from './conponents/CustomerLaytest';
+import CustomerLaytest from './components/CustomerLaytest';
 
 const LaytestPage: React.FC = () => {
   return <CustomerLaytest />;

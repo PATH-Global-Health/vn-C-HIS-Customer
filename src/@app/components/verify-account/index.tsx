@@ -48,11 +48,11 @@ const VerifyAccount: React.FC = () => {
     const params = { phoneNumber: data };
     setDataEntry({ type, data });
     try {
-      /*  if (userData?.userInfo?.phoneNumber) {
-         await authService.sendPhoneOTP(data);
-       }  
-       else await accountService.sendUpdateOTP(params); */
-      await authService.sendPhoneOTP(data);
+      if (userData?.userInfo?.phoneNumber) {
+        await authService.sendPhoneOTP(data);
+      }
+      else await accountService.sendUpdateOTP(params);
+      //await authService.sendPhoneOTP(data);
       setShowModalOtp(true);
     }
     catch (err) {
@@ -126,15 +126,15 @@ const VerifyAccount: React.FC = () => {
       <IonRow className="ion-justify-content-center ">
         <IonCol size="12" >
           <div className="ion-align-items-center" style={{ textAlign: 'center', marginTop: '200px', color: '#1145a0', fontSize: '20px', fontWeight: 500 }}>
-            <IonText style={{ marginBottom: '30px', color: 'black' }}>Đăng kí tài khoản thành công? Xác thực tài khoản ngay</IonText>
+            <IonText style={{ marginBottom: '30px', color: 'black' }}>{t('Successful account registration? Verify your account now')}</IonText>
           </div>
         </IonCol>
       </IonRow>
       <IonRow className="ion-justify-content-center ">
         <IonCol size="12" >
           <div className="ion-align-items-center" style={{ textAlign: 'center', marginTop: '30px', color: '#1145a0', fontSize: '20px', fontWeight: 500 }}>
-            <StyledButton onClick={() => history.push('/home')}>Bỏ Qua</StyledButton>
-            <StyledButton onClick={() => handlePhoneAction(userData?.userInfo?.phoneNumber ?? '')}>Xác thực ngay</StyledButton>
+            <StyledButton onClick={() => history.push('/home')}>{t('Ignore')}</StyledButton>
+            <StyledButton onClick={() => handlePhoneAction(userData?.userInfo?.phoneNumber ?? '')}>{t('Verify now')}</StyledButton>
           </div>
         </IonCol>
       </IonRow>

@@ -130,11 +130,13 @@ const CustomerLaytest: React.FC = () => {
     ($event.target as HTMLIonInfiniteScrollElement).complete();
   }
   const getData = useCallback(() => {
-    dispatch(getLaytests({
-      username: customerUserName,
-      pageIndex,
-      pageSize,
-    }));
+    if (customerUserName) {
+      dispatch(getLaytests({
+        username: customerUserName,
+        pageIndex,
+        pageSize,
+      }));
+    }
   }, [customerUserName, pageIndex, pageSize, dispatch]);
   const getUserData = useCallback(() => {
     dispatch(getUserInfo());
@@ -168,12 +170,12 @@ const CustomerLaytest: React.FC = () => {
                     style={{ backgroundColor: "#f77070" }}>
                   </IonIcon>
                   <IonCardHeader>
-                    <b className="main-title">{'Kết quả xét nghiệm'}</b>
+                    <b className="main-title">{t('Laytest result')}</b>
                     <span></span>
-                    <IonNote className='main-card'>{`Mã xét nghiệm: ${o?.result?.code ?? '...'}`}</IonNote>
-                    <IonNote className='main-card'>{`Ngày xét nghiệm: ${moment(o?.dateCreate).format('MM/DD/YYYY') ?? '...'}`}</IonNote>
-                    <IonNote className='main-card'>{`Ngày có kết quả: ${o?.result?.resultDate ? moment(o?.result?.resultDate).format('MM/DD/YYYY') : '...'}`}</IonNote>
-                    <IonNote className='main-card note'>{`Kết quả xét nghiệm: ${o?.result?.resultTesting ?? '...'}`}</IonNote>
+                    <IonNote className='main-card'>{`${t('Laytest code')}: ${o?.result?.code ?? '...'}`}</IonNote>
+                    <IonNote className='main-card'>{`${t('Test date')}: ${moment(o?.dateCreate).format('MM/DD/YYYY') ?? '...'}`}</IonNote>
+                    <IonNote className='main-card'>{`${t('Result date')}: ${o?.result?.resultDate ? moment(o?.result?.resultDate).format('MM/DD/YYYY') : '...'}`}</IonNote>
+                    <IonNote className='main-card note'>{`${t('Test result')}: ${o?.result?.resultTesting ?? '...'}`}</IonNote>
                   </IonCardHeader>
                   <IonButton
                     onClick={() => {

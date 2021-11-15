@@ -1,10 +1,11 @@
-import React from "react";
-import { IonButton, IonCol, IonContent, IonHeader, IonIcon, IonRow, IonText, IonTitle } from "@ionic/react";
+import React, { useState } from "react";
+import { IonButton, IonCol, IonContent, IonHeader, IonIcon, IonRow, IonText, IonTitle, IonToast } from "@ionic/react";
 import styled from 'styled-components';
 import { useHistory } from "react-router";
 import { useAuth } from "@app/hooks";
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { mailOutline } from "ionicons/icons";
+import { useTranslation } from "react-i18next";
 const StyledIconSocial = styled(IonIcon)`
   margin: 15px 20px 10px 15px;
   padding: 15px 15px;
@@ -18,14 +19,19 @@ const StyledIconSocial = styled(IonIcon)`
 const GoogleAuthen: React.FC = () => {
   const { loginWithGoogle } = useAuth();
   const history = useHistory();
+  const { t } = useTranslation();
+  const [showAlert, setShowAlert] = useState<boolean>(false);
 
   const signIn = async (): Promise<void> => {
     GoogleAuth.init();
-    const result = await GoogleAuth.signIn();
     try {
+      const result = await GoogleAuth.signIn();
+      console.log(result);
       const { idToken } = result?.authentication;
-      loginWithGoogle(idToken).then(() => { history.push('/') });
+      loginWithGoogle(idToken).then(() => { history.push('/home') });
     } catch (error) {
+      console.log(error);
+      setShowAlert(true);
     }
 
   }
@@ -34,6 +40,15 @@ const GoogleAuthen: React.FC = () => {
   return (
     <div>
       <StyledIconSocial onClick={() => signIn()} icon={mailOutline} color='primary' />
+      <IonToast
+        isOpen={showAlert}
+        onDidDismiss={() => setShowAlert(false)}
+        color='danger'
+        message={t('Login failed')}
+        duration={1000}
+        position="top"
+        animated={true}
+      />
     </div>
   )
 

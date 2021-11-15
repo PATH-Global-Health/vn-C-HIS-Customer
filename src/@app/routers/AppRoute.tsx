@@ -29,7 +29,7 @@ const AppRoute: React.FC<Props> = (props) => {
 
   const isRegistered = (): boolean => {
     const token = JSON.parse(getStorage(TOKEN)) as Token;
-    if (token?.username?.length < 12) return true;
+    if (token?.username?.length !== 36) return true;
     return false;
   }
 

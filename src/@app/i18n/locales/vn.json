@@ -289,5 +289,6 @@
     "Enter the verification code sent to your phone number": "Nhập mã xác thực đã được gửi đến số điện thoại",
     "Enter the verification code sent to the mail": "Nhập mã xác thực đã được gửi đến mail",
     "Verify now": "Xác thực ngay",
-    "Successful account registration? Verify your account now": "Đăng kí tài khoản thành công? Xác thực tài khoản ngay"
+    "Successful account registration? Verify your account now": "Đăng kí tài khoản thành công? Xác thực tài khoản ngay",
+    "Login failed": "Đăng nhập thất bại"
 }

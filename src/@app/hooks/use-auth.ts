@@ -9,13 +9,16 @@ import {
   loginWithGoogle as lig,
   loginWithIncognito as lia,
   setToken,
+  getPermission,
 } from '../slices/auth';
 
 import useSelector from './use-selector';
 import useDispatch from './use-dispatch';
 
 import { Token } from '../models/token';
-import { TOKEN, EXPIRED_TIME } from '../utils/constants';
+import { TOKEN, EXPIRED_TIME, ACCESS_PERMISSION } from '../utils/constants';
+import { useHistory } from 'react-router';
+import { Permission } from '@app/models/permission';
 
 type UseAuth = {
   isAuthenticated: () => boolean;
@@ -41,12 +44,29 @@ const getStorage = (key: string): string =>
 
 const useAuth = (): UseAuth => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const isAuthenticated = useCallback((): boolean => {
     const token = JSON.parse(getStorage(TOKEN)) as Token;
     const tokenExpiredTime: Date = new Date(getStorage(EXPIRED_TIME));
     if (token && tokenExpiredTime > new Date()) {
+      dispatch<any>(getPermission(token.access_token))
+        .then((response: any) => {
+          const { payload: permissionList } = response;
+          const authorized = permissionList.find((p: any) => p?.code && p.code === ACCESS_PERMISSION);
+          if (!authorized) {
+            localStorage.removeItem(TOKEN);
+            localStorage.removeItem(EXPIRED_TIME);
+            sessionStorage.removeItem(TOKEN);
+            sessionStorage.removeItem(EXPIRED_TIME);
+
+            dispatch(lo());
+            history.push('/login');
+          }
+        });
+
       dispatch(setToken({ token, tokenExpiredTime }));
+      dispatch(getPermission(token.access_token));
       return true;
     }
 
@@ -65,22 +85,28 @@ const useAuth = (): UseAuth => {
     permissionQuery: {},
   ): Promise<void> => {
     const token = await unwrapResult(await dispatch(li({ username, password, remember, permissionQuery })));
-    if (remember) {
-      localStorage.setItem(TOKEN, JSON.stringify(token));
-      localStorage.setItem(
-        EXPIRED_TIME,
-        moment()
-          .add(token.expires_in * 1000, 'seconds')
-          .toString(),
-      );
+    const permissionList = await unwrapResult(await dispatch<any>(getPermission(token.access_token))) as Permission[];
+    const authorized = permissionList.find((p) => p?.code && p.code === ACCESS_PERMISSION);
+    if (authorized) {
+      if (remember) {
+        localStorage.setItem(TOKEN, JSON.stringify(token));
+        localStorage.setItem(
+          EXPIRED_TIME,
+          moment()
+            .add(token.expires_in * 1000, 'seconds')
+            .toString(),
+        );
+      } else {
+        sessionStorage.setItem(TOKEN, JSON.stringify(token));
+        sessionStorage.setItem(
+          EXPIRED_TIME,
+          moment()
+            .add(token.expires_in * 1000, 'seconds')
+            .toString(),
+        );
+      }
     } else {
-      sessionStorage.setItem(TOKEN, JSON.stringify(token));
-      sessionStorage.setItem(
-        EXPIRED_TIME,
-        moment()
-          .add(token.expires_in * 1000, 'seconds')
-          .toString(),
-      );
+      throw new Error('Tài khoản không có quyền truy cập');
     }
     /*  dispatch(getUserInfo()); */
   };

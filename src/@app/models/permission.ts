@@ -3,4 +3,5 @@ export interface Permission {
   name?: string;
   code: string;
   description?: string;
+  type?: number;
 }

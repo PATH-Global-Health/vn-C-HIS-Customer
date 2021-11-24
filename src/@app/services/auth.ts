@@ -3,6 +3,7 @@ import { httpClient, apiLinks } from '@app/utils';
 
 import { Token } from '@app/models/token';
 import { AccountInfo } from '@app/models/accountInfo';
+import { Permission } from '@app/models/permission';
 //import { UserInfo } from '@app/models/user-info';
 
 const login = async (username: string, password: string, remember: boolean, permissionQuery: {}): Promise<Token> => {
@@ -51,6 +52,15 @@ const loginWithIncognito = async (): Promise<Token> => {
   });
   return response.data as Token;
 };
+const getPermission = async (token: string): Promise<Permission[]> => {
+  const headerToken = token ? { Authorization: `bearer ${token}` } : null;
+  const response = await axios({
+    url: apiLinks.auth.getPermission,
+    headers: { ...headerToken },
+  });
+
+  return response.data as Permission[];
+}
 const createAccount = async ({
   userName,
   password,
@@ -221,6 +231,7 @@ const authService = {
   loginWithFacebook,
   loginWithGoogle,
   getUserInfo,
+  getPermission,
   loginWithIncognito,
   createAccount,
   updatePhoneNumber,

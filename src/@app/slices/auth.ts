@@ -35,14 +35,7 @@ const initialState: State = {
   loginError: null,
   userInfo: null,
   getUserInfoLoading: false,
-  permissionList: [
-    // { code: 'ADMIN' },
-    { code: 'CSYT_CATALOG' },
-    { code: 'CSYT_WORKING_SCHEDULE' },
-    { code: 'CSYT_EXAMINATION' },
-    // { code: 'CSYT_VACCINATION' },
-    // { code: 'CSYT_TELEMEDICINE' },
-  ],
+  permissionList: [],
   forgotPasswordData: {
     inputData: undefined,
     method: undefined,
@@ -60,6 +53,14 @@ const getUserInfo = createAsyncThunk(
     return result;
   },
 );
+const getPermission = createAsyncThunk<Permission[], string>(
+  'auth/getPermission',
+  async (token: string) => {
+    const result = await authService.getPermission(token);
+    return result;
+  },
+);
+
 const login = createAsyncThunk(
   'auth/login',
   async (arg: { username: string; password: string; remember: boolean; permissionQuery: {} }) => {
@@ -243,6 +244,20 @@ const slice = createSlice({
       loginLoading: false,
     }));
 
+    // get permission of user
+    builder.addCase(getPermission.pending, (state) => ({
+      ...state,
+      getPermissionLoading: true,
+    }));
+    builder.addCase(getPermission.fulfilled, (state, { payload }) => ({
+      ...state,
+      permissionList: payload,
+      getPermissionLoading: false,
+    }));
+    builder.addCase(getPermission.rejected, (state) => ({
+      ...state,
+      getPermissionLoading: false,
+    }));
     // get user info
     builder.addCase(getUserInfo.pending, (state) => ({
       ...state,
@@ -260,7 +275,7 @@ const slice = createSlice({
   },
 });
 
-export { login, loginWithFacebook, loginWithGoogle, loginWithIncognito, getUserInfo };
+export { login, loginWithFacebook, loginWithGoogle, loginWithIncognito, getUserInfo, getPermission };
 export const {
   logout,
   setToken,

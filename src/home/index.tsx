@@ -57,10 +57,10 @@ const CardIcon = styled(IonIcon)`
 `;
 const CardLabel = styled(IonLabel)`
   @media (max-width: 360px){
-    font-size: 17px !important;
+    font-size: 16px !important;
   }
   margin: 0px 0px 10px 6px ;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 300;
   color: white;
   position: absolute;

@@ -10,6 +10,7 @@ const apiLinks = {
     loginWithGoogle: `${userUrl}/api/Users/LoginWithGoogle`,
     loginWithIncognito: `${userUrl}/api/Users/AnonymousLogin`,
     userInfo: `${userUrl}/api/Users/GetUserInfo`,
+    getPermission: `${userUrl}/api/Users/Permissions/Ui`,
     confirmEmail: `${userUrl}/api/Users/SendOTPVerification`,
     verifyEmailOTp: `${userUrl}/api/Users/VerifyEmailOTP`,
   },

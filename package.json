@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@capacitor-community/facebook-login": "^3.1.1",
-    "@capacitor/android": "^3.2.5",
+    "@capacitor/android": "^3.3.2",
     "@capacitor/core": "^3.1.2",
     "@capacitor/filesystem": "^1.0.3",
     "@codetrix-studio/capacitor-google-auth": "^3.0.2",

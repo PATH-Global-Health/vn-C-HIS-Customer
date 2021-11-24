@@ -22,7 +22,7 @@ import { useForm } from "react-hook-form";
 import examinationService from "booking/services/examinations";
 const StyleModal = styled(IonModal)`
    {
-    padding: 65% 15%;
+    padding: 30% 15%;
   }
 `;
 interface Props {

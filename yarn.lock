@@ -1208,10 +1208,10 @@
   dependencies:
     "@capacitor/core" "^3.0.0"
 
-"@capacitor/android@^3.2.5":
-  version "3.2.5"
-  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-3.2.5.tgz#fd16b60a03bf15c9c59e118daf5068b93c39438c"
-  integrity sha512-eq9luSS8Bivyp3F46BaUgmPXxMzuUTdZO/bToHIUBu66Ufh4ou/TDg0opMXjuKIYJgjAsddxkPBeREj8KabbSQ==
+"@capacitor/android@^3.3.2":
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-3.3.2.tgz#f305626ea185cd2185fab802a2aedbb32bd6e5b0"
+  integrity sha512-TG+tGz0KxkT/BgvSLQfbQwQ9c4Budub5TRijIGdmMbB1ZYB76TFhwvVuwWZ52HFSlKS3sx/UYLlbULL7UQ2aug==
 
 "@capacitor/cli@^2.4.7":
   version "2.4.8"

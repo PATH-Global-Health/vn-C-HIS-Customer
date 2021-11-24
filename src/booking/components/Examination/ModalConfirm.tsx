@@ -11,7 +11,7 @@ import styled from "styled-components";
 import { ExaminationStatus } from "booking/models/examinationListModel";
 const StyleModal = styled(IonModal)`
    {
-    padding: 65% 15%;
+    padding: 30% 15%;
   }
 `;
 interface Props {

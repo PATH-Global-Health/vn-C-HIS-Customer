@@ -6,7 +6,7 @@ import styles from "../../css/examinationList.module.css";
 import styled from "styled-components";
 const StyleModal = styled(IonModal)`
    {
-    padding: 65% 15%;
+    padding: 30% 15%;
   }
 `;
 interface Props {

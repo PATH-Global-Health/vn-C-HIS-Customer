@@ -386,7 +386,7 @@
 }
 
 .btnCancelCard {
-    width: 150px;
+    width: 40%;
     height: 30px;
     margin-right: -52%;
     margin-top: -150px;
@@ -501,7 +501,7 @@
 }
 
 .btnConfirmCard {
-    width: 150px;
+    width: 40%;
     height: 30px;
     margin-right: -52%;
     margin-top: -150px;

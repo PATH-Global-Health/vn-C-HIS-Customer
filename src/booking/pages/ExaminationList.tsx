@@ -32,6 +32,13 @@ import { deburr } from "../../@app/utils/helpers";
 import examinationService from "../services/examinations";
 import styled from "styled-components";
 import { Rating } from "react-simple-star-rating";
+import ExaminationItem from "booking/components/Examination/ExaminationItem";
+import ExaminationItemHistory from "booking/components/Examination/ExaminationItemHistory";
+import ModalCancel from "booking/components/Examination/ModalCancel";
+import ModalCancelSuccess from "booking/components/Examination/ModalCancelSuccess";
+import { ExaminationStatus } from "booking/models/examinationListModel";
+import ModalConfirm from "booking/components/Examination/ModalConfirm";
+import { BookingModel } from "booking/models/bookingModel";
 const StyleModal = styled(IonModal)`
    {
     padding: 65% 15%;
@@ -41,8 +48,10 @@ const StyleModal = styled(IonModal)`
 const ExaminationList: React.FC = () => {
   const [searchInput, setSearchInput] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [showModalSuccess, setShowModalSuccess] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState("upcoming");
+  const [contentSuccess, setContentSuccess] = useState<string>("");
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -51,23 +60,53 @@ const ExaminationList: React.FC = () => {
   const [nameSearch, setNameSearch] = useState("");
   var cx = classNames.bind(styles);
 
-  const examinationListSuccess = examinationList.data.filter(
-    (e) => e.status === 1
-  );
-  const examinationListFinished = examinationList.data.filter(
-    (e) => e.status === 2
-  );
+  const handleSort = (before: BookingModel, after: BookingModel) => {
+    const beforeDate = moment(
+      moment(before.date).format("YYYY-MM-DD") + " " + before?.interval?.from
+    ).format("YYYY-MM-DD HH:mm");
+
+    const afterDate = moment(
+      moment(after.date).format("YYYY-MM-DD") + " " + after?.interval?.from
+    ).format("YYYY-MM-DD HH:mm");
+
+    // const i = moment(testa).milliseconds
+    return moment(beforeDate).valueOf() - moment(afterDate).valueOf();
+  };
+
+  const examinationListSuccess = examinationList.data
+    .filter((e) => e.status === ExaminationStatus.UNFINISHED)
+    .sort(handleSort);
+  const examinationListFinished = examinationList.data
+    .filter(
+      (e) =>
+        e.status === ExaminationStatus.FINISHED ||
+        e.status === ExaminationStatus.RESULTED
+    )
+    .sort(handleSort)
+    .reverse();
+
   const examinationListSearch = examinationListSuccess.filter((e) =>
     deburr(
-      e.service.name +
-        e.unit.name +
-        e.unit.address +
+      e?.service?.name! +
+        e?.unit?.name +
+        e?.unit?.address +
         moment(e.date).format("DD-MM-YYYY") +
-        e.interval.from +
-        e.doctor.fullname
+        e?.interval?.from +
+        e?.doctor?.fullname!
     ).includes(deburr(nameSearch))
   );
-  const [cancelExamId, setCancelExamId] = useState("");
+
+  const examinationFinishedListSearch = examinationListFinished.filter((e) =>
+    deburr(
+      e?.service?.name! +
+        e?.unit?.name +
+        e?.unit?.address +
+        moment(e.date).format("DD-MM-YYYY") +
+        e?.interval?.from +
+        e?.doctor?.fullname
+    ).includes(deburr(nameSearch))
+  );
+  const [examId, setExamId] = useState("");
   const [rating, setRating] = useState(0);
 
   useEffect(() => {
@@ -81,63 +120,32 @@ const ExaminationList: React.FC = () => {
     ></IonSpinner>
   ) : (
     <IonPage className={styles.styledPage}>
-      <StyleModal
-        isOpen={showModal}
-        cssClass="my-custom-class"
-        onDidDismiss={() => setShowModal(false)}
-      >
-        <div className={styles.styledDivIconModal}>
-          <IonIcon className={styles.styledIconModal} icon={help}></IonIcon>
-        </div>
-        <div className={styles.styledDivLabel}>
-          <p>{t("Are you sure you want to cancel your appointment ?")}</p>
-        </div>
-        <div className={styles.styledDivModal}>
-          <p
-            onClick={async () => {
-              try {
-                setShowModal(false);
-                await examinationService.cancelExamination(cancelExamId);
-                dispatch(getExaminationList());
-                setShowModalSuccess(true);
-              } catch (error) {}
-            }}
-            className={styles.styledLabelModal}
-          >
-            {t("Sure")}
-          </p>
-          <p
-            onClick={() => setShowModal(false)}
-            className={styles.styledLabelModal}
-          >
-            {t("Cancel")}
-          </p>
-        </div>
-      </StyleModal>
-
-      <StyleModal
-        isOpen={showModalSuccess}
-        cssClass="my-custom-class"
-        onDidDismiss={() => setShowModalSuccess(false)}
-      >
-        <div className={styles.styledDivIconModalS}>
-          <IonIcon
-            className={styles.styledIconModal}
-            icon={checkmark}
-          ></IonIcon>
-        </div>
-        <div style={{ textAlign: "center" }}>
-          <p>{t("Appointment has been canceled successfully")}</p>
-        </div>
-        <div className={styles.styledDivModalS}>
-          <p
-            onClick={() => setShowModalSuccess(false)}
-            className={styles.styledLabelModal}
-          >
-            {t("Cancel")}
-          </p>
-        </div>
-      </StyleModal>
+      <ModalCancel
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        setShowModalSuccess={() => {
+          setShowModalSuccess(true);
+          setContentSuccess(t("Appointment has been canceled successfully"));
+        }}
+        cancelExamId={examId}
+      ></ModalCancel>
+      <ModalConfirm
+        open={showModalConfirm}
+        onClose={() => setShowModalConfirm(false)}
+        setShowModalSuccess={() => {
+          setContentSuccess(t("Successful delivery confirmation"));
+          setShowModalSuccess(true);
+        }}
+        examId={examId}
+      ></ModalConfirm>
+      <ModalCancelSuccess
+        content={contentSuccess}
+        open={showModalSuccess}
+        onClose={() => {
+          setShowModalSuccess(false);
+          dispatch(getExaminationList());
+        }}
+      ></ModalCancelSuccess>
       {searchInput === false ? (
         <IonHeader className={styles.header}>
           {/* <IonIcon
@@ -187,326 +195,74 @@ const ExaminationList: React.FC = () => {
       )}
       <IonContent className={styles.content}>
         {searchInput === true ? (
-          <>
-            <IonLabel className={styles.styledLabel}>
-              {t("Your upcoming appointments")}
-            </IonLabel>
-            {examinationListSearch.map((e) => (
-              <div className={styles.styledCardDiv}>
-                <IonCard
-                  onClick={() => {
-                    moment(
-                      moment(e.date).format("YYYY-MM-DD") +
-                        " " +
-                        e.interval.from
-                    ).format("YYYY-MM-DD HH:mm") <
-                    moment(new Date()).format("YYYY-MM-DD HH:mm")
-                      ? console.log("")
-                      : history.push({
-                          pathname: "/apointmentInfo",
-                          state: e.id,
-                        });
-                  }}
-                  className={cx("styledCardAids", {
-                    styledCardBlood:
-                      e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229",
-                    styledCardExpired:
-                      moment(
-                        moment(e.date).format("YYYY-MM-DD") +
-                          " " +
-                          e.interval.from
-                      ).format("YYYY-MM-DD HH:mm") <
-                      moment(new Date()).format("YYYY-MM-DD HH:mm"),
-                  })}
-                >
-                  <div
-                    className={cx("styledDivIconBlood", {
-                      styledDivIconAids:
-                        e.service.id !== "f2490f62-1d28-4edd-362a-08d8a7232229",
-                    })}
-                  >
-                    <IonIcon
-                      className={styles.styledIcon}
-                      icon={
-                        e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229"
-                          ? analytics
-                          : chatbubbles
-                      }
-                    ></IonIcon>
-                  </div>
-                  <IonCardHeader
-                    className={cx("styledCardHeader", {
-                      styledCardHeaderBlood:
-                        e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229",
-                    })}
-                  >
-                    <IonCardTitle
-                      className={cx("styledCardTitle", {
-                        styledCardTitleBlood:
-                          e.service.id ===
-                          "f2490f62-1d28-4edd-362a-08d8a7232229",
-                      })}
-                    >
-                      {e.service.name}
-                    </IonCardTitle>
-                    <IonCardSubtitle
-                      className={cx("styledSubtitle", {
-                        styledSubtitleBlood:
-                          e.service.id ===
-                          "f2490f62-1d28-4edd-362a-08d8a7232229",
-                      })}
-                    >
-                      {t("Time")}: {e.interval.from},{" "}
-                      {moment(e.date).format("DD-MM-YYYY")}
-                    </IonCardSubtitle>
-                    <IonCardSubtitle
-                      className={cx("styledSubtitle", {
-                        styledSubtitleBlood:
-                          e.service.id ===
-                          "f2490f62-1d28-4edd-362a-08d8a7232229",
-                      })}
-                    >
-                      {t("Doctor")}: {e.doctor.fullname}
-                    </IonCardSubtitle>
-                  </IonCardHeader>
-                  <IonCardContent
-                    className={cx("styledCardContent", {
-                      styledCardContentBlood:
-                        e.service.id === "f2490f62-1d28-4edd-362a-08d8a7232229",
-                    })}
-                  >
-                    <p>{e.unit.name}</p>
-                    <p>{e.unit.address}</p>
-                  </IonCardContent>
-                </IonCard>
-                {moment(e.date).format("DD-MM-YYYY") <
-                moment(new Date()).format("DD-MM-YYYY") ? (
-                  ""
-                ) : (
-                  <button
-                    onClick={() => {
-                      moment(e.date).format("DD-MM-YYYY") === "23-07-2021"
-                        ? console.log("")
-                        : setShowModal(true);
-                      setCancelExamId(e.id);
+          Boolean(selectedMenu === "upcoming") ? (
+            <>
+              <IonLabel className={styles.styledLabel}>
+                {t("Your upcoming appointments")}
+              </IonLabel>
+              {examinationListSearch.map((e) => (
+                <div className={styles.styledCardDiv}>
+                  <ExaminationItem
+                    bookingModel={e}
+                    handleClick={() => {
+                      setShowModal(true);
+                      setExamId(e?.id!);
                     }}
-                    className={styles.btnCancelCard}
-                  >
-                    {t("Cancel appointment")}
-                  </button>
-                )}
-              </div>
-            ))}
-          </>
+                    confirmClick={() => {
+                      setContentSuccess(t("Successful delivery confirmation"));
+                      setShowModalConfirm(true);
+                      setExamId(e?.id!);
+                    }}
+                  ></ExaminationItem>
+                </div>
+              ))}
+            </>
+          ) : (
+            <>
+              {examinationFinishedListSearch.map((e) => (
+                <ExaminationItemHistory
+                  bookingModel={e}
+                  handleClick={() => {
+                    setShowModal(true);
+                    setExamId(e?.id!);
+                  }}
+                ></ExaminationItemHistory>
+              ))}
+            </>
+          )
         ) : (
           <>
             {selectedMenu === "upcoming" ? (
               <div className={styles.styledDivUpcoming}>
                 {examinationListSuccess.map((e) => (
                   <div className={styles.styledCardDiv}>
-                    <IonCard
-                      onClick={() => {
-                        moment(
-                          moment(e.date).format("YYYY-MM-DD") +
-                            " " +
-                            e.interval.from
-                        ).format("YYYY-MM-DD HH:mm") <
-                        moment(new Date()).format("YYYY-MM-DD HH:mm")
-                          ? console.log("")
-                          : history.push({
-                              pathname: "/apointmentInfo",
-                              state: e.id,
-                            });
+                    <ExaminationItem
+                      bookingModel={e}
+                      handleClick={() => {
+                        setShowModal(true);
+                        setExamId(e?.id!);
                       }}
-                      className={cx("styledCardAids", {
-                        styledCardBlood:
-                          e.service.id ===
-                          "f2490f62-1d28-4edd-362a-08d8a7232229",
-                        styledCardExpired:
-                          moment(
-                            moment(e.date).format("YYYY-MM-DD") +
-                              " " +
-                              e.interval.from
-                          ).format("YYYY-MM-DD HH:mm") <
-                          moment(new Date()).format("YYYY-MM-DD HH:mm"),
-                      })}
-                    >
-                      <div
-                        className={cx("styledDivIconBlood", {
-                          styledDivIconAids:
-                            e.service.id !==
-                            "f2490f62-1d28-4edd-362a-08d8a7232229",
-                        })}
-                      >
-                        <IonIcon
-                          className={styles.styledIcon}
-                          icon={
-                            e.service.id ===
-                            "f2490f62-1d28-4edd-362a-08d8a7232229"
-                              ? analytics
-                              : chatbubbles
-                          }
-                        ></IonIcon>
-                      </div>
-                      <IonCardHeader
-                        className={cx(
-                          // 'styledCardHeader',
-                          {
-                            styledCardHeaderBlood:
-                              e.service.id ===
-                              "f2490f62-1d28-4edd-362a-08d8a7232229",
-                          }
-                        )}
-                      >
-                        <IonCardTitle
-                          className={cx("styledCardTitle", {
-                            styledCardTitleBlood:
-                              e.service.id ===
-                              "f2490f62-1d28-4edd-362a-08d8a7232229",
-                            styledContentExpired:
-                              moment(
-                                moment(e.date).format("YYYY-MM-DD") +
-                                  " " +
-                                  e.interval.from
-                              ).format("YYYY-MM-DD HH:mm") <
-                              moment(new Date()).format("YYYY-MM-DD HH:mm"),
-                          })}
-                        >
-                          {e.service.name}
-                        </IonCardTitle>
-                        <IonCardSubtitle
-                          className={cx("styledSubtitle", {
-                            styledSubtitleBlood:
-                              e.service.id ===
-                              "f2490f62-1d28-4edd-362a-08d8a7232229",
-                            styledContentExpired:
-                              moment(
-                                moment(e.date).format("YYYY-MM-DD") +
-                                  " " +
-                                  e.interval.from
-                              ).format("YYYY-MM-DD HH:mm") <
-                              moment(new Date()).format("YYYY-MM-DD HH:mm"),
-                          })}
-                        >
-                          {t("Time")}: {e.interval.from},{" "}
-                          {moment(e.date).format("DD-MM-YYYY")}
-                        </IonCardSubtitle>
-                        <IonCardSubtitle
-                          className={cx("styledSubtitle", {
-                            styledSubtitleBlood:
-                              e.service.id ===
-                              "f2490f62-1d28-4edd-362a-08d8a7232229",
-                            styledContentExpired:
-                              moment(
-                                moment(e.date).format("YYYY-MM-DD") +
-                                  " " +
-                                  e.interval.from
-                              ).format("YYYY-MM-DD HH:mm") <
-                              moment(new Date()).format("YYYY-MM-DD HH:mm"),
-                          })}
-                        >
-                          {t("Doctor")}: {e.doctor.fullname}
-                        </IonCardSubtitle>
-                      </IonCardHeader>
-                      <IonCardContent
-                        className={cx("styledCardContent", {
-                          styledCardContentBlood:
-                            e.service.id ===
-                            "f2490f62-1d28-4edd-362a-08d8a7232229",
-                          styledContentExpired:
-                            moment(
-                              moment(e.date).format("YYYY-MM-DD") +
-                                " " +
-                                e.interval.from
-                            ).format("YYYY-MM-DD HH:mm") <
-                            moment(new Date()).format("YYYY-MM-DD HH:mm"),
-                        })}
-                      >
-                        <p>{e.unit.name}</p>
-                        <p
-                          className={classNames({
-                            styledContentExpired:
-                              moment(
-                                moment(e.date).format("YYYY-MM-DD") +
-                                  " " +
-                                  e.interval.from
-                              ).format("YYYY-MM-DD HH:mm") <
-                              moment(new Date()).format("YYYY-MM-DD HH:mm"),
-                          })}
-                        >
-                          {e.unit.address}
-                        </p>
-                      </IonCardContent>
-                    </IonCard>
-                    {moment(
-                      moment(e.date).format("YYYY-MM-DD") +
-                        " " +
-                        e.interval.from
-                    ).format("YYYY-MM-DD HH:mm") <
-                    moment(new Date()).format("YYYY-MM-DD HH:mm") ? (
-                      ""
-                    ) : (
-                      <button
-                        onClick={() => {
-                          // moment(e.date).format("DD-MM-YYYY") === '23-07-2021' ? console.log("") :
-                          setShowModal(true);
-                          setCancelExamId(e.id);
-                        }}
-                        className={styles.btnCancelCard}
-                      >
-                        {t("Cancel appointment")}
-                      </button>
-                    )}
+                      confirmClick={() => {
+                        setContentSuccess(
+                          t("Successful delivery confirmation")
+                        );
+                        setShowModalConfirm(true);
+                        setExamId(e?.id!);
+                      }}
+                    ></ExaminationItem>
                   </div>
                 ))}
               </div>
             ) : (
               <div className={styles.styledDivHistory}>
                 {examinationListFinished.map((e) => (
-                  <IonCard className={styles.styledCardHistory}>
-                    <div className={styles.styledDivIconHistory}>
-                      <IonIcon
-                        className={styles.styledIconHistory}
-                        icon={analytics}
-                      ></IonIcon>
-                    </div>
-                    <IonCardHeader className={styles.styledCardHeader}>
-                      <IonCardTitle className={styles.styledCardTitle}>
-                        {e.service.name}
-                      </IonCardTitle>
-                      <IonCardSubtitle className={styles.styledSubtitle}>
-                        {t("Time")}: {e.interval.to},{" "}
-                        {moment(e.date).format("DD-MM-YYYY")}
-                      </IonCardSubtitle>
-                      <IonCardSubtitle className={styles.styledSubtitle}>
-                        {t("Doctor")}: {e.doctor.fullname}
-                      </IonCardSubtitle>
-                    </IonCardHeader>
-                    <IonCardContent className={styles.styledCardContent}>
-                      <p>{e.unit.name}</p>
-                      <p>{e.unit.address}</p>
-                      {e.rate !== "string" && e.rate !== null ? (
-                        <Rating
-                          onClick={(rate) => setRating(rate)}
-                          ratingValue={parseInt(e.rate)}
-                        />
-                      ) : (
-                        ""
-                      )}
-                    </IonCardContent>
-                    {e.rate === "string" || e.rate === null ? (
-                      <button
-                        onClick={() => {
-                          history.push({ pathname: "/evaluate", state: e.id });
-                        }}
-                        className={styles.btnEvaluate}
-                      >
-                        {t("Evaluate")}
-                      </button>
-                    ) : (
-                      ""
-                    )}
-                  </IonCard>
+                  <ExaminationItemHistory
+                    bookingModel={e}
+                    handleClick={() => {
+                      setShowModal(true);
+                      // setExamId(e.id);
+                    }}
+                  ></ExaminationItemHistory>
                 ))}
               </div>
             )}

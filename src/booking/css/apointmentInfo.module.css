@@ -167,3 +167,9 @@
     font-weight: bolder;
     margin: 0px;
 }
+
+.styledItemRating {
+    width: 31%;
+    margin: 0px auto;
+    padding: 20px 0px;
+}

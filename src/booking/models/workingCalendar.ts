@@ -1,22 +1,27 @@
+import { Room } from "./bookingModel";
+
 export interface WorkingCalendar {
-    date: string,
-    doctor: {
-        description: string,
-        id: string,
-    },
-    room: {
-        description: string,
-        id: string,
-    },
+    date?: string,
+    doctor?: Doctor,
+    room?: Room,
+    id?: string,
+    schedules?: Schedules,
+    service?: Service[] | [],
+    status?: boolean,
+    time?: string,
+}
+
+export interface Doctor {
+    description: string,
     id: string,
-    schedules: {
-        from: string,
-        to: string,
-    },
-    service: [{
-        id: string,
-        description: string,
-    }],
-    status: boolean,
-    time: string,
+}
+
+export interface Service {
+    description: string,
+    id: string,
+}
+
+export interface Schedules {
+    from: string,
+    to: string,
 }

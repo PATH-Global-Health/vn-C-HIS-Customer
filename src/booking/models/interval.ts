@@ -1,11 +1,13 @@
 import { IntervalModel } from "./IntervalModel";
 
 export interface Interval {
-    from: string,
-    intervals: IntervalModel[],
-    to: string,
-    status: string,
-    rate: string;
+    availableQuantity: number;
+    from: string;
+    id: string;
+    isAvailable: boolean;
+    numId: number;
+    status: number;
+    to: string;
 }
 
 

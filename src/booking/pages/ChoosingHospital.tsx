@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
+  IonAvatar,
   IonContent,
   IonHeader,
   IonIcon,
   IonImg,
   IonInput,
+  IonItem,
   IonLabel,
   IonList,
   IonModal,
@@ -25,6 +27,7 @@ import { useTranslation } from "react-i18next";
 import styles from "../css/choosingHospital.module.css";
 import { CityS } from "booking/models/city";
 import { apiLinks } from "@app/utils";
+import HospitalItem from "booking/components/HospitalItem";
 
 const StyledContent = styled(IonContent)`
    {
@@ -55,7 +58,9 @@ const ChoosingHospital: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const hospitalGetAll = useSelector((h) => h.hospital.hospitals);
-  const hospitals = hospitalGetAll.filter((h) => h.isDeleted === false);
+  const hospitals = hospitalGetAll
+    .filter((h) => h.isDeleted === false)
+    .sort((a, b) => a.username.localeCompare(b.username));
 
   const loading = useSelector((b) => b.hospital.loading);
   let listCitySelect: CityS[] = [];
@@ -93,9 +98,20 @@ const ChoosingHospital: React.FC = () => {
   const [city, setCity] = useState();
   const [districts, setDistricts] = useState();
   const [wards, setWards] = useState();
-  const [hospitalName, setHospitalName] = useState<string>("");
-  const searchByName = hospitals.filter((hos) =>
-    deburr(hos.name).includes(deburr(hospitalName))
+  const [textSearch, setTextSearch] = useState<string>("");
+  const searchByText = hospitals.filter((hos) =>
+    deburr(
+      hos.name +
+        hos.address +
+        location.find((item) => item.value === hos.province)?.label +
+        location
+          .find((item) => item.value === hos.province)
+          ?.districts.find((di) => di.value === hos.district)?.label +
+        location
+          .find((item) => item.value === hos.province)
+          ?.districts.find((di) => di.value === hos.district)
+          ?.wards.find((w) => w.value === hos.ward)?.label
+    ).includes(deburr(textSearch))
   );
   const searchByUnitType = hospitals.filter((hos) =>
     deburr(hos.unitTypeId).includes(deburr(unitType))
@@ -134,7 +150,10 @@ const ChoosingHospital: React.FC = () => {
             isOpen={showModal}
             cssClass="my-custom-class"
             swipeToClose={false}
-            onDidDismiss={() => setShowModal(false)}
+            onDidDismiss={() => {
+              setShowModal(false);
+              setTypeSearch("name");
+            }}
           >
             {show === true ? (
               <div>
@@ -240,122 +259,24 @@ const ChoosingHospital: React.FC = () => {
 
             <StyledContent>
               {typeSearch === "unitType"
-                ? searchByUnitType.map((hos) => (
-                    <button
-                      className={styles.btnCustom}
-                      onClick={() => {
-                        dispatch(getHospitalBooking(hos));
-                        history.push("/hospitalDetail", hos);
-                      }}
-                    >
-                      {`${
-                        hos.name.length <= 23
-                          ? hos.name
-                          : hos.name.substring(0, 23) + "..."
-                      }`}
-                      <IonIcon
-                        className={styles.iconRight}
-                        icon={arrowForward}
-                      ></IonIcon>
-                      <IonIcon
-                        className={styles.iconLeft}
-                        icon={podium}
-                      ></IonIcon>
-                      <IonImg
-                        className={styles.img}
-                        src={`${apiLinks.manageSchedule.hospital.getHospitalImage}${hos.id}`}
-                      ></IonImg>
-                    </button>
-                  ))
+                ? searchByUnitType.map((hos) => <HospitalItem hospital={hos} />)
                 : ""}
 
               {typeSearch === "unitTypeCity"
                 ? searchByUnitTypeAndCity.map((hos) => (
-                    <button
-                      className={styles.btnCustom}
-                      onClick={() => {
-                        dispatch(getHospitalBooking(hos));
-                        history.push("/hospitalDetail", hos);
-                      }}
-                    >
-                      {`${
-                        hos.name.length <= 23
-                          ? hos.name
-                          : hos.name.substring(0, 23) + "..."
-                      }`}
-                      <IonIcon
-                        className={styles.iconRight}
-                        icon={arrowForward}
-                      ></IonIcon>
-                      <IonIcon
-                        className={styles.iconLeft}
-                        icon={podium}
-                      ></IonIcon>
-                      <IonImg
-                        className={styles.img}
-                        src={`${apiLinks.manageSchedule.hospital.getHospitalImage}${hos.id}`}
-                      ></IonImg>
-                    </button>
+                    <HospitalItem hospital={hos} />
                   ))
                 : ""}
 
               {typeSearch === "unitTypeCityDistrict"
                 ? searchByUnitTypeAndCityAndDistrict.map((hos) => (
-                    <button
-                      className={styles.btnCustom}
-                      onClick={() => {
-                        dispatch(getHospitalBooking(hos));
-                        history.push("/hospitalDetail", hos);
-                      }}
-                    >
-                      {`${
-                        hos.name.length <= 23
-                          ? hos.name
-                          : hos.name.substring(0, 23) + "..."
-                      }`}
-                      <IonIcon
-                        className={styles.iconRight}
-                        icon={arrowForward}
-                      ></IonIcon>
-                      <IonIcon
-                        className={styles.iconLeft}
-                        icon={podium}
-                      ></IonIcon>
-                      <IonImg
-                        className={styles.img}
-                        src={`${apiLinks.manageSchedule.hospital.getHospitalImage}${hos.id}`}
-                      ></IonImg>
-                    </button>
+                    <HospitalItem hospital={hos} />
                   ))
                 : ""}
 
               {typeSearch === "unitTypeCityDistrictWard"
                 ? searchByUnitTypeAndCityAndDistrictAndWard.map((hos) => (
-                    <button
-                      className={styles.btnCustom}
-                      onClick={() => {
-                        dispatch(getHospitalBooking(hos));
-                        history.push("/hospitalDetail", hos);
-                      }}
-                    >
-                      {`${
-                        hos.name.length <= 23
-                          ? hos.name
-                          : hos.name.substring(0, 23) + "..."
-                      }`}
-                      <IonIcon
-                        className={styles.iconRight}
-                        icon={arrowForward}
-                      ></IonIcon>
-                      <IonIcon
-                        className={styles.iconLeft}
-                        icon={podium}
-                      ></IonIcon>
-                      <IonImg
-                        className={styles.img}
-                        src={`${apiLinks.manageSchedule.hospital.getHospitalImage}${hos.id}`}
-                      ></IonImg>
-                    </button>
+                    <HospitalItem hospital={hos} />
                   ))
                 : ""}
             </StyledContent>
@@ -387,7 +308,7 @@ const ChoosingHospital: React.FC = () => {
                 className={styles.styledInput}
                 onIonChange={(e) => {
                   setTypeSearch("name");
-                  setHospitalName(e.detail.value!);
+                  setTextSearch(e.detail.value!);
                 }}
                 placeholder="Search"
               ></IonInput>
@@ -403,33 +324,7 @@ const ChoosingHospital: React.FC = () => {
             </StyledDiv>
             <div style={{ margin: "30px 0px" }}>
               {typeSearch === "name"
-                ? searchByName.map((hos) => (
-                    <button
-                      className={styles.btnCustom}
-                      onClick={() => {
-                        dispatch(getHospitalBooking(hos));
-                        history.push("/hospitalDetail", hos);
-                      }}
-                    >
-                      {`${
-                        hos.name.length <= 23
-                          ? hos.name
-                          : hos.name.substring(0, 23) + "..."
-                      }`}
-                      <IonIcon
-                        className={styles.iconRight}
-                        icon={arrowForward}
-                      ></IonIcon>
-                      <IonIcon
-                        className={styles.iconLeft}
-                        icon={podium}
-                      ></IonIcon>
-                      <IonImg
-                        className={styles.img}
-                        src={`${apiLinks.manageSchedule.hospital.getHospitalImage}${hos.id}`}
-                      ></IonImg>
-                    </button>
-                  ))
+                ? searchByText.map((hos) => <HospitalItem hospital={hos} />)
                 : ""}
             </div>
           </StyledContent>

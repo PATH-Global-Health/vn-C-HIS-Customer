@@ -396,7 +396,7 @@
     z-index: 1;
     position: absolute;
     bottom: 10%;
-    /* right: 3%; */
+    right: 55%;
 }
 
 .btnEvaluate {
@@ -407,6 +407,7 @@
     background-color: rgb(10, 41, 143);
     color: white;
     border-radius: 5px;
+    z-index: 1;
 }
 
 .styledCardBlood {
@@ -418,7 +419,7 @@
 }
 
 .styledCardDiv {
-    background-color: #3b4a74;
+    /* background-color: #3b4a74; */
     position: relative;
     z-index: 0;
     width: 93%;
@@ -437,6 +438,7 @@
 
 .styledCardHistory {
     background-color: rgb(246, 246, 246);
+    z-index: 0;
 }
 
 .styledDivModal{
@@ -496,4 +498,18 @@
 
 .styledContentExpired{
     color: white;
+}
+
+.btnConfirmCard {
+    width: 150px;
+    height: 30px;
+    margin-right: -52%;
+    margin-top: -150px;
+    background-color: #006ab5;
+    color: white;
+    border-radius: 5px;
+    z-index: 1;
+    position: absolute;
+    bottom: 10%;
+    left: 3%;
 }

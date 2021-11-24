@@ -11,16 +11,32 @@ import {
   IonPage,
   IonModal,
   IonSpinner,
+  IonCard,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonCardContent,
+  IonButton,
 } from "@ionic/react";
 import { useSelector, useDispatch } from "@app/hooks";
 import "react-day-picker/lib/style.css";
 import { useHistory } from "react-router-dom";
 import {
+  businessSharp,
   calendarOutline,
   checkmark,
   chevronBack,
   help,
+  layers,
+  personOutline,
+  phoneLandscape,
+  phonePortraitOutline,
   timeOutline,
+  walk,
+  warning,
+  water,
+  wifi,
+  wine,
 } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import { getExaminationById, getUserInfo } from "../slices/workingCalendar";
@@ -29,6 +45,16 @@ import moment from "moment";
 import styled from "styled-components";
 import examinationService from "../services/examinations";
 import { apiLinks } from "@app/utils";
+import { TestingContent } from "booking/models/bookingModel";
+import {
+  ExaminationService,
+  ExaminationStatus,
+} from "booking/models/examinationListModel";
+import ApointmentInfoDetail from "booking/components/Examination/ApointmentInfoDetail";
+import { Rating } from "react-simple-star-rating";
+import ModalCancel from "booking/components/Examination/ModalCancel";
+import ModalCancelSuccess from "booking/components/Examination/ModalCancelSuccess";
+import ModalConfirm from "booking/components/Examination/ModalConfirm";
 const StyleModal = styled(IonModal)`
    {
     padding: 65% 15%;
@@ -40,14 +66,18 @@ const ApointmentInfo: React.FC = () => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [showModalSuccess, setShowModalSuccess] = useState(false);
+  const [showModalConfirm, setShowModalConfirm] = useState(false);
   const bookingModel = useSelector(
     (b) => b.workingCaledar.bookingModelResponse
   );
+
+  const testingContent = bookingModel?.data.testingContent as TestingContent;
   const examinationSuccess = useSelector(
     (b) => b.workingCaledar.examinationSuccess
   );
   const loading = useSelector((b) => b.workingCaledar.loading);
-  const [cancelExamId, setCancelExamId] = useState("");
+  const [examId, setExamId] = useState("");
+  const [contentSuccess, setContentSuccess] = useState<string>("");
   const { t } = useTranslation();
   const serviceId = useSelector((w) => w.workingCaledar.serviceId);
   useEffect(() => {
@@ -68,68 +98,34 @@ const ApointmentInfo: React.FC = () => {
         ></IonSpinner>
       ) : (
         <IonPage className={styles.styledPage}>
-          <StyleModal
-            isOpen={showModal}
-            cssClass="my-custom-class"
-            onDidDismiss={() => setShowModal(false)}
-          >
-            <div className={styles.styledDivIconModal}>
-              <IonIcon className={styles.styledIconModal} icon={help}></IonIcon>
-            </div>
-            <div className={styles.styledDivLabel}>
-              <p>{t("Are you sure you want to cancel your appointment ?")}</p>
-            </div>
-            <div className={styles.styledDivModal}>
-              <p
-                onClick={async () => {
-                  try {
-                    await examinationService.cancelExamination(cancelExamId);
-                    setShowModal(false);
-                    setShowModalSuccess(true);
-                  } catch (error) {}
-                }}
-                className={styles.styledLabelModal}
-              >
-                {t("Sure")}
-              </p>
-              <p
-                onClick={() => setShowModal(false)}
-                className={styles.styledLabelModal}
-              >
-                {t("Cancel")}
-              </p>
-            </div>
-          </StyleModal>
-
-          <StyleModal
-            isOpen={showModalSuccess}
-            cssClass="my-custom-class"
-            onDidDismiss={() => {
+          <ModalCancel
+            open={showModal}
+            onClose={() => setShowModal(false)}
+            setShowModalSuccess={() => {
+              setShowModalSuccess(true);
+              setContentSuccess(
+                t("Appointment has been canceled successfully")
+              );
+            }}
+            cancelExamId={examId}
+          ></ModalCancel>
+          <ModalConfirm
+            open={showModalConfirm}
+            onClose={() => setShowModalConfirm(false)}
+            setShowModalSuccess={() => {
+              setShowModalSuccess(true);
+              setContentSuccess(t("Successful delivery confirmation"));
+            }}
+            examId={examId}
+          ></ModalConfirm>
+          <ModalCancelSuccess
+            content={contentSuccess}
+            open={showModalSuccess}
+            onClose={() => {
               setShowModalSuccess(false);
               history.push("/examinationList");
             }}
-          >
-            <div className={styles.styledDivIconModalS}>
-              <IonIcon
-                className={styles.styledIconModal}
-                icon={checkmark}
-              ></IonIcon>
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <p>{t("Appointment has been canceled successfully")}</p>
-            </div>
-            <div className={styles.styledDivModalS}>
-              <p
-                onClick={() => {
-                  setShowModalSuccess(false);
-                  history.push("/examinationList");
-                }}
-                className={styles.styledLabelModal}
-              >
-                {t("Cancel")}
-              </p>
-            </div>
-          </StyleModal>
+          ></ModalCancelSuccess>
 
           {examinationSuccess === true &&
           history.location.state === undefined ? (
@@ -173,7 +169,7 @@ const ApointmentInfo: React.FC = () => {
                     <IonLabel className={styles.styledLabel} position="stacked">
                       {t("Service name")}
                     </IonLabel>
-                    <IonInput readonly value={bookingModel.data.service.name}>
+                    <IonInput readonly value={bookingModel?.data.service?.name}>
                       {" "}
                     </IonInput>
                   </IonItem>
@@ -183,7 +179,7 @@ const ApointmentInfo: React.FC = () => {
                     </IonLabel>
                     <IonInput
                       readonly
-                      value={bookingModel.data.doctor.fullname}
+                      value={bookingModel?.data?.doctor?.fullname!}
                     >
                       {" "}
                     </IonInput>
@@ -195,7 +191,7 @@ const ApointmentInfo: React.FC = () => {
                     <IonInput
                       readonly
                       className={styles.styledInput}
-                      value={moment(bookingModel.data.date).format(
+                      value={moment(bookingModel?.data.date).format(
                         "DD/MM/YYYY"
                       )}
                     >
@@ -213,7 +209,7 @@ const ApointmentInfo: React.FC = () => {
                     <IonInput
                       readonly
                       className={styles.styledInput}
-                      value={bookingModel.data.interval.from}
+                      value={bookingModel?.data?.interval?.from}
                     >
                       <IonIcon
                         className={styles.styledIconInput}
@@ -229,31 +225,98 @@ const ApointmentInfo: React.FC = () => {
                     <IonInput
                       readonly
                       className={styles.styledInput}
-                      value={bookingModel.data.unit.name}
+                      value={bookingModel?.data?.unit?.name}
                     >
                       <IonImg
                         className={styles.img}
-                        src={`${apiLinks.manageSchedule.hospital.getHospitalImage}${bookingModel.data.unit.id}`}
+                        src={`${apiLinks.manageSchedule.hospital.getHospitalImage}${bookingModel?.data?.unit?.id}`}
                       ></IonImg>
                     </IonInput>
                   </IonItem>
+
+                  {/* {Boolean(
+                    bookingModel?.data?.status === ExaminationStatus.FINISHED
+                  ) && (
+                    
+                  )} */}
+
+                  {/* {testingContent?.typeTesting && ( */}
+                  <ApointmentInfoDetail
+                    data={bookingModel!}
+                  ></ApointmentInfoDetail>
+                  {/* )} */}
                 </IonList>
               </IonContent>
+              <div className={styles.styledItemRating}>
+                {Boolean(
+                  bookingModel?.data.rate !== "string" &&
+                    bookingModel?.data.rate !== null
+                ) ? (
+                  <Rating
+                    onClick={(rate) => console.log("")}
+                    ratingValue={parseInt(bookingModel?.data?.rate!)}
+                  />
+                ) : (
+                  Boolean(
+                    bookingModel?.data.status === ExaminationStatus.FINISHED ||
+                      bookingModel?.data.status === ExaminationStatus.RESULTED
+                  ) && (
+                    <IonButton
+                      onClick={() => {
+                        history.push({
+                          pathname: "/evaluate",
+                          state: bookingModel?.data?.id,
+                        });
+                      }}
+                    >
+                      {t("Evaluate")}
+                    </IonButton>
+                  )
+                )}
+
+                {Boolean(
+                  bookingModel?.data?.status === ExaminationStatus.UNFINISHED &&
+                    bookingModel?.data?.service?.id ===
+                      ExaminationService.TESTING &&
+                    !testingContent.isPickUpAtTheFacility
+                ) && (
+                  <IonButton
+                    // color=""
+                    onClick={() => {
+                      setExamId(bookingModel?.data?.id!);
+                      setShowModalConfirm(true);
+                    }}
+                  >
+                    {t("Received")}
+                  </IonButton>
+                )}
+              </div>
               <button
                 className={styles.btnExamination}
                 onClick={() => history.push("/examinationList")}
               >
                 {t("View Examination List")}
               </button>
-              <button
-                className={styles.styledButtonCancel}
-                onClick={() => {
-                  setCancelExamId(bookingModel.data.id);
-                  setShowModal(true);
-                }}
-              >
-                {t("Cancel appointment")}
-              </button>
+              {!Boolean(
+                moment(
+                  moment(bookingModel?.data?.date).format("YYYY-MM-DD") +
+                    " " +
+                    bookingModel?.data?.interval?.from
+                ).format("YYYY-MM-DD HH:mm") <
+                  moment(new Date()).format("YYYY-MM-DD HH:mm") ||
+                  bookingModel?.data?.status === ExaminationStatus.FINISHED ||
+                  bookingModel?.data?.status === ExaminationStatus.RESULTED
+              ) && (
+                <button
+                  className={styles.styledButtonCancel}
+                  onClick={() => {
+                    setExamId(bookingModel?.data?.id!);
+                    setShowModal(true);
+                  }}
+                >
+                  {t("Cancel appointment")}
+                </button>
+              )}
             </>
           ) : (
             <IonHeader className={styles.header}>

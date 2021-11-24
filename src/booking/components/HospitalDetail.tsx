@@ -22,7 +22,7 @@ import {
 } from "../slices/workingCalendar";
 import { useTranslation } from "react-i18next";
 import styles from "../css/hospitalDetail.module.css";
-import location from "../../@app/mock/locations.json";
+import location from "@app/mock/locations.json";
 import { apiLinks } from "@app/utils";
 
 const HospitalDetail: React.FC = () => {
@@ -40,13 +40,13 @@ const HospitalDetail: React.FC = () => {
   const getInterval = () => {
     dateByUnitAndServices.map((date) => {
       if (
-        new Date(date.date).getDate() === new Date(d).getDate() &&
-        new Date(date.date).getMonth() === new Date(d).getMonth() &&
-        new Date(date.date).getFullYear() === new Date(d).getFullYear()
+        new Date(date.date!).getDate() === new Date(d).getDate() &&
+        new Date(date.date!).getMonth() === new Date(d).getMonth() &&
+        new Date(date.date!).getFullYear() === new Date(d).getFullYear()
       ) {
         console.log(date.id);
         dispatch(getWorkingCalendarBooking(date));
-        dispatch(getIntervals(date.id));
+        dispatch(getIntervals(date.id!));
       } else {
         dispatch(setInterval([]));
       }

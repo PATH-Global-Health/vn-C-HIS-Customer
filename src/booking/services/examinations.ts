@@ -2,7 +2,7 @@ import { UserInfo } from 'booking/models/userInfoModel';
 import { httpClient, apiLinks } from '@app/utils';
 import { BookingModel } from 'booking/models/bookingModel';
 import { BookingModelResponse } from 'booking/models/bookingModelResponse';
-import { ExaminationListModel } from 'booking/models/examinationListModel';
+import { ExaminationListModel, ExaminationUpdate } from 'booking/models/examinationListModel';
 import { UserProfile } from 'booking/models/userProfile';
 import { File } from "@ionic-native/file";
 import { FileOpener } from "@ionic-native/file-opener";
@@ -12,64 +12,8 @@ const postExaminations = async (da: BookingModel): Promise<BookingModelResponse>
 
     const response = await httpClient.post({
         url: apiLinks.bookingService.postExaminations,
-        data: {
-            interval: {
-                id: da.interval.id,
-                from: da.interval.from,
-                to: da.interval.to,
-                numId: da.interval.numId
-            },
-            unit: {
-                id: da.unit.id,
-                name: da.unit.name,
-                information: da.unit.information,
-                address: da.unit.address,
-                username: da.unit.username,
-            },
-            doctor: {
-                id: da.doctor.id,
-                fullname: da.doctor.fullname,
-            },
-            room: {
-                id: da.room.id,
-                name: da.room.name
-            },
-            service: {
-                id: da.service.id,
-                name: da.service.name
-            },
-            customer: {
-                id: da.customer.id,
-                fullname: da.customer.fullname,
-                phone: da.customer.phone,
-                email: da.customer.email,
-                address: da.customer.address,
-                birthDate: da.customer.birthDate,
-                gender: da.customer.gender,
-                provinceCode: da.customer.provinceCode,
-                districtCode: da.customer.districtCode,
-                wardCode: da.customer.wardCode,
-                ic: da.customer.ic,
-                nation: da.customer.nation,
-                passportNumber: da.customer.passportNumber,
-                vaccinationCode: da.customer.vaccinationCode
-            },
-            contacts: [
-                {
-                    fullname: "",
-                    phone: "",
-                    relationship: ""
-                }
-            ],
-            note: da.note,
-            date: da.date,
-            bookedByUser: da.bookedByUser,
-            exitInformation: {
-                destination: da.exitInformation.destination,
-                exitingDate: da.exitInformation.exitingDate,
-                entryingDate: da.exitInformation.entryingDate
-            }
-        },
+        data: da 
+        
     });
     return response.data as BookingModelResponse;
 };
@@ -99,16 +43,10 @@ const cancelExamination = async (id: string): Promise<void> => {
     });
 };
 
-const evaluateExamination = async (id: string, rate: string, typeRating: string, dest: string): Promise<void> => {
+const updateExamination = async (data: ExaminationUpdate): Promise<void> => {
     await httpClient.put({
         url: apiLinks.bookingService.postExaminations,
-        data: {
-            id: id,
-            rate: rate,
-            status: 2,
-            typeRating: typeRating,
-            dest: dest
-        },
+        data: data,
     });
 };
 
@@ -187,7 +125,7 @@ const examinationServices = {
     putUserProfile,
     getExaminationById,
     cancelExamination,
-    evaluateExamination
+    updateExamination
 };
 
 

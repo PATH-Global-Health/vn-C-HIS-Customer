@@ -11,217 +11,34 @@ import { UserProfile } from 'booking/models/userProfile';
 
 interface State {
     workingCalendars: WorkingCalendar[];
-    workingCalendar: WorkingCalendar;
+    workingCalendar: WorkingCalendar | undefined;
     interval: Interval[];
-    intervalBooking: IntervalModel;
-    bookingModel: BookingModel;
-    bookingModelResponse: BookingModelResponse;
+    intervalBooking: Interval | undefined;
+    bookingModel: BookingModel | undefined;
+    bookingModelResponse: BookingModelResponse | undefined;
     serviceId: "";
     examinationList: ExaminationListModel,
-    userInfo: UserInfo,
-    userProfile: UserProfile,
+    userInfo: UserInfo | undefined,
+    userProfile: UserProfile | undefined,
     examinationSuccess: boolean,
     loading: boolean;
 }
 
 const initialState: State = {
     workingCalendars: [],
-    workingCalendar: {
-        date: "",
-        doctor: {
-            description: "",
-            id: "",
-        },
-        room: {
-            description: "",
-            id: "",
-        },
-        id: "",
-        schedules: {
-            from: "",
-            to: "",
-        },
-        service: [{
-            id: "",
-            description: "",
-        }],
-        status: false,
-        time: "",
-    },
+    workingCalendar: undefined,
     interval: [],
-    intervalBooking: {
-        from: "",
-        id: "",
-        isAvailable: false,
-        numId: 0,
-        status: 0,
-        to: "",
-    },
-    bookingModelResponse: {
-        data: {
-            resultDate: "",
-            result: "",
-            rate: "",
-            status: 0,
-            id: "",
-            interval: {
-                id: "",
-                from: "",
-                to: "",
-                numId: 0
-            },
-            unit: {
-                id: "",
-                name: "",
-                information: "",
-                address: "",
-                username: "",
-            },
-            doctor: {
-                id: "",
-                fullname: "",
-            },
-            room: {
-                id: "",
-                name: ""
-            },
-            service: {
-                id: "",
-                name: ""
-            },
-            customer: {
-                id: "",
-                fullname: "",
-                phone: "",
-                email: "",
-                address: "",
-                birthDate: "",
-                gender: true,
-                provinceCode: "",
-                districtCode: "",
-                wardCode: "",
-                ic: "",
-                nation: "",
-                passportNumber: "",
-                vaccinationCode: ""
-            },
-            contacts: [
-                {
-                    fullname: "",
-                    phone: "",
-                    relationship: ""
-                }
-            ],
-            note: "",
-            date: "",
-            bookedByUser: "",
-            exitInformation: {
-                destination: "",
-                exitingDate: "",
-                entryingDate: ""
-            }
-        },
-        errorMessage: null,
-        succeed: false,
-        
-    }
-    ,
-    bookingModel: {
-        resultDate: "",
-        result: "",
-        rate: "",
-        status: 0,
-        id: "",
-        interval: {
-            id: "",
-            from: "",
-            to: "",
-            numId: 0
-        },
-        unit: {
-            id: "",
-            name: "",
-            information: "",
-            address: "",
-            username: "",
-        },
-        doctor: {
-            id: "",
-            fullname: "",
-        },
-        room: {
-            id: "",
-            name: ""
-        },
-        service: {
-            id: "",
-            name: ""
-        },
-        customer: {
-            id: "",
-            fullname: "",
-            phone: "",
-            email: "",
-            address: "",
-            birthDate: "",
-            gender: true,
-            provinceCode: "",
-            districtCode: "",
-            wardCode: "",
-            ic: "",
-            nation: "",
-            passportNumber: "",
-            vaccinationCode: ""
-        },
-        contacts: [
-            {
-                fullname: "",
-                phone: "",
-                relationship: ""
-            }
-        ],
-        note: "",
-        date: "",
-        bookedByUser: "",
-        exitInformation: {
-            destination: "",
-            exitingDate: "",
-            entryingDate: ""
-        }
-    },
+    intervalBooking: undefined,
+    bookingModelResponse: undefined,
+    bookingModel: undefined,
     serviceId: "",
     examinationList: {
         data: [],
         errorMessage: null,
         succeed: false,
     },
-    userInfo: {
-        data: {
-            id: "",
-            username: "",
-            email: "",
-            phoneNumber: "",
-            fullName: "",
-        },
-        errorMessage: null,
-        succeed: false,
-    },
-    userProfile: {
-        fullname: "",
-        gender: false,
-        dateOfBirth: "",
-        phoneNumber: "",
-        email: "",
-        vaccinationCode: "",
-        identityCard: "",
-        address: "",
-        province: "",
-        district: "",
-        ward: "",
-        passportNumber: "",
-        nation: "",
-        id: "",
-    },
+    userInfo: undefined,
+    userProfile: undefined,
     examinationSuccess: false,
     loading: false,
 };
@@ -233,6 +50,7 @@ const getDateByUnitAndService = createAsyncThunk('workingCalendar/getDateByUnitA
 });
 
 const getIntervals = createAsyncThunk('workingCalendar/getInterval', async (dayId: string) => {
+    // const result = await bookingServices.workingCalendarService.getIntervals(dayId);
     const result = await bookingServices.workingCalendarService.getIntervals(dayId);
     return result;
 });

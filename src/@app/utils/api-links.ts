@@ -78,6 +78,7 @@ const apiLinks = {
     workingCalendar: {
       getDaysByUnitAndService: `${smapi}/api/WorkingCalendars/GetDaysByUnitAndService`,
       getInterval: `${smapi}/api/WorkingCalendars/GetIntervals`,
+      getIntervalsWithDayId: `${smapi}/api/WorkingCalendars/GetIntervalsWithDayId`,
     },
     days: {
       get: `${smapi}/api/Days/WorkingDate`,

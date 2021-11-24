@@ -1,7 +1,7 @@
 .btnCustom {
-    width: 90%;
-    height: 50px;
-    background: white;
+    /* width: 90%; */
+    /* height: 50px; */
+    /* background: white; */
     text-align: center;
     color: black;
     border: 1px solid #d7d8da;
@@ -9,7 +9,7 @@
     position: relative;
     font-family: system-ui;
     font-size: 18px;
-    margin-top: 10px;
+    margin: 10px;
 }
 
 .btnCustomHeader {
@@ -34,12 +34,12 @@
     position: relative,
 }
 
-.iconRight {
+/* .iconRight {
     font-size: larger;
     color: #b3b3b3;
     right: 10px;
     position: absolute;
-}
+} */
 
 .iconLeft {
     font-size: x-large;

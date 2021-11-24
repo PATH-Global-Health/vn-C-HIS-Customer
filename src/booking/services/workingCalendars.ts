@@ -17,7 +17,8 @@ const getDateByUnitAndService = async (unitId: string, serviceId: string): Promi
   const getIntervals = async (dayId: string): Promise<Interval[]> => {
     try {
       const result = await httpClient.get({
-        url: apiLinks.manageSchedule.workingCalendar.getInterval + `/${dayId}`,
+        // url: apiLinks.manageSchedule.workingCalendar.getInterval + `/${dayId}`,
+        url: apiLinks.manageSchedule.workingCalendar.getIntervalsWithDayId + `/${dayId}`,
       });
       return result.data as [];
     } catch (error) {

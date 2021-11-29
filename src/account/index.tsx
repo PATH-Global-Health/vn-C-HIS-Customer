@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import OtpInput from 'react-otp-input';
 import {
   IonAlert,
   IonAvatar,
@@ -31,16 +30,17 @@ import {
 } from 'ionicons/icons';
 
 import { useHistory } from "react-router-dom";
-
-import logo from '@app/assets/img/logo.png'
-import avatar from '@app/assets/img/avatar.png';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { useTranslation } from 'react-i18next';
 import { useAuth, useDispatch, useSelector } from '@app/hooks';
 import { getProfile } from './profile/profile.slice';
 import { getUserInfo } from '@app/slices/auth';
-import authService from '@app/services/auth';
 import { useForm } from 'react-hook-form';
+import authService from '@app/services/auth';
 import OtpModal from '@app/components/otp';
+import OtpInput from 'react-otp-input';
+import logo from '@app/assets/img/logo.png'
+import avatar from '@app/assets/img/avatar.png';
 
 
 const StyledItem = styled(IonItem)`
@@ -143,43 +143,14 @@ const Account: React.FC = () => {
       color: "#3ac6e1"
     },
   ];
-  /* const sendOTP = async (phoneNumber: string): Promise<void> => {
+  const logoutGoogle = async (): Promise<void> => {
+    GoogleAuth.init();
     try {
-      await authService.sendPhoneOTP(phoneNumber);
-      setVerifyOTP(true);
-    }
-    catch (err) {
-      console.log(err);
+      await GoogleAuth.signOut();
+    } catch (error) {
+      console.log(error);
     }
   }
-  const handleVerifyAccount = (phoneNumber: string) => {
-    if (phoneNumber !== '') {
-      sendOTP(phoneNumber)
-    }
-    else {
-      setVerifyCode(true);
-    }
-  }
-  const handlePhoneAction = async (): Promise<void> => {
-    const phoneNumber = getValues('phoneNumber');
-    try {
-      await authService.updatePhoneNumber({ fullName: '', phoneNumber: phoneNumber });
-      sendOTP(phoneNumber);
-      setVerifyOTP(true);
-    }
-    catch {
-      setUpdatePhoneNumberFailed(true);
-    }
-  }
-  const verifyPhoneOTP = async (otp: string): Promise<void> => {
-    authService.verifyPhoneOTP({ phoneNumber: getValues('phoneNumber'), otp: otp })
-      .then(() => {
-        setVerifyOTPSucess(true);
-      })
-      .catch(() => {
-        setVerifyOTPFailed(true);
-      })
-  }; */
   const sendOTP = async (data: string, type: string): Promise<void> => {
     const params = { phoneNumber: data };
     setDataEntry({ type, data });
@@ -488,6 +459,7 @@ const Account: React.FC = () => {
               text: t('Agree'),
               handler: () => {
                 logout();
+                logoutGoogle();
                 setTimeout(() => {
                   history.push('/login');
                 }, 0);

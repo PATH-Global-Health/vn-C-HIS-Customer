@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import {
-
   IonCol,
   IonContent,
   IonHeader,
@@ -10,7 +9,6 @@ import {
   IonRow,
   IonTitle,
 } from '@ionic/react';
-
 
 import { useTranslation } from 'react-i18next';
 import { chevronBackOutline } from 'ionicons/icons';

@@ -64,7 +64,7 @@ const HospitalDetail: React.FC = () => {
   return (
     <>
       {serviceId === "" ? (
-        history.push("/home")
+        history.replace("/home")
       ) : loading === true ? (
         <IonSpinner
           name="bubbles"
@@ -76,7 +76,7 @@ const HospitalDetail: React.FC = () => {
           <IonHeader className={styles.header}>
             <button
               className={styles.btnCustomHeader}
-              onClick={() => history.goBack()}
+              onClick={() => history.replace("/choosingHospital")}
             >
               <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
             </button>
@@ -189,9 +189,9 @@ const HospitalDetail: React.FC = () => {
             onClick={() => {
               if (typeChoosing === "apointmentDate") {
                 getInterval();
-                history.push("/choosingTime");
+                history.replace("/choosingTime");
               } else if (typeChoosing === "choosingHospital") {
-                history.push("/apointmentDate");
+                history.replace("/apointmentDate");
               }
             }}
           >

@@ -89,7 +89,7 @@ const ApointmentInfo: React.FC = () => {
   return (
     <>
       {serviceId === "" && history.location.state === undefined ? (
-        history.push("/home")
+        history.replace("/home")
       ) : loading === true ? (
         <IonSpinner
           name="bubbles"
@@ -123,7 +123,7 @@ const ApointmentInfo: React.FC = () => {
             open={showModalSuccess}
             onClose={() => {
               setShowModalSuccess(false);
-              history.push("/examinationList");
+              history.replace("/examinationList");
             }}
           ></ModalCancelSuccess>
 
@@ -159,6 +159,21 @@ const ApointmentInfo: React.FC = () => {
           history.location.state !== undefined ? (
             <>
               <IonHeader className={styles.header}>
+                <button
+                  className={styles.btnCustomHeader}
+                  onClick={() => {
+                    if (Boolean(history.location.state)) {
+                      history.replace("/examinationList");
+                    } else {
+                      history.replace("/confirmProfile");
+                    }
+                  }}
+                >
+                  <IonIcon
+                    className={styles.iconLeft}
+                    icon={chevronBack}
+                  ></IonIcon>
+                </button>
                 <IonLabel className={styles.headerLabel}>
                   {t("Appointment information")}
                 </IonLabel>
@@ -263,7 +278,7 @@ const ApointmentInfo: React.FC = () => {
                   ) && (
                     <IonButton
                       onClick={() => {
-                        history.push({
+                        history.replace({
                           pathname: "/evaluate",
                           state: bookingModel?.data?.id,
                         });
@@ -293,7 +308,7 @@ const ApointmentInfo: React.FC = () => {
               </div>
               <button
                 className={styles.btnExamination}
-                onClick={() => history.push("/examinationList")}
+                onClick={() => history.replace("/examinationList")}
               >
                 {t("View Examination List")}
               </button>

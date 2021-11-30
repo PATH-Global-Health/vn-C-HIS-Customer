@@ -39,7 +39,7 @@ const ChoosingTime: React.FC = () => {
   return (
     <>
       {serviceId === "" ? (
-        history.push("/home")
+        history.replace("/home")
       ) : loading === true ? (
         <IonSpinner
           name="bubbles"
@@ -51,7 +51,7 @@ const ChoosingTime: React.FC = () => {
           <IonHeader className={styles.header}>
             <button
               className={styles.btnCustomHeader}
-              onClick={() => history.goBack()}
+              onClick={() => history.replace("/apointmentDate")}
             >
               <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
             </button>
@@ -100,7 +100,7 @@ const ChoosingTime: React.FC = () => {
                   ) > moment(new Date()).format("YYYY-MM-DD HH:mm")
                 ) {
                   dispatch(getInterBooking(intervalSelected));
-                  history.push("/confirmProfile");
+                  history.replace("/confirmProfile");
                 } else {
                   setShowAlert(true);
                 }

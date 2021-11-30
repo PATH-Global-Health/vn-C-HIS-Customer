@@ -66,7 +66,7 @@ const DoctorList: React.FC = () => {
     <IonPage className={styles.styledPage}>
       <IonHeader className={styles.header}>
         <IonIcon
-          onClick={() => history.goBack()}
+          onClick={() => history.replace("/home")}
           className={styles.iconLeft}
           icon={chevronBack}
         ></IonIcon>
@@ -98,7 +98,7 @@ const DoctorList: React.FC = () => {
             <div className={styles.styledCardDiv}>
               <IonCard
                 onClick={() =>
-                  history.push({
+                  history.replace({
                     pathname: "/doctorDetail",
                     state: d as DoctorData,
                   })

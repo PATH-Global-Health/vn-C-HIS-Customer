@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import OtpInput from 'react-otp-input';
+import React, { useCallback, useEffect, useState } from "react";
+import styled from "styled-components";
+import OtpInput from "react-otp-input";
 import {
   IonAlert,
   IonAvatar,
@@ -16,7 +16,7 @@ import {
   IonSelect,
   IonSelectOption,
   IonToast,
-} from '@ionic/react';
+} from "@ionic/react";
 import {
   person,
   chevronForwardOutline,
@@ -28,31 +28,30 @@ import {
   language,
   informationCircleOutline,
   newspaperOutline,
-} from 'ionicons/icons';
+} from "ionicons/icons";
 
 import { useHistory } from "react-router-dom";
 
-import logo from '@app/assets/img/logo.png'
-import avatar from '@app/assets/img/avatar.png';
-import { useTranslation } from 'react-i18next';
-import { useAuth, useDispatch, useSelector } from '@app/hooks';
-import { getProfile } from './profile/profile.slice';
-import { getUserInfo } from '@app/slices/auth';
-import authService from '@app/services/auth';
-import { useForm } from 'react-hook-form';
-import OtpModal from '@app/components/otp';
-
+import logo from "@app/assets/img/logo.png";
+import avatar from "@app/assets/img/avatar.png";
+import { useTranslation } from "react-i18next";
+import { useAuth, useDispatch, useSelector } from "@app/hooks";
+import { getProfile } from "./profile/profile.slice";
+import { getUserInfo } from "@app/slices/auth";
+import authService from "@app/services/auth";
+import { useForm } from "react-hook-form";
+import OtpModal from "@app/components/otp";
 
 const StyledItem = styled(IonItem)`
   margin: 0px 15px;
   --min-height: 20px;
 `;
 const StyledSocialButton = styled(IonButton)`
-    border: 0.5px solid #d6d6c2;
-    color: #7b7b7b;
-    font-weight: 600;
-    width: 300px;
-    --background: white;
+  border: 0.5px solid #d6d6c2;
+  color: #7b7b7b;
+  font-weight: 600;
+  width: 300px;
+  --background: white;
 `;
 const StyledIcon = styled(IonIcon)`
   margin: 25px 30px 15px 0px;
@@ -75,11 +74,11 @@ const StyledOtpInput = styled(OtpInput)`
   margin: auto;
   text-align: center;
   margin-top: 220px;
-  input{
+  input {
     padding: 10px;
     color: #3e3c3c !important;
-    background-color:white;
-    font-weight:600;  
+    background-color: white;
+    font-weight: 600;
   }
 `;
 interface OptionProps {
@@ -87,8 +86,7 @@ interface OptionProps {
   label: string;
   color: string;
   [otherProps: string]: unknown;
-};
-
+}
 
 const Account: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -96,11 +94,16 @@ const Account: React.FC = () => {
   const dispatch = useDispatch();
   const { logout } = useAuth();
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [otp, setOtp] = useState<string>('');
-  const { register, formState: { errors }, getValues, setValue } = useForm();
+  const [otp, setOtp] = useState<string>("");
+  const {
+    register,
+    formState: { errors },
+    getValues,
+    setValue,
+  } = useForm();
   const [verifyCode, setVerifyCode] = useState<boolean>(false);
   const { profile } = useSelector((s) => s.profile);
-  const userData = useSelector(s => s.auth.userInfo?.data);
+  const userData = useSelector((s) => s.auth.userInfo?.data);
 
   const [verifyPhoneNumber, setVerifyPhoneNumber] = useState<boolean>(false);
   const [verifyOTP, setVerifyOTP] = useState<boolean>(false);
@@ -115,32 +118,32 @@ const Account: React.FC = () => {
     {
       name: "profile",
       icon: "profile",
-      label: t('Personal information'),
+      label: t("Personal information"),
       color: "#409f4e",
     },
     {
       name: "account",
       icon: "person",
-      label: t('Account information'),
+      label: t("Account information"),
       color: "#9249ed",
     },
     {
       name: "change-password",
       icon: "change",
-      label: t('Change Password'),
-      color: "#e13b3b"
+      label: t("Change Password"),
+      color: "#e13b3b",
     },
     {
       name: "security",
       icon: "security",
-      label: t('Security Settings'),
-      color: "#f1c248"
+      label: t("Security Settings"),
+      color: "#f1c248",
     },
     {
       name: "qr",
       icon: "qr",
-      label: t('My QR Code'),
-      color: "#3ac6e1"
+      label: t("My QR Code"),
+      color: "#3ac6e1",
     },
   ];
   /* const sendOTP = async (phoneNumber: string): Promise<void> => {
@@ -190,176 +193,206 @@ const Account: React.FC = () => {
        else await accountService.sendUpdateOTP(params); */
       await authService.sendPhoneOTP(data);
       setShowModalOtp(true);
-    }
-    catch (err) {
+    } catch (err) {
       setSendPhoneOtpAlert(true);
     }
-  }
+  };
   const updateUserData = async (data: string, type: string): Promise<void> => {
     setShowModalOtp(false);
     if (userData?.userInfo?.phoneNumber) {
       verifyPhoneOTP(userData?.userInfo?.phoneNumber, data);
+    } else {
+      verifyPhoneOTP(getValues("phoneNumber"), data);
     }
-    else {
-      verifyPhoneOTP(getValues('phoneNumber'), data);
-    }
-  }
-  const verifyPhoneOTP = async (phoneNumber?: string, otp?: string): Promise<void> => {
-    const data = phoneNumber || getValues('phoneNumber');
-    authService.verifyPhoneOTP({ phoneNumber: data, otp: otp })
+  };
+  const verifyPhoneOTP = async (
+    phoneNumber?: string,
+    otp?: string
+  ): Promise<void> => {
+    const data = phoneNumber || getValues("phoneNumber");
+    authService
+      .verifyPhoneOTP({ phoneNumber: data, otp: otp })
       .then(() => {
         setVerifyOTPSucess(true);
         setTimeout(() => {
           getData();
-        }, 1500)
+        }, 1500);
       })
       .catch(() => {
         setVerifyOTPFailed(true);
         getData();
-      })
+      });
   };
   const handlePhoneAction = (phoneNumber: string): void => {
-    if (phoneNumber !== '') {
-      sendOTP(phoneNumber, 'phone');
-    }
-    else {
+    if (phoneNumber !== "") {
+      sendOTP(phoneNumber, "phone");
+    } else {
       setVerifyPhoneNumber(true);
     }
-  }
+  };
   const submitPhoneNumber = async (phoneNumber: string): Promise<void> => {
     if (phoneNumber) {
-      sendOTP(phoneNumber, 'phone');
+      sendOTP(phoneNumber, "phone");
     }
-  }
+  };
   const getData = useCallback(() => {
     dispatch(getProfile());
     dispatch(getUserInfo());
   }, [dispatch]);
   useEffect(getData, [getData, userData?.userInfo?.phoneNumber]);
   useEffect(() => {
-    register(
-      'phoneNumber',
-      {
-        required: { value: true, message: t('No phone number entered') },
-        minLength: { value: 10, message: t('Phone numbers with minimum is 10 digits') },
-        maxLength: { value: 11, message: t('Phone numbers with up to 11 digits') },
-        pattern: { value: /^[0-9\b]+$/, message: t('Phone number is not in the correct format') }
-      }
-    );
-    register('otp');
+    register("phoneNumber", {
+      required: { value: true, message: t("No phone number entered") },
+      minLength: {
+        value: 10,
+        message: t("Phone numbers with minimum is 10 digits"),
+      },
+      maxLength: {
+        value: 11,
+        message: t("Phone numbers with up to 11 digits"),
+      },
+      pattern: {
+        value: /^[0-9\b]+$/,
+        message: t("Phone number is not in the correct format"),
+      },
+    });
+    register("otp");
   }, [register, t]);
   return (
     <>
       <IonContent>
-        <IonRow className="ion-justify-content-center" >
-          <IonCol size="4" >
+        <IonRow className="ion-justify-content-center">
+          <IonCol size="4">
             <div>
-              <img src={logo} alt="logo" width='150px' />
+              <img src={logo} alt="logo" width="150px" />
             </div>
           </IonCol>
         </IonRow>
         <IonRow className="ion-justify-content-center">
-          <IonCol size="2" >
-            <IonAvatar style={{
-              '--border-radius': '50px'
-            }}>
-              <img src={avatar} width='100px' alt='' />
+          <IonCol size="2">
+            <IonAvatar
+              style={{
+                "--border-radius": "50px",
+              }}
+            >
+              <img src={avatar} width="100px" alt="" />
             </IonAvatar>
           </IonCol>
         </IonRow>
-        <div style={{ textAlign: 'center', color: 'black' }}>
+        <div style={{ textAlign: "center", color: "black" }}>
           <div>
-            <StyledText>
-              {profile?.fullname}
-            </StyledText>
+            <StyledText>{profile?.fullname}</StyledText>
           </div>
           <div></div>
-          <IonNote>
-            {profile?.phoneNumber}
-          </IonNote>
+          <IonNote>{profile?.phoneNumber}</IonNote>
         </div>
 
         <div>
-          {
-            optionFields.map(({ name, icon, label, color, ...otherProps }, idx) => {
+          {optionFields.map(
+            ({ name, icon, label, color, ...otherProps }, idx) => {
               return (
-                <IonRow key={idx} style={{ cursor: 'pointer' }}>
-                  <IonCol size="12" >
-                    <StyledItem color='light'
+                <IonRow key={idx} style={{ cursor: "pointer" }}>
+                  <IonCol size="12">
+                    <StyledItem
+                      color="light"
                       onClick={() => {
-                        name === 'change-password' ? history.push('/change-password')
-                          : name === 'account' ? history.push('/account-update')
-                            : name === 'profile' ? history.push('/profile')
-                              : name === 'security' ? history.push('/security-question')
-                                : name === 'qr' ? history.push('/qr-code')
-                                  : history.push('/account')
+                        name === "change-password"
+                          ? history.replace("/change-password")
+                          : name === "account"
+                          ? history.replace("/account-update")
+                          : name === "profile"
+                          ? history.replace("/profile")
+                          : name === "security"
+                          ? history.replace("/security-question")
+                          : name === "qr"
+                          ? history.replace("/qr-code")
+                          : history.replace("/account");
                       }}
                     >
                       <StyledIcon
                         icon={
-                          name === 'profile' ? newspaperOutline
-                            : name === 'account' ? person
-                              : name === 'change-password' ? linkOutline
-                                : name === 'security' ? lockClosed
-                                  : icon === 'security' ? shieldCheckmark
-                                    : qrCodeOutline
+                          name === "profile"
+                            ? newspaperOutline
+                            : name === "account"
+                            ? person
+                            : name === "change-password"
+                            ? linkOutline
+                            : name === "security"
+                            ? lockClosed
+                            : icon === "security"
+                            ? shieldCheckmark
+                            : qrCodeOutline
                         }
-                        style={{ backgroundColor: color }}>
-                      </StyledIcon>
-                      <StyledText className='ion-margin-top'>
+                        style={{ backgroundColor: color }}
+                      ></StyledIcon>
+                      <StyledText className="ion-margin-top">
                         {label}
                       </StyledText>
-                      <IonIcon icon={chevronForwardOutline} color='medium'>
-                      </IonIcon>
+                      <IonIcon
+                        icon={chevronForwardOutline}
+                        color="medium"
+                      ></IonIcon>
                     </StyledItem>
                   </IonCol>
                 </IonRow>
-              )
-
-            })
-          }
-          <IonRow >
+              );
+            }
+          )}
+          <IonRow>
             <IonCol size="12">
-              <StyledItem color='light'>
+              <StyledItem color="light">
                 <StyledIcon
                   icon={language}
-                  style={{ backgroundColor: "#293978" }}>
-                </StyledIcon>
-                <StyledText >
-                  {t("Language")}
-                </StyledText>
-                <IonSelect onIonChange={(e) => i18n.changeLanguage(e.detail.value)} cancelText={t('Cancel')} okText={t('Okay')}>
-                  <IonSelectOption value='en'>En</IonSelectOption>
-                  <IonSelectOption value='vn'>Vi</IonSelectOption>
+                  style={{ backgroundColor: "#293978" }}
+                ></StyledIcon>
+                <StyledText>{t("Language")}</StyledText>
+                <IonSelect
+                  onIonChange={(e) => i18n.changeLanguage(e.detail.value)}
+                  cancelText={t("Cancel")}
+                  okText={t("Okay")}
+                >
+                  <IonSelectOption value="en">En</IonSelectOption>
+                  <IonSelectOption value="vn">Vi</IonSelectOption>
                 </IonSelect>
               </StyledItem>
             </IonCol>
           </IonRow>
         </div>
-        <IonRow className="ion-justify-content-center" style={{ display: userData?.userInfo?.isConfirmed ? 'none' : '' }} >
+        <IonRow
+          className="ion-justify-content-center"
+          style={{ display: userData?.userInfo?.isConfirmed ? "none" : "" }}
+        >
           <IonCol size="12">
-            <div style={{ textAlign: 'center', marginTop: '10px' }}>
+            <div style={{ textAlign: "center", marginTop: "10px" }}>
               <StyledSocialButton
-                color='danger'
-                type='submit'
-                onClick={() => handlePhoneAction(userData?.userInfo?.phoneNumber ?? '')}
+                color="danger"
+                type="submit"
+                onClick={() =>
+                  handlePhoneAction(userData?.userInfo?.phoneNumber ?? "")
+                }
               >
-                <IonIcon icon={informationCircleOutline} style={{ marginRight: '20px' }} ></IonIcon>
-                {t('Verify your account')}
+                <IonIcon
+                  icon={informationCircleOutline}
+                  style={{ marginRight: "20px" }}
+                ></IonIcon>
+                {t("Verify your account")}
               </StyledSocialButton>
             </div>
           </IonCol>
         </IonRow>
         <IonRow className="ion-justify-content-center">
           <IonCol size="12">
-            <div style={{ textAlign: 'center', marginTop: '10px' }}>
+            <div style={{ textAlign: "center", marginTop: "10px" }}>
               <StyledSocialButton
-                type='submit'
+                type="submit"
                 onClick={() => setShowAlert(true)}
-              // onClick={() => setShowModal(true)}
+                // onClick={() => setShowModal(true)}
               >
-                <IonIcon icon={logOutOutline} style={{ marginRight: '20px' }} ></IonIcon>
-                {t('Logout')}
+                <IonIcon
+                  icon={logOutOutline}
+                  style={{ marginRight: "20px" }}
+                ></IonIcon>
+                {t("Logout")}
               </StyledSocialButton>
             </div>
           </IonCol>
@@ -367,8 +400,8 @@ const Account: React.FC = () => {
         <IonToast
           isOpen={verifyOTPSuccess}
           onDidDismiss={() => setVerifyOTPSucess(false)}
-          color='success'
-          message={t('Successful authentication!')}
+          color="success"
+          message={t("Successful authentication!")}
           duration={1000}
           position="top"
           animated={true}
@@ -376,8 +409,8 @@ const Account: React.FC = () => {
         <IonToast
           isOpen={verifyOTPFailed}
           onDidDismiss={() => setVerifyOTPFailed(false)}
-          color='danger'
-          message={t('Incorrect code!')}
+          color="danger"
+          message={t("Incorrect code!")}
           duration={1000}
           position="top"
           animated={true}
@@ -385,8 +418,8 @@ const Account: React.FC = () => {
         <IonToast
           isOpen={sendPhoneOtpAlert}
           onDidDismiss={() => setSendPhoneOtpAlert(false)}
-          color='danger'
-          message={t('This phone number was registered')}
+          color="danger"
+          message={t("This phone number was registered")}
           duration={1000}
           position="top"
           animated={true}
@@ -394,105 +427,111 @@ const Account: React.FC = () => {
         <StyledAlert
           isOpen={verifyPhoneNumber}
           onDidDismiss={() => setVerifyPhoneNumber(false)}
-          cssClass='my-custom-class'
-          header={t('Verify account')}
-          message={t('Enter your phone number to continue')}
+          cssClass="my-custom-class"
+          header={t("Verify account")}
+          message={t("Enter your phone number to continue")}
           inputs={[
             {
-              name: 'phoneNumber',
-              type: 'number',
-              placeholder: t('Phone number'),
-              cssClass: 'pass',
+              name: "phoneNumber",
+              type: "number",
+              placeholder: t("Phone number"),
+              cssClass: "pass",
               attributes: {
-                inputmode: 'decimal'
-              }
-            }
-          ]
-          }
+                inputmode: "decimal",
+              },
+            },
+          ]}
           buttons={[
             {
-              text: t('Skip'),
-              role: 'cancel',
-              cssClass: 'secondary',
+              text: t("Skip"),
+              role: "cancel",
+              cssClass: "secondary",
               handler: () => {
-                console.log('Confirm Cancel');
-              }
+                console.log("Confirm Cancel");
+              },
             },
             {
-              text: t('Confirm'),
+              text: t("Confirm"),
               handler: (data) => {
-                setValue('phoneNumber', data.phoneNumber);
+                setValue("phoneNumber", data.phoneNumber);
                 submitPhoneNumber(data.phoneNumber);
-              }
-            }
+              },
+            },
           ]}
         />
         <IonAlert
           isOpen={verifyOTP}
           onDidDismiss={() => setVerifyOTP(false)}
-          cssClass='my-custom-class'
-          header={'Nhập mã OTP'}
-          message={t('To verify your account, please enter the OTP code sent to phone number') + ` ${getValues('phoneNumber') || userData?.userInfo?.phoneNumber}`}
+          cssClass="my-custom-class"
+          header={"Nhập mã OTP"}
+          message={
+            t(
+              "To verify your account, please enter the OTP code sent to phone number"
+            ) +
+            ` ${getValues("phoneNumber") || userData?.userInfo?.phoneNumber}`
+          }
           inputs={[
             {
-              name: 'otp',
-              type: 'number',
-              placeholder: t('Mã OTP'),
-              cssClass: 'pass',
+              name: "otp",
+              type: "number",
+              placeholder: t("Mã OTP"),
+              cssClass: "pass",
               attributes: {
-                inputmode: 'decimal'
-              }
-            }
-          ]
-          }
+                inputmode: "decimal",
+              },
+            },
+          ]}
           buttons={[
             {
-              text: t('Skip'),
-              role: 'cancel',
-              cssClass: 'secondary',
+              text: t("Skip"),
+              role: "cancel",
+              cssClass: "secondary",
               handler: () => {
-                console.log('Confirm Cancel');
-              }
+                console.log("Confirm Cancel");
+              },
             },
             {
-              text: t('Confirm'),
+              text: t("Confirm"),
               handler: (data) => {
                 //setValue('otp', data.otp);
                 verifyPhoneOTP(data?.otp);
-              }
-            }
-          ]} />
+              },
+            },
+          ]}
+        />
 
         <OtpModal
           verifyOtp={updateUserData}
           showModal={modalOtp}
           data={dataEntry}
-          onClose={() => { setShowModalOtp(false) }}
+          onClose={() => {
+            setShowModalOtp(false);
+          }}
         />
         <IonAlert
           isOpen={showAlert}
           onDidDismiss={() => setShowAlert(false)}
-          cssClass='my-custom-class'
-          header={t('Confirm!')}
-          message={t('Are you sure you want to sign out?')}
+          cssClass="my-custom-class"
+          header={t("Confirm!")}
+          message={t("Are you sure you want to sign out?")}
           buttons={[
             {
-              text: t('Cancel'),
-              role: 'cancel',
-              cssClass: 'secondary',
+              text: t("Cancel"),
+              role: "cancel",
+              cssClass: "secondary",
               handler: () => {
                 setShowAlert(false);
-              }
+              },
             },
             {
-              text: t('Agree'),
+              text: t("Agree"),
               handler: () => {
                 logout();
                 setTimeout(() => {
-                  history.push('/login');
+                  history.replace("/login");
                 }, 0);
-              }
-            }
+              },
+            },
           ]}
         />
       </IonContent>

@@ -57,6 +57,7 @@ const StyleModal = styled(IonModal)`
 const ChoosingHospital: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const typeChoosing = useSelector((d) => d.dateBooking.typeChoosing);
   const hospitalGetAll = useSelector((h) => h.hospital.hospitals);
   const hospitals = hospitalGetAll
     .filter((h) => h.isDeleted === false)
@@ -137,7 +138,7 @@ const ChoosingHospital: React.FC = () => {
   return (
     <>
       {serviceId === "" ? (
-        history.push("/home")
+        history.replace("/home")
       ) : loading === true ? (
         <IonSpinner
           name="bubbles"
@@ -293,7 +294,14 @@ const ChoosingHospital: React.FC = () => {
           <IonHeader className={styles.header}>
             <button
               className={styles.btnCustomHeader}
-              onClick={() => history.goBack()}
+              onClick={() => {
+                if (typeChoosing === "apointmentDate") {
+                  history.replace("/apointmentDate");
+                  // history.replace("/testingAppointment");
+                } else {
+                  history.replace("/testingAppointment");
+                }
+              }}
             >
               <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
             </button>

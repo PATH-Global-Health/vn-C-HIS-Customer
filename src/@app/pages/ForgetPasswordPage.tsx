@@ -1,14 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 import {
   chevronBackOutline,
   mailOutline,
   phonePortraitOutline,
   informationCircleOutline,
-} from 'ionicons/icons';
+} from "ionicons/icons";
 
 import {
   IonCol,
@@ -17,59 +17,63 @@ import {
   IonIcon,
   IonItem,
   IonRow,
-} from '@ionic/react';
-import MethodCard, { MethodField } from '@app/components/forgot-password/method/MethodCard';
-import MessageMethod from '@app/components/forgot-password/method/MessageMethod';
-import { useDispatch, useSelector } from '@app/hooks';
-import { setDataForgotPassword } from '@app/slices/auth';
-import CreatePassword from '@app/components/forgot-password/create-password/CreatePassword';
-import MailMethod from '@app/components/forgot-password/method/MailMethod';
-import ConfirmOTP from '@app/components/forgot-password/create-password/ConfirmOTP';
-import { useTranslation } from 'react-i18next';
-import SecurityQuestionMehod from '@app/components/forgot-password/method/SecurityQuestionMethod';
+} from "@ionic/react";
+import MethodCard, {
+  MethodField,
+} from "@app/components/forgot-password/method/MethodCard";
+import MessageMethod from "@app/components/forgot-password/method/MessageMethod";
+import { useDispatch, useSelector } from "@app/hooks";
+import { setDataForgotPassword } from "@app/slices/auth";
+import CreatePassword from "@app/components/forgot-password/create-password/CreatePassword";
+import MailMethod from "@app/components/forgot-password/method/MailMethod";
+import ConfirmOTP from "@app/components/forgot-password/create-password/ConfirmOTP";
+import { useTranslation } from "react-i18next";
+import SecurityQuestionMehod from "@app/components/forgot-password/method/SecurityQuestionMethod";
 const StyledText = styled.div`
   color: black;
   text-align: center;
   font-size: 30px;
   font-weight: 600;
-  margin: 30px 15px
+  margin: 30px 15px;
 `;
 
 const ForgetPassword: React.FC = () => {
   const { t } = useTranslation();
-  const { forgotPasswordData: { method } } = useSelector((state) => state.auth);
+  const {
+    forgotPasswordData: { method },
+  } = useSelector((state) => state.auth);
   const history = useHistory();
   const dispatch = useDispatch();
   const methodField: MethodField[] = [
     {
-      name: 'message',
+      name: "message",
       icon: phonePortraitOutline,
-      color: 'rgb(91 153 255)',
-      label: 'SMS',
-      content: '',
+      color: "rgb(91 153 255)",
+      label: "SMS",
+      content: "",
     },
     {
-      name: 'mail',
+      name: "mail",
       icon: mailOutline,
-      color: 'rgb(91 153 255)',
-      label: 'GMAIL',
-      content: '',
+      color: "rgb(91 153 255)",
+      label: "GMAIL",
+      content: "",
     },
     {
-      name: 'question',
+      name: "question",
       icon: informationCircleOutline,
-      color: 'rgb(91 153 255)',
-      label: t('Select security question'),
-      content: t('Date of birth'),
+      color: "rgb(91 153 255)",
+      label: t("Select security question"),
+      content: t("Date of birth"),
     },
   ];
   const back = () => {
     if (method === undefined) {
-      history.push('/login');
+      history.replace("/login");
     } else {
       dispatch(setDataForgotPassword({}));
     }
-  }
+  };
 
   return (
     <IonContent>
@@ -78,24 +82,22 @@ const ForgetPassword: React.FC = () => {
           <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
         </IonItem>
       </IonHeader>
-      {(method !== undefined ||
+      {method !== undefined || (
         <div>
           <IonRow className="ion-justify-content-center">
-            <IonCol size='12'>
-              <StyledText >
-                {t('Choose password recovery method')}
-              </StyledText>
+            <IonCol size="12">
+              <StyledText>{t("Choose password recovery method")}</StyledText>
             </IonCol>
           </IonRow>
           <MethodCard methods={methodField} />
         </div>
       )}
-      {(method === 'question' && <SecurityQuestionMehod />)}
-      {(method === 'message' && <MessageMethod />)}
-      {(method === 'mail' && <MailMethod />)}
-      {(method === 'confirmed' && <CreatePassword />)}
-      {(method === 'confirmSmsOTP' && <ConfirmOTP />)}
-      {(method === 'confirmEmailOTP' && <ConfirmOTP />)}
+      {method === "question" && <SecurityQuestionMehod />}
+      {method === "message" && <MessageMethod />}
+      {method === "mail" && <MailMethod />}
+      {method === "confirmed" && <CreatePassword />}
+      {method === "confirmSmsOTP" && <ConfirmOTP />}
+      {method === "confirmEmailOTP" && <ConfirmOTP />}
     </IonContent>
   );
 };

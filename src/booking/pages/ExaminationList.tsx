@@ -13,6 +13,7 @@ import {
   IonCardTitle,
   IonModal,
   IonSpinner,
+  IonBackButton,
 } from "@ionic/react";
 import { useDispatch, useSelector } from "@app/hooks";
 import { useHistory } from "react-router-dom";
@@ -22,6 +23,7 @@ import {
   chatbubbles,
   help,
   checkmark,
+  chevronBack,
 } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import { getExaminationList } from "../slices/workingCalendar";
@@ -148,10 +150,14 @@ const ExaminationList: React.FC = () => {
       ></ModalCancelSuccess>
       {searchInput === false ? (
         <IonHeader className={styles.header}>
-          {/* <IonIcon
-            onClick={() => history.goBack()}
-            className={styles.iconLeft}
-            icon={chevronBack}></IonIcon> */}
+          <button
+            className={styles.btnCustomHeader}
+            onClick={() => {
+              history.replace("/home");
+            }}
+          >
+            <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
+          </button>
           <IonLabel className={styles.headerLabel}>
             {t("Appointment schedule")}{" "}
           </IonLabel>

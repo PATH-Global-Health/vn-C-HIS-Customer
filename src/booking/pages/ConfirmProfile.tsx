@@ -91,7 +91,7 @@ const ConfirmProfile: React.FC = () => {
         consultingContent: {},
       })
     );
-    history.push("/apointmentInfo");
+    history.replace("/apointmentInfo");
   };
 
   useEffect(() => {
@@ -100,7 +100,7 @@ const ConfirmProfile: React.FC = () => {
   return (
     <>
       {serviceId === "" ? (
-        history.push("/home")
+        history.replace("/home")
       ) : loading === true ? (
         <IonSpinner
           name="bubbles"
@@ -112,7 +112,7 @@ const ConfirmProfile: React.FC = () => {
           <IonHeader className={styles.header}>
             <button
               className={styles.btnCustomHeader}
-              onClick={() => history.goBack()}
+              onClick={() => history.replace("/choosingTime")}
             >
               <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
             </button>

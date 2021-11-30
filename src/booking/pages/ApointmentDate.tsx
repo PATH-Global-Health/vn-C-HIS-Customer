@@ -56,7 +56,7 @@ const ApointmentDate: React.FC = () => {
   return (
     <>
       {serviceId === "" ? (
-        history.push("/home")
+        history.replace("/home")
       ) : loading === true ? (
         <IonSpinner
           name="bubbles"
@@ -68,7 +68,13 @@ const ApointmentDate: React.FC = () => {
           <IonHeader className={styles.header}>
             <button
               className={styles.btnCustomHeader}
-              onClick={() => history.goBack()}
+              onClick={() => {
+                if (typeChoosing === "apointmentDate") {
+                  history.replace("/testingAppointment");
+                } else {
+                  history.replace("/hospitalDetail");
+                }
+              }}
             >
               <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
             </button>
@@ -158,7 +164,7 @@ const ApointmentDate: React.FC = () => {
                   if (typeChoosing === "apointmentDate") {
                     getHospitalByServiceAndDate();
                     dispatch(getDateBooking(date));
-                    history.push("/choosingHospital");
+                    history.replace("/choosingHospital");
                   } else {
                     const w = workingCalendars.filter(
                       (wor) =>
@@ -172,7 +178,7 @@ const ApointmentDate: React.FC = () => {
                     dispatch(getWorkingCalendarBooking(w[0]));
                     dispatch(getDateBooking(date));
                     getInterval();
-                    history.push("/choosingTime");
+                    history.replace("/choosingTime");
                   }
                 }}
               >

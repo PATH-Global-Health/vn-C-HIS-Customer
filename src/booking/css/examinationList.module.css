@@ -15,7 +15,7 @@
 
 .btnCustomHeader {
     background: white;
-    left: 10px;
+    left: 20px !important;
     top: 20px;
     position: absolute;
 }

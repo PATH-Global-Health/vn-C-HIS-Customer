@@ -23,6 +23,7 @@ import {
   people,
   phonePortrait,
   peopleCircleSharp,
+  chevronBack,
 } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import styles from "../css/resultExaminationInfo.module.css";
@@ -38,6 +39,11 @@ const DoctorDetail: React.FC = () => {
       <IonPage className={styles.styledPage}>
         <>
           <IonHeader className={styles.header}>
+            <IonIcon
+              onClick={() => history.replace("/doctorList")}
+              className={styles.iconLeft}
+              icon={chevronBack}
+            ></IonIcon>
             <IonLabel className={styles.headerLabel}>
               {t("Doctor Information")}
             </IonLabel>

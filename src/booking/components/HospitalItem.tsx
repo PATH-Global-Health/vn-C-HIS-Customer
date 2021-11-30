@@ -42,7 +42,7 @@ const HospitalItem: React.FC<Props> = (props) => {
       className={styles.btnCustom}
       onClick={() => {
         dispatch(getHospitalBooking(hos));
-        history.push("/hospitalDetail", hos);
+        history.replace("/hospitalDetail", hos);
       }}
     >
       <IonAvatar>

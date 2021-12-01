@@ -12,6 +12,7 @@ import {
   IonLabel,
   IonModal,
   IonNote,
+  IonPage,
   IonRow,
   IonSelect,
   IonSelectOption,
@@ -259,7 +260,7 @@ const Account: React.FC = () => {
     register("otp");
   }, [register, t]);
   return (
-    <>
+    <IonPage>
       <IonContent>
         <IonRow className="ion-justify-content-center">
           <IonCol size="4">
@@ -299,14 +300,14 @@ const Account: React.FC = () => {
                         name === "change-password"
                           ? history.replace("/change-password")
                           : name === "account"
-                          ? history.replace("/account-update")
-                          : name === "profile"
-                          ? history.replace("/profile")
-                          : name === "security"
-                          ? history.replace("/security-question")
-                          : name === "qr"
-                          ? history.replace("/qr-code")
-                          : history.replace("/account");
+                            ? history.replace("/account-update")
+                            : name === "profile"
+                              ? history.replace("/profile")
+                              : name === "security"
+                                ? history.replace("/security-question")
+                                : name === "qr"
+                                  ? history.replace("/qr-code")
+                                  : history.replace("/account");
                       }}
                     >
                       <StyledIcon
@@ -314,14 +315,14 @@ const Account: React.FC = () => {
                           name === "profile"
                             ? newspaperOutline
                             : name === "account"
-                            ? person
-                            : name === "change-password"
-                            ? linkOutline
-                            : name === "security"
-                            ? lockClosed
-                            : icon === "security"
-                            ? shieldCheckmark
-                            : qrCodeOutline
+                              ? person
+                              : name === "change-password"
+                                ? linkOutline
+                                : name === "security"
+                                  ? lockClosed
+                                  : icon === "security"
+                                    ? shieldCheckmark
+                                    : qrCodeOutline
                         }
                         style={{ backgroundColor: color }}
                       ></StyledIcon>
@@ -386,7 +387,7 @@ const Account: React.FC = () => {
               <StyledSocialButton
                 type="submit"
                 onClick={() => setShowAlert(true)}
-                // onClick={() => setShowModal(true)}
+              // onClick={() => setShowModal(true)}
               >
                 <IonIcon
                   icon={logOutOutline}
@@ -535,7 +536,7 @@ const Account: React.FC = () => {
           ]}
         />
       </IonContent>
-    </>
+    </IonPage>
   );
 };
 

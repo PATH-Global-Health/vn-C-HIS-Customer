@@ -79,7 +79,7 @@ const QuestionForm: React.FC = () => {
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
                 <WrapperQuestion>
-                  <IonRow className="">
+                  <IonRow>
                     <IonCol size="12">
                       <IonItem color='light' lines='inset' className='group-item'>
                         <IonRadioGroup

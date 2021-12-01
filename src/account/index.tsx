@@ -67,7 +67,7 @@ const StyledText = styled(IonLabel)`
   font-weight: 600;
 `;
 const StyledAlert = styled(IonAlert)`
-.alert-title sc-ion-alert-md
+.alert-title sc-ion-alert-md {
     --color:red !important;
   }
 `;

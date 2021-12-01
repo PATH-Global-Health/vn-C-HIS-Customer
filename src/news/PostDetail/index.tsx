@@ -51,17 +51,21 @@ const CardContent = styled.div`
       position: relative;
     }
     .back-icon{
-      position: absolute;
+      position: fixed;
       top: 15px;
       left: 5px;
       font-size: 25px;
-      color: white;
+      color: #1b1a1a;
+      padding: 5px;
+      opacity: 0.8;
+      background: #dedbd4;
+		  border-radius: 999px;
     }
     .up-icon{
       position: fixed;
       bottom: 15px;
       right: 15px;
-      font-size: 30px;
+      font-size: 25px;
       color: #1b1a1a;
       padding: 5px;
       opacity: 0.8;
@@ -89,10 +93,10 @@ const PostDetailPage: React.FC = () => {
   }
   return (
     <IonContent ref={contentRef} scrollEvents={true}>
+
       <CardContent>
         <IonCard color='light'>
           <div className='card-image'>
-            <IonIcon icon={chevronBackOutline} className='back-icon' onClick={() => { history.push('/post') }}></IonIcon>
             <img src={parentPostData?.description !== '' ? parentPostData?.description : img_small} alt='post_image' />
           </div>
           <div>
@@ -117,6 +121,7 @@ const PostDetailPage: React.FC = () => {
               </div>
             ))
           }
+          <IonIcon icon={chevronBackOutline} className='back-icon' onClick={() => history.push('/post')}></IonIcon>
           <IonIcon icon={arrowUpOutline} className='up-icon' onClick={() => scrollToTop()}></IonIcon>
         </IonCard>
       </CardContent>

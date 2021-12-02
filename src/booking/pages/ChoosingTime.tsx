@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   IonAlert,
   IonContent,
@@ -7,6 +7,7 @@ import {
   IonLabel,
   IonPage,
   IonSpinner,
+  isPlatform,
 } from "@ionic/react";
 import { useDispatch, useSelector } from "@app/hooks";
 import { useHistory } from "react-router-dom";
@@ -29,8 +30,7 @@ const ChoosingTime: React.FC = () => {
   const serviceId = useSelector((w) => w.workingCaledar.serviceId);
   const dateBooking = useSelector((d) => d.dateBooking.dateBooking);
   const [showAlert, setShowAlert] = useState(false);
-  const { t, i18n } = useTranslation();
-  let result = false;
+  const { t } = useTranslation();
 
   const listInterval = interval.filter(
     (i) => i.isAvailable && i.availableQuantity > 0
@@ -47,7 +47,9 @@ const ChoosingTime: React.FC = () => {
           style={{ left: "50%", top: "50%" }}
         ></IonSpinner>
       ) : (
-        <IonPage className={styles.styledPage}>
+        <IonPage
+          style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}
+        >
           <IonHeader className={styles.header}>
             <button
               className={styles.btnCustomHeader}

@@ -13,12 +13,12 @@ import {
   IonSpinner,
   IonCheckbox,
   IonBadge,
-  IonImg,
+  isPlatform,
 } from "@ionic/react";
 import { useDispatch, useSelector } from "@app/hooks";
 import "react-day-picker/lib/style.css";
 import { useHistory } from "react-router-dom";
-import { calendarOutline, chevronBack, timeOutline } from "ionicons/icons";
+import { chevronBack } from "ionicons/icons";
 import location from "../../@app/mock/locations.json";
 import { postExaminations } from "booking/slices/workingCalendar";
 import { useTranslation } from "react-i18next";
@@ -28,7 +28,6 @@ import { useForm } from "react-hook-form";
 import { TestingContent } from "booking/models/bookingModel";
 import { ExaminationService } from "booking/models/examinationListModel";
 import moment from "moment";
-import { apiLinks } from "@app/utils";
 
 const ConfirmProfile: React.FC = () => {
   const dispatch = useDispatch();
@@ -108,7 +107,9 @@ const ConfirmProfile: React.FC = () => {
           style={{ left: "50%", top: "50%" }}
         ></IonSpinner>
       ) : (
-        <IonPage className={styles.styledPage}>
+        <IonPage
+          style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}
+        >
           <IonHeader className={styles.header}>
             <button
               className={styles.btnCustomHeader}

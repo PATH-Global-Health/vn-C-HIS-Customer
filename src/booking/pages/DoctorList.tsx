@@ -13,6 +13,7 @@ import {
   IonSpinner,
   IonInfiniteScrollContent,
   IonInfiniteScroll,
+  isPlatform,
 } from "@ionic/react";
 import { useDispatch, useSelector } from "@app/hooks";
 import { useHistory } from "react-router-dom";
@@ -25,14 +26,12 @@ import { getAllDoctor } from "booking/slices/hospital";
 
 const DoctorList: React.FC = () => {
   const dispatch = useDispatch();
-  const [searchInput, setSearchInput] = useState(false);
   const [textSearch, setTextSearch] = useState("");
   const { t } = useTranslation();
   const history = useHistory();
   const { loading, doctorList } = useSelector((b) => b.hospital);
 
   const [pageSize, setPageSize] = useState<number>(5);
-  // const [nameSearch, setNameSearch] = useState("")
   var cx = classNames.bind(styles);
   const doctorListSuccess = doctorList?.data;
 
@@ -63,7 +62,7 @@ const DoctorList: React.FC = () => {
   useEffect(getData, [getData]);
 
   return (
-    <IonPage className={styles.styledPage}>
+    <IonPage style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}>
       <IonHeader className={styles.header}>
         <IonIcon
           onClick={() => history.replace("/home")}

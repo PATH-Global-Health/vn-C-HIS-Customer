@@ -1,39 +1,25 @@
 import React, { useEffect, useState } from "react";
 import {
-  IonCard,
-  IonCardContent,
   IonContent,
   IonHeader,
   IonIcon,
   IonLabel,
   IonPage,
   IonSearchbar,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
   IonModal,
   IonSpinner,
-  IonBackButton,
+  isPlatform,
 } from "@ionic/react";
 import { useDispatch, useSelector } from "@app/hooks";
 import { useHistory } from "react-router-dom";
-import {
-  search,
-  analytics,
-  chatbubbles,
-  help,
-  checkmark,
-  chevronBack,
-} from "ionicons/icons";
+import { search, chevronBack } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import { getExaminationList } from "../slices/workingCalendar";
 import moment from "moment";
 import styles from "../css/examinationList.module.css";
 import classNames from "classnames/bind";
 import { deburr } from "../../@app/utils/helpers";
-import examinationService from "../services/examinations";
 import styled from "styled-components";
-import { Rating } from "react-simple-star-rating";
 import ExaminationItem from "booking/components/Examination/ExaminationItem";
 import ExaminationItemHistory from "booking/components/Examination/ExaminationItemHistory";
 import ModalCancel from "booking/components/Examination/ModalCancel";
@@ -41,11 +27,6 @@ import ModalCancelSuccess from "booking/components/Examination/ModalCancelSucces
 import { ExaminationStatus } from "booking/models/examinationListModel";
 import ModalConfirm from "booking/components/Examination/ModalConfirm";
 import { BookingModel } from "booking/models/bookingModel";
-const StyleModal = styled(IonModal)`
-   {
-    padding: 65% 15%;
-  }
-`;
 
 const ExaminationList: React.FC = () => {
   const [searchInput, setSearchInput] = useState(false);
@@ -121,7 +102,7 @@ const ExaminationList: React.FC = () => {
       style={{ left: "50%", top: "50%" }}
     ></IonSpinner>
   ) : (
-    <IonPage className={styles.styledPage}>
+    <IonPage style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}>
       <ModalCancel
         open={showModal}
         onClose={() => setShowModal(false)}

@@ -5,6 +5,7 @@ import {
   IonIcon,
   IonLabel,
   IonPage,
+  isPlatform,
 } from "@ionic/react";
 import { useDispatch, useSelector } from "@app/hooks";
 import { useHistory } from "react-router-dom";
@@ -25,7 +26,9 @@ const TestingAppointment: React.FC = () => {
       {serviceId === "" ? (
         history.push("/home")
       ) : (
-        <IonPage className={styles.styledPage}>
+        <IonPage
+          style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}
+        >
           <IonHeader className={styles.header}>
             <button
               className={styles.btnCustomHeader}

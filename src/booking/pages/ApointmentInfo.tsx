@@ -11,39 +11,23 @@ import {
   IonPage,
   IonModal,
   IonSpinner,
-  IonCard,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
-  IonCardContent,
+  isPlatform,
   IonButton,
 } from "@ionic/react";
 import { useSelector, useDispatch } from "@app/hooks";
 import "react-day-picker/lib/style.css";
 import { useHistory } from "react-router-dom";
 import {
-  businessSharp,
   calendarOutline,
   checkmark,
   chevronBack,
-  help,
-  layers,
-  personOutline,
-  phoneLandscape,
-  phonePortraitOutline,
   timeOutline,
-  walk,
-  warning,
-  water,
-  wifi,
-  wine,
 } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import { getExaminationById, getUserInfo } from "../slices/workingCalendar";
 import styles from "../css/apointmentInfo.module.css";
 import moment from "moment";
 import styled from "styled-components";
-import examinationService from "../services/examinations";
 import { apiLinks } from "@app/utils";
 import { TestingContent } from "booking/models/bookingModel";
 import {
@@ -97,7 +81,9 @@ const ApointmentInfo: React.FC = () => {
           style={{ left: "50%", top: "50%" }}
         ></IonSpinner>
       ) : (
-        <IonPage className={styles.styledPage}>
+        <IonPage
+          style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}
+        >
           <ModalCancel
             open={showModal}
             onClose={() => setShowModal(false)}
@@ -312,15 +298,15 @@ const ApointmentInfo: React.FC = () => {
               >
                 {t("View Examination List")}
               </button>
-              {!Boolean(
-                moment(
-                  moment(bookingModel?.data?.date).format("YYYY-MM-DD") +
-                    " " +
-                    bookingModel?.data?.interval?.from
-                ).format("YYYY-MM-DD HH:mm") <
-                  moment(new Date()).format("YYYY-MM-DD HH:mm") ||
-                  bookingModel?.data?.status === ExaminationStatus.FINISHED ||
-                  bookingModel?.data?.status === ExaminationStatus.RESULTED
+              {Boolean(
+                // moment(
+                //   moment(bookingModel?.data?.date).format("YYYY-MM-DD") +
+                //     " " +
+                //     bookingModel?.data?.interval?.from
+                // ).format("YYYY-MM-DD HH:mm") <
+                //   moment(new Date()).format("YYYY-MM-DD HH:mm") ||
+                bookingModel?.data?.status === ExaminationStatus.UNFINISHED
+                // || bookingModel?.data?.status === ExaminationStatus.RESULTED
               ) && (
                 <button
                   className={styles.styledButtonCancel}
@@ -337,7 +323,7 @@ const ApointmentInfo: React.FC = () => {
             <IonHeader className={styles.header}>
               <button
                 className={styles.btnCustomHeader}
-                onClick={() => history.goBack()}
+                onClick={() => history.replace("/confirmProfile")}
               >
                 <IonIcon
                   className={styles.iconLeft}

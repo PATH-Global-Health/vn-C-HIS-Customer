@@ -151,61 +151,63 @@ const ExaminationItem: React.FC<Props> = (props) => {
               {e?.unit?.address}
             </p>
           </IonCardContent>
+          <IonCardHeader>
+            {
+              // moment(
+              //   moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from
+              // ).format("YYYY-MM-DD HH:mm") <
+              // moment(new Date()).format("YYYY-MM-DD HH:mm") ? (
+              //   ""
+              // ) : (
+              Boolean(e.status === ExaminationStatus.UNFINISHED) && (
+                <button
+                  onClick={() => {
+                    // handleClick();
+                  }}
+                  className={styles.btnCancelCard}
+                >
+                  {t("Cancel appointment")}
+                </button>
+              )
+
+              // )
+            }
+            {Boolean(
+              e.status === ExaminationStatus.UNFINISHED &&
+                e.service?.id === ExaminationService.TESTING &&
+                !testingContent.isPickUpAtTheFacility
+            ) && (
+              <button
+                onClick={() => {
+                  // confirmClick();
+                }}
+                className={styles.btnConfirmCard}
+              >
+                {t("Received")}
+              </button>
+            )}
+
+            {
+              // moment(
+              //   moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from
+              // ).format("YYYY-MM-DD HH:mm") <
+              // moment(new Date()).format("YYYY-MM-DD HH:mm") ? (
+              //   ""
+              // ) : (
+              // Boolean(e.status === 1) && (
+              //   <button
+              //     onClick={() => {
+              //       // performClick();
+              //     }}
+              //     className={styles.btnHandleCard}
+              //   >
+              //     {t("Perform")}
+              //   </button>
+              // )
+              // )
+            }
+          </IonCardHeader>
         </IonCard>
-        {
-          // moment(
-          //   moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from
-          // ).format("YYYY-MM-DD HH:mm") <
-          // moment(new Date()).format("YYYY-MM-DD HH:mm") ? (
-          //   ""
-          // ) : (
-          Boolean(e.status === ExaminationStatus.UNFINISHED) && (
-            <button
-              onClick={() => {
-                handleClick();
-              }}
-              className={styles.btnCancelCard}
-            >
-              {t("Cancel appointment")}
-            </button>
-          )
-
-          // )
-        }
-        {Boolean(
-          e.status === ExaminationStatus.UNFINISHED &&
-            e.service?.id === ExaminationService.TESTING &&
-            !testingContent.isPickUpAtTheFacility
-        ) && (
-          <button
-            onClick={() => {
-              confirmClick();
-            }}
-            className={styles.btnConfirmCard}
-          >
-            {t("Received")}
-          </button>
-        )}
-
-        {
-          // moment(
-          //   moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from
-          // ).format("YYYY-MM-DD HH:mm") <
-          // moment(new Date()).format("YYYY-MM-DD HH:mm") ? (
-          //   ""
-          // ) : (
-          // Boolean(e.status === 1) && (
-          //   <button
-          //     onClick={() => {
-          //       // performClick();
-          //     }}
-          //     className={styles.btnHandleCard}
-          //   >
-          //     {t("Perform")}
-          //   </button>
-          // )
-          // )
-        }
       </div>
     </>
   );

@@ -4,29 +4,25 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
-  IonImg,
   IonInput,
-  IonItem,
   IonLabel,
-  IonList,
   IonModal,
   IonPage,
   IonSelect,
   IonSelectOption,
   IonSpinner,
+  isPlatform,
 } from "@ionic/react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "@app/hooks";
 import { useHistory } from "react-router-dom";
-import { arrowForward, chevronBack, filter, podium } from "ionicons/icons";
-import { getHospitalBooking } from "booking/slices/hospital";
+import { chevronBack, filter } from "ionicons/icons";
 import location from "../../@app/mock/locations.json";
 import { deburr } from "../../@app/utils/helpers";
 import { getUnitTypes } from "booking/slices/unitType";
 import { useTranslation } from "react-i18next";
 import styles from "../css/choosingHospital.module.css";
 import { CityS } from "booking/models/city";
-import { apiLinks } from "@app/utils";
 import HospitalItem from "booking/components/HospitalItem";
 
 const StyledContent = styled(IonContent)`
@@ -146,7 +142,9 @@ const ChoosingHospital: React.FC = () => {
           style={{ left: "50%", top: "50%" }}
         ></IonSpinner>
       ) : (
-        <IonPage className={styles.styledPage}>
+        <IonPage
+          style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}
+        >
           <StyleModal
             isOpen={showModal}
             cssClass="my-custom-class"

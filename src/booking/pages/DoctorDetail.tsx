@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   IonContent,
   IonHeader,
@@ -8,27 +8,14 @@ import {
   IonLabel,
   IonList,
   IonPage,
-  IonModal,
+  isPlatform,
 } from "@ionic/react";
-import { useSelector, useDispatch } from "@app/hooks";
 import "react-day-picker/lib/style.css";
 import { useHistory } from "react-router-dom";
-import {
-  book,
-  card,
-  code,
-  information,
-  leafSharp,
-  mailOpen,
-  people,
-  phonePortrait,
-  peopleCircleSharp,
-  chevronBack,
-} from "ionicons/icons";
+import { peopleCircleSharp, chevronBack } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import styles from "../css/resultExaminationInfo.module.css";
-import styled from "styled-components";
-import { Doctor, DoctorData } from "booking/models/hospital";
+import { DoctorData } from "booking/models/hospital";
 
 const DoctorDetail: React.FC = () => {
   const history = useHistory();
@@ -36,7 +23,9 @@ const DoctorDetail: React.FC = () => {
   const { t } = useTranslation();
   return (
     <>
-      <IonPage className={styles.styledPage}>
+      <IonPage
+        style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}
+      >
         <>
           <IonHeader className={styles.header}>
             <IonIcon
@@ -185,14 +174,14 @@ const DoctorDetail: React.FC = () => {
               </IonItem>
             </IonList>
 
-            <div style={{ width: "100%", display: "flex" }}>
+            {/* <div style={{ width: "100%", display: "flex" }}>
               <button
                 className={styles.btnGoBack}
                 onClick={() => history.goBack()}
               >
                 {t("Go Back")}
               </button>
-            </div>
+            </div> */}
           </IonContent>
         </>
       </IonPage>

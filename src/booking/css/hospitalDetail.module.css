@@ -53,7 +53,8 @@
 }
 
 .styledLabel {
-    font-size: 20px;
+    font-size: 23px;
+    font-weight: bold;
 }
 
 .styledLabelContent {

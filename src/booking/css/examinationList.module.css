@@ -270,7 +270,7 @@
     text-align: left;
     font-size: medium;
     margin-left: 20%;
-    margin-bottom: -8px;
+    margin-bottom: 0px;
 }
 
 .styledCardContent {
@@ -278,6 +278,7 @@
     font-size: medium;
     margin-left: 18%;
     color: rgb(165, 156, 156);
+    padding-bottom: 2px !important;
 }
 
 .styledMessage {
@@ -297,7 +298,7 @@
     text-align: left;
     font-size: medium;
     margin-left: 20%;
-    margin-bottom: -8px;
+    margin-bottom: 0px;
     color: white;
 }
 
@@ -307,6 +308,7 @@
     margin-left: 18%;
     color: rgb(165, 156, 156);
     color: white;
+    padding-bottom: 2px !important;
 }
 
 .styledMessageBlood {
@@ -393,7 +395,7 @@
     background-color: rgb(230, 55, 55);
     color: white;
     border-radius: 5px;
-    z-index: 1;
+    z-index: 5;
     position: absolute;
     bottom: 10%;
     right: 55%;

@@ -5,21 +5,15 @@ import {
   IonIcon,
   IonLabel,
   IonPage,
+  isPlatform,
 } from "@ionic/react";
 import { useDispatch } from "@app/hooks";
 import { useHistory } from "react-router-dom";
-import {
-  arrowForward,
-  chatbubble,
-  chevronBack,
-  flash,
-  people,
-} from "ionicons/icons";
+import { arrowForward, chatbubble, chevronBack, flash } from "ionicons/icons";
 import { getServiceId } from "booking/slices/workingCalendar";
 import { useTranslation } from "react-i18next";
 import { getUserInfo } from "../slices/workingCalendar";
 import styles from "../css/homeBooking.module.css";
-import { getAllDoctor } from "booking/slices/hospital";
 
 const HomeBooking: React.FC = () => {
   const { t } = useTranslation();
@@ -29,7 +23,7 @@ const HomeBooking: React.FC = () => {
     dispatch(getUserInfo());
   }, []);
   return (
-    <IonPage className={styles.styledPage}>
+    <IonPage style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}>
       <IonHeader className={styles.header}>
         <button
           className={styles.btnCustomHeader}

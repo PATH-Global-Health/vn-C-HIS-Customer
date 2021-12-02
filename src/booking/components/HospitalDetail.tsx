@@ -10,6 +10,7 @@ import {
   IonIcon,
   IonImg,
   IonSpinner,
+  isPlatform,
 } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import { chevronBack } from "ionicons/icons";
@@ -72,7 +73,9 @@ const HospitalDetail: React.FC = () => {
           style={{ left: "50%", top: "50%" }}
         ></IonSpinner>
       ) : (
-        <IonPage className={styles.styledPage}>
+        <IonPage
+          style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}
+        >
           <IonHeader className={styles.header}>
             <button
               className={styles.btnCustomHeader}

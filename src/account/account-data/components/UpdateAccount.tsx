@@ -18,7 +18,7 @@ import {
   IonDatetime,
   IonText,
   IonAlert,
-  IonToast,
+  IonToast
 } from "@ionic/react";
 import { chevronBackOutline } from "ionicons/icons";
 
@@ -189,7 +189,7 @@ const UpdateAccount: React.FC = () => {
     });
   }, [userData?.userInfo, reset]);
   return (
-    <IonPage>
+    <IonPage style={isPlatform('ios') ? { paddingTop: 40 } : { paddingTop: 0 }}>
       <IonHeader className="ion-margin-bottom">
         <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
           <StyledIcon

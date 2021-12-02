@@ -11,6 +11,7 @@ import {
   IonPage,
   IonModal,
   IonSpinner,
+  isPlatform,
 } from "@ionic/react";
 import { useSelector, useDispatch } from "@app/hooks";
 import "react-day-picker/lib/style.css";
@@ -31,9 +32,7 @@ import styled from "styled-components";
 import examinationService from "../services/examinations";
 import examinationServices from "../services/examinations";
 const StyleModal = styled(IonModal)`
-   {
     padding: 65% 15%;
-  }
 `;
 
 const ExaminationResultInfo: React.FC = () => {
@@ -67,8 +66,8 @@ const ExaminationResultInfo: React.FC = () => {
           style={{ left: "50%", top: "50%" }}
         ></IonSpinner>
       ) : (
-        <IonPage className={styles.styledPage}>
-          <>
+        <IonPage>
+          {/* <> */}
             <IonHeader className={styles.header}>
               <IonLabel className={styles.headerLabel}>
                 {t("Examination information")}
@@ -169,7 +168,7 @@ const ExaminationResultInfo: React.FC = () => {
                 icon={cloudDownloadOutline}
               />
             </button>
-          </>
+          {/* </> */}
         </IonPage>
       )}
     </>

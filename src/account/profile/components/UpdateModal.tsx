@@ -19,6 +19,7 @@ import {
   IonDatetime,
   IonText,
   IonAlert,
+  isPlatform,
 } from "@ionic/react";
 import { chevronBackOutline } from "ionicons/icons";
 
@@ -218,7 +219,7 @@ const UpdateProfile: React.FC = () => {
     });
   }, [data, reset]);
   return (
-    <IonPage>
+    <IonPage style={isPlatform('ios') ? { paddingTop: 30 } : { paddingTop: 0 }}>
       <IonHeader className="ion-margin-bottom">
         <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
           <StyledIcon

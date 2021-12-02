@@ -9,6 +9,8 @@ import {
   IonContent,
   IonIcon,
   IonNote,
+  IonPage,
+  isPlatform,
 } from '@ionic/react';
 import {
   arrowUpOutline,
@@ -92,40 +94,43 @@ const PostDetailPage: React.FC = () => {
     })
   }
   return (
-    <IonContent ref={contentRef} scrollEvents={true}>
+    <IonPage style={isPlatform('ios') ? { paddingTop: 30 } : { paddingTop: 0 }}>
+      <IonContent ref={contentRef} scrollEvents={true}>
 
-      <CardContent>
-        <IonCard color='light'>
-          <div className='card-image'>
-            <img src={parentPostData?.description !== '' ? parentPostData?.description : img_small} alt='post_image' />
-          </div>
-          <div>
-            <IonCardHeader>
-              <IonCardTitle>{parentPostData?.name ?? '...'}</IonCardTitle>
-              <IonNote>{parentPostData?.writter ?? '....'}</IonNote>
-              <IonNote>{moment(parentPostData?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
-            </IonCardHeader>
-          </div>
-          {
-            (sortByOrder(detailPostList) || []).map((item, idx) => (
-              <div key={idx}>
-                {
-                  item.type === 0
-                    ?
-                    <IonCardContent>{item?.content ? <div dangerouslySetInnerHTML={{ __html: item.content }} /> : ''}</IonCardContent>
-                    :
-                    <IonCardContent>
-                      <img src={item.content} alt='' style={{ height: '200px' }} />
-                    </IonCardContent>
-                }
-              </div>
-            ))
-          }
-          <IonIcon icon={chevronBackOutline} className='back-icon' onClick={() => history.push('/post')}></IonIcon>
-          <IonIcon icon={arrowUpOutline} className='up-icon' onClick={() => scrollToTop()}></IonIcon>
-        </IonCard>
-      </CardContent>
-    </IonContent>
+        <CardContent>
+          <IonCard color='light'>
+            <div className='card-image'>
+              <img src={parentPostData?.description !== '' ? parentPostData?.description : img_small} alt='post_image' />
+            </div>
+            <div>
+              <IonCardHeader>
+                <IonCardTitle>{parentPostData?.name ?? '...'}</IonCardTitle>
+                <IonNote>{parentPostData?.writter ?? '....'}</IonNote>
+                <IonNote>{moment(parentPostData?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
+              </IonCardHeader>
+            </div>
+            {
+              (sortByOrder(detailPostList) || []).map((item, idx) => (
+                <div key={idx}>
+                  {
+                    item.type === 0
+                      ?
+                      <IonCardContent>{item?.content ? <div dangerouslySetInnerHTML={{ __html: item.content }} /> : ''}</IonCardContent>
+                      :
+                      <IonCardContent>
+                        <img src={item.content} alt='' style={{ height: '200px' }} />
+                      </IonCardContent>
+                  }
+                </div>
+              ))
+            }
+            <IonIcon icon={chevronBackOutline} className='back-icon' onClick={() => history.push('/post')}></IonIcon>
+            <IonIcon icon={arrowUpOutline} className='up-icon' onClick={() => scrollToTop()}></IonIcon>
+          </IonCard>
+        </CardContent>
+      </IonContent>
+
+    </IonPage>
   );
 };
 

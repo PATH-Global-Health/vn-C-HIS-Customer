@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonSelect, IonSelectOption, IonText, IonAlert } from '@ionic/react';
+import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonItem, IonLabel, IonHeader, IonTitle, IonPage, IonSelect, IonSelectOption, IonText, IonAlert, isPlatform } from '@ionic/react';
 import { chevronBackOutline } from 'ionicons/icons';
 
 import { useHistory } from 'react-router-dom';
@@ -114,7 +114,7 @@ const UpdateLaytest: React.FC = () => {
     });
   }, [laytestDetail, reset]);
   return (
-    <IonPage >
+    <IonPage style={isPlatform('ios') ? { paddingTop: 40 } : { paddingTop: 0 }} >
       <IonHeader className="header">
         <IonItem color="light" onClick={() => history.push('/laytest')} >
           <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>

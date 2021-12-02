@@ -8,6 +8,7 @@ import {
   IonItem,
   IonLabel,
   IonNote,
+  IonPage,
   IonRow,
 } from "@ionic/react";
 import {
@@ -32,6 +33,7 @@ import { useDispatch, useSelector } from "@app/hooks";
 import { getUserInfo } from "booking/slices/workingCalendar";
 import { setHandeRisk } from "risk/QuestionTemplate/question-template.slice";
 import { getProfile } from "account/profile/profile.slice";
+import { isPlatform } from "@ionic/react";
 
 const StyledHeader = styled.div`
   color: black;
@@ -150,7 +152,7 @@ const Home: React.FC = () => {
   useEffect(getProfileData, [getProfileData]);
 
   return (
-    <>
+    <IonPage style={isPlatform('ios') ? { paddingTop: 40 } : { paddingTop: 0 }}>
       <IonContent>
         <IonRow className="ion-justify-content-center ion-margin-top">
           <IonCol size="4">
@@ -242,7 +244,7 @@ const Home: React.FC = () => {
         </Menu>
         <PostCard />
       </IonContent>
-    </>
+    </IonPage>
   );
 };
 

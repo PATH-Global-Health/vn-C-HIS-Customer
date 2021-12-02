@@ -23,6 +23,7 @@ import {
   IonModal,
   IonRadioGroup,
   IonRadio,
+  isPlatform,
 } from "@ionic/react";
 import { chevronBackOutline, watch } from "ionicons/icons";
 
@@ -151,7 +152,7 @@ const CreateModal: React.FC = () => {
     });
   }, [register, t]);
   return (
-    <IonPage>
+    <IonPage style={isPlatform('ios') ? { paddingTop: 40 } : { paddingTop: 0 }}>
       <IonHeader className="ion-margin-bottom">
         <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
           <StyledIcon

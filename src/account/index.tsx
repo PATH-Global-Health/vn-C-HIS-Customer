@@ -17,6 +17,7 @@ import {
   IonSelect,
   IonSelectOption,
   IonToast,
+  isPlatform,
 } from "@ionic/react";
 import {
   person,
@@ -260,7 +261,7 @@ const Account: React.FC = () => {
     register("otp");
   }, [register, t]);
   return (
-    <IonPage>
+    <IonPage style={isPlatform('ios') ? { paddingTop: 40 } : { paddingTop: 0 }}>
       <IonContent>
         <IonRow className="ion-justify-content-center">
           <IonCol size="4">

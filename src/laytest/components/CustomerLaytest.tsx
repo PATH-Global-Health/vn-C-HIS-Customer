@@ -16,6 +16,8 @@ import {
   IonHeader,
   IonTitle,
   IonButton,
+  IonPage,
+  isPlatform,
 } from "@ionic/react";
 import { chevronBackOutline, eyedropOutline } from "ionicons/icons";
 import { useDispatch, useSelector } from "@app/hooks";
@@ -147,86 +149,88 @@ const CustomerLaytest: React.FC = () => {
   useEffect(getUserData, [getUserData]);
   useEffect(getData, [getData]);
   return (
-    <IonContent>
-      <Header>
-        <IonHeader className="header">
-          <IonItem color="light" onClick={() => history.replace("/home")}>
-            <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
-            <IonTitle className="title">{t("Laytest result")}</IonTitle>
-          </IonItem>
-        </IonHeader>
-      </Header>
-      {(data || []).map((o, idx) => (
-        <div
-          key={idx}
-          onClick={() => {
-            // dispatch(getPostDetail({ postId: p.id }));
-          }}
-        >
-          <IonRow
-            className="ion-justify-content-center"
-            style={{ cursor: "pointer" }}
+    <IonPage style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}>
+      <IonContent>
+        <Header>
+          <IonHeader className="header">
+            <IonItem color="light" onClick={() => history.replace("/home")}>
+              <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
+              <IonTitle className="title">{t("Laytest result")}</IonTitle>
+            </IonItem>
+          </IonHeader>
+        </Header>
+        {(data || []).map((o, idx) => (
+          <div
+            key={idx}
+            onClick={() => {
+              // dispatch(getPostDetail({ postId: p.id }));
+            }}
           >
-            <IonCol size="12">
-              <ChildCard className="card_width">
-                <IonCard color="light" className="item-content">
-                  <IonIcon
-                    icon={eyedropOutline}
-                    style={{ backgroundColor: "#f77070" }}
-                  ></IonIcon>
-                  <IonCardHeader>
-                    <b className="main-title">{t("Laytest result")}</b>
-                    <span></span>
-                    <IonNote className="main-card">{`${t("Laytest code")}: ${
-                      o?.result?.code ?? "..."
-                    }`}</IonNote>
-                    <IonNote className="main-card">{`${t("Test date")}: ${
-                      moment(o?.dateCreate).format("MM/DD/YYYY") ?? "..."
-                    }`}</IonNote>
-                    <IonNote className="main-card">{`${t("Result date")}: ${
-                      o?.result?.resultDate
-                        ? moment(o?.result?.resultDate).format("MM/DD/YYYY")
-                        : "..."
-                    }`}</IonNote>
-                    <IonNote className="main-card note">{`${t(
-                      "Test result"
-                    )}: ${o?.result?.resultTesting ?? "..."}`}</IonNote>
-                  </IonCardHeader>
-                  <IonButton
-                    onClick={() => {
-                      dispatch(setLaytestDetail({ data: o }));
-                      history.replace("/update-laytest");
-                    }}
-                    className="btn"
-                  >
-                    {t("Update result")}
-                  </IonButton>
-                </IonCard>
-              </ChildCard>
-            </IonCol>
-          </IonRow>
+            <IonRow
+              className="ion-justify-content-center"
+              style={{ cursor: "pointer" }}
+            >
+              <IonCol size="12">
+                <ChildCard className="card_width">
+                  <IonCard color="light" className="item-content">
+                    <IonIcon
+                      icon={eyedropOutline}
+                      style={{ backgroundColor: "#f77070" }}
+                    ></IonIcon>
+                    <IonCardHeader>
+                      <b className="main-title">{t("Laytest result")}</b>
+                      <span></span>
+                      <IonNote className="main-card">{`${t("Laytest code")}: ${
+                        o?.result?.code ?? "..."
+                      }`}</IonNote>
+                      <IonNote className="main-card">{`${t("Test date")}: ${
+                        moment(o?.dateCreate).format("MM/DD/YYYY") ?? "..."
+                      }`}</IonNote>
+                      <IonNote className="main-card">{`${t("Result date")}: ${
+                        o?.result?.resultDate
+                          ? moment(o?.result?.resultDate).format("MM/DD/YYYY")
+                          : "..."
+                      }`}</IonNote>
+                      <IonNote className="main-card note">{`${t(
+                        "Test result"
+                      )}: ${o?.result?.resultTesting ?? "..."}`}</IonNote>
+                    </IonCardHeader>
+                    <IonButton
+                      onClick={() => {
+                        dispatch(setLaytestDetail({ data: o }));
+                        history.replace("/update-laytest");
+                      }}
+                      className="btn"
+                    >
+                      {t("Update result")}
+                    </IonButton>
+                  </IonCard>
+                </ChildCard>
+              </IonCol>
+            </IonRow>
+          </div>
+        ))}
+        <div>
+          <IonInfiniteScroll
+            threshold="100px"
+            onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}
+          >
+            <IonInfiniteScrollContent
+              loadingSpinner="bubbles"
+              loadingText="Loading more data..."
+            >
+              {loading ? (
+                <IonSpinner
+                  name="bubbles"
+                  color="primary"
+                  style={{ left: "50%" }}
+                ></IonSpinner>
+              ) : null}
+            </IonInfiniteScrollContent>
+          </IonInfiniteScroll>
         </div>
-      ))}
-      <div>
-        <IonInfiniteScroll
-          threshold="100px"
-          onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}
-        >
-          <IonInfiniteScrollContent
-            loadingSpinner="bubbles"
-            loadingText="Loading more data..."
-          >
-            {loading ? (
-              <IonSpinner
-                name="bubbles"
-                color="primary"
-                style={{ left: "50%" }}
-              ></IonSpinner>
-            ) : null}
-          </IonInfiniteScrollContent>
-        </IonInfiniteScroll>
-      </div>
-    </IonContent>
+      </IonContent>
+    </IonPage>
   );
 };
 

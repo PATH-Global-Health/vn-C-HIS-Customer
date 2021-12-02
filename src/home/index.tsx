@@ -172,7 +172,7 @@ const Home: React.FC = () => {
             </IonLabel>
             <IonNote
               slot="end"
-              onClick={() => history.push("/customer-service")}
+              onClick={() => history.replace("/customer-service")}
             >
               {t("View all")}
             </IonNote>
@@ -181,7 +181,7 @@ const Home: React.FC = () => {
               slot="end"
               size="small"
               icon={chevronForwardOutline}
-              onClick={() => history.push("/customer-service")}
+              onClick={() => history.replace("/customer-service")}
             />
           </IonItem>
         </Menu>
@@ -214,7 +214,7 @@ const Home: React.FC = () => {
         <IonRow className="ion-margin-top" style={{ cursor: "pointer" }}>
           <IonCol size="12">
             <ResultButton
-              onClick={() => history.push("/laytest")}
+              onClick={() => history.replace("/laytest")}
               color="light"
               lines="none"
             >
@@ -229,7 +229,7 @@ const Home: React.FC = () => {
             <IonLabel>
               <span className="title">{t("Featured Posts")}</span>
             </IonLabel>
-            <IonNote slot="end" onClick={() => history.push("/post")}>
+            <IonNote slot="end" onClick={() => history.replace("/post")}>
               {t("View all")}
             </IonNote>
             <IonIcon

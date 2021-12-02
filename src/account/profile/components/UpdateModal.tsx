@@ -19,6 +19,7 @@ import {
   IonDatetime,
   IonText,
   IonAlert,
+  isPlatform,
 } from "@ionic/react";
 import { chevronBackOutline } from "ionicons/icons";
 
@@ -196,10 +197,6 @@ const UpdateProfile: React.FC = () => {
   useEffect(() => {
     register("fullname", {
       required: { value: true, message: t("Username not enter") },
-      pattern: {
-        value: /^\S*$/,
-        message: t("Username can not contain spaces"),
-      },
       minLength: { value: 4, message: t("Fullname minimum is 4 characters") },
       maxLength: { value: 35, message: t("Fullname maximum is 35 characters") },
     });
@@ -208,9 +205,6 @@ const UpdateProfile: React.FC = () => {
     });
     register("dateOfBirth", {
       required: { value: true, message: t("date of birth not entered") },
-    });
-    register("identityCard", {
-      required: { value: true, message: t("identity card not entered") },
     });
     register("address", {
       required: { value: true, message: t("address not entered") },
@@ -225,7 +219,7 @@ const UpdateProfile: React.FC = () => {
     });
   }, [data, reset]);
   return (
-    <IonPage>
+    <IonPage style={isPlatform('ios') ? { paddingTop: 30 } : { paddingTop: 0 }}>
       <IonHeader className="ion-margin-bottom">
         <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
           <StyledIcon
@@ -253,48 +247,41 @@ const UpdateProfile: React.FC = () => {
                     rules={
                       name === "fullname"
                         ? {
-                            required: {
-                              value: true,
-                              message: t("full name not entered"),
-                            },
-                            minLength: {
-                              value: 4,
-                              message: t("Fullname minimum is 4 characters"),
-                            },
-                            maxLength: {
-                              value: 35,
-                              message: t("Fullname maximum is 35 characters"),
-                            },
-                          }
+                          required: {
+                            value: true,
+                            message: t("full name not entered"),
+                          },
+                          minLength: {
+                            value: 4,
+                            message: t("Fullname minimum is 4 characters"),
+                          },
+                          maxLength: {
+                            value: 35,
+                            message: t("Fullname maximum is 35 characters"),
+                          },
+                        }
                         : name === "gender"
-                        ? {
+                          ? {
                             required: {
                               value: true,
                               message: t("gender not entered"),
                             },
                           }
-                        : name === "dateOfBirth"
-                        ? {
-                            required: {
-                              value: true,
-                              message: t("date of birth not entered"),
-                            },
-                          }
-                        : name === "identityCard"
-                        ? {
-                            required: {
-                              value: true,
-                              message: t("identity card not entered"),
-                            },
-                          }
-                        : name === "nation"
-                        ? {
-                            required: {
-                              value: true,
-                              message: t("nation name not entered"),
-                            },
-                          }
-                        : undefined
+                          : name === "dateOfBirth"
+                            ? {
+                              required: {
+                                value: true,
+                                message: t("date of birth not entered"),
+                              },
+                            }
+                            : name === "nation"
+                              ? {
+                                required: {
+                                  value: true,
+                                  message: t("nation name not entered"),
+                                },
+                              }
+                              : undefined
                     }
                     render={({ field: { onChange, onBlur, value } }) => (
                       <IonRow>
@@ -360,20 +347,20 @@ const UpdateProfile: React.FC = () => {
                             >
                               {name === "province"
                                 ? location.map((lo) => (
-                                    <IonSelectOption
-                                      key={lo.value}
-                                      value={lo.value}
-                                    >
-                                      {lo.label}
-                                    </IonSelectOption>
-                                  ))
+                                  <IonSelectOption
+                                    key={lo.value}
+                                    value={lo.value}
+                                  >
+                                    {lo.label}
+                                  </IonSelectOption>
+                                ))
                                 : name === "district"
-                                ? Boolean(
+                                  ? Boolean(
                                     location.find(
                                       (lo) => lo.value === watch("province")
                                     )
                                   ) === true
-                                  ? location
+                                    ? location
                                       .filter(
                                         (lo) => lo.value === watch("province")
                                       )[0]
@@ -385,50 +372,50 @@ const UpdateProfile: React.FC = () => {
                                           {districts.label}
                                         </IonSelectOption>
                                       ))
-                                  : ""
-                                : name === "ward"
-                                ? Boolean(
-                                    location.find(
-                                      (lo) => lo.value === watch("province")
-                                    )
-                                  ) === true &&
-                                  location
-                                    .filter(
-                                      (lo) => lo.value === watch("province")
-                                    )[0]
-                                    .districts.filter(
-                                      (dis) => dis.value === watch("district")
-                                    )[0] !== undefined
-                                  ? location
-                                      .filter(
+                                    : ""
+                                  : name === "ward"
+                                    ? Boolean(
+                                      location.find(
                                         (lo) => lo.value === watch("province")
-                                      )[0]
-                                      .districts.filter(
-                                        (dis) => dis.value === watch("district")
-                                      )[0]
-                                      .wards.map((ward) => (
+                                      )
+                                    ) === true &&
+                                      location
+                                        .filter(
+                                          (lo) => lo.value === watch("province")
+                                        )[0]
+                                        .districts.filter(
+                                          (dis) => dis.value === watch("district")
+                                        )[0] !== undefined
+                                      ? location
+                                        .filter(
+                                          (lo) => lo.value === watch("province")
+                                        )[0]
+                                        .districts.filter(
+                                          (dis) => dis.value === watch("district")
+                                        )[0]
+                                        .wards.map((ward) => (
+                                          <IonSelectOption
+                                            key={ward.value}
+                                            value={ward.value}
+                                          >
+                                            {ward.label}
+                                          </IonSelectOption>
+                                        ))
+                                      : ""
+                                    : name === "nation"
+                                      ? nation.map((na) => (
                                         <IonSelectOption
-                                          key={ward.value}
-                                          value={ward.value}
+                                          key={na.countryCode}
+                                          value={na.countryCode}
                                         >
-                                          {ward.label}
+                                          {na.name}
                                         </IonSelectOption>
                                       ))
-                                  : ""
-                                : name === "nation"
-                                ? nation.map((na) => (
-                                    <IonSelectOption
-                                      key={na.countryCode}
-                                      value={na.countryCode}
-                                    >
-                                      {na.name}
-                                    </IonSelectOption>
-                                  ))
-                                : gender.map((i, idx) => (
-                                    <IonSelectOption key={idx} value={i.value}>
-                                      {t(i.label)}
-                                    </IonSelectOption>
-                                  ))}
+                                      : gender.map((i, idx) => (
+                                        <IonSelectOption key={idx} value={i.value}>
+                                          {t(i.label)}
+                                        </IonSelectOption>
+                                      ))}
                             </StyledSelect>
                           </IonItem>
                           {errors?.gender?.message && name === "gender" && (

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 
 import styled from "styled-components";
-
 import {
   IonIcon,
   IonContent,
@@ -19,13 +18,13 @@ import {
   IonDatetime,
   IonText,
   IonAlert,
-  IonToast,
+  IonToast
 } from "@ionic/react";
 import { chevronBackOutline } from "ionicons/icons";
 
 import { useHistory } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
-
+import { isPlatform, getPlatforms } from '@ionic/react';
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "@app/hooks";
 import moment from "moment";
@@ -190,7 +189,7 @@ const UpdateAccount: React.FC = () => {
     });
   }, [userData?.userInfo, reset]);
   return (
-    <IonPage>
+    <IonPage style={isPlatform('ios') ? { paddingTop: 40 } : { paddingTop: 0 }}>
       <IonHeader className="ion-margin-bottom">
         <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
           <StyledIcon
@@ -219,14 +218,14 @@ const UpdateAccount: React.FC = () => {
                       rules={
                         name === "email"
                           ? {
-                              pattern: {
-                                value:
-                                  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                message: t("The email address is not valid"),
-                              },
-                            }
+                            pattern: {
+                              value:
+                                /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                              message: t("The email address is not valid"),
+                            },
+                          }
                           : name === "phoneNumber"
-                          ? {
+                            ? {
                               minLength: {
                                 value: 10,
                                 message: t(
@@ -246,7 +245,7 @@ const UpdateAccount: React.FC = () => {
                                 ),
                               },
                             }
-                          : undefined
+                            : undefined
                       }
                       render={({ field: { onChange, onBlur, value } }) => (
                         <IonRow>
@@ -368,7 +367,7 @@ const UpdateAccount: React.FC = () => {
           ]}
         />
       </IonContent>
-    </IonPage>
+    </IonPage >
   );
 };
 

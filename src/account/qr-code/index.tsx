@@ -6,8 +6,10 @@ import {
   IonHeader,
   IonIcon,
   IonItem,
+  IonPage,
   IonRow,
   IonTitle,
+  isPlatform,
 } from "@ionic/react";
 
 import { useTranslation } from "react-i18next";
@@ -21,7 +23,7 @@ const QrCode: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   return (
-    <IonContent>
+    <IonPage style={isPlatform('ios') ? { paddingTop: 40 } : { paddingTop: 0 }}>
       <IonHeader className="ion-margin-bottom">
         <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
           <StyledIcon
@@ -34,7 +36,7 @@ const QrCode: React.FC = () => {
         </IonItem>
       </IonHeader>
       <GenerateQrCode />
-    </IonContent>
+    </IonPage>
   );
 };
 

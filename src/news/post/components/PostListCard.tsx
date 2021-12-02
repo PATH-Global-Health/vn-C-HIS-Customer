@@ -15,6 +15,8 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonSpinner,
+  IonPage,
+  isPlatform,
 } from '@ionic/react';
 import {
   searchOutline,
@@ -192,89 +194,90 @@ const PostListCard: React.FC = () => {
 
   useEffect(getData, [getData]);
   return (
-    <IonContent>
-
-      <IonRow className="ion-justify-content-center" >
-        <IonCol size="4">
-          <div>
-            <img src={logo} alt="logo" width='150px' />
-          </div>
-        </IonCol>
-      </IonRow>
-      <IonRow className='ion-justify-content-center'>
-        <IonCol size="12">
-          <StyledHeader>
+    <IonPage style={isPlatform('ios') ? { paddingTop: 40 } : { paddingTop: 0 }}>
+      <IonContent>
+        <IonRow className="ion-justify-content-center" >
+          <IonCol size="4">
             <div>
-              <StyleWrapperInput color='light' lines='none' onClick={() => { setSearchText(searchData) }}>
-                <StyledInput
-                  placeholder={t('Search')}
-                  onIonChange={e => setSearchData(e.detail.value!)}
-                >
-                </StyledInput>
-                <IonIcon icon={searchOutline} ></IonIcon>
-              </StyleWrapperInput>
+              <img src={logo} alt="logo" width='150px' />
             </div>
-            <div className="ion-margin-top">
-              <SearchNote>{t('Popular keywords')}</SearchNote>
-            </div>
-            <TagList handleFilterTag={(id: string) => { handleFilterTag(id) }} />
-          </StyledHeader>
-        </IonCol>
-      </IonRow>
-      {FilterByTagId(data, tagId).slice(0, totalPostLoading).map((p, idx) => (
-        <div key={idx} onClick={() => {
-          dispatch(getPostDetail({ postId: p.id }));
-          dispatch(setParentPostData({ data: p }));
-          history.push('/post-detail')
-        }
-        }>
-          {
-            idx === 0 ?
-              <IonRow className='ion-justify-content-center' style={{ cursor: 'pointer' }}>
-                <IonCol size="12">
-                  <Card>
-                    <IonCard>
-                      <img src={p?.description !== '' ? p.description : logo} alt="" height='180px' width='100%' />
-                      <IonCardHeader >
-                        <IonCardTitle className="main-title">{p?.name ?? '...'}</IonCardTitle>
-                        <IonNote className='main-card'>{moment(p?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
-                        <IonNote className='main-card'>{p?.writter ?? '...'}</IonNote>
-                      </IonCardHeader>
-                    </IonCard>
-                  </Card>
-                </IonCol>
-              </IonRow>
-              :
-              <IonRow className='ion-justify-content-center' style={{ cursor: 'pointer' }}>
-                <IonCol size="12">
-                  <ChildCard className='card_width'>
-                    <IonItem color='light' lines='none' className='item-content'>
-                      <img src={p?.description !== '' ? p.description : logo} slot='start' alt='' />
-                      <IonCardHeader>
-                        <IonCardTitle className='main-card'>{p?.name ?? '...'}</IonCardTitle>
-                        <IonNote className='main-card'>{moment(p?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
-                        <IonNote className='main-card'>{p?.writter ?? '...'}</IonNote>
-                      </IonCardHeader>
-                    </IonItem>
-
-                  </ChildCard>
-                </IonCol>
-              </IonRow>
+          </IonCol>
+        </IonRow>
+        <IonRow className='ion-justify-content-center'>
+          <IonCol size="12">
+            <StyledHeader>
+              <div>
+                <StyleWrapperInput color='light' lines='none' onClick={() => { setSearchText(searchData) }}>
+                  <StyledInput
+                    placeholder={t('Search')}
+                    onIonChange={e => setSearchData(e.detail.value!)}
+                  >
+                  </StyledInput>
+                  <IonIcon icon={searchOutline} ></IonIcon>
+                </StyleWrapperInput>
+              </div>
+              <div className="ion-margin-top">
+                <SearchNote>{t('Popular keywords')}</SearchNote>
+              </div>
+              <TagList handleFilterTag={(id: string) => { handleFilterTag(id) }} />
+            </StyledHeader>
+          </IonCol>
+        </IonRow>
+        {FilterByTagId(data, tagId).slice(0, totalPostLoading).map((p, idx) => (
+          <div key={idx} onClick={() => {
+            dispatch(getPostDetail({ postId: p.id }));
+            dispatch(setParentPostData({ data: p }));
+            history.push('/post-detail')
           }
+          }>
+            {
+              idx === 0 ?
+                <IonRow className='ion-justify-content-center' style={{ cursor: 'pointer' }}>
+                  <IonCol size="12">
+                    <Card>
+                      <IonCard>
+                        <img src={p?.description !== '' ? p.description : logo} alt="" height='180px' width='100%' />
+                        <IonCardHeader >
+                          <IonCardTitle className="main-title">{p?.name ?? '...'}</IonCardTitle>
+                          <IonNote className='main-card'>{moment(p?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
+                          <IonNote className='main-card'>{p?.writter ?? '...'}</IonNote>
+                        </IonCardHeader>
+                      </IonCard>
+                    </Card>
+                  </IonCol>
+                </IonRow>
+                :
+                <IonRow className='ion-justify-content-center' style={{ cursor: 'pointer' }}>
+                  <IonCol size="12">
+                    <ChildCard className='card_width'>
+                      <IonItem color='light' lines='none' className='item-content'>
+                        <img src={p?.description !== '' ? p.description : logo} slot='start' alt='' />
+                        <IonCardHeader>
+                          <IonCardTitle className='main-card'>{p?.name ?? '...'}</IonCardTitle>
+                          <IonNote className='main-card'>{moment(p?.dateCreated).format('MM/DD/YYYY') ?? '...'}</IonNote>
+                          <IonNote className='main-card'>{p?.writter ?? '...'}</IonNote>
+                        </IonCardHeader>
+                      </IonItem>
+
+                    </ChildCard>
+                  </IonCol>
+                </IonRow>
+            }
+          </div>
+        ))}
+        <div>
+          <IonInfiniteScroll threshold="100px"
+            onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
+            <IonInfiniteScrollContent
+              loadingSpinner="bubbles"
+              loadingText="Loading more data..."
+            >
+              {loading ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%' }}></IonSpinner> : null}
+            </IonInfiniteScrollContent>
+          </IonInfiniteScroll>
         </div>
-      ))}
-      <div>
-        <IonInfiniteScroll threshold="100px"
-          onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
-          <IonInfiniteScrollContent
-            loadingSpinner="bubbles"
-            loadingText="Loading more data..."
-          >
-            {loading ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%' }}></IonSpinner> : null}
-          </IonInfiniteScrollContent>
-        </IonInfiniteScroll>
-      </div>
-    </IonContent>
+      </IonContent>
+    </IonPage>
   );
 };
 

@@ -4,7 +4,9 @@ import {
   IonHeader,
   IonIcon,
   IonItem,
+  IonPage,
   IonTitle,
+  isPlatform,
 } from "@ionic/react";
 import { chevronBackOutline } from "ionicons/icons";
 import styled from "styled-components";
@@ -44,28 +46,30 @@ const RiskPage: React.FC = () => {
   };
 
   return (
-    <IonContent>
-      <Header>
-        <IonHeader className="header">
-          <IonItem color="light" onClick={() => back()}>
-            <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
-            <IonTitle className="title">
-              {type === undefined
-                ? t("Learn the risk")
-                : type === "answer"
-                ? t("Reply form")
-                : type === "ans-history"
-                ? t("Reply history")
-                : t("Result")}
-            </IonTitle>
-          </IonItem>
-        </IonHeader>
-      </Header>
-      {type !== undefined || <QuestionTemplatePage />}
-      {type === "answer" && <QuestionForm />}
-      {type === "ans-history" && <AnsHistory />}
-      {type === "result" && <ResultPage />}
-    </IonContent>
+    <IonPage style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}>
+      <IonContent>
+        <Header>
+          <IonHeader className="header">
+            <IonItem color="light" onClick={() => back()}>
+              <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
+              <IonTitle className="title">
+                {type === undefined
+                  ? t("Learn the risk")
+                  : type === "answer"
+                  ? t("Reply form")
+                  : type === "ans-history"
+                  ? t("Reply history")
+                  : t("Result")}
+              </IonTitle>
+            </IonItem>
+          </IonHeader>
+        </Header>
+        {type !== undefined || <QuestionTemplatePage />}
+        {type === "answer" && <QuestionForm />}
+        {type === "ans-history" && <AnsHistory />}
+        {type === "result" && <ResultPage />}
+      </IonContent>
+    </IonPage>
   );
 };
 

@@ -7,6 +7,7 @@
     "@capacitor/android": "^3.3.2",
     "@capacitor/core": "^3.1.2",
     "@capacitor/filesystem": "^1.0.3",
+    "@capacitor/ios": "^3.3.2",
     "@codetrix-studio/capacitor-google-auth": "^3.0.2",
     "@hookform/strictly-typed": "^0.0.4",
     "@ionic-native/barcode-scanner": "^5.36.0",
@@ -110,7 +111,7 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "^2.4.7",
+    "@capacitor/cli": "3.3.2",
     "@types/react-calendar": "^3.1.6",
     "@types/react-datepicker": "^3.1.8",
     "@types/react-google-recaptcha": "^2.1.0"

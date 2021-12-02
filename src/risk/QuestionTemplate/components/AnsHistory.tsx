@@ -28,10 +28,6 @@ const WrapperQuestion = styled.div`
       --background: white;
       --border-style: none;
     }
-    ion-radio{
-      
-    }
-   
 `;
 const StyledButton = styled(IonButton)`
   font-size: 13px;
@@ -86,21 +82,19 @@ const AnsHistory: React.FC = () => {
               defaultValue={o?.answer?.id}
               render={({ field: { onChange, onBlur, value } }) => (
                 <WrapperQuestion>
-                  <IonRow className="">
+                  <IonRow>
                     <IonCol size="12" >
                       <IonItem color='light' lines='inset' className='group-item'>
                         <IonRadioGroup
                           value={o?.answer?.id}
                           onIonChange={onChange}
                         >
-                          <IonListHeader>
-                            <IonItem>{`Câu ${i + 1}: ${o?.question?.description ?? ''} ?`}</IonItem>
-                          </IonListHeader>
+                          <IonItem>{`Câu ${i + 1}: ${o?.question?.description ?? ''} ?`}</IonItem>
                           {
                             o?.question?.answers?.map((ans, idx) => (
                               <IonItem key={idx}>
-                                <IonLabel>{ans?.description ?? ''}</IonLabel>
                                 <IonRadio slot="start" value={ans?.id} />
+                                <div>{ans?.description ?? ''}</div>
                               </IonItem>
                             ))
                           }
@@ -115,7 +109,7 @@ const AnsHistory: React.FC = () => {
         }
         <IonRow className="ion-justify-content-center">
           <IonCol size="12">
-            <div style={{ textAlign: 'center', marginTop: '10px' }}>
+            <div style={{ textAlign: 'center', marginTop: '10px', marginBottom: '40px' }}>
               <StyledButton type='submit'>{t('Review the results')}</StyledButton>
             </div>
           </IonCol>

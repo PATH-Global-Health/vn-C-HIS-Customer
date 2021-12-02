@@ -8,8 +8,10 @@ import {
   IonIcon,
   IonItem,
   IonLabel,
+  IonPage,
   IonRow,
   IonTitle,
+  isPlatform,
 } from '@ionic/react';
 import {
   searchOutline,
@@ -118,39 +120,42 @@ const CustomerService: React.FC = () => {
     dispatch(setHandeRisk({ type: undefined }));
   }
   return (
-    <IonContent>
-      <Header>
-        <IonHeader className="header">
-          <IonItem color="light" onClick={() => history.push('/home')} >
-            <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
-            <IonTitle className="title">
-              {t('Your service')}
-            </IonTitle>
-          </IonItem>
-        </IonHeader>
-      </Header>
-      <Wrapper>
-        {
-          optionFields.map(({ name, icon, label, color, note }, idx) => {
-            return (
-              <IonCol size="6" key={idx}>
-                <Card
-                  style={{ backgroundColor: color }}
-                  onClick={() => { handleTypeService(name + "") }}
-                >
-                  <div>
-                    <CardIcon icon={icon} slot='start' />
-                  </div>
-                  <CardLabel>
-                    {label}
-                  </CardLabel>
-                </Card>
-              </IonCol>
-            )
-          })
-        }
-      </Wrapper>
-    </IonContent>
+    <IonPage style={isPlatform('ios') ? { paddingTop: 40 } : { paddingTop: 0 }}>
+      <IonContent>
+        <Header>
+          <IonHeader className="header">
+            <IonItem color="light" onClick={() => history.push('/home')} >
+              <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
+              <IonTitle className="title">
+                {t('Your service')}
+              </IonTitle>
+            </IonItem>
+          </IonHeader>
+        </Header>
+        <Wrapper>
+          {
+            optionFields.map(({ name, icon, label, color, note }, idx) => {
+              return (
+                <IonCol size="6" key={idx}>
+                  <Card
+                    style={{ backgroundColor: color }}
+                    onClick={() => { handleTypeService(name + "") }}
+                  >
+                    <div>
+                      <CardIcon icon={icon} slot='start' />
+                    </div>
+                    <CardLabel>
+                      {label}
+                    </CardLabel>
+                  </Card>
+                </IonCol>
+              )
+            })
+          }
+        </Wrapper>
+      </IonContent>
+
+    </IonPage>
   );
 };
 

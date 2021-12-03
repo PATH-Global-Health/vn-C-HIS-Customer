@@ -67,34 +67,34 @@ const apiLinks = {
   },
   manageSchedule: {
     unitTypes: {
-      get: `${smapi}/api/UnitTypes`,
+      get: `${smapi}/UnitTypes`,
     },
     serviceForms: {
-      get: `${smapi}/api/ServiceForms`,
+      get: `${smapi}/ServiceForms`,
     },
     hospital: {
-      get: `${smapi}/api/Hospitals`,
-      getHospitalImage: `${smapi}/api/Hospitals/Logo/`
+      get: `${smapi}/Hospitals`,
+      getHospitalImage: `${smapi}/Hospitals/Logo/`
     },
     workingCalendar: {
-      getDaysByUnitAndService: `${smapi}/api/WorkingCalendars/GetDaysByUnitAndService`,
-      getInterval: `${smapi}/api/WorkingCalendars/GetIntervals`,
-      getIntervalsWithDayId: `${smapi}/api/WorkingCalendars/GetIntervalsWithDayId`,
+      getDaysByUnitAndService: `${smapi}/WorkingCalendars/GetDaysByUnitAndService`,
+      getInterval: `${smapi}/WorkingCalendars/GetIntervals`,
+      getIntervalsWithDayId: `${smapi}/WorkingCalendars/GetIntervalsWithDayId`,
     },
     days: {
-      get: `${smapi}/api/Days/WorkingDate`,
-      getDateByServiceId: `${smapi}/api/Days/Available/`,
+      get: `${smapi}/Days/WorkingDate`,
+      getDateByServiceId: `${smapi}/Days/Available/`,
     },
     profile: {
       get: `${smapi}/Profiles`
     },
     doctor: {
-      getAllDoctor: `${smapi}/api/Doctors/GetAllDoctor`
+      getAllDoctor: `${smapi}/Doctors/GetAllDoctor`
     }
   },
   bookingService: {
-    postExaminations: `${apiBookingService}/api/Examinations`,
-    resultForm: `${apiBookingService}/api/Examinations/ResultForm`
+    postExaminations: `${apiBookingService}/Examinations`,
+    resultForm: `${apiBookingService}/Examinations/ResultForm`
   },
 };
 

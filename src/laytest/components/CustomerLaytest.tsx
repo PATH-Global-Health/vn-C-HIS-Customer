@@ -115,7 +115,7 @@ const CustomerLaytest: React.FC = () => {
   const customerUserName = useSelector(
     (s) => s.auth.userInfo?.data.userInfo.username
   );
-  const { data } = useSelector((s) => s.laytest.laytestList);
+  const { laytestList: { data }, getLaytestLoading } = useSelector((s) => s.laytest);
 
   async function fetchData() {
     setTimeout(() => {
@@ -180,17 +180,14 @@ const CustomerLaytest: React.FC = () => {
                     <IonCardHeader>
                       <b className="main-title">{t("Laytest result")}</b>
                       <span></span>
-                      <IonNote className="main-card">{`${t("Laytest code")}: ${
-                        o?.result?.code ?? "..."
-                      }`}</IonNote>
-                      <IonNote className="main-card">{`${t("Test date")}: ${
-                        moment(o?.dateCreate).format("MM/DD/YYYY") ?? "..."
-                      }`}</IonNote>
-                      <IonNote className="main-card">{`${t("Result date")}: ${
-                        o?.result?.resultDate
-                          ? moment(o?.result?.resultDate).format("MM/DD/YYYY")
-                          : "..."
-                      }`}</IonNote>
+                      <IonNote className="main-card">{`${t("Laytest code")}: ${o?.result?.code ?? "..."
+                        }`}</IonNote>
+                      <IonNote className="main-card">{`${t("Test date")}: ${moment(o?.dateCreate).format("MM/DD/YYYY") ?? "..."
+                        }`}</IonNote>
+                      <IonNote className="main-card">{`${t("Result date")}: ${o?.result?.resultDate
+                        ? moment(o?.result?.resultDate).format("MM/DD/YYYY")
+                        : "..."
+                        }`}</IonNote>
                       <IonNote className="main-card note">{`${t(
                         "Test result"
                       )}: ${o?.result?.resultTesting ?? "..."}`}</IonNote>
@@ -223,7 +220,7 @@ const CustomerLaytest: React.FC = () => {
                 <IonSpinner
                   name="bubbles"
                   color="primary"
-                  style={{ left: "50%" }}
+                  style={{ left: "50%", top: "40%" }}
                 ></IonSpinner>
               ) : null}
             </IonInfiniteScrollContent>

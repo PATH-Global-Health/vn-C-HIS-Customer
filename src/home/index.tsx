@@ -136,10 +136,10 @@ const Home: React.FC = () => {
     name === "booking"
       ? history.replace("/shomeBooking")
       : name === "examinationList"
-      ? history.replace("/examinationList")
-      : name === "doctorList"
-      ? history.replace("/doctorList")
-      : RedirectRiskPage();
+        ? history.replace("/examinationList")
+        : name === "doctorList"
+          ? history.replace("/doctorList")
+          : RedirectRiskPage();
   };
   const RedirectRiskPage = () => {
     history.replace("/risk");

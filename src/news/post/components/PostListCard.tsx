@@ -101,9 +101,9 @@ const ChildCard = styled(IonRow)`
   }
   img {
     max-width: 140px;
-    border-radius: 5px;
+    border-radius: 10px;
     margin: 0px 0px 0px -10px;
-    padding: 0;
+    padding: 2px;
   }
   ion-label {
     margin-top: 8px;

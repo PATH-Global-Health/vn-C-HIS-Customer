@@ -181,7 +181,6 @@ const SecurityQuestionMehod: React.FC = () => {
           </IonCol>
         </IonRow>
       </form>
-
     </IonContent>
 
   );

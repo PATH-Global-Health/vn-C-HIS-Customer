@@ -1,51 +1,51 @@
-const userUrl = 'https://user-management.bakco.vn';
-const smapi = 'https://schedule-management.bakco.vn';
-const cmsApi = 'https://mini-cms.bakco.vn';
-const apiBookingService = 'https://booking-management.bakco.vn';
+const userUrl = 'https://api.chis.vn/v1/auth';
+const smapi = 'https://api.chis.vn/v1/schedule';
+const cmsApi = 'https://api.chis.vn/v1/mini-cms';
+const apiBookingService = 'https://api.chis.vn/v1/booking';
 
 const apiLinks = {
   auth: {
-    token: `${userUrl}/api/Users/Login`,
-    loginWithFacebook: `${userUrl}/api/Users/LoginWithFacebook`,
-    loginWithGoogle: `${userUrl}/api/Users/LoginWithGoogle`,
-    loginWithIncognito: `${userUrl}/api/Users/AnonymousLogin`,
-    userInfo: `${userUrl}/api/Users/GetUserInfo`,
-    getPermission: `${userUrl}/api/Users/Permissions/Ui`,
-    confirmEmail: `${userUrl}/api/Users/SendOTPVerification`,
-    verifyEmailOTp: `${userUrl}/api/Users/VerifyEmailOTP`,
+    token: `${userUrl}/Users/Login`,
+    loginWithFacebook: `${userUrl}/Users/LoginWithFacebook`,
+    loginWithGoogle: `${userUrl}/Users/LoginWithGoogle`,
+    loginWithIncognito: `${userUrl}/Users/AnonymousLogin`,
+    userInfo: `${userUrl}/Users/GetUserInfo`,
+    getPermission: `${userUrl}/Users/Permissions/Ui`,
+    confirmEmail: `${userUrl}/Users/SendOTPVerification`,
+    verifyEmailOTp: `${userUrl}/Users/VerifyEmailOTP`,
   },
   manageAccount: {
-    create: `${userUrl}/api/Users`,
-    updateAccount: `${userUrl}/api/Users`,
-    updatePhoneNumber: `${userUrl}/api/Users`,
-    sendUpdateOtp: `${userUrl}/api/Users/SendUpdateUserOTP`,
-    generateOTP: `${userUrl}/api/Users/SendOTPVerification`,
-    confirmOTP: `${userUrl}/api/Users/VerifyOTPOfPhoneNumber`,
-    changePassword: `${userUrl}/api/Users/ChangePassword`,
-    resetPassword: `${userUrl}/api/Users/ResetPassword`,
+    create: `${userUrl}/Users`,
+    updateAccount: `${userUrl}/Users`,
+    updatePhoneNumber: `${userUrl}/Users`,
+    sendUpdateOtp: `${userUrl}/Users/SendUpdateUserOTP`,
+    generateOTP: `${userUrl}/Users/SendOTPVerification`,
+    confirmOTP: `${userUrl}/Users/VerifyOTPOfPhoneNumber`,
+    changePassword: `${userUrl}/Users/ChangePassword`,
+    resetPassword: `${userUrl}/Users/ResetPassword`,
   },
   forgetPassword: {
-    generateOTP: `${userUrl}/api/Users/ResetPassword/GenerateOTP`,
-    confirmOTP: `${userUrl}/api/Users/ResetPassword/ConfirmOTP`,
+    generateOTP: `${userUrl}/Users/ResetPassword/GenerateOTP`,
+    confirmOTP: `${userUrl}/Users/ResetPassword/ConfirmOTP`,
   },
   securitySetting: {
     getQuestions: `${userUrl}/api/SecurityQuestion`,
     getDetails: (id: string): string =>
       `${userUrl}/api/SecurityQuestion/${id}`,
-    update: `${userUrl}/api/Users/ChangeSecurityQuestionAnswer`,
-    confirmSecurity: `${userUrl}/api/Users/ResetPassword/ConfirmSecurityQuestion`,
+    update: `${userUrl}/Users/ChangeSecurityQuestionAnswer`,
+    confirmSecurity: `${userUrl}/Users/ResetPassword/ConfirmSecurityQuestion`,
   },
   post: {
-    get: `${cmsApi}/api/Post`,
+    get: `${cmsApi}/Post`,
     getDetails: (id: string): string =>
-      `${cmsApi}/api/Part/${id}`,
+      `${cmsApi}/Part/${id}`,
   },
   tag: {
-    get: `${cmsApi}/api/Tag`,
+    get: `${cmsApi}/Tag`,
   },
   questionTemplate: {
-    get: `${cmsApi}/api/QuestionTemplate/Filter`,
-    getDetails: (id: string): string => `${cmsApi}/api/QuestionTemplate/${id}`
+    get: `${cmsApi}/QuestionTemplate/Filter`,
+    getDetails: (id: string): string => `${cmsApi}/QuestionTemplate/${id}`
   },
   surveySession: {
     getDetails: ({
@@ -54,16 +54,16 @@ const apiLinks = {
     }: {
       userId?: string;
       templateId?: string;
-    }) => `${cmsApi}/api/SurveySession/UserChecked/${userId}/${templateId}`,
-    post: `${cmsApi}/api/SurveySession`,
+    }) => `${cmsApi}/SurveySession/UserChecked/${userId}/${templateId}`,
+    post: `${cmsApi}/SurveySession`,
   },
   profile: {
-    get: `${smapi}/api/Profiles`,
-    update: `${smapi}/api/Profiles`,
+    get: `${smapi}/Profiles`,
+    update: `${smapi}/Profiles`,
   },
   laytest: {
-    get: `${apiBookingService}/api/TestingHistory/LayTest`,
-    update: `${apiBookingService}/api/TestingHistory/LayTest`,
+    get: `${apiBookingService}/TestingHistory/LayTest`,
+    update: `${apiBookingService}/TestingHistory/LayTest`,
   },
   manageSchedule: {
     unitTypes: {
@@ -86,7 +86,7 @@ const apiLinks = {
       getDateByServiceId: `${smapi}/api/Days/Available/`,
     },
     profile: {
-      get: `${smapi}/api/Profiles`
+      get: `${smapi}/Profiles`
     },
     doctor: {
       getAllDoctor: `${smapi}/api/Doctors/GetAllDoctor`

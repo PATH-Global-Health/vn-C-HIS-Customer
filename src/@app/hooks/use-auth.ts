@@ -53,7 +53,7 @@ const useAuth = (): UseAuth => {
       dispatch<any>(getPermission(token.access_token))
         .then((response: any) => {
           const { payload: permissionList } = response;
-          const authorized = permissionList.find((p: any) => p?.code && p.code === ACCESS_PERMISSION);
+          const authorized = permissionList?.find((p: any) => p?.code && p.code === ACCESS_PERMISSION);
           if (!authorized) {
             localStorage.removeItem(TOKEN);
             localStorage.removeItem(EXPIRED_TIME);

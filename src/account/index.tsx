@@ -105,7 +105,7 @@ const Account: React.FC = () => {
   } = useForm();
   const [verifyCode, setVerifyCode] = useState<boolean>(false);
   const { profile } = useSelector((s) => s.profile);
-  const userData = useSelector((s) => s.auth.userInfo?.data);
+  const userData = useSelector((s) => s.auth?.userInfo?.data);
 
   const [verifyPhoneNumber, setVerifyPhoneNumber] = useState<boolean>(false);
   const [verifyOTP, setVerifyOTP] = useState<boolean>(false);

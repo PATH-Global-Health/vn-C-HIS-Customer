@@ -76,7 +76,7 @@ const Card = styled(IonRow)`
 
 const QuestionTemplatePage: React.FC = () => {
   const { t } = useTranslation();
-  const userId = useSelector(s => s.auth.token?.userId);
+  const userId = useSelector(s => s.auth?.token?.userId);
 
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(50);

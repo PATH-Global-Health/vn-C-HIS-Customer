@@ -15,7 +15,7 @@ const getHospitalByServiceId = async (serviceId: string): Promise<Hospital[]> =>
 const getHospitalByServiceIdAndDate = async (serviceId: string, date: string): Promise<Hospital[]> => {
   try {
     const result = await httpClient.get({
-      url: apiLinks.manageSchedule.hospital.get + `GetByServiceAndDate/${serviceId}/${date}`,
+      url: apiLinks.manageSchedule.hospital.get + `/GetByServiceAndDate/${serviceId}/${date}`,
     });
     return result.data as Hospital[];
   } catch (error) {

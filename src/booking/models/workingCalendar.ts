@@ -7,7 +7,7 @@ export interface WorkingCalendar {
     id?: string,
     schedules?: Schedules,
     service?: Service[] | [],
-    status?: boolean,
+    status?: number,
     time?: string,
 }
 

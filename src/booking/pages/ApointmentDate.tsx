@@ -28,6 +28,7 @@ const ApointmentDate: React.FC = () => {
   const workingCalendars = useSelector(
     (w) => w.workingCaledar.workingCalendars
   );
+  const workingCalendarsActive = workingCalendars.filter((d) => d.status === 1);
   const loading = useSelector((b) => b.workingCaledar.loading);
   const serviceId = useSelector((w) => w.workingCaledar.serviceId);
   const history = useHistory();
@@ -140,7 +141,7 @@ const ApointmentDate: React.FC = () => {
                   modifiers={{ selectedDate: new Date(date) }}
                   onDayClick={(day) => {
                     if (
-                      workingCalendars
+                      workingCalendarsActive
                         .map((ad) => moment(ad.date).format("YYYY-MM-DD"))
                         .includes(moment(day).format("YYYY-MM-DD"))
                     ) {
@@ -151,7 +152,7 @@ const ApointmentDate: React.FC = () => {
                     }
                   }}
                   disabledDays={(day: Date) =>
-                    !workingCalendars
+                    !workingCalendarsActive
                       .map((ad) => moment(ad.date).format("YYYY-MM-DD"))
                       .includes(moment(day).format("YYYY-MM-DD"))
                   }

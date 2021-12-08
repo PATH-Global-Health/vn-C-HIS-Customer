@@ -33,7 +33,7 @@ const ChoosingTime: React.FC = () => {
   const { t } = useTranslation();
 
   const listInterval = interval.filter(
-    (i) => i.isAvailable && i.availableQuantity > 0
+    (i) => i.isAvailable && i.availableQuantity > 0 && i.status === 1
   );
 
   return (

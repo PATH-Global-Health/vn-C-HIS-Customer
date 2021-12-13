@@ -8,6 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        self.checkDevice()
         return true
     }
 
@@ -56,5 +57,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NotificationCenter.default.post(name: .capacitorStatusBarTapped, object: nil)
         }
     }
+    
+    func checkDevice() {
+        if let url = URL(string: "cydia://package/com.example.package"), UIApplication.shared.canOpenURL(url) {
+            // Device is jailbroken
+            print("Device is jailbroken")
+            UIControl().sendAction(#selector(NSXPCConnection.suspend),
+                                   to: UIApplication.shared, for: nil)
+        } else {
+            // Device is not jailbroken
+            print("Device is not jailbroken")
+        }
+    }
 
+}
+
+extension UITextField {
+    open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        switch action {
+        case #selector(UIResponderStandardEditActions.paste(_:)):
+            return false
+            
+        case #selector(UIResponderStandardEditActions.copy(_:)):
+            return false
+
+        case #selector(UIResponderStandardEditActions.cut(_:)):
+            return false
+
+        default:
+            return super.canPerformAction(action, withSender: sender)
+        }
+    }
 }

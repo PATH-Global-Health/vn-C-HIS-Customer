@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useAuth } from '@app/hooks';
+import React, { useEffect, useMemo } from "react";
+import { useHistory } from "react-router-dom";
+import { useAuth } from "@app/hooks";
 
 const AuthPage: React.FC = () => {
   const history = useHistory();
@@ -8,7 +8,7 @@ const AuthPage: React.FC = () => {
 
   useEffect(() => {
     if (history) {
-      history.push(isAuthenticated() ? '/home' : '/login');
+      history.replace(isAuthenticated() ? "/home" : "/login");
     }
   }, [history, isAuthenticated]);
 

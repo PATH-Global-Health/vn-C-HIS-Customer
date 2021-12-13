@@ -1,19 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { IonIcon, IonContent, IonInput, IonButton, IonRow, IonCol, IonCheckbox, IonToast, IonItem, IonText, IonSelect, IonSelectOption } from '@ionic/react';
-import { lockClosed, eyeOffSharp, eyeSharp, person } from 'ionicons/icons';
+import {
+  IonIcon,
+  IonContent,
+  IonInput,
+  IonButton,
+  IonRow,
+  IonCol,
+  IonCheckbox,
+  IonToast,
+  IonItem,
+  IonText,
+  IonSelect,
+  IonSelectOption,
+} from "@ionic/react";
+import { lockClosed, eyeOffSharp, eyeSharp, person } from "ionicons/icons";
 
-import { useAuth } from '@app/hooks';
+import { useAuth } from "@app/hooks";
 import { useHistory } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 
-import logo from '../assets/img/logo.png';
-import { useTranslation } from 'react-i18next';
-import { } from 'react-redux';
-import GoogleAuthen from '@app/components/login/GoogleLogin';
-import FacebookAuthen from '@app/components/login/FacebookLogin';
+import logo from "../assets/img/logo.png";
+import { useTranslation } from "react-i18next";
+import {} from "react-redux";
+import GoogleAuthen from "@app/components/login/GoogleLogin";
+import FacebookAuthen from "@app/components/login/FacebookLogin";
 
 const StyleWrapperInput = styled(IonItem)`
   background-color: white;
@@ -27,47 +40,47 @@ const StyleWrapperInput = styled(IonItem)`
   box-shadow: 1px 3px 3px 0px rgba(0, 0, 0, 0.2);
 `;
 const StyledInput = styled(IonInput)`
-    color: black;
-    margin-top: 2px;
+  color: black;
+  margin-top: 2px;
 `;
 const StyleText = styled.div`
-    font-size: 15px;
-    color: #010100;
-    text-align: end;
-    margin-right: 20px;
-    margin-top: 10px;
-    font-weight: 500;
-    cursor:pointer;
+  font-size: 15px;
+  color: #010100;
+  text-align: end;
+  margin-right: 20px;
+  margin-top: 10px;
+  font-weight: 500;
+  cursor: pointer;
 `;
 const StyledButton = styled(IonButton)`
-    width: 300px;
-    margin-top: 10px;
-    --background: #293978;
+  width: 300px;
+  margin-top: 10px;
+  --background: #293978;
 `;
 const StyledSocialSelect = styled(IonSelect)`
-    color: black;
-    border: 0.5px solid #d6d6c2;
-    width: 250px;
-    --background: white;
-    margin: 0px auto;
+  color: black;
+  border: 0.5px solid #d6d6c2;
+  width: 250px;
+  --background: white;
+  margin: 0px auto;
 `;
 
 const StyledHeader = styled.h1`
-    font-size: 35px;
-    font-weight: 700;
-    color: #010100;
-    padding-left: 35px;
-    margin-top: 10px;
+  font-size: 35px;
+  font-weight: 700;
+  color: #010100;
+  padding-left: 35px;
+  margin-top: 10px;
 `;
 
 const ErrorText = styled(IonText)`
-   color: #f46a6a;
-   margin-left: 5px;
-   font-size: 15px;
+  color: #f46a6a;
+  margin-left: 5px;
+  font-size: 15px;
 `;
 const StyledIcon = styled(IonIcon)`
-   font-size: 20px;
-   color: #5d6060;
+  font-size: 20px;
+  color: #5d6060;
 `;
 interface InputProps {
   name: string;
@@ -75,7 +88,7 @@ interface InputProps {
   label?: string;
   icon: string;
   [otherProps: string]: unknown;
-};
+}
 interface LoginModel {
   username: string;
   password: string;
@@ -90,22 +103,29 @@ const LoginPage: React.FC = () => {
       icon: person,
       name: "username",
       fieldType: "input",
-      label: t('username'),
-      placeholder: t('User name'),
+      label: t("username"),
+      placeholder: t("User name"),
     },
     {
       icon: lockClosed,
       name: "password",
       fieldType: "input",
-      label: t('Password'),
-      placeholder: t('Password'),
+      label: t("Password"),
+      placeholder: t("Password"),
     },
   ];
-  const { control, handleSubmit, register, formState: { errors }, trigger, getValues } = useForm();
+  const {
+    control,
+    handleSubmit,
+    register,
+    formState: { errors },
+    trigger,
+    getValues,
+  } = useForm();
   const { login, loginWithIncognito } = useAuth();
   const permissionQuery = {};
-  const [errorCode, setErrorCode] = useState<string>('');
-  const [remember, setRemember] = useState(true)
+  const [errorCode, setErrorCode] = useState<string>("");
+  const [remember, setRemember] = useState(true);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -117,7 +137,7 @@ const LoginPage: React.FC = () => {
       await login(username, password, remember, permissionQuery);
       setSubmitting(false);
       setShowSuccessToast(true);
-      setTimeout(() => history.push('/home'), 1500);
+      setTimeout(() => history.replace("/home"), 1500);
     } catch (error: any) {
       setErrorCode(error.message);
       setSubmitting(false);
@@ -127,39 +147,35 @@ const LoginPage: React.FC = () => {
   const handleLoginWithIncognito = async (): Promise<void> => {
     try {
       await loginWithIncognito();
-      history.push('/home');
-    }
-    catch (err) {
+      history.replace("/home");
+    } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
-    register(
-      'username',
-      {
-        required: { value: true, message: t('Username not enter') },
-        pattern: { value: /^\S*$/, message: t('Username can not contain spaces') },
-        minLength: { value: 4, message: t('Username minimum is 4 characters') },
-        maxLength: { value: 35, message: t('Username maximum is 35 characters') },
-      }
-    );
-    register(
-      'password',
-      {
-        required: { value: true, message: t('Password not entered') },
-        minLength: { value: 8, message: t('Password minimum is 8 characters') },
-        maxLength: { value: 12, message: t('Password maximum is 12 characters') },
-      }
-    );
+    register("username", {
+      required: { value: true, message: t("Username not enter") },
+      pattern: {
+        value: /^\S*$/,
+        message: t("Username can not contain spaces"),
+      },
+      minLength: { value: 4, message: t("Username minimum is 4 characters") },
+      maxLength: { value: 35, message: t("Username maximum is 35 characters") },
+    });
+    register("password", {
+      required: { value: true, message: t("Password not entered") },
+      minLength: { value: 8, message: t("Password minimum is 8 characters") },
+      maxLength: { value: 12, message: t("Password maximum is 12 characters") },
+    });
   }, [register, t]);
   return (
     <>
-      <IonContent >
+      <IonContent>
         <IonToast
           isOpen={showSuccessToast}
           onDidDismiss={() => setShowSuccessToast(false)}
-          color='success'
-          message={t('Login successfully')}
+          color="success"
+          message={t("Login successfully")}
           duration={1000}
           position="top"
           animated={true}
@@ -167,35 +183,46 @@ const LoginPage: React.FC = () => {
         <IonToast
           isOpen={showFailedToast}
           onDidDismiss={() => setShowFailedToast(false)}
-          color='danger'
+          color="danger"
           message={
-            errorCode === 'INCORRECT_USERNAME_PASSWORD' ?
-              t('Wrong password, please check again!')
-              :
-              t('This account does not exist, please create a new one!')
+            errorCode === "INCORRECT_USERNAME_PASSWORD"
+              ? t("Wrong password, please check again!")
+              : t("This account does not exist, please create a new one!")
           }
           duration={1000}
           position="top"
           animated={true}
         />
-        <IonRow >
-          <IonCol >
-            <div style={{ textAlign: 'center', marginTop: '30px' }}>
-              <img width='300px' src={logo} alt="logo" />
+        <IonRow>
+          <IonCol>
+            <div style={{ textAlign: "center", marginTop: "30px" }}>
+              <img width="300px" src={logo} alt="logo" />
             </div>
           </IonCol>
         </IonRow>
         <IonRow className="ion-justify-content-center">
-          <IonCol size="12" >
-            <StyledHeader >{t('Login')}</StyledHeader>
-            <StyleText >{t('No account') + '? '}<b onClick={() => { history.push('/register') }}>{t('Register now')}</b></StyleText>
+          <IonCol size="12">
+            <StyledHeader>{t("Login")}</StyledHeader>
+            <StyleText>
+              {t("No account") + "? "}
+              <b
+                onClick={() => {
+                  history.replace("/register");
+                }}
+              >
+                {t("Register now")}
+              </b>
+            </StyleText>
           </IonCol>
         </IonRow>
 
-        <form onSubmit={handleSubmit(handleLogin)} style={{ paddingLeft: '30px', paddingRight: '30px' }}>
+        <form
+          onSubmit={handleSubmit(handleLogin)}
+          style={{ paddingLeft: "30px", paddingRight: "30px" }}
+        >
           {formFields.map(({ label, name, fieldType, icon, ...otherProps }) => {
             switch (fieldType) {
-              case 'input': {
+              case "input": {
                 return (
                   <Controller
                     key={name}
@@ -204,33 +231,52 @@ const LoginPage: React.FC = () => {
                     render={({ field: { onChange, onBlur, value } }) => (
                       <IonRow className="ion-justify-content-center">
                         <IonCol size="12">
-                          <StyleWrapperInput color='light' lines='none'>
+                          <StyleWrapperInput color="light" lines="none">
                             <StyledInput
                               value={value}
                               type={
-                                name === "password" ? passwordVisible === true ? "text" : "password" : 'text'
+                                name === "password"
+                                  ? passwordVisible === true
+                                    ? "text"
+                                    : "password"
+                                  : "text"
                               }
                               onIonBlur={() => {
                                 trigger(name);
                               }}
                               onIonChange={onChange}
-                              {...otherProps}>
-                            </StyledInput>
-                            {
-                              name === "password" ?
-                                <StyledIcon slot="end" icon={passwordVisible === true ? eyeOffSharp : eyeSharp} onClick={() => setPasswordVisible(!passwordVisible)} /> : null
-                            }
-                            <IonIcon icon={icon} color='medium' slot='start'></IonIcon>
+                              {...otherProps}
+                            ></StyledInput>
+                            {name === "password" ? (
+                              <StyledIcon
+                                slot="end"
+                                icon={
+                                  passwordVisible === true
+                                    ? eyeOffSharp
+                                    : eyeSharp
+                                }
+                                onClick={() =>
+                                  setPasswordVisible(!passwordVisible)
+                                }
+                              />
+                            ) : null}
+                            <IonIcon
+                              icon={icon}
+                              color="medium"
+                              slot="start"
+                            ></IonIcon>
                           </StyleWrapperInput>
-                          {(errors?.username?.message && name === 'username') && <ErrorText >{(errors?.username?.message)}</ErrorText>}
-                          {(errors?.password?.message && name === 'password') && <ErrorText >{(errors?.password?.message)}</ErrorText>}
+                          {errors?.username?.message && name === "username" && (
+                            <ErrorText>{errors?.username?.message}</ErrorText>
+                          )}
+                          {errors?.password?.message && name === "password" && (
+                            <ErrorText>{errors?.password?.message}</ErrorText>
+                          )}
                         </IonCol>
                       </IonRow>
-
                     )}
                   />
-
-                )
+                );
               }
               default: {
                 return (
@@ -240,7 +286,7 @@ const LoginPage: React.FC = () => {
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                       <IonRow className="ion-justify-content-center">
-                        <IonCol size="12" >
+                        <IonCol size="12">
                           <StyleWrapperInput>
                             <StyledInput
                               onIonBlur={onBlur}
@@ -248,78 +294,103 @@ const LoginPage: React.FC = () => {
                               onIonChange={(event: any) => {
                                 onChange(event);
                               }}
-                              {...otherProps}>
-                            </StyledInput>
+                              {...otherProps}
+                            ></StyledInput>
                           </StyleWrapperInput>
                         </IonCol>
                       </IonRow>
                     )}
                   />
-                )
+                );
               }
             }
           })}
           <IonRow className="ion-justify-content-round">
-            <IonCol size='6' >
-              <StyleText >
-                <IonCheckbox style={{ margin: '-25px 10px 0px 5px' }} checked={remember} onIonChange={e => setRemember(e.detail.checked)}></IonCheckbox>
-                {t('Remember password')}</StyleText>
+            <IonCol size="6">
+              <StyleText>
+                <IonCheckbox
+                  style={{ margin: "-25px 10px 0px 5px" }}
+                  checked={remember}
+                  onIonChange={(e) => setRemember(e.detail.checked)}
+                ></IonCheckbox>
+                {t("Remember password")}
+              </StyleText>
             </IonCol>
             <IonCol size="6">
-              <StyleText onClick={() => history.push('/forget-password')}>{t('Forgot password')}</StyleText>
+              <StyleText onClick={() => history.replace("/forget-password")}>
+                {t("Forgot password")}
+              </StyleText>
             </IonCol>
           </IonRow>
           <IonRow className="ion-justify-content-center">
             <IonCol size="12">
-              <div style={{ textAlign: 'center', marginTop: '10px' }}>
-                <StyledButton type='submit' disabled={getValues('username') ? false : submitting}>{t('Login')}</StyledButton>
+              <div style={{ textAlign: "center", marginTop: "10px" }}>
+                <StyledButton
+                  type="submit"
+                  disabled={getValues("username") ? false : submitting}
+                >
+                  {t("Login")}
+                </StyledButton>
               </div>
             </IonCol>
           </IonRow>
         </form>
         <IonRow className="ion-justify-content-center">
           <IonCol size="12">
-            <div onClick={() => handleLoginWithIncognito()} style={{ textAlign: 'center', marginTop: '10px', color: '#496fb0', fontSize: '17px' }}>
-              {t('Anonymous login')}
+            <div
+              onClick={() => handleLoginWithIncognito()}
+              style={{
+                textAlign: "center",
+                marginTop: "10px",
+                color: "#496fb0",
+                fontSize: "17px",
+              }}
+            >
+              {t("Anonymous login")}
             </div>
           </IonCol>
         </IonRow>
         <IonRow className="ion-justify-content-center">
           <IonCol size="12">
-            <div style={{ textAlign: 'center', marginTop: '10px', color: 'black' }}>
-              {t('Or continue with')}
+            <div
+              style={{ textAlign: "center", marginTop: "10px", color: "black" }}
+            >
+              {t("Or continue with")}
             </div>
           </IonCol>
         </IonRow>
         <div>
           <IonRow className="ion-justify-content-center">
-            <IonCol size="12" >
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <div><FacebookAuthen /></div>
-                <div><GoogleAuthen /></div>
+            <IonCol size="12">
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <div>
+                  <FacebookAuthen />
+                </div>
+                <div>
+                  <GoogleAuthen />
+                </div>
               </div>
             </IonCol>
           </IonRow>
           <IonRow className="ion-justify-content-center">
-            <IonCol size="12" >
-              <div style={{ textAlign: 'center' }}>
+            <IonCol size="12">
+              <div style={{ textAlign: "center" }}>
                 <StyledSocialSelect
-                  placeholder={t('Language')}
+                  placeholder={t("Language")}
                   onIonChange={(e) => i18n.changeLanguage(e.detail.value)}
-                  cancelText={t('Cancel')}
-                  okText={t('Okay')}
+                  cancelText={t("Cancel")}
+                  okText={t("Okay")}
                 >
-                  <IonSelectOption value='en'>En</IonSelectOption>
-                  <IonSelectOption value='vn'>Vi</IonSelectOption>
+                  <IonSelectOption value="en">En</IonSelectOption>
+                  <IonSelectOption value="vn">Vi</IonSelectOption>
                 </StyledSocialSelect>
               </div>
             </IonCol>
           </IonRow>
         </div>
-      </IonContent >
+      </IonContent>
     </>
   );
 };
 
 export default LoginPage;
-

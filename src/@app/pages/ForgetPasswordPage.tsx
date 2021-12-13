@@ -16,7 +16,10 @@ import {
   IonHeader,
   IonIcon,
   IonItem,
+  IonPage,
   IonRow,
+  IonTitle,
+  isPlatform,
 } from "@ionic/react";
 import MethodCard, {
   MethodField,
@@ -35,6 +38,10 @@ const StyledText = styled.div`
   font-size: 30px;
   font-weight: 600;
   margin: 30px 15px;
+`;
+
+const StyledIcon = styled(IonIcon)`
+  font-size: 20px;
 `;
 
 const ForgetPassword: React.FC = () => {
@@ -76,29 +83,42 @@ const ForgetPassword: React.FC = () => {
   };
 
   return (
-    <IonContent>
+    <IonPage style={isPlatform("ios") ? { paddingTop: 30 } : { paddingTop: 0 }}>
       <IonHeader className="ion-margin-bottom">
-        <IonItem color="light" onClick={() => back()}>
-          <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
+        <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
+          <StyledIcon
+            icon={chevronBackOutline}
+            onClick={() => back()}
+          ></StyledIcon>
+          <IonTitle style={{ fontSize: "20px", textAlign: "center" }}>
+            {t("Forgot password")}
+          </IonTitle>
         </IonItem>
       </IonHeader>
-      {method !== undefined || (
-        <div>
-          <IonRow className="ion-justify-content-center">
-            <IonCol size="12">
-              <StyledText>{t("Choose password recovery method")}</StyledText>
-            </IonCol>
-          </IonRow>
-          <MethodCard methods={methodField} />
-        </div>
-      )}
-      {method === "question" && <SecurityQuestionMehod />}
-      {method === "message" && <MessageMethod />}
-      {method === "mail" && <MailMethod />}
-      {method === "confirmed" && <CreatePassword />}
-      {method === "confirmSmsOTP" && <ConfirmOTP />}
-      {method === "confirmEmailOTP" && <ConfirmOTP />}
-    </IonContent>
+      <IonContent>
+        {/* <IonHeader className="ion-margin-bottom">
+          <IonItem color="light" onClick={() => back()}>
+            <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
+          </IonItem>
+        </IonHeader> */}
+        {method !== undefined || (
+          <div>
+            <IonRow className="ion-justify-content-center">
+              <IonCol size="12">
+                <StyledText>{t("Choose password recovery method")}</StyledText>
+              </IonCol>
+            </IonRow>
+            <MethodCard methods={methodField} />
+          </div>
+        )}
+        {method === "question" && <SecurityQuestionMehod />}
+        {method === "message" && <MessageMethod />}
+        {method === "mail" && <MailMethod />}
+        {method === "confirmed" && <CreatePassword />}
+        {method === "confirmSmsOTP" && <ConfirmOTP />}
+        {method === "confirmEmailOTP" && <ConfirmOTP />}
+      </IonContent>
+    </IonPage>
   );
 };
 

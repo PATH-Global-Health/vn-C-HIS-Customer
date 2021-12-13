@@ -146,7 +146,7 @@ const ChangePasswordPage: React.FC = () => {
     });
   }, [register, getValues, t]);
   return (
-    <IonPage style={isPlatform('ios') ? { paddingTop: 30 } : { paddingTop: 0 }}>
+    <IonPage style={isPlatform("ios") ? { paddingTop: 30 } : { paddingTop: 0 }}>
       <IonHeader className="ion-margin-bottom">
         <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
           <StyledIcon

@@ -5,16 +5,32 @@ import Capacitor
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var appSwitcherView: UIView?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         self.checkDevice()
+        self.checkClipboardChange()
         return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        
+        // First apply the Gaussian blur on the screenshot of the current view.
+        let blurredImage = applyGaussianBlur(on: createScreenshotOfCurrentContext() ?? UIImage(), withBlurFactor: 7.0)
+            
+        // Create the UIImageView for the blurred screenshot.
+        appSwitcherView = UIImageView(image: blurredImage)
+//        let image = UIImage(named: "privacy-screen")!
+//        appSwitcherView = UIImageView(image: image)
+//        appSwitcherView?.contentMode = .scaleAspectFit
+//        appSwitcherView?.backgroundColor = .black
+//        appSwitcherView?.bounds.size = UIScreen.main.bounds.size
+            
+        // Set it as the current screen
+        self.window?.addSubview(appSwitcherView!)
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -28,6 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        appSwitcherView?.removeFromSuperview()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -70,6 +87,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    /// This method takes a screenshot of the currently shown view.
+    /// Method returns nil if screenshot can't be taken.
+    func createScreenshotOfCurrentContext() -> UIImage? {
+        UIGraphicsBeginImageContext(self.window?.screen.bounds.size ?? CGSize())
+        guard let currentContext = UIGraphicsGetCurrentContext() else {
+            return nil
+        }
+            
+        self.window?.layer.render(in: currentContext)
+            
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+            
+        UIGraphicsEndImageContext()
+            
+        return image
+    }
+    
+    /// This method applies a Gaussian blur on a given UIImage.
+    /// - Parameters:
+    ///   - image: The image where the Gaussian blur will be applied on
+    ///   - blurFactor: How high should the blur effect be
+    func applyGaussianBlur(on image: UIImage, withBlurFactor blurFactor : CGFloat) -> UIImage? {
+        guard let inputImage = CIImage(image: image) else {
+            return nil
+        }
+            
+        // Add a comment where to find documentation for that
+        let gaussianFilter = CIFilter(name: "CIGaussianBlur")
+            gaussianFilter?.setValue(inputImage, forKey: kCIInputImageKey)
+            gaussianFilter?.setValue(blurFactor, forKey: kCIInputRadiusKey)
+            
+        guard let outputImage = gaussianFilter?.outputImage else {
+            return nil
+        }
+            
+        return UIImage(ciImage: outputImage)
+    }
 }
 
 extension UITextField {
@@ -86,6 +140,21 @@ extension UITextField {
 
         default:
             return super.canPerformAction(action, withSender: sender)
+        }
+    }
+}
+
+// MARK: - UIPasteboard fixxing
+extension AppDelegate {
+    func checkClipboardChange() {
+        NotificationCenter.default.addObserver(self, selector: #selector(clipboardChanged), name: UIPasteboard.changedNotification, object: nil)
+    }
+    
+    @objc func clipboardChanged(){
+        let pasteboardString: String? = UIPasteboard.general.string
+        if let theString = pasteboardString {
+//            print("String is \(theString)")
+            UIPasteboard.general.items = []
         }
     }
 }

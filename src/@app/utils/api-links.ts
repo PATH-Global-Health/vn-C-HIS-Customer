@@ -1,16 +1,13 @@
-// const userUrl = 'https://user-management.bakco.vn';
+const userUrl = 'https://user-management.bakco.vn/api';
+const smapi = 'https://schedule-management.bakco.vn/api';
+const cmsApi = 'https://mini-cms.bakco.vn/api';
+const apiBookingService = 'https://booking-management.bakco.vn/api';
 
-// const smapi = 'https://schedule-management.bakco.vn';
-// const smapi = 'http://202.78.227.174:30111';
-
-// const cmsApi = 'https://mini-cms.bakco.vn';
-// const apiBookingService = 'https://booking-management.bakco.vn';
-
-const gatewayUrl = 'https://chis-api.bakco.vn/v1';
-const userUrl = `${gatewayUrl}/auth`;
-const smapi = `${gatewayUrl}/schedule`;
-const cmsApi = `${gatewayUrl}/mini-cms`;
-const apiBookingService = `${gatewayUrl}/booking`;
+// const gatewayUrl = 'https://chis-api.bakco.vn/v1';
+// const userUrl = `${gatewayUrl}/auth`;
+// const smapi = `${gatewayUrl}/schedule`;
+// const cmsApi = `${gatewayUrl}/mini-cms`;
+// const apiBookingService = `${gatewayUrl}/booking`;
 
 const apiLinks = {
   auth: {

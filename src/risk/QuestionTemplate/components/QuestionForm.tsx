@@ -15,6 +15,8 @@ import { useDispatch, useSelector } from '@app/hooks';
 import { useTranslation } from 'react-i18next';
 import { setHandeRisk } from '../question-template.slice';
 import surveySessionService from 'risk/SurveySession/survey-session.service';
+import MultipleQuestionSection from './MultipleQuestionSection';
+import SingleQuestionSection from './SingleQuestionSection';
 
 const WrapperQuestion = styled.div`
     ion-label{
@@ -43,6 +45,7 @@ const QuestionForm: React.FC = () => {
   const detailData = useSelector((s) => s.risk.questionTemplateDetail);
   const userId = useSelector(s => s.auth.token?.userId);
   const handleData = async (data: any): Promise<void> => {
+    console.log(data);
     try {
       const surveySessionResults = Object.entries(data).map((o, i) => {
         return {
@@ -71,39 +74,19 @@ const QuestionForm: React.FC = () => {
   return (
     <IonContent>
       <form onSubmit={handleSubmit((d) => handleData(d))} style={{ margin: '20px -20px' }}>
-        {
-          detailData?.questions?.map((o, i) => (
-            <Controller
-              key={i}
-              name={o?.id ?? ''}
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <WrapperQuestion>
-                  <IonRow className="">
-                    <IonCol size="12">
-                      <IonItem color='light' lines='inset' className='group-item'>
-                        <IonRadioGroup
-                          value={value}
-                          onIonChange={onChange}
-                        >
-                          <IonItem>{`Câu ${i + 1}: ${o?.description ?? ''} ?`}</IonItem>
-                          {
-                            o?.answers?.map((ans, idx) => (
-                              <IonItem key={idx}>
-                                <IonRadio slot="start" value={ans?.id} />
-                                <div style={{ fontSize: '15px' }}>{ans?.description ?? ''}</div>
-                              </IonItem>
-                            ))
-                          }
-                        </IonRadioGroup>
-                      </IonItem>
-                    </IonCol>
-                  </IonRow>
-                </WrapperQuestion>
-              )}
-            />
-          ))
-        }
+        {(detailData?.questions ?? []).map((o, i) => (
+          <Controller
+            key={i}
+            name={o?.id ?? ''}
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) =>
+              // o.isMultipleChoice
+              //   ? <MultipleQuestionSection data={{ ...o, index: i }} onChange={(ids: string[]) => onChange(ids)} />
+              //   : <SingleQuestionSection data={{ ...o, index: i }} onChange={(id: string) => onChange(id)} />
+              <SingleQuestionSection data={{ ...o, index: i }} onChange={(id: string) => onChange(id)} />
+            }
+          />
+        ))}
         <IonRow className="ion-justify-content-center">
           <IonCol size="12">
             <div style={{ textAlign: 'center', marginTop: '10px', marginBottom: '40px' }}>

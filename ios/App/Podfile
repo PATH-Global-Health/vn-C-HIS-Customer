@@ -13,9 +13,10 @@ def capacitor_pods
   pod 'CapacitorFilesystem', :path => '../../node_modules/@capacitor/filesystem'
   pod 'CodetrixStudioCapacitorGoogleAuth', :path => '../../node_modules/@codetrix-studio/capacitor-google-auth'
   pod 'CordovaPlugins', :path => '../capacitor-cordova-ios-plugins'
+  pod 'TrustKit'
 end
 
-target 'App' do
+target 'chis customer' do
   capacitor_pods
   # Add your Pods here
 end

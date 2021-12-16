@@ -156,7 +156,6 @@ const SecurityQuestionMehod: React.FC = () => {
               role: 'cancel',
               cssClass: 'secondary',
               handler: () => {
-                console.log('Confirm Cancel');
               }
             },
             {

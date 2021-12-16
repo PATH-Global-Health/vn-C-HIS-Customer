@@ -148,43 +148,13 @@ const Account: React.FC = () => {
       color: "#3ac6e1",
     },
   ];
-  /* const sendOTP = async (phoneNumber: string): Promise<void> => {
-    try {
-      await authService.sendPhoneOTP(phoneNumber);
-      setVerifyOTP(true);
-    }
-    catch (err) {
-      console.log(err);
-    }
+  const handleLogOut = async (): Promise<void> => {
+    await authService.logOut();
+    logout();
+    setTimeout(() => {
+      history.replace("/login");
+    }, 0);
   }
-  const handleVerifyAccount = (phoneNumber: string) => {
-    if (phoneNumber !== '') {
-      sendOTP(phoneNumber)
-    }
-    else {
-      setVerifyCode(true);
-    }
-  }
-  const handlePhoneAction = async (): Promise<void> => {
-    const phoneNumber = getValues('phoneNumber');
-    try {
-      await authService.updatePhoneNumber({ fullName: '', phoneNumber: phoneNumber });
-      sendOTP(phoneNumber);
-      setVerifyOTP(true);
-    }
-    catch {
-      setUpdatePhoneNumberFailed(true);
-    }
-  }
-  const verifyPhoneOTP = async (otp: string): Promise<void> => {
-    authService.verifyPhoneOTP({ phoneNumber: getValues('phoneNumber'), otp: otp })
-      .then(() => {
-        setVerifyOTPSucess(true);
-      })
-      .catch(() => {
-        setVerifyOTPFailed(true);
-      })
-  }; */
   const sendOTP = async (data: string, type: string): Promise<void> => {
     const params = { phoneNumber: data };
     setDataEntry({ type, data });
@@ -528,10 +498,7 @@ const Account: React.FC = () => {
             {
               text: t("Agree"),
               handler: () => {
-                logout();
-                setTimeout(() => {
-                  history.replace("/login");
-                }, 0);
+                handleLogOut();
               },
             },
           ]}

@@ -61,6 +61,11 @@ const getPermission = async (token: string): Promise<Permission[]> => {
 
   return response.data as Permission[];
 }
+const logOut = async (): Promise<void> => {
+  await httpClient.post({
+    url: apiLinks.auth.logout,
+  });
+};
 const createAccount = async ({
   userName,
   password,
@@ -179,7 +184,8 @@ const generateOTP = async ({
     answer: string,
   }
 }): Promise<void> => {
-  await httpClient.post({
+  const response = await axios({
+    method: 'POST',
     url: apiLinks.forgetPassword.generateOTP,
     data: {
       phoneNumber,
@@ -187,6 +193,7 @@ const generateOTP = async ({
       question
     },
   });
+  return response.data;
 };
 const confirmOTP = async ({
   email,
@@ -197,7 +204,8 @@ const confirmOTP = async ({
   phoneNumber?: string;
   otp: string;
 }): Promise<Token> => {
-  const response = await httpClient.post({
+  const response = await axios({
+    method: 'POST',
     url: apiLinks.forgetPassword.confirmOTP,
     data: {
       email,
@@ -205,7 +213,7 @@ const confirmOTP = async ({
       otp,
     },
   });
-  return response.data as Token;
+  return response.data;
 };
 const resetPassword = async ({
   newPassword,
@@ -228,6 +236,7 @@ const getUserInfo = async (): Promise<AccountInfo> => {
 
 const authService = {
   login,
+  logOut,
   loginWithFacebook,
   loginWithGoogle,
   getUserInfo,

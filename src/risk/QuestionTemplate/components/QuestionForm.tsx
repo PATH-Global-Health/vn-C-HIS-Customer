@@ -80,9 +80,10 @@ const QuestionForm: React.FC = () => {
             name={o?.id ?? ''}
             control={control}
             render={({ field: { onChange, onBlur, value } }) =>
-              o.isMultipleChoice
-                ? <MultipleQuestionSection data={{ ...o, index: i }} onChange={(ids: string[]) => onChange(ids)} />
-                : <SingleQuestionSection data={{ ...o, index: i }} onChange={(id: string) => onChange(id)} />
+              // o.isMultipleChoice
+              //   ? <MultipleQuestionSection data={{ ...o, index: i }} onChange={(ids: string[]) => onChange(ids)} />
+              //   : <SingleQuestionSection data={{ ...o, index: i }} onChange={(id: string) => onChange(id)} />
+              <SingleQuestionSection data={{ ...o, index: i }} onChange={(id: string) => onChange(id)} />
             }
           />
         ))}

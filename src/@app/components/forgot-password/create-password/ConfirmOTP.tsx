@@ -54,6 +54,7 @@ const ConfirmOTP: React.FC = () => {
 
   const { control, handleSubmit } = useForm();
   const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showOverTimeOtp, setShowOverTimeOtp] = useState(false);
   const [showFailedToast, setShowFailedToast] = useState(false);
   const handleData = async (data: confirmOTP): Promise<void> => {
     try {
@@ -62,8 +63,15 @@ const ConfirmOTP: React.FC = () => {
       const response = await authService.confirmOTP(params);
       setShowSuccessToast(true);
       setTimeout(() => dispatch(setDataForgotPassword({ method: 'confirmed', accessToken: response?.access_token })), 1500);
-    } catch (error) {
-      setShowFailedToast(true);
+    } catch (error: any) {
+      if (error.response.data === 'INCORRECT_OTP') {
+        setShowFailedToast(true);
+      }
+      else {
+        setShowOverTimeOtp(true);
+        setTimeout(() => method === 'confirmSmsOTP' ? dispatch(setDataForgotPassword({ method: 'message' })) : dispatch(setDataForgotPassword({ method: 'mail' })), 1500);
+
+      }
     }
   }
   const back = () => {
@@ -85,6 +93,15 @@ const ConfirmOTP: React.FC = () => {
         onDidDismiss={() => setShowFailedToast(false)}
         color='danger'
         message={t('The verification code is not correct')}
+        duration={1000}
+        position="top"
+        animated={true}
+      />
+      <IonToast
+        isOpen={showOverTimeOtp}
+        onDidDismiss={() => setShowOverTimeOtp(false)}
+        color='danger'
+        message={t('You have entered wrong code more than 3 times, please re-enter the information')}
         duration={1000}
         position="top"
         animated={true}

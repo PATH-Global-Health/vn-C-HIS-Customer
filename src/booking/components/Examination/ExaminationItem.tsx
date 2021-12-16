@@ -41,7 +41,7 @@ const ExaminationItem: React.FC<Props> = (props) => {
       <div className={styles.styledCardDiv}>
         <IonCard
           onClick={() => {
-            history.push({
+            history.replace({
               pathname: "/apointmentInfo",
               state: e.id,
             });
@@ -122,7 +122,10 @@ const ExaminationItem: React.FC<Props> = (props) => {
                   moment(new Date()).format("YYYY-MM-DD HH:mm"),
               })}
             >
-              {t("Doctor") + ": "} {e?.doctor?.fullname}
+              {t("Doctor") + ": "}{" "}
+              {e?.doctor?.fullname?.length! <= 15
+                ? e.doctor?.fullname
+                : e.doctor?.fullname.slice(0, 15) + " ..."}
             </IonCardSubtitle>
           </IonCardHeader>
           <IonCardContent
@@ -136,7 +139,11 @@ const ExaminationItem: React.FC<Props> = (props) => {
                 moment(new Date()).format("YYYY-MM-DD HH:mm"),
             })}
           >
-            <p>{e?.unit?.name}</p>
+            <p>
+              {e?.unit?.name?.length! <= 25
+                ? e?.unit?.name
+                : e?.unit?.name?.slice(0, 25) + " ..."}
+            </p>
             <p
               className={classNames({
                 styledContentExpired:
@@ -148,10 +155,12 @@ const ExaminationItem: React.FC<Props> = (props) => {
                   moment(new Date()).format("YYYY-MM-DD HH:mm"),
               })}
             >
-              {e?.unit?.address}
+              {e?.unit?.address?.length! <= 25
+                ? e?.unit?.address
+                : e?.unit?.address?.slice(0, 25) + " ..."}
             </p>
           </IonCardContent>
-          <IonCardHeader>
+          <IonCardHeader className={styles.headerBottomCard}>
             {
               // moment(
               //   moment(e.date).format("YYYY-MM-DD") + " " + e.interval.from

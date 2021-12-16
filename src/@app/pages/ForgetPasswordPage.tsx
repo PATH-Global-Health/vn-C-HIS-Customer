@@ -90,7 +90,7 @@ const ForgetPassword: React.FC = () => {
             icon={chevronBackOutline}
             onClick={() => back()}
           ></StyledIcon>
-          <IonTitle style={{ fontSize: "20px", textAlign: "center" }}>
+          <IonTitle style={{ fontSize: "15px", textAlign: "center" }}>
             {t("Forgot password")}
           </IonTitle>
         </IonItem>

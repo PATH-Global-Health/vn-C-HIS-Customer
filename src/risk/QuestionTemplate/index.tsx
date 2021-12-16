@@ -56,10 +56,10 @@ const RiskPage: React.FC = () => {
                 {type === undefined
                   ? t("Learn the risk")
                   : type === "answer"
-                  ? t("Reply form")
-                  : type === "ans-history"
-                  ? t("Reply history")
-                  : t("Result")}
+                    ? t("Reply form")
+                    : type === "ans-history"
+                      ? t("Reply history")
+                      : t("Result")}
               </IonTitle>
             </IonItem>
           </IonHeader>

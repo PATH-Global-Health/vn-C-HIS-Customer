@@ -128,7 +128,7 @@ const QuestionTemplatePage: React.FC = () => {
                     <IonNote className='description'>{'...'}</IonNote>
                   </IonCardHeader>
                   {
-                    o?.isCompleted
+                    !o?.isCompleted
                       ? <IonButton className='btn done' onClick={() => handleReview(o?.id, 'ans-history')} >{t('Accomplished')}</IonButton>
                       : <IonButton className='btn' onClick={() => handleTest(o?.id, 'answer')}>{t('Do now')}</IonButton>
                   }

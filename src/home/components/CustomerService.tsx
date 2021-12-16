@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 import {
   IonCard,
   IonCol,
@@ -12,20 +12,19 @@ import {
   IonRow,
   IonTitle,
   isPlatform,
-} from '@ionic/react';
+} from "@ionic/react";
 import {
   searchOutline,
   calendarOutline,
   alarmOutline,
   chevronBackOutline,
   peopleCircleSharp,
-} from 'ionicons/icons';
+} from "ionicons/icons";
 
-
-import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
-import { useDispatch } from 'react-redux';
-import { setHandeRisk } from 'risk/QuestionTemplate/question-template.slice';
+import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { setHandeRisk } from "risk/QuestionTemplate/question-template.slice";
 
 const Wrapper = styled(IonRow)`
   margin-left: 11%;
@@ -47,7 +46,7 @@ const CardIcon = styled(IonIcon)`
   align-item: center;
 `;
 const CardLabel = styled(IonLabel)`
-  @media (max-width: 380px){
+  @media (max-width: 380px) {
     font-size: 17px !important;
   }
   margin: 0px 0px 10px 6px;
@@ -58,17 +57,16 @@ const CardLabel = styled(IonLabel)`
   left: 5%;
 `;
 const Header = styled.div`
-    & .header{
-      margin-left: -10px;
-      height: 40px;
-      
-    }
-    & .title{
-      font-weight: 600;
-      text-align: center;
-      margin: 10px 0px !important
-    }
-`
+  & .header {
+    margin-left: -10px;
+    height: 40px;
+  }
+  & .title {
+    font-weight: 600;
+    text-align: center;
+    margin: 10px 0px !important;
+  }
+`;
 
 const CustomerService: React.FC = () => {
   const { t } = useTranslation();
@@ -80,81 +78,80 @@ const CustomerService: React.FC = () => {
     label: string;
     color: string;
     [otherProps: string]: unknown;
-  };
+  }
   const optionFields: OptionProps[] = [
     {
       name: "booking",
       icon: calendarOutline,
-      label: t('Service'),
+      label: t("Service"),
       color: "#4c8dff",
     },
     {
       name: "examinationList",
       icon: alarmOutline,
-      label: t('Schedule'),
-      color: "#409f4e"
+      label: t("Schedule"),
+      color: "#409f4e",
     },
     {
       name: "risk",
       icon: searchOutline,
-      label: t('Risk assessment'),
-      color: "#f1c248"
+      label: t("Risk assessment"),
+      color: "#f1c248",
     },
 
     {
       name: "doctorList",
       icon: peopleCircleSharp,
-      label: t('CBO support'),
-      color: "#EB5757"
+      label: t("CBO support"),
+      color: "#EB5757",
     },
   ];
   const handleTypeService = (name: string) => {
-    name === "booking" ? history.push("/shomeBooking")
-      : name === "examinationList" ? history.push("/examinationList")
-        : name === "risk" ? history.push("/risk")
-          : name === "doctorList" ? history.push("/doctorList")
-            : RedirectRiskPage();
-  }
+    name === "booking"
+      ? history.replace("/shomeBooking")
+      : name === "examinationList"
+      ? history.replace("/examinationList")
+      : name === "risk"
+      ? history.replace("/risk")
+      : name === "doctorList"
+      ? history.replace("/doctorList")
+      : RedirectRiskPage();
+  };
   const RedirectRiskPage = () => {
-    history.push("/home");
+    history.replace("/home");
     dispatch(setHandeRisk({ type: undefined }));
-  }
+  };
   return (
-    <IonPage style={isPlatform('ios') ? { paddingTop: 40 } : { paddingTop: 0 }}>
+    <IonPage style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}>
       <IonContent>
         <Header>
           <IonHeader className="header">
-            <IonItem color="light" onClick={() => history.push('/home')} >
+            <IonItem color="light" onClick={() => history.replace("/home")}>
               <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
-              <IonTitle className="title">
-                {t('Your service')}
-              </IonTitle>
+              <IonTitle className="title">{t("Your service")}</IonTitle>
             </IonItem>
           </IonHeader>
         </Header>
         <Wrapper>
-          {
-            optionFields.map(({ name, icon, label, color, note }, idx) => {
-              return (
-                <IonCol size="6" key={idx}>
-                  <Card
-                    style={{ backgroundColor: color }}
-                    onClick={() => { handleTypeService(name + "") }}
-                  >
-                    <div>
-                      <CardIcon icon={icon} slot='start' />
-                    </div>
-                    <CardLabel>
-                      {label}
-                    </CardLabel>
-                  </Card>
-                </IonCol>
-              )
-            })
-          }
+          {optionFields.map(({ name, icon, label, color, note }, idx) => {
+            return (
+              <IonCol size="6" key={idx}>
+                <Card
+                  style={{ backgroundColor: color }}
+                  onClick={() => {
+                    handleTypeService(name + "");
+                  }}
+                >
+                  <div>
+                    <CardIcon icon={icon} slot="start" />
+                  </div>
+                  <CardLabel>{label}</CardLabel>
+                </Card>
+              </IonCol>
+            );
+          })}
         </Wrapper>
       </IonContent>
-
     </IonPage>
   );
 };

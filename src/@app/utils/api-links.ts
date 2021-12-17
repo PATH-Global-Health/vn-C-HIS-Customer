@@ -36,9 +36,9 @@ const apiLinks = {
     confirmOTP: `${userUrl}/Users/ResetPassword/ConfirmOTP`,
   },
   securitySetting: {
-    getQuestions: `${userUrl}/Users/SecurityQuestion`,
+    getQuestions: `${userUrl}/SecurityQuestion`,
     getDetails: (id: string): string =>
-      `${userUrl}/Users/SecurityQuestion/${id}`,
+      `${userUrl}/SecurityQuestion/${id}`,
     update: `${userUrl}/Users/ChangeSecurityQuestionAnswer`,
     confirmSecurity: `${userUrl}/Users/ResetPassword/ConfirmSecurityQuestion`,
   },

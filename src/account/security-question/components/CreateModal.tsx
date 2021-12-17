@@ -152,7 +152,7 @@ const CreateModal: React.FC = () => {
     });
   }, [register, t]);
   return (
-    <IonPage style={isPlatform('ios') ? { paddingTop: 40 } : { paddingTop: 0 }}>
+    <IonPage style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}>
       <IonHeader className="ion-margin-bottom">
         <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
           <StyledIcon
@@ -288,35 +288,39 @@ const CreateModal: React.FC = () => {
         </form>
 
         <IonModal isOpen={modalQuestion}>
-          <Header>
-            <IonHeader className="header">
-              <IonItem color="light" onClick={() => setModalQuestion(false)}>
-                <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
-                <IonTitle className="title">
-                  {t("Select security question")}
-                </IonTitle>
-              </IonItem>
-            </IonHeader>
-          </Header>
-          <WrapperQuestion>
-            <IonCol size="12">
-              <IonItem color="light" lines="inset" className="group-item">
-                <IonRadioGroup
-                  onIonChange={(e) => {
-                    setValue("question", e.detail?.value);
-                    setModalQuestion(false);
-                  }}
-                >
-                  {(data || []).map((item) => (
-                    <IonItem key={item?.id}>
-                      <div className="label">{item?.question ?? ""}</div>
-                      <IonRadio slot="start" value={item} />
-                    </IonItem>
-                  ))}
-                </IonRadioGroup>
-              </IonItem>
-            </IonCol>
-          </WrapperQuestion>
+          <IonPage
+            style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}
+          >
+            <Header>
+              <IonHeader className="header">
+                <IonItem color="light" onClick={() => setModalQuestion(false)}>
+                  <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
+                  <IonTitle className="title">
+                    {t("Select security question")}
+                  </IonTitle>
+                </IonItem>
+              </IonHeader>
+            </Header>
+            <WrapperQuestion>
+              <IonCol size="12">
+                <IonItem color="light" lines="inset" className="group-item">
+                  <IonRadioGroup
+                    onIonChange={(e) => {
+                      setValue("question", e.detail?.value);
+                      setModalQuestion(false);
+                    }}
+                  >
+                    {(data || []).map((item) => (
+                      <IonItem key={item?.id}>
+                        <div className="label">{item?.question ?? ""}</div>
+                        <IonRadio slot="start" value={item} />
+                      </IonItem>
+                    ))}
+                  </IonRadioGroup>
+                </IonItem>
+              </IonCol>
+            </WrapperQuestion>
+          </IonPage>
         </IonModal>
       </IonContent>
     </IonPage>

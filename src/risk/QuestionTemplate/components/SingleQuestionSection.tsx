@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 
 import {
   IonCol,
@@ -8,14 +8,14 @@ import {
   IonRow,
   IonRadioGroup,
   IonRadio,
-} from '@ionic/react';
-import { Question } from 'risk/QuestionTemplate/question-template.model';
+} from "@ionic/react";
+import { Question } from "risk/QuestionTemplate/question-template.model";
 
 const WrapperQuestion = styled.div`
-  ion-label{
+  ion-label {
     --color: black !important;
   }
-  ion-item{
+  ion-item {
     color: black;
     --background: white;
     --border-style: none;
@@ -37,19 +37,23 @@ const SingleQuestionForm: React.FC<Props> = (props) => {
   return (
     <>
       <WrapperQuestion>
-        <IonRow >
+        <IonRow>
           <IonCol size="12">
-            <IonItem color='light' lines='inset' className='group-item'>
+            <IonItem color="light" lines="inset" className="group-item">
               <IonRadioGroup>
-                <IonItem>{`Câu ${data.index + 1}: ${data?.description ?? ''} ?`}</IonItem>
-                {
-                  data?.answers?.map(({ id, description }, idx) => (
-                    <IonItem key={idx}>
-                      <IonRadio slot="start" value={id} onClick={() => onChange(id)} />
-                      <div style={{ fontSize: '15px' }}>{description}</div>
-                    </IonItem>
-                  ))
-                }
+                <IonItem>{`Câu ${data.index + 1}: ${
+                  data?.description ?? ""
+                } ?`}</IonItem>
+                {data?.answers?.map(({ id, description }, idx) => (
+                  <IonItem key={idx}>
+                    <IonRadio
+                      slot="start"
+                      value={id}
+                      onClick={() => onChange(id)}
+                    />
+                    <div style={{ fontSize: "15px" }}>{description}</div>
+                  </IonItem>
+                ))}
               </IonRadioGroup>
             </IonItem>
           </IonCol>

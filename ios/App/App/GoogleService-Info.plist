@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>154968216745-p696dtn97dq6dh7ve5cfqkh27n3j960p.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.154968216745-p696dtn97dq6dh7ve5cfqkh27n3j960p</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDumMARoF7TvNvFZ7d0abcewjw-iTe8C84</string>
+	<key>GCM_SENDER_ID</key>
+	<string>154968216745</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>bakco.chis.customer</string>
+	<key>PROJECT_ID</key>
+	<string>chis-cusomter</string>
+	<key>STORAGE_BUCKET</key>
+	<string>chis-cusomter.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:154968216745:ios:a7c041df17ac86fe6385b8</string>
+</dict>
+</plist>

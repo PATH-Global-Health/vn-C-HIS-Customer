@@ -123,9 +123,9 @@ const ExaminationItem: React.FC<Props> = (props) => {
               })}
             >
               {t("Doctor") + ": "}{" "}
-              {e?.doctor?.fullname?.length! <= 15
+              {e?.doctor?.fullname?.length! <= 12
                 ? e.doctor?.fullname
-                : e.doctor?.fullname.slice(0, 15) + " ..."}
+                : e.doctor?.fullname.slice(0, 12) + " ..."}
             </IonCardSubtitle>
           </IonCardHeader>
           <IonCardContent
@@ -140,9 +140,9 @@ const ExaminationItem: React.FC<Props> = (props) => {
             })}
           >
             <p>
-              {e?.unit?.name?.length! <= 25
+              {e?.unit?.name?.length! <= 20
                 ? e?.unit?.name
-                : e?.unit?.name?.slice(0, 25) + " ..."}
+                : e?.unit?.name?.slice(0, 20) + " ..."}
             </p>
             <p
               className={classNames({
@@ -155,9 +155,9 @@ const ExaminationItem: React.FC<Props> = (props) => {
                   moment(new Date()).format("YYYY-MM-DD HH:mm"),
               })}
             >
-              {e?.unit?.address?.length! <= 25
+              {e?.unit?.address?.length! <= 20
                 ? e?.unit?.address
-                : e?.unit?.address?.slice(0, 25) + " ..."}
+                : e?.unit?.address?.slice(0, 20) + " ..."}
             </p>
           </IonCardContent>
           <IonCardHeader className={styles.headerBottomCard}>

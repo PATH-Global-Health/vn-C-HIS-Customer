@@ -7,18 +7,29 @@ import {
   IonPage,
   isPlatform,
 } from "@ionic/react";
-import { useDispatch } from "@app/hooks";
+import { useDispatch, useSelector } from "@app/hooks";
 import { useHistory } from "react-router-dom";
 import { arrowForward, chatbubble, chevronBack, flash } from "ionicons/icons";
 import { getServiceId } from "booking/slices/workingCalendar";
 import { useTranslation } from "react-i18next";
 import { getUserInfo } from "../slices/workingCalendar";
 import styles from "../css/homeBooking.module.css";
+import { setHandleRedirectPage } from "@app/slices/global";
 
 const HomeBooking: React.FC = () => {
   const { t } = useTranslation();
+  const { typeRedirect } = useSelector((state) => state.global);
   const history = useHistory();
   const dispatch = useDispatch();
+  const back = () => {
+    if (typeRedirect == 'service-page') {
+      dispatch(setHandleRedirectPage(''));
+      history.replace("/customer-service")
+    }
+    else {
+      history.replace("/home");
+    }
+  };
   useEffect(() => {
     dispatch(getUserInfo());
   }, []);
@@ -27,7 +38,7 @@ const HomeBooking: React.FC = () => {
       <IonHeader className={styles.header}>
         <button
           className={styles.btnCustomHeader}
-          onClick={() => history.replace("/home")}
+          onClick={() => back()}
         >
           <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
         </button>

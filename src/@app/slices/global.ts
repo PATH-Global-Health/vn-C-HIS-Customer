@@ -8,6 +8,7 @@ interface State {
     message: string;
     callback: () => void;
   };
+  typeRedirect?: string,
 }
 interface AddConfirmCallback {
   message: string;
@@ -16,8 +17,13 @@ interface AddConfirmCallback {
 
 const initialState: State = {
   appMenu: false,
+  typeRedirect: undefined
 }
 
+const setHandleRedirectPageCR: CR<string> = (state, action) => ({
+  ...state,
+  typeRedirect: action.payload
+})
 const setAppMenuCR: CR<boolean> = (state, action) => ({
   ...state,
   appMenu: action.payload,
@@ -40,11 +46,12 @@ const slice = createSlice({
   initialState,
   reducers: {
     setAppMenu: setAppMenuCR,
+    setHandleRedirectPage: setHandleRedirectPageCR,
     addConfirmCallback: addConfirmCallbackCR,
     clearConfirmCallback: clearConfirmCallbackCR,
   },
 });
 
-export const { setAppMenu, addConfirmCallback, clearConfirmCallback } = slice.actions;
+export const { setAppMenu, setHandleRedirectPage, addConfirmCallback, clearConfirmCallback } = slice.actions;
 
 export default slice.reducer;

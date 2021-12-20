@@ -25,6 +25,7 @@ import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { setHandeRisk } from "risk/QuestionTemplate/question-template.slice";
+import { setHandleRedirectPage } from "@app/slices/global";
 
 const Wrapper = styled(IonRow)`
   margin-left: 11%;
@@ -140,6 +141,7 @@ const CustomerService: React.FC = () => {
                   style={{ backgroundColor: color }}
                   onClick={() => {
                     handleTypeService(name + "");
+                    dispatch(setHandleRedirectPage('service-page'))
                   }}
                 >
                   <div>

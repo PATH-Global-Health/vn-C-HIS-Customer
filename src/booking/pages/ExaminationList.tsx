@@ -27,6 +27,7 @@ import ModalCancelSuccess from "booking/components/Examination/ModalCancelSucces
 import { ExaminationStatus } from "booking/models/examinationListModel";
 import ModalConfirm from "booking/components/Examination/ModalConfirm";
 import { BookingModel } from "booking/models/bookingModel";
+import { setHandleRedirectPage } from "@app/slices/global";
 
 const ExaminationList: React.FC = () => {
   const [searchInput, setSearchInput] = useState(false);
@@ -38,6 +39,7 @@ const ExaminationList: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
+  const { typeRedirect } = useSelector((state) => state.global);
   const examinationList = useSelector((w) => w.workingCaledar.examinationList);
   const loading = useSelector((b) => b.workingCaledar.loading);
   const [nameSearch, setNameSearch] = useState("");
@@ -91,7 +93,15 @@ const ExaminationList: React.FC = () => {
   );
   const [examId, setExamId] = useState("");
   const [rating, setRating] = useState(0);
-
+  const back = () => {
+    if (typeRedirect == 'service-page') {
+      dispatch(setHandleRedirectPage(''));
+      history.replace("/customer-service")
+    }
+    else {
+      history.replace("/home");
+    }
+  };
   useEffect(() => {
     dispatch(getExaminationList());
   }, [dispatch]);
@@ -133,9 +143,7 @@ const ExaminationList: React.FC = () => {
         <IonHeader className={styles.header}>
           <button
             className={styles.btnCustomHeader}
-            onClick={() => {
-              history.replace("/home");
-            }}
+            onClick={() => back()}
           >
             <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
           </button>

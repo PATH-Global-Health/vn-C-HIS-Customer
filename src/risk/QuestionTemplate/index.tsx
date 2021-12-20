@@ -18,6 +18,7 @@ import ResultPage from "./components/ResultPage";
 import QuestionTemplatePage from "./components/QuestionTemplate";
 import AnsHistory from "./components/AnsHistory";
 import { useTranslation } from "react-i18next";
+import { setHandleRedirectPage } from "@app/slices/global";
 
 const Header = styled.div`
   & .header {
@@ -34,14 +35,21 @@ const RiskPage: React.FC = () => {
   const {
     handleRisk: { type },
   } = useSelector((state) => state.risk);
+  const { typeRedirect } = useSelector((state) => state.global);
   const history = useHistory();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const back = () => {
-    if (type === undefined) {
-      history.replace("/home");
-    } else {
-      dispatch(setHandeRisk({}));
+    if (typeRedirect == 'service-page') {
+      dispatch(setHandleRedirectPage(''));
+      history.replace("/customer-service")
+    }
+    else {
+      if (type === undefined) {
+        history.replace("/home");
+      } else {
+        dispatch(setHandeRisk({}));
+      }
     }
   };
 

@@ -1,6 +1,7 @@
 import UIKit
 import Capacitor
 import FBSDKCoreKit
+import TrustKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application,
             didFinishLaunchingWithOptions: launchOptions
         )
+        self.setupTrustkit()
         return true
     }
 
@@ -163,5 +165,22 @@ extension AppDelegate {
 //            print("String is \(theString)")
             UIPasteboard.general.items = []
         }
+    }
+}
+
+// MARK: - trustkit
+extension AppDelegate {
+    func setupTrustkit() {
+        let trustKitConfig = [
+            kTSKSwizzleNetworkDelegates: false,
+            kTSKPinnedDomains: [
+                "yahoo.com": [
+                    kTSKExpirationDate: "2022-12-01",
+                    kTSKPublicKeyHashes: [
+                        "JbQbUG5JMJUoI6brnx0x3vZF6jilxsapbXGVfjhN8Fg=",
+                        "WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18="
+                    ],]]] as [String : Any]
+        
+        TrustKit.initSharedInstance(withConfiguration:trustKitConfig)
     }
 }

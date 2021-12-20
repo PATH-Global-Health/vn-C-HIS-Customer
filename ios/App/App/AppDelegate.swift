@@ -28,12 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         // Create the UIImageView for the blurred screenshot.
         appSwitcherView = UIImageView(image: blurredImage)
-//        let image = UIImage(named: "privacy-screen")!
-//        appSwitcherView = UIImageView(image: image)
-//        appSwitcherView?.contentMode = .scaleAspectFit
-//        appSwitcherView?.backgroundColor = .black
-//        appSwitcherView?.bounds.size = UIScreen.main.bounds.size
-            
+        
         // Set it as the current screen
         self.window?.addSubview(appSwitcherView!)
     }

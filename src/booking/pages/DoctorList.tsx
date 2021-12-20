@@ -65,7 +65,7 @@ const DoctorList: React.FC = () => {
     <IonPage style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}>
       <IonHeader className={styles.header}>
         <IonIcon
-          onClick={() => history.replace("/home")}
+          onClick={() => history.replace("/customer-service")}
           className={styles.iconLeft}
           icon={chevronBack}
         ></IonIcon>

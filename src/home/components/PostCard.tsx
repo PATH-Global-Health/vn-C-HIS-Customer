@@ -20,7 +20,7 @@ import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Post } from "home/home.model";
+import { Post } from "home/post.model";
 import { useDispatch, useSelector } from "@app/hooks";
 import {
   getPostDetail,

@@ -110,12 +110,12 @@ const CustomerService: React.FC = () => {
     name === "booking"
       ? history.replace("/shomeBooking")
       : name === "examinationList"
-      ? history.replace("/examinationList")
-      : name === "risk"
-      ? history.replace("/risk")
-      : name === "doctorList"
-      ? history.replace("/doctorList")
-      : RedirectRiskPage();
+        ? history.replace("/examinationList")
+        : name === "risk"
+          ? history.replace("/risk")
+          : name === "doctorList"
+            ? history.replace("/doctorList")
+            : RedirectRiskPage();
   };
   const RedirectRiskPage = () => {
     history.replace("/home");

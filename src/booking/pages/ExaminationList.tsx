@@ -71,22 +71,22 @@ const ExaminationList: React.FC = () => {
   const examinationListSearch = examinationListSuccess.filter((e) =>
     deburr(
       e?.service?.name! +
-        e?.unit?.name +
-        e?.unit?.address +
-        moment(e.date).format("DD-MM-YYYY") +
-        e?.interval?.from +
-        e?.doctor?.fullname!
+      e?.unit?.name +
+      e?.unit?.address +
+      moment(e.date).format("DD-MM-YYYY") +
+      e?.interval?.from +
+      e?.doctor?.fullname!
     ).includes(deburr(nameSearch))
   );
 
   const examinationFinishedListSearch = examinationListFinished.filter((e) =>
     deburr(
       e?.service?.name! +
-        e?.unit?.name +
-        e?.unit?.address +
-        moment(e.date).format("DD-MM-YYYY") +
-        e?.interval?.from +
-        e?.doctor?.fullname
+      e?.unit?.name +
+      e?.unit?.address +
+      moment(e.date).format("DD-MM-YYYY") +
+      e?.interval?.from +
+      e?.doctor?.fullname
     ).includes(deburr(nameSearch))
   );
   const [examId, setExamId] = useState("");

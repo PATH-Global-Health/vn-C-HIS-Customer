@@ -9,7 +9,6 @@ interface State {
     callback: () => void;
   };
 }
-
 interface AddConfirmCallback {
   message: string;
   callback: () => void;

@@ -182,9 +182,9 @@ extension AppDelegate {
                            kTSKIncludeSubdomains: true,
                            kTSKPublicKeyHashes: [
         //First public key -> Obtained from the Python script
-        "98G5NBTBZiyJlS5HweFYN5QmXgIbk15AoEP3U0SKtAQ="
+        "98G5NBTBZiyJlS5HweFYN5QmXgIbk15AoEP3U0SKtAQ=",
         //Second public key in case of the first one will expire
-//        "98G5NBTBZiyJlS5HweFYN5QmXgIbk15AoEP3U0SKtAQ="
+        "4a6cPehI7OG6cuDZka5NDZ7FR8a60d3auda+sKfg4Ng="
            ],
            kTSKReportUris:        ["https://overmind.datatheorem.com/trustkit/report"],
          ]

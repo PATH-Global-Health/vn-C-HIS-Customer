@@ -161,7 +161,7 @@ extension AppDelegate {
     
     @objc func clipboardChanged(){
         let pasteboardString: String? = UIPasteboard.general.string
-        if let theString = pasteboardString {
+        if let _ = pasteboardString {
 //            print("String is \(theString)")
             UIPasteboard.general.items = []
         }
@@ -171,16 +171,35 @@ extension AppDelegate {
 // MARK: - trustkit
 extension AppDelegate {
     func setupTrustkit() {
-        let trustKitConfig = [
-            kTSKSwizzleNetworkDelegates: false,
-            kTSKPinnedDomains: [
-                "yahoo.com": [
-                    kTSKExpirationDate: "2022-12-01",
-                    kTSKPublicKeyHashes: [
-                        "JbQbUG5JMJUoI6brnx0x3vZF6jilxsapbXGVfjhN8Fg=",
-                        "WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18="
-                    ],]]] as [String : Any]
-        
-        TrustKit.initSharedInstance(withConfiguration:trustKitConfig)
+        TrustKit.setLoggerBlock { (message) in
+              print("TrustKit log: \(message)")
+        }
+        let trustKitConfig: [String: Any] = [
+             kTSKSwizzleNetworkDelegates: false,
+             kTSKPinnedDomains: [
+                    "https://chiscustomer.bakco.vn": [
+                           kTSKEnforcePinning: true,
+                           kTSKIncludeSubdomains: true,
+                           kTSKPublicKeyHashes: [
+        //First public key -> Obtained from the Python script
+        "98G5NBTBZiyJlS5HweFYN5QmXgIbk15AoEP3U0SKtAQ="
+        //Second public key in case of the first one will expire
+//        "98G5NBTBZiyJlS5HweFYN5QmXgIbk15AoEP3U0SKtAQ="
+           ],
+           kTSKReportUris:        ["https://overmind.datatheorem.com/trustkit/report"],
+         ]
+        ]]
+        TrustKit.initSharedInstance(withConfiguration: trustKitConfig)
     }
+}
+
+extension URLSession {
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+            // Call into TrustKit here to do pinning validation
+            if TrustKit.sharedInstance().pinningValidator.handle(challenge, completionHandler: completionHandler) == false {
+                // TrustKit did not handle this challenge: perhaps it was not for server trust
+                // or the domain was not pinned. Fall back to the default behavior
+                completionHandler(.performDefaultHandling, nil)
+            }
+        }
 }

@@ -91,5 +91,27 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>TSKConfiguration</key>
+	<dict>
+		<key>TSKPinnedDomains</key>
+		<dict>
+			<key>https://chiscustomer.bakco.vn</key>
+			<dict>
+				<key>TSKPublicKeyHashes</key>
+				<array>
+					<string>public key 1</string>
+					<string>public key 2</string>
+				</array>
+				<key>TSKPublicKeyAlgorithms</key>
+				<array>
+					<string>TSKAlgorithmRsa2048</string>
+				</array>
+				<key>TSKIncludeSubdomains</key>
+				<true/>
+				<key>TSKEnforcePinning</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
 </dict>
 </plist>

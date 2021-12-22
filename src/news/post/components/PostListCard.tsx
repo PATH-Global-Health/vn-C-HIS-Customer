@@ -143,7 +143,6 @@ const PostListCard: React.FC = () => {
   const formatArr = (arr: Post[]) => {
     return arr.map((item) => {
       const parse = /data:(.*)/i.exec(item.description);
-
       return {
         id: item.id,
         name: item.name,

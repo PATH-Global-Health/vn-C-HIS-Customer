@@ -69,30 +69,33 @@ const ApointmentDate: React.FC = () => {
         <IonPage
           style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}
         >
-          <IonHeader className={styles.header}>
-            <button
-              className={styles.btnCustomHeader}
-              onClick={() => {
-                if (typeChoosing === "apointmentDate") {
-                  history.replace("/testingAppointment");
-                } else {
-                  history.replace("/hospitalDetail");
-                }
-              }}
-            >
-              <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
-            </button>
-            {serviceId + "" === "f2490f62-1d28-4edd-362a-08d8a7232229" ? (
-              <IonLabel className={styles.styledLabel}>
-                {t("Schedule a test")}
-              </IonLabel>
-            ) : (
-              <IonLabel className={styles.styledLabel}>
-                {t("Schedule a consultation")}
-              </IonLabel>
-            )}
-          </IonHeader>
           <IonContent className={styles.styledContent}>
+            <IonHeader className={styles.header}>
+              <button
+                className={styles.btnCustomHeader}
+                onClick={() => {
+                  if (typeChoosing === "apointmentDate") {
+                    history.replace("/testingAppointment");
+                  } else {
+                    history.replace("/hospitalDetail");
+                  }
+                }}
+              >
+                <IonIcon
+                  className={styles.iconLeft}
+                  icon={chevronBack}
+                ></IonIcon>
+              </button>
+              {serviceId + "" === "f2490f62-1d28-4edd-362a-08d8a7232229" ? (
+                <IonLabel className={styles.styledLabel}>
+                  {t("Schedule a test")}
+                </IonLabel>
+              ) : (
+                <IonLabel className={styles.styledLabel}>
+                  {t("Schedule a consultation")}
+                </IonLabel>
+              )}
+            </IonHeader>
             {serviceId + "" === "f2490f62-1d28-4edd-362a-08d8a7232229" ? (
               <IonLabel className={styles.styledLabelContent}>
                 {t("Choose a test date")}

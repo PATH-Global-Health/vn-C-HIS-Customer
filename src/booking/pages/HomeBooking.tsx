@@ -22,11 +22,10 @@ const HomeBooking: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const back = () => {
-    if (typeRedirect == 'service-page') {
-      dispatch(setHandleRedirectPage(''));
-      history.replace("/customer-service")
-    }
-    else {
+    if (typeRedirect == "service-page") {
+      dispatch(setHandleRedirectPage(""));
+      history.replace("/customer-service");
+    } else {
       history.replace("/home");
     }
   };
@@ -35,16 +34,13 @@ const HomeBooking: React.FC = () => {
   }, []);
   return (
     <IonPage style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}>
-      <IonHeader className={styles.header}>
-        <button
-          className={styles.btnCustomHeader}
-          onClick={() => back()}
-        >
-          <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
-        </button>
-        <IonLabel className={styles.headerLabel}>{t("Booking")} </IonLabel>
-      </IonHeader>
       <IonContent className={styles.content}>
+        <IonHeader className={styles.header}>
+          <button className={styles.btnCustomHeader} onClick={() => back()}>
+            <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
+          </button>
+          <IonLabel className={styles.headerLabel}>{t("Booking")} </IonLabel>
+        </IonHeader>
         <button
           className={styles.btnCustom}
           onClick={() => {

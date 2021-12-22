@@ -68,8 +68,8 @@ const StyledText = styled(IonLabel)`
   font-weight: 600;
 `;
 const StyledAlert = styled(IonAlert)`
-.alert-title sc-ion-alert-md {
-    --color:red !important;
+  .alert-title sc-ion-alert-md {
+    --color: red !important;
   }
 `;
 const StyledOtpInput = styled(OtpInput)`
@@ -154,7 +154,7 @@ const Account: React.FC = () => {
     setTimeout(() => {
       history.replace("/login");
     }, 0);
-  }
+  };
   const sendOTP = async (data: string, type: string): Promise<void> => {
     const params = { phoneNumber: data };
     setDataEntry({ type, data });
@@ -231,7 +231,7 @@ const Account: React.FC = () => {
     register("otp");
   }, [register, t]);
   return (
-    <IonPage style={isPlatform('ios') ? { paddingTop: 40 } : { paddingTop: 0 }}>
+    <IonPage style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}>
       <IonContent>
         <IonRow className="ion-justify-content-center">
           <IonCol size="4">
@@ -271,14 +271,14 @@ const Account: React.FC = () => {
                         name === "change-password"
                           ? history.replace("/change-password")
                           : name === "account"
-                            ? history.replace("/account-update")
-                            : name === "profile"
-                              ? history.replace("/profile")
-                              : name === "security"
-                                ? history.replace("/security-question")
-                                : name === "qr"
-                                  ? history.replace("/qr-code")
-                                  : history.replace("/account");
+                          ? history.replace("/account-update")
+                          : name === "profile"
+                          ? history.replace("/profile")
+                          : name === "security"
+                          ? history.replace("/security-question")
+                          : name === "qr"
+                          ? history.replace("/qr-code")
+                          : history.replace("/account");
                       }}
                     >
                       <StyledIcon
@@ -286,14 +286,14 @@ const Account: React.FC = () => {
                           name === "profile"
                             ? newspaperOutline
                             : name === "account"
-                              ? person
-                              : name === "change-password"
-                                ? linkOutline
-                                : name === "security"
-                                  ? lockClosed
-                                  : icon === "security"
-                                    ? shieldCheckmark
-                                    : qrCodeOutline
+                            ? person
+                            : name === "change-password"
+                            ? linkOutline
+                            : name === "security"
+                            ? lockClosed
+                            : icon === "security"
+                            ? shieldCheckmark
+                            : qrCodeOutline
                         }
                         style={{ backgroundColor: color }}
                       ></StyledIcon>
@@ -358,7 +358,7 @@ const Account: React.FC = () => {
               <StyledSocialButton
                 type="submit"
                 onClick={() => setShowAlert(true)}
-              // onClick={() => setShowModal(true)}
+                // onClick={() => setShowModal(true)}
               >
                 <IonIcon
                   icon={logOutOutline}

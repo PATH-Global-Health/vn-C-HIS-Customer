@@ -76,21 +76,24 @@ const HospitalDetail: React.FC = () => {
         <IonPage
           style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}
         >
-          <IonHeader className={styles.header}>
-            <button
-              className={styles.btnCustomHeader}
-              onClick={() => history.replace("/choosingHospital")}
-            >
-              <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
-            </button>
-            <IonLabel className={styles.styledLabel}>
-              {t("Service Unit")}
-            </IonLabel>
-          </IonHeader>
           {hospital === undefined ? (
             ""
           ) : (
             <IonContent>
+              <IonHeader className={styles.header}>
+                <button
+                  className={styles.btnCustomHeader}
+                  onClick={() => history.replace("/choosingHospital")}
+                >
+                  <IonIcon
+                    className={styles.iconLeft}
+                    icon={chevronBack}
+                  ></IonIcon>
+                </button>
+                <IonLabel className={styles.styledLabel}>
+                  {t("Service Unit")}
+                </IonLabel>
+              </IonHeader>
               <IonList>
                 <IonItem>
                   <IonImg
@@ -185,21 +188,21 @@ const HospitalDetail: React.FC = () => {
                   </IonInput>
                 </IonItem>
               </IonList>
+              <button
+                className={styles.styledButtonSubmit}
+                onClick={() => {
+                  if (typeChoosing === "apointmentDate") {
+                    getInterval();
+                    history.replace("/choosingTime");
+                  } else if (typeChoosing === "choosingHospital") {
+                    history.replace("/apointmentDate");
+                  }
+                }}
+              >
+                {t("Next step")}
+              </button>
             </IonContent>
           )}
-          <button
-            className={styles.styledButtonSubmit}
-            onClick={() => {
-              if (typeChoosing === "apointmentDate") {
-                getInterval();
-                history.replace("/choosingTime");
-              } else if (typeChoosing === "choosingHospital") {
-                history.replace("/apointmentDate");
-              }
-            }}
-          >
-            {t("Next step")}
-          </button>
         </IonPage>
       )}
     </>

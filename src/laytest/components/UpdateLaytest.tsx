@@ -145,7 +145,10 @@ const UpdateLaytest: React.FC = () => {
       <IonHeader className="header">
         <IonItem color="light" onClick={() => history.replace("/laytest")}>
           <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>
-          <IonTitle className="title ion-text-center">
+          <IonTitle
+            style={{ fontSize: 23, fontWeight: "bold" }}
+            className="title ion-text-center"
+          >
             {t("Update laytest result")}
           </IonTitle>
         </IonItem>

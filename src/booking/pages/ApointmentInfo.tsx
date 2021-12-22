@@ -144,27 +144,27 @@ const ApointmentInfo: React.FC = () => {
           {examinationSuccess === true ||
           history.location.state !== undefined ? (
             <>
-              <IonHeader className={styles.header}>
-                <button
-                  className={styles.btnCustomHeader}
-                  onClick={() => {
-                    if (Boolean(history.location.state)) {
-                      history.replace("/examinationList");
-                    } else {
-                      history.replace("/confirmProfile");
-                    }
-                  }}
-                >
-                  <IonIcon
-                    className={styles.iconLeft}
-                    icon={chevronBack}
-                  ></IonIcon>
-                </button>
-                <IonLabel className={styles.headerLabel}>
-                  {t("Appointment information")}
-                </IonLabel>
-              </IonHeader>
               <IonContent>
+                <IonHeader className={styles.header}>
+                  <button
+                    className={styles.btnCustomHeader}
+                    onClick={() => {
+                      if (Boolean(history.location.state)) {
+                        history.replace("/examinationList");
+                      } else {
+                        history.replace("/confirmProfile");
+                      }
+                    }}
+                  >
+                    <IonIcon
+                      className={styles.iconLeft}
+                      icon={chevronBack}
+                    ></IonIcon>
+                  </button>
+                  <IonLabel className={styles.headerLabel}>
+                    {t("Appointment information")}
+                  </IonLabel>
+                </IonHeader>
                 <IonList>
                   <IonItem>
                     <IonLabel className={styles.styledLabel} position="stacked">
@@ -248,6 +248,7 @@ const ApointmentInfo: React.FC = () => {
                   {/* )} */}
                 </IonList>
               </IonContent>
+              {/* <IonContent> */}
               <div className={styles.styledItemRating}>
                 {Boolean(
                   bookingModel?.data.rate !== "string" &&
@@ -318,6 +319,7 @@ const ApointmentInfo: React.FC = () => {
                   {t("Cancel appointment")}
                 </button>
               )}
+              {/* </IonContent> */}
             </>
           ) : (
             <IonHeader className={styles.header}>

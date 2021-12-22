@@ -33,9 +33,9 @@ const Header = styled.div`
     height: 40px;
   }
   & .title {
-    font-weight: 600;
+    font-weight: bold;
+    font-size: 23px;
     text-align: center;
-    margin: 10px 0px !important;
   }
 `;
 const ChildCard = styled(IonRow)`
@@ -115,7 +115,10 @@ const CustomerLaytest: React.FC = () => {
   const customerUserName = useSelector(
     (s) => s.auth.userInfo?.data.userInfo.username
   );
-  const { laytestList: { data }, getLaytestLoading } = useSelector((s) => s.laytest);
+  const {
+    laytestList: { data },
+    getLaytestLoading,
+  } = useSelector((s) => s.laytest);
 
   async function fetchData() {
     setTimeout(() => {
@@ -180,14 +183,17 @@ const CustomerLaytest: React.FC = () => {
                     <IonCardHeader>
                       <b className="main-title">{t("Laytest result")}</b>
                       <span></span>
-                      <IonNote className="main-card">{`${t("Laytest code")}: ${o?.result?.code ?? "..."
-                        }`}</IonNote>
-                      <IonNote className="main-card">{`${t("Test date")}: ${moment(o?.dateCreate).format("MM/DD/YYYY") ?? "..."
-                        }`}</IonNote>
-                      <IonNote className="main-card">{`${t("Result date")}: ${o?.result?.resultDate
-                        ? moment(o?.result?.resultDate).format("MM/DD/YYYY")
-                        : "..."
-                        }`}</IonNote>
+                      <IonNote className="main-card">{`${t("Laytest code")}: ${
+                        o?.result?.code ?? "..."
+                      }`}</IonNote>
+                      <IonNote className="main-card">{`${t("Test date")}: ${
+                        moment(o?.dateCreate).format("MM/DD/YYYY") ?? "..."
+                      }`}</IonNote>
+                      <IonNote className="main-card">{`${t("Result date")}: ${
+                        o?.result?.resultDate
+                          ? moment(o?.result?.resultDate).format("MM/DD/YYYY")
+                          : "..."
+                      }`}</IonNote>
                       <IonNote className="main-card note">{`${t(
                         "Test result"
                       )}: ${o?.result?.resultTesting ?? "..."}`}</IonNote>

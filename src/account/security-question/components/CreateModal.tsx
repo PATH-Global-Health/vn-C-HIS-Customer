@@ -76,7 +76,7 @@ const StyledAlertForm = styled(IonAlert)`
 `;
 const WrapperQuestion = styled(IonRow)`
   position: absolute !important;
-  top: 8%;
+  top: 12%;
   ion-label {
     --color: black !important;
   }
@@ -95,9 +95,9 @@ const Header = styled.div`
     height: 40px;
   }
   & .title {
-    font-weight: 600;
+    font-weight: bold;
+    font-size: 23px;
     text-align: center;
-    margin: 10px 0px !important;
   }
 `;
 const CreateModal: React.FC = () => {
@@ -159,7 +159,7 @@ const CreateModal: React.FC = () => {
             icon={chevronBackOutline}
             onClick={() => history.replace("/account")}
           ></StyledIcon>
-          <IonTitle style={{ fontSize: "20px", textAlign: "center" }}>
+          <IonTitle style={{ fontSize: "23px", textAlign: "center" }}>
             {t("Security Setting")}
           </IonTitle>
         </IonItem>

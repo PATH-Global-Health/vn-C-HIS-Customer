@@ -27,17 +27,17 @@ const DoctorDetail: React.FC = () => {
         style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}
       >
         <>
-          <IonHeader className={styles.header}>
-            <IonIcon
-              onClick={() => history.replace("/doctorList")}
-              className={styles.iconLeft}
-              icon={chevronBack}
-            ></IonIcon>
-            <IonLabel className={styles.headerLabel}>
-              {t("Doctor Information")}
-            </IonLabel>
-          </IonHeader>
           <IonContent>
+            <IonHeader className={styles.header}>
+              <IonIcon
+                onClick={() => history.replace("/doctorList")}
+                className={styles.iconLeft}
+                icon={chevronBack}
+              ></IonIcon>
+              <IonLabel className={styles.headerLabel}>
+                {t("Doctor Information")}
+              </IonLabel>
+            </IonHeader>
             <IonList>
               <IonItem>
                 <div

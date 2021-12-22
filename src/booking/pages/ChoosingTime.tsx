@@ -50,20 +50,23 @@ const ChoosingTime: React.FC = () => {
         <IonPage
           style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}
         >
-          <IonHeader className={styles.header}>
-            <button
-              className={styles.btnCustomHeader}
-              onClick={() => history.replace("/apointmentDate")}
-            >
-              <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
-            </button>
-            {serviceId + "" === "f2490f62-1d28-4edd-362a-08d8a7232229" ? (
-              <IonLabel className={styles.headerLabel}>{t("Time")}</IonLabel>
-            ) : (
-              <IonLabel className={styles.headerLabel}>{t("Time")}</IonLabel>
-            )}
-          </IonHeader>
           <IonContent className={styles.styledContent}>
+            <IonHeader className={styles.header}>
+              <button
+                className={styles.btnCustomHeader}
+                onClick={() => history.replace("/apointmentDate")}
+              >
+                <IonIcon
+                  className={styles.iconLeft}
+                  icon={chevronBack}
+                ></IonIcon>
+              </button>
+              {serviceId + "" === "f2490f62-1d28-4edd-362a-08d8a7232229" ? (
+                <IonLabel className={styles.headerLabel}>{t("Time")}</IonLabel>
+              ) : (
+                <IonLabel className={styles.headerLabel}>{t("Time")}</IonLabel>
+              )}
+            </IonHeader>
             <IonLabel className={styles.styledLabelContent}>
               {t("Please choose a time that works for you")}
             </IonLabel>
@@ -90,29 +93,29 @@ const ChoosingTime: React.FC = () => {
                 </button>
               );
             })}
+            {Boolean(intervalSelected) === true ? (
+              <button
+                className={styles.styledButtonSubmit}
+                onClick={() => {
+                  const date = moment(dateBooking).format("YYYY-MM-DD");
+                  if (
+                    moment(date + " " + intervalSelected?.from).format(
+                      "YYYY-MM-DD HH:mm"
+                    ) > moment(new Date()).format("YYYY-MM-DD HH:mm")
+                  ) {
+                    dispatch(getInterBooking(intervalSelected));
+                    history.replace("/confirmProfile");
+                  } else {
+                    setShowAlert(true);
+                  }
+                }}
+              >
+                {t("Confirm")}
+              </button>
+            ) : (
+              ""
+            )}
           </IonContent>
-          {Boolean(intervalSelected) === true ? (
-            <button
-              className={styles.styledButtonSubmit}
-              onClick={() => {
-                const date = moment(dateBooking).format("YYYY-MM-DD");
-                if (
-                  moment(date + " " + intervalSelected?.from).format(
-                    "YYYY-MM-DD HH:mm"
-                  ) > moment(new Date()).format("YYYY-MM-DD HH:mm")
-                ) {
-                  dispatch(getInterBooking(intervalSelected));
-                  history.replace("/confirmProfile");
-                } else {
-                  setShowAlert(true);
-                }
-              }}
-            >
-              {t("Confirm")}
-            </button>
-          ) : (
-            ""
-          )}
 
           <IonAlert
             isOpen={showAlert}

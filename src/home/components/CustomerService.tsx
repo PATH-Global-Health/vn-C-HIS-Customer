@@ -63,9 +63,10 @@ const Header = styled.div`
     height: 40px;
   }
   & .title {
-    font-weight: 600;
+    font-weight: bold;
+    font-size: 23px;
     text-align: center;
-    margin: 10px 0px !important;
+    // margin: 10px 0px !important;
   }
 `;
 
@@ -111,12 +112,12 @@ const CustomerService: React.FC = () => {
     name === "booking"
       ? history.replace("/shomeBooking")
       : name === "examinationList"
-        ? history.replace("/examinationList")
-        : name === "risk"
-          ? history.replace("/risk")
-          : name === "doctorList"
-            ? history.replace("/doctorList")
-            : RedirectRiskPage();
+      ? history.replace("/examinationList")
+      : name === "risk"
+      ? history.replace("/risk")
+      : name === "doctorList"
+      ? history.replace("/doctorList")
+      : RedirectRiskPage();
   };
   const RedirectRiskPage = () => {
     history.replace("/home");
@@ -141,7 +142,7 @@ const CustomerService: React.FC = () => {
                   style={{ backgroundColor: color }}
                   onClick={() => {
                     handleTypeService(name + "");
-                    dispatch(setHandleRedirectPage('service-page'))
+                    dispatch(setHandleRedirectPage("service-page"));
                   }}
                 >
                   <div>

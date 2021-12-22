@@ -84,18 +84,18 @@ const ForgetPassword: React.FC = () => {
 
   return (
     <IonPage style={isPlatform("ios") ? { paddingTop: 30 } : { paddingTop: 0 }}>
-      <IonHeader className="ion-margin-bottom">
-        <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
-          <StyledIcon
-            icon={chevronBackOutline}
-            onClick={() => back()}
-          ></StyledIcon>
-          <IonTitle style={{ fontSize: "15px", textAlign: "center" }}>
-            {t("Forgot password")}
-          </IonTitle>
-        </IonItem>
-      </IonHeader>
       <IonContent>
+        <IonHeader className="ion-margin-bottom">
+          <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
+            <StyledIcon
+              icon={chevronBackOutline}
+              onClick={() => back()}
+            ></StyledIcon>
+            <IonTitle style={{ fontSize: "23px", textAlign: "center" }}>
+              {t("Forgot password")}
+            </IonTitle>
+          </IonItem>
+        </IonHeader>
         {/* <IonHeader className="ion-margin-bottom">
           <IonItem color="light" onClick={() => back()}>
             <IonIcon icon={chevronBackOutline} color="dark"></IonIcon>

@@ -289,26 +289,29 @@ const ChoosingHospital: React.FC = () => {
               {t("Close")}
             </button>
           </StyleModal>
-          <IonHeader className={styles.header}>
-            <button
-              className={styles.btnCustomHeader}
-              onClick={() => {
-                if (typeChoosing === "apointmentDate") {
-                  history.replace("/apointmentDate");
-                  // history.replace("/testingAppointment");
-                } else {
-                  history.replace("/testingAppointment");
-                }
-              }}
-            >
-              <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
-            </button>
-            <IonLabel className={styles.headerLabel}>
-              {t("Service Unit List")}
-            </IonLabel>
-          </IonHeader>
 
           <StyledContent>
+            <IonHeader className={styles.header}>
+              <button
+                className={styles.btnCustomHeader}
+                onClick={() => {
+                  if (typeChoosing === "apointmentDate") {
+                    history.replace("/apointmentDate");
+                    // history.replace("/testingAppointment");
+                  } else {
+                    history.replace("/testingAppointment");
+                  }
+                }}
+              >
+                <IonIcon
+                  className={styles.iconLeft}
+                  icon={chevronBack}
+                ></IonIcon>
+              </button>
+              <IonLabel className={styles.headerLabel}>
+                {t("Service Unit List")}
+              </IonLabel>
+            </IonHeader>
             <StyledDiv>
               <IonInput
                 className={styles.styledInput}

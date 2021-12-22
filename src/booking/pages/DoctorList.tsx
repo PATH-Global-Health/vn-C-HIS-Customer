@@ -63,18 +63,17 @@ const DoctorList: React.FC = () => {
 
   return (
     <IonPage style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}>
-      <IonHeader className={styles.header}>
-        <IonIcon
-          onClick={() => history.replace("/customer-service")}
-          className={styles.iconLeft}
-          icon={chevronBack}
-        ></IonIcon>
-        <IonLabel className={styles.headerLabel}>
-          {t("List of doctors")}{" "}
-        </IonLabel>
-      </IonHeader>
-
       <IonContent className={styles.content}>
+        <IonHeader className={styles.header}>
+          <IonIcon
+            onClick={() => history.replace("/customer-service")}
+            className={styles.iconLeft}
+            icon={chevronBack}
+          ></IonIcon>
+          <IonLabel className={styles.headerLabel}>
+            {t("List of doctors")}{" "}
+          </IonLabel>
+        </IonHeader>
         <div className={styles.headerSearch}>
           <IonSearchbar
             onIonChange={(e) => {

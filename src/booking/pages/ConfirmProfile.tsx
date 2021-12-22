@@ -110,20 +110,23 @@ const ConfirmProfile: React.FC = () => {
         <IonPage
           style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}
         >
-          <IonHeader className={styles.header}>
-            <button
-              className={styles.btnCustomHeader}
-              onClick={() => history.replace("/choosingTime")}
-            >
-              <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
-            </button>
-            <IonLabel className={styles.headerLabel}>
-              {Boolean(serviceId === ExaminationService.TESTING)
-                ? t("Required information")
-                : t("Service information")}
-            </IonLabel>
-          </IonHeader>
           <IonContent>
+            <IonHeader className={styles.header}>
+              <button
+                className={styles.btnCustomHeader}
+                onClick={() => history.replace("/choosingTime")}
+              >
+                <IonIcon
+                  className={styles.iconLeft}
+                  icon={chevronBack}
+                ></IonIcon>
+              </button>
+              <IonLabel className={styles.headerLabel}>
+                {Boolean(serviceId === ExaminationService.TESTING)
+                  ? t("Required information")
+                  : t("Service information")}
+              </IonLabel>
+            </IonHeader>
             <form onSubmit={handleSubmit(onSubmit)}>
               {Boolean(serviceId === ExaminationService.TESTING) && (
                 <IonList>

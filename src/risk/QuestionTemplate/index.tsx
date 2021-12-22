@@ -26,9 +26,9 @@ const Header = styled.div`
     height: 40px;
   }
   & .title {
-    font-weight: 600;
+    font-weight: bold;
+    font-size: 23px;
     text-align: center;
-    margin: 10px 0px !important;
   }
 `;
 const RiskPage: React.FC = () => {
@@ -40,11 +40,10 @@ const RiskPage: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const back = () => {
-    if (typeRedirect == 'service-page') {
-      dispatch(setHandleRedirectPage(''));
-      history.replace("/customer-service")
-    }
-    else {
+    if (typeRedirect == "service-page") {
+      dispatch(setHandleRedirectPage(""));
+      history.replace("/customer-service");
+    } else {
       if (type === undefined) {
         history.replace("/home");
       } else {
@@ -64,10 +63,10 @@ const RiskPage: React.FC = () => {
                 {type === undefined
                   ? t("Learn the risk")
                   : type === "answer"
-                    ? t("Reply form")
-                    : type === "ans-history"
-                      ? t("Reply history")
-                      : t("Result")}
+                  ? t("Reply form")
+                  : type === "ans-history"
+                  ? t("Reply history")
+                  : t("Result")}
               </IonTitle>
             </IonItem>
           </IonHeader>

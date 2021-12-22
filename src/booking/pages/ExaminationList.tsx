@@ -73,32 +73,31 @@ const ExaminationList: React.FC = () => {
   const examinationListSearch = examinationListSuccess.filter((e) =>
     deburr(
       e?.service?.name! +
-      e?.unit?.name +
-      e?.unit?.address +
-      moment(e.date).format("DD-MM-YYYY") +
-      e?.interval?.from +
-      e?.doctor?.fullname!
+        e?.unit?.name +
+        e?.unit?.address +
+        moment(e.date).format("DD-MM-YYYY") +
+        e?.interval?.from +
+        e?.doctor?.fullname!
     ).includes(deburr(nameSearch))
   );
 
   const examinationFinishedListSearch = examinationListFinished.filter((e) =>
     deburr(
       e?.service?.name! +
-      e?.unit?.name +
-      e?.unit?.address +
-      moment(e.date).format("DD-MM-YYYY") +
-      e?.interval?.from +
-      e?.doctor?.fullname
+        e?.unit?.name +
+        e?.unit?.address +
+        moment(e.date).format("DD-MM-YYYY") +
+        e?.interval?.from +
+        e?.doctor?.fullname
     ).includes(deburr(nameSearch))
   );
   const [examId, setExamId] = useState("");
   const [rating, setRating] = useState(0);
   const back = () => {
-    if (typeRedirect == 'service-page') {
-      dispatch(setHandleRedirectPage(''));
-      history.replace("/customer-service")
-    }
-    else {
+    if (typeRedirect == "service-page") {
+      dispatch(setHandleRedirectPage(""));
+      history.replace("/customer-service");
+    } else {
       history.replace("/home");
     }
   };
@@ -139,56 +138,56 @@ const ExaminationList: React.FC = () => {
           dispatch(getExaminationList());
         }}
       ></ModalCancelSuccess>
-      {searchInput === false ? (
-        <IonHeader className={styles.header}>
-          <button
-            className={styles.btnCustomHeader}
-            onClick={() => back()}
-          >
-            <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
-          </button>
-          <IonLabel className={styles.headerLabel}>
-            {t("Appointment schedule")}{" "}
-          </IonLabel>
-          <IonIcon
-            onClick={() => setSearchInput(true)}
-            className={styles.iconRight}
-            icon={search}
-          ></IonIcon>
-          <ul className={styles.styledMenu}>
-            <li
-              className={cx({ styledLiSelected: selectedMenu === "upcoming" })}
-              onClick={() => setSelectedMenu("upcoming")}
-            >
-              {t("Upcoming")}
-            </li>
-            <li
-              className={cx({ styledLiSelected: selectedMenu === "history" })}
-              onClick={() => setSelectedMenu("history")}
-            >
-              {t("History")}
-            </li>
-          </ul>
-        </IonHeader>
-      ) : (
-        <div className={styles.headerSearch}>
-          <IonSearchbar
-            onIonChange={(e) => setNameSearch(e.detail.value!)}
-            placeholder={t("Search")}
-            className={styles.searchBar}
-          ></IonSearchbar>
-          <button
-            onClick={() => {
-              setSearchInput(false);
-              setNameSearch("");
-            }}
-            className={styles.cancelSearch}
-          >
-            Cancel
-          </button>
-        </div>
-      )}
+
       <IonContent className={styles.content}>
+        {searchInput === false ? (
+          <IonHeader className={styles.header}>
+            <button className={styles.btnCustomHeader} onClick={() => back()}>
+              <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
+            </button>
+            <IonLabel className={styles.headerLabel}>
+              {t("Appointment schedule")}{" "}
+            </IonLabel>
+            <IonIcon
+              onClick={() => setSearchInput(true)}
+              className={styles.iconRight}
+              icon={search}
+            ></IonIcon>
+            <ul className={styles.styledMenu}>
+              <li
+                className={cx({
+                  styledLiSelected: selectedMenu === "upcoming",
+                })}
+                onClick={() => setSelectedMenu("upcoming")}
+              >
+                {t("Upcoming")}
+              </li>
+              <li
+                className={cx({ styledLiSelected: selectedMenu === "history" })}
+                onClick={() => setSelectedMenu("history")}
+              >
+                {t("History")}
+              </li>
+            </ul>
+          </IonHeader>
+        ) : (
+          <div className={styles.headerSearch}>
+            <IonSearchbar
+              onIonChange={(e) => setNameSearch(e.detail.value!)}
+              placeholder={t("Search")}
+              className={styles.searchBar}
+            ></IonSearchbar>
+            <button
+              onClick={() => {
+                setSearchInput(false);
+                setNameSearch("");
+              }}
+              className={styles.cancelSearch}
+            >
+              Cancel
+            </button>
+          </div>
+        )}
         {searchInput === true ? (
           Boolean(selectedMenu === "upcoming") ? (
             <>

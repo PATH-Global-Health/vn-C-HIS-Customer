@@ -29,24 +29,27 @@ const TestingAppointment: React.FC = () => {
         <IonPage
           style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}
         >
-          <IonHeader className={styles.header}>
-            <button
-              className={styles.btnCustomHeader}
-              onClick={() => history.replace("/shomeBooking")}
-            >
-              <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
-            </button>
-            {serviceId + "" === "f2490f62-1d28-4edd-362a-08d8a7232229" ? (
-              <IonLabel className={styles.headerLabel}>
-                {t("Schedule a test")}
-              </IonLabel>
-            ) : (
-              <IonLabel className={styles.headerLabel}>
-                {t("Schedule a consultation")}
-              </IonLabel>
-            )}
-          </IonHeader>
           <IonContent className={styles.content}>
+            <IonHeader className={styles.header}>
+              <button
+                className={styles.btnCustomHeader}
+                onClick={() => history.replace("/shomeBooking")}
+              >
+                <IonIcon
+                  className={styles.iconLeft}
+                  icon={chevronBack}
+                ></IonIcon>
+              </button>
+              {serviceId + "" === "f2490f62-1d28-4edd-362a-08d8a7232229" ? (
+                <IonLabel className={styles.headerLabel}>
+                  {t("Schedule a test")}
+                </IonLabel>
+              ) : (
+                <IonLabel className={styles.headerLabel}>
+                  {t("Schedule a consultation")}
+                </IonLabel>
+              )}
+            </IonHeader>
             <button
               className={styles.btnCustom}
               onClick={() => {

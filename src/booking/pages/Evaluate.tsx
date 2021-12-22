@@ -68,18 +68,19 @@ const Evaluate: React.FC = () => {
           </p>
         </div>
       </StyleModal>
-      <IonHeader className={styles.header}>
-        <button
-          className={styles.btnCustomHeader}
-          onClick={() => history.goBack()}
-        >
-          <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
-        </button>
-        <IonLabel className={styles.headerLabel}>
-          {t("Service Reviews")}{" "}
-        </IonLabel>
-      </IonHeader>
+
       <IonContent className={styles.content}>
+        <IonHeader className={styles.header}>
+          <button
+            className={styles.btnCustomHeader}
+            onClick={() => history.goBack()}
+          >
+            <IonIcon className={styles.iconLeft} icon={chevronBack}></IonIcon>
+          </button>
+          <IonLabel className={styles.headerLabel}>
+            {t("Service Reviews")}{" "}
+          </IonLabel>
+        </IonHeader>
         <IonLabel className={styles.styledLableThanks}>
           {t("Thanks for your review")}
         </IonLabel>

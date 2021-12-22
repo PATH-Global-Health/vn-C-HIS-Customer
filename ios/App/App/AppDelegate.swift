@@ -1,6 +1,7 @@
 import UIKit
 import Capacitor
 import FBSDKCoreKit
+import TrustKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application,
             didFinishLaunchingWithOptions: launchOptions
         )
+        self.setupTrustkit()
         return true
     }
 
@@ -159,9 +161,45 @@ extension AppDelegate {
     
     @objc func clipboardChanged(){
         let pasteboardString: String? = UIPasteboard.general.string
-        if let theString = pasteboardString {
+        if let _ = pasteboardString {
 //            print("String is \(theString)")
             UIPasteboard.general.items = []
         }
     }
+}
+
+// MARK: - trustkit
+extension AppDelegate {
+    func setupTrustkit() {
+        TrustKit.setLoggerBlock { (message) in
+              print("TrustKit log: \(message)")
+        }
+        let trustKitConfig: [String: Any] = [
+             kTSKSwizzleNetworkDelegates: false,
+             kTSKPinnedDomains: [
+                    "https://chiscustomer.bakco.vn": [
+                           kTSKEnforcePinning: true,
+                           kTSKIncludeSubdomains: true,
+                           kTSKPublicKeyHashes: [
+        //First public key -> Obtained from the Python script
+        "98G5NBTBZiyJlS5HweFYN5QmXgIbk15AoEP3U0SKtAQ=",
+        //Second public key in case of the first one will expire
+        "4a6cPehI7OG6cuDZka5NDZ7FR8a60d3auda+sKfg4Ng="
+           ],
+           kTSKReportUris:        ["https://overmind.datatheorem.com/trustkit/report"],
+         ]
+        ]]
+        TrustKit.initSharedInstance(withConfiguration: trustKitConfig)
+    }
+}
+
+extension URLSession {
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+            // Call into TrustKit here to do pinning validation
+            if TrustKit.sharedInstance().pinningValidator.handle(challenge, completionHandler: completionHandler) == false {
+                // TrustKit did not handle this challenge: perhaps it was not for server trust
+                // or the domain was not pinned. Fall back to the default behavior
+                completionHandler(.performDefaultHandling, nil)
+            }
+        }
 }

@@ -19,9 +19,10 @@ import { Token } from '../models/token';
 import { TOKEN, EXPIRED_TIME, ACCESS_PERMISSION } from '../utils/constants';
 import { useHistory } from 'react-router';
 import { Permission } from '@app/models/permission';
+import { SecureStoragePlugin } from 'capacitor-secure-storage-plugin';
 
 type UseAuth = {
-  isAuthenticated: () => boolean;
+  isAuthenticated: () => Promise<boolean>;
   login: (
     username: string,
     password: string,
@@ -39,27 +40,29 @@ type UseAuth = {
   logout: () => void;
 };
 
-const getStorage = (key: string): string =>
-  (localStorage.getItem(key) || sessionStorage.getItem(key)) ?? 'null';
+const getStorage = async (key: string): Promise<string> =>{
+  // (localStorage.getItem(key) || sessionStorage.getItem(key)) ?? 'null';
+  const result = await SecureStoragePlugin.get({ key: key });
+  return result.value;
+}
 
 const useAuth = (): UseAuth => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const isAuthenticated = useCallback((): boolean => {
-    const token = JSON.parse(getStorage(TOKEN)) as Token;
-    const tokenExpiredTime: Date = new Date(getStorage(EXPIRED_TIME));
+  const isAuthenticated = useCallback(async(): Promise<boolean> => {
+    console.log(getStorage(TOKEN));
+    const token = JSON.parse(await getStorage(TOKEN)) as Token;
+
+    const tokenExpiredTime: Date = new Date(await getStorage(EXPIRED_TIME));
     if (token && tokenExpiredTime > new Date()) {
       dispatch<any>(getPermission(token.access_token))
         .then((response: any) => {
           const { payload: permissionList } = response;
           const authorized = permissionList?.find((p: any) => p?.code && p.code === ACCESS_PERMISSION);
           if (!authorized) {
-            localStorage.removeItem(TOKEN);
-            localStorage.removeItem(EXPIRED_TIME);
-            sessionStorage.removeItem(TOKEN);
-            sessionStorage.removeItem(EXPIRED_TIME);
-
+            SecureStoragePlugin.remove(({key: TOKEN}));
+            SecureStoragePlugin.remove(({key: EXPIRED_TIME}));
             dispatch(lo());
             history.push('/login');
           }
@@ -69,11 +72,8 @@ const useAuth = (): UseAuth => {
       dispatch(getPermission(token.access_token));
       return true;
     }
-
-    localStorage.removeItem(TOKEN);
-    localStorage.removeItem(EXPIRED_TIME);
-    sessionStorage.removeItem(TOKEN);
-    sessionStorage.removeItem(EXPIRED_TIME);
+    SecureStoragePlugin.remove(({key: TOKEN}));
+    SecureStoragePlugin.remove(({key: EXPIRED_TIME}));
     dispatch(lo());
     return false;
   }, [dispatch]);
@@ -88,23 +88,10 @@ const useAuth = (): UseAuth => {
     const permissionList = await unwrapResult(await dispatch<any>(getPermission(token.access_token))) as Permission[];
     const authorized = permissionList.find((p) => p?.code && p.code === ACCESS_PERMISSION);
     if (authorized) {
-      if (remember) {
-        localStorage.setItem(TOKEN, JSON.stringify(token));
-        localStorage.setItem(
-          EXPIRED_TIME,
-          moment()
-            .add(token.expires_in * 1000, 'seconds')
-            .toString(),
-        );
-      } else {
-        sessionStorage.setItem(TOKEN, JSON.stringify(token));
-        sessionStorage.setItem(
-          EXPIRED_TIME,
-          moment()
-            .add(token.expires_in * 1000, 'seconds')
-            .toString(),
-        );
-      }
+        SecureStoragePlugin.set({ key: TOKEN, value: JSON.stringify(token)});
+        SecureStoragePlugin.set({ key: EXPIRED_TIME, value: moment()
+          .add(token.expires_in * 1000, 'seconds')
+          .toString()})
     } else {
       throw new Error('Tài khoản không có quyền truy cập');
     }
@@ -115,13 +102,10 @@ const useAuth = (): UseAuth => {
     accessToken: string,
   ): Promise<void> => {
     const token = unwrapResult(await dispatch(lif({ accessToken })));
-    localStorage.setItem(TOKEN, JSON.stringify(token));
-    localStorage.setItem(
-      EXPIRED_TIME,
-      moment()
-        .add(token.expires_in * 1000, 'seconds')
-        .toString(),
-    );
+    SecureStoragePlugin.set({ key: TOKEN, value: JSON.stringify(token)});
+        SecureStoragePlugin.set({ key: EXPIRED_TIME, value: moment()
+          .add(token.expires_in * 1000, 'seconds')
+          .toString()});
   };
 
   // login with google
@@ -129,33 +113,25 @@ const useAuth = (): UseAuth => {
     idToken: string,
   ): Promise<void> => {
     const token = unwrapResult(await dispatch(lig({ idToken })));
-    localStorage.setItem(TOKEN, JSON.stringify(token));
-    localStorage.setItem(
-      EXPIRED_TIME,
-      moment()
-        .add(token.expires_in * 1000, 'seconds')
-        .toString(),
-    );
+    SecureStoragePlugin.set({ key: TOKEN, value: JSON.stringify(token)});
+        SecureStoragePlugin.set({ key: EXPIRED_TIME, value: moment()
+          .add(token.expires_in * 1000, 'seconds')
+          .toString()});
   };
 
   //login with incognito
   const loginWithIncognito = async (
   ): Promise<void> => {
     const token = unwrapResult(await dispatch(lia()));
-    localStorage.setItem(TOKEN, JSON.stringify(token));
-    localStorage.setItem(
-      EXPIRED_TIME,
-      moment()
-        .add(token.expires_in * 1000, 'seconds')
-        .toString(),
-    );
+    SecureStoragePlugin.set({ key: TOKEN, value: JSON.stringify(token)});
+        SecureStoragePlugin.set({ key: EXPIRED_TIME, value: moment()
+          .add(token.expires_in * 1000, 'seconds')
+          .toString()});
   };
 
   const logout = useCallback((): void => {
-    localStorage.removeItem(TOKEN);
-    localStorage.removeItem(EXPIRED_TIME);
-    sessionStorage.removeItem(TOKEN);
-    sessionStorage.removeItem(EXPIRED_TIME);
+    SecureStoragePlugin.remove(({key: TOKEN}));
+    SecureStoragePlugin.remove(({key: EXPIRED_TIME}));
     dispatch(lo());
   }, [dispatch]);
 

@@ -18,13 +18,13 @@ import {
   IonDatetime,
   IonText,
   IonAlert,
-  IonToast
+  IonToast,
 } from "@ionic/react";
 import { chevronBackOutline } from "ionicons/icons";
 
 import { useHistory } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
-import { isPlatform, getPlatforms } from '@ionic/react';
+import { isPlatform, getPlatforms } from "@ionic/react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "@app/hooks";
 import moment from "moment";
@@ -189,19 +189,19 @@ const UpdateAccount: React.FC = () => {
     });
   }, [userData?.userInfo, reset]);
   return (
-    <IonPage style={isPlatform('ios') ? { paddingTop: 40 } : { paddingTop: 0 }}>
-      <IonHeader className="ion-margin-bottom">
-        <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
-          <StyledIcon
-            icon={chevronBackOutline}
-            onClick={() => history.replace("/account")}
-          ></StyledIcon>
-          <IonTitle style={{ fontSize: "20px", textAlign: "center" }}>
-            {t("Account information")}
-          </IonTitle>
-        </IonItem>
-      </IonHeader>
+    <IonPage style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}>
       <IonContent>
+        <IonHeader className="ion-margin-bottom">
+          <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
+            <StyledIcon
+              icon={chevronBackOutline}
+              onClick={() => history.replace("/account")}
+            ></StyledIcon>
+            <IonTitle style={{ fontSize: "20px", textAlign: "center" }}>
+              {t("Account information")}
+            </IonTitle>
+          </IonItem>
+        </IonHeader>
         <form
           onSubmit={handleSubmit((d) => onSubmit(d))}
           style={{ paddingLeft: "10px", paddingRight: "25px" }}
@@ -218,14 +218,14 @@ const UpdateAccount: React.FC = () => {
                       rules={
                         name === "email"
                           ? {
-                            pattern: {
-                              value:
-                                /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                              message: t("The email address is not valid"),
-                            },
-                          }
+                              pattern: {
+                                value:
+                                  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: t("The email address is not valid"),
+                              },
+                            }
                           : name === "phoneNumber"
-                            ? {
+                          ? {
                               minLength: {
                                 value: 10,
                                 message: t(
@@ -245,7 +245,7 @@ const UpdateAccount: React.FC = () => {
                                 ),
                               },
                             }
-                            : undefined
+                          : undefined
                       }
                       render={({ field: { onChange, onBlur, value } }) => (
                         <IonRow>
@@ -367,7 +367,7 @@ const UpdateAccount: React.FC = () => {
           ]}
         />
       </IonContent>
-    </IonPage >
+    </IonPage>
   );
 };
 

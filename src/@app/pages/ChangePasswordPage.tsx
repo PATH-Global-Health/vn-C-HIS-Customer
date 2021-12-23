@@ -147,18 +147,18 @@ const ChangePasswordPage: React.FC = () => {
   }, [register, getValues, t]);
   return (
     <IonPage style={isPlatform("ios") ? { paddingTop: 30 } : { paddingTop: 0 }}>
-      <IonHeader className="ion-margin-bottom">
-        <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
-          <StyledIcon
-            icon={chevronBackOutline}
-            onClick={() => history.replace("/account")}
-          ></StyledIcon>
-          <IonTitle style={{ fontSize: "20px", textAlign: "center" }}>
-            {t("Change Password")}
-          </IonTitle>
-        </IonItem>
-      </IonHeader>
       <IonContent>
+        <IonHeader className="ion-margin-bottom">
+          <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
+            <StyledIcon
+              icon={chevronBackOutline}
+              onClick={() => history.replace("/account")}
+            ></StyledIcon>
+            <IonTitle style={{ fontSize: "20px", textAlign: "center" }}>
+              {t("Change Password")}
+            </IonTitle>
+          </IonItem>
+        </IonHeader>
         <form
           onSubmit={handleSubmit(handleChangePassword)}
           style={{ paddingLeft: "10px", paddingRight: "25px" }}

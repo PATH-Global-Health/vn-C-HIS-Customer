@@ -23,19 +23,21 @@ const QrCode: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   return (
-    <IonPage style={isPlatform('ios') ? { paddingTop: 40 } : { paddingTop: 0 }}>
-      <IonHeader className="ion-margin-bottom">
-        <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
-          <StyledIcon
-            icon={chevronBackOutline}
-            onClick={() => history.replace("/account")}
-          ></StyledIcon>
-          <IonTitle style={{ fontSize: "20px", textAlign: "center" }}>
-            {t("My QR Code")}
-          </IonTitle>
-        </IonItem>
-      </IonHeader>
-      <GenerateQrCode />
+    <IonPage style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}>
+      <IonContent>
+        <IonHeader className="ion-margin-bottom">
+          <IonItem color="light" style={{ margin: "15px 20px 0px 10px" }}>
+            <StyledIcon
+              icon={chevronBackOutline}
+              onClick={() => history.replace("/account")}
+            ></StyledIcon>
+            <IonTitle style={{ fontSize: "20px", textAlign: "center" }}>
+              {t("My QR Code")}
+            </IonTitle>
+          </IonItem>
+        </IonHeader>
+        <GenerateQrCode />
+      </IonContent>
     </IonPage>
   );
 };

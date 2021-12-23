@@ -64,7 +64,7 @@ const useAuth = (): UseAuth => {
             SecureStoragePlugin.remove(({key: TOKEN}));
             SecureStoragePlugin.remove(({key: EXPIRED_TIME}));
             dispatch(lo());
-            history.push('/login');
+            history.replace('/login');
           }
         });
 

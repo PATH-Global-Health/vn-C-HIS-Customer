@@ -1,10 +1,10 @@
-import React, { ReactNode, useMemo } from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { useAuth } from '@app/hooks';
+import React, { ReactNode, useMemo } from "react";
+import { Route, Redirect } from "react-router-dom";
+import { useAuth } from "@app/hooks";
 
-import DefaultLayout from '@app/components/default-layout';
-import { TOKEN } from '@app/utils/constants';
-import { Token } from '@app/models/token';
+import DefaultLayout from "@app/components/default-layout";
+import { TOKEN } from "@app/utils/constants";
+import { Token } from "@app/models/token";
 
 interface Props {
   component: React.FC;
@@ -22,16 +22,16 @@ const AppRoute: React.FC<Props> = (props) => {
     path,
     exact,
     isPrivate = false,
-    isIncognito
+    isIncognito,
   } = props;
   const getStorage = (key: string): string =>
-    (localStorage.getItem(key) || sessionStorage.getItem(key)) ?? 'null';
+    (localStorage.getItem(key) || sessionStorage.getItem(key)) ?? "null";
 
   const isRegistered = (): boolean => {
     const token = JSON.parse(getStorage(TOKEN)) as Token;
     if (token?.username?.length !== 36) return true;
     return false;
-  }
+  };
 
   const { isAuthenticated } = useAuth();
   // const isAuth = useMemo(() => isAuthenticated(), [isAuthenticated]);
@@ -40,7 +40,10 @@ const AppRoute: React.FC<Props> = (props) => {
       path={path}
       exact={exact}
       render={(componentProps): JSX.Element => {
-        if ((isPrivate && isAuthenticated() && (isIncognito || isRegistered())) || !isPrivate) {
+        if (
+          (isPrivate && isAuthenticated() && (isIncognito || isRegistered())) ||
+          !isPrivate
+        ) {
           if (Layout) {
             return (
               <Layout>
@@ -54,13 +57,12 @@ const AppRoute: React.FC<Props> = (props) => {
               <Component />
             </DefaultLayout>
           );
-        }
-        else {
+        } else {
           if (!isIncognito && isAuthenticated()) {
             return (
               <Redirect
                 to={{
-                  pathname: '/incognito',
+                  pathname: "/incognito",
                   state: {
                     from: componentProps.location,
                   },
@@ -71,7 +73,7 @@ const AppRoute: React.FC<Props> = (props) => {
           return (
             <Redirect
               to={{
-                pathname: '/',
+                pathname: "/",
                 state: {
                   from: componentProps.location,
                 },
@@ -79,7 +81,6 @@ const AppRoute: React.FC<Props> = (props) => {
             />
           );
         }
-
       }}
     />
   );

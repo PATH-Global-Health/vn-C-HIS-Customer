@@ -7,10 +7,13 @@ const AuthPage: React.FC = () => {
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
-    if (history) {
-      history.replace(isAuthenticated() ? "/home" : "/login");
+    async function isAuthen() {
+      if (history) {
+        history.replace((await isAuthenticated()) ? "/home" : "/login");
+      }
     }
-  }, [history, isAuthenticated]);
+    isAuthen();
+  }, [history]);
 
   return <div>Loading...</div>;
 };

@@ -67,7 +67,7 @@ const StyledSelect = styled(IonSelect)`
 `;
 const WrapperQuestion = styled(IonRow)`
   position: absolute !important;
-  top: 8%;
+  top: 10%;
   ion-label {
     --color: black !important;
   }
@@ -86,9 +86,10 @@ const Header = styled.div`
     height: 40px;
   }
   & .title {
+    font-size: 23px;
     font-weight: 600;
     text-align: center;
-    margin: 10px 0px !important;
+    // margin: 10px 0px !important;
   }
 `;
 const MethodCard: React.FC<Props> = ({ methods }) => {

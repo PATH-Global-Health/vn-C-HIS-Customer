@@ -88,7 +88,7 @@ const CreatePassword: React.FC = () => {
       let params = { newPassword: data.newPassword };
       await authService.resetPassword(params);
       setShowSuccessToast(true);
-      setTimeout(() => { dispatch(setDataForgotPassword({ method: undefined, accessToken: undefined })); history.push('/login') }, 1500);
+      setTimeout(() => { dispatch(setDataForgotPassword({ method: undefined, accessToken: undefined })); history.replace('/login') }, 1500);
     } catch (error) {
       setShowFailedToast(true);
     }

@@ -32,7 +32,7 @@ const IncognitoPage: React.FC = () => {
                   text: t('Back'),
                   handler: () => {
                     setTimeout(() => {
-                      history.push('/home');
+                      history.replace('/home');
                     }, 0);
                   }
                 },
@@ -43,7 +43,7 @@ const IncognitoPage: React.FC = () => {
                   handler: () => {
                     logout();
                     setTimeout(() => {
-                      history.push('/register');
+                      history.replace('/register');
                     }, 0);
                   }
                 },

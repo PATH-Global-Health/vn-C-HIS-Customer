@@ -40,6 +40,7 @@ import UpdateLaytest from 'laytest/components/UpdateLaytest';
 import CustomerService from 'home/components/CustomerService';
 import UpdateAccount from 'account/account-data/components/UpdateAccount';
 
+import LoadingPage from '@app/pages/LoadingPage';
 
 interface Route {
   component: React.FC;
@@ -51,6 +52,11 @@ interface Route {
 }
 
 const routes: Route[] = [
+  {
+    component: LoadingPage,
+    path: '/loading',
+    isPrivate: false,
+  },
   {
     component: LoginPage,
     path: '/',

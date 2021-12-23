@@ -73,7 +73,7 @@ const VerifyAccount: React.FC = () => {
         // }
         setVerifyOTPSucess(true);
         setTimeout(() => {
-          history.push('/home')
+          history.replace('/home')
         }, 1500)
       } catch (error) {
         setVerifyOTPFailed(true);
@@ -86,7 +86,7 @@ const VerifyAccount: React.FC = () => {
       .then(() => {
         setVerifyOTPSucess(true);
         setTimeout(() => {
-          history.push('/home')
+          history.replace('/home')
         }, 1500)
       })
       .catch(() => {
@@ -133,7 +133,7 @@ const VerifyAccount: React.FC = () => {
       <IonRow className="ion-justify-content-center ">
         <IonCol size="12" >
           <div className="ion-align-items-center" style={{ textAlign: 'center', marginTop: '30px', color: '#1145a0', fontSize: '20px', fontWeight: 500 }}>
-            <StyledButton onClick={() => history.push('/home')}>{t('Ignore')}</StyledButton>
+            <StyledButton onClick={() => history.replace('/home')}>{t('Ignore')}</StyledButton>
             <StyledButton onClick={() => handlePhoneAction(userData?.userInfo?.phoneNumber ?? '')}>{t('Verify now')}</StyledButton>
           </div>
         </IonCol>

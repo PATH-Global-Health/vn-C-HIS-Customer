@@ -10,7 +10,8 @@ import {
   loginWithIncognito as lia,
   setToken,
   getPermission,
-} from '../slices/auth';
+} from '@app/slices/auth';
+import store from '@app/store';
 
 import useSelector from './use-selector';
 import useDispatch from './use-dispatch';
@@ -23,6 +24,7 @@ import { SecureStoragePlugin } from 'capacitor-secure-storage-plugin';
 
 type UseAuth = {
   isAuthenticated: () => Promise<boolean>;
+  isRegistered: () => boolean;
   login: (
     username: string,
     password: string,
@@ -40,41 +42,58 @@ type UseAuth = {
   logout: () => void;
 };
 
-const getStorage = async (key: string): Promise<string> =>{
-  // (localStorage.getItem(key) || sessionStorage.getItem(key)) ?? 'null';
-  const result = await SecureStoragePlugin.get({ key: key });
-  return result.value;
-}
-
 const useAuth = (): UseAuth => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const isAuthenticated = useCallback(async(): Promise<boolean> => {
-    console.log(getStorage(TOKEN));
-    const token = JSON.parse(await getStorage(TOKEN)) as Token;
+  const getStorage = async (key: string): Promise<string> => {
+    try {
+      const result = await SecureStoragePlugin.get({ key: key });
+      return result.value;
+    } catch (err: any) {
+      return '';
+    }
+  }
 
-    const tokenExpiredTime: Date = new Date(await getStorage(EXPIRED_TIME));
-    if (token && tokenExpiredTime > new Date()) {
-      dispatch<any>(getPermission(token.access_token))
-        .then((response: any) => {
-          const { payload: permissionList } = response;
-          const authorized = permissionList?.find((p: any) => p?.code && p.code === ACCESS_PERMISSION);
-          if (!authorized) {
-            SecureStoragePlugin.remove(({key: TOKEN}));
-            SecureStoragePlugin.remove(({key: EXPIRED_TIME}));
-            dispatch(lo());
-            history.replace('/login');
-          }
-        });
+  const isAuthenticated = useCallback(async (): Promise<boolean> => {
+    const stringToken = await getStorage(TOKEN);
+    const stringExpired = await getStorage(EXPIRED_TIME);
+    if (stringToken && stringExpired) {
+      const token = JSON.parse(stringToken) as Token;
+      const expired = new Date(stringExpired);
 
-      dispatch(setToken({ token, tokenExpiredTime }));
-      dispatch(getPermission(token.access_token));
+      if (expired > new Date()) {
+        if (token && token.access_token) {
+          dispatch<any>(getPermission(token.access_token))
+            .then((response: any) => {
+              const { payload: permissionList } = response;
+              const authorized = permissionList?.find((p: any) => p?.code && p.code === ACCESS_PERMISSION);
+              if (!authorized) {
+                SecureStoragePlugin.remove(({ key: TOKEN }));
+                SecureStoragePlugin.remove(({ key: EXPIRED_TIME }));
+                dispatch(lo());
+                history.replace('/login');
+              }
+            });
+
+          dispatch(setToken({ token, tokenExpiredTime: expired }));
+          dispatch(getPermission(token.access_token));
+          return true;
+        }
+      }
+    }
+
+    SecureStoragePlugin.remove(({ key: TOKEN }));
+    SecureStoragePlugin.remove(({ key: EXPIRED_TIME }));
+    dispatch(lo());
+    return false;
+  }, [dispatch]);
+
+  const isRegistered = useCallback((): boolean => {
+    const token = store.getState().auth.token;
+    if (token && token?.username && token.username.length !== 36) {
       return true;
     }
-    SecureStoragePlugin.remove(({key: TOKEN}));
-    SecureStoragePlugin.remove(({key: EXPIRED_TIME}));
-    dispatch(lo());
     return false;
   }, [dispatch]);
 
@@ -88,24 +107,29 @@ const useAuth = (): UseAuth => {
     const permissionList = await unwrapResult(await dispatch<any>(getPermission(token.access_token))) as Permission[];
     const authorized = permissionList.find((p) => p?.code && p.code === ACCESS_PERMISSION);
     if (authorized) {
-        SecureStoragePlugin.set({ key: TOKEN, value: JSON.stringify(token)});
-        SecureStoragePlugin.set({ key: EXPIRED_TIME, value: moment()
+      await SecureStoragePlugin.set({ key: TOKEN, value: JSON.stringify(token) });
+      await SecureStoragePlugin.set({
+        key: EXPIRED_TIME, value: moment()
           .add(token.expires_in * 1000, 'seconds')
-          .toString()})
+          .toString()
+      })
     } else {
       throw new Error('Tài khoản không có quyền truy cập');
     }
     /*  dispatch(getUserInfo()); */
   };
+
   // login with facebook
   const loginWithFacebook = async (
     accessToken: string,
   ): Promise<void> => {
     const token = unwrapResult(await dispatch(lif({ accessToken })));
-    SecureStoragePlugin.set({ key: TOKEN, value: JSON.stringify(token)});
-        SecureStoragePlugin.set({ key: EXPIRED_TIME, value: moment()
-          .add(token.expires_in * 1000, 'seconds')
-          .toString()});
+    SecureStoragePlugin.set({ key: TOKEN, value: JSON.stringify(token) });
+    SecureStoragePlugin.set({
+      key: EXPIRED_TIME, value: moment()
+        .add(token.expires_in * 1000, 'seconds')
+        .toString()
+    });
   };
 
   // login with google
@@ -113,30 +137,34 @@ const useAuth = (): UseAuth => {
     idToken: string,
   ): Promise<void> => {
     const token = unwrapResult(await dispatch(lig({ idToken })));
-    SecureStoragePlugin.set({ key: TOKEN, value: JSON.stringify(token)});
-        SecureStoragePlugin.set({ key: EXPIRED_TIME, value: moment()
-          .add(token.expires_in * 1000, 'seconds')
-          .toString()});
+    SecureStoragePlugin.set({ key: TOKEN, value: JSON.stringify(token) });
+    SecureStoragePlugin.set({
+      key: EXPIRED_TIME, value: moment()
+        .add(token.expires_in * 1000, 'seconds')
+        .toString()
+    });
   };
 
   //login with incognito
-  const loginWithIncognito = async (
-  ): Promise<void> => {
+  const loginWithIncognito = async (): Promise<void> => {
     const token = unwrapResult(await dispatch(lia()));
-    SecureStoragePlugin.set({ key: TOKEN, value: JSON.stringify(token)});
-        SecureStoragePlugin.set({ key: EXPIRED_TIME, value: moment()
-          .add(token.expires_in * 1000, 'seconds')
-          .toString()});
+    SecureStoragePlugin.set({ key: TOKEN, value: JSON.stringify(token) });
+    SecureStoragePlugin.set({
+      key: EXPIRED_TIME, value: moment()
+        .add(token.expires_in * 1000, 'seconds')
+        .toString()
+    });
   };
 
   const logout = useCallback((): void => {
-    SecureStoragePlugin.remove(({key: TOKEN}));
-    SecureStoragePlugin.remove(({key: EXPIRED_TIME}));
+    SecureStoragePlugin.remove(({ key: TOKEN }));
+    SecureStoragePlugin.remove(({ key: EXPIRED_TIME }));
     dispatch(lo());
   }, [dispatch]);
 
   return {
     isAuthenticated,
+    isRegistered,
     login,
     loginWithFacebook,
     loginWithGoogle,

@@ -24,7 +24,7 @@ const TestingAppointment: React.FC = () => {
   return (
     <>
       {serviceId === "" ? (
-        history.push("/home")
+        history.replace("/home")
       ) : (
         <IonPage
           style={isPlatform("ios") ? { paddingTop: 40 } : { paddingTop: 0 }}

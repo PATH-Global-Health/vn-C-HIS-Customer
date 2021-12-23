@@ -68,7 +68,7 @@ const HomeBooking: React.FC = () => {
           className={styles.btnCustom}
           onClick={() => {
             dispatch(getAllDoctor());
-            history.push('/doctorList')
+            history.replace('/doctorList')
           }
           }>{t('List of doctors')}
           <IonIcon className={styles.iconRight} icon={arrowForward}></IonIcon>

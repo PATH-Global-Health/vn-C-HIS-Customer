@@ -85,8 +85,8 @@ const ExaminationItem: React.FC<Props> = (props) => {
                 styledContentExpired:
                   moment(
                     moment(e.date).format("YYYY-MM-DD") +
-                      " " +
-                      e?.interval?.from
+                    " " +
+                    e?.interval?.from
                   ).format("YYYY-MM-DD HH:mm") <
                   moment(new Date()).format("YYYY-MM-DD HH:mm"),
               })}
@@ -100,8 +100,8 @@ const ExaminationItem: React.FC<Props> = (props) => {
                 styledContentExpired:
                   moment(
                     moment(e.date).format("YYYY-MM-DD") +
-                      " " +
-                      e?.interval?.from
+                    " " +
+                    e?.interval?.from
                   ).format("YYYY-MM-DD HH:mm") <
                   moment(new Date()).format("YYYY-MM-DD HH:mm"),
               })}
@@ -116,8 +116,8 @@ const ExaminationItem: React.FC<Props> = (props) => {
                 styledContentExpired:
                   moment(
                     moment(e.date).format("YYYY-MM-DD") +
-                      " " +
-                      e?.interval?.from
+                    " " +
+                    e?.interval?.from
                   ).format("YYYY-MM-DD HH:mm") <
                   moment(new Date()).format("YYYY-MM-DD HH:mm"),
               })}
@@ -149,8 +149,8 @@ const ExaminationItem: React.FC<Props> = (props) => {
                 styledContentExpired:
                   moment(
                     moment(e.date).format("YYYY-MM-DD") +
-                      " " +
-                      e?.interval?.from
+                    " " +
+                    e?.interval?.from
                   ).format("YYYY-MM-DD HH:mm") <
                   moment(new Date()).format("YYYY-MM-DD HH:mm"),
               })}
@@ -183,18 +183,18 @@ const ExaminationItem: React.FC<Props> = (props) => {
             }
             {Boolean(
               e.status === ExaminationStatus.UNFINISHED &&
-                e.service?.id === ExaminationService.TESTING &&
-                !testingContent.isPickUpAtTheFacility
+              e.service?.id === ExaminationService.TESTING &&
+              !testingContent?.isPickUpAtTheFacility
             ) && (
-              <button
-                onClick={() => {
-                  // confirmClick();
-                }}
-                className={styles.btnConfirmCard}
-              >
-                {t("Received")}
-              </button>
-            )}
+                <button
+                  onClick={() => {
+                    // confirmClick();
+                  }}
+                  className={styles.btnConfirmCard}
+                >
+                  {t("Received")}
+                </button>
+              )}
 
             {
               // moment(

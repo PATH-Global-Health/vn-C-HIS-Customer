@@ -27,7 +27,7 @@ const GoogleAuthen: React.FC = () => {
     try {
       const result = await GoogleAuth.signIn();
       const { idToken } = result?.authentication;
-      loginWithGoogle(idToken).then(() => { history.push('/home') });
+      loginWithGoogle(idToken).then(() => { history.replace('/home') });
     } catch (error) {
       console.log(error);
       setShowAlert(true);

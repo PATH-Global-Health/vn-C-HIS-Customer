@@ -248,78 +248,87 @@ const ApointmentInfo: React.FC = () => {
                   {/* )} */}
                 </IonList>
               </IonContent>
-              {/* <IonContent> */}
-              <div className={styles.styledItemRating}>
-                {Boolean(
-                  bookingModel?.data.rate !== "string" &&
-                    bookingModel?.data.rate !== null
-                ) ? (
-                  <Rating
-                    onClick={(rate) => console.log("")}
-                    ratingValue={parseInt(bookingModel?.data?.rate!)}
-                  />
-                ) : (
-                  Boolean(
-                    bookingModel?.data.status === ExaminationStatus.FINISHED ||
-                      bookingModel?.data.status === ExaminationStatus.RESULTED
+              <IonList>
+                <IonItem>
+                  <div className={styles.styledItemRating}>
+                    {Boolean(
+                      bookingModel?.data.rate !== "string" &&
+                        bookingModel?.data.rate !== null
+                    ) ? (
+                      <Rating
+                        onClick={(rate) => console.log("")}
+                        ratingValue={parseInt(bookingModel?.data?.rate!)}
+                      />
+                    ) : (
+                      Boolean(
+                        bookingModel?.data.status ===
+                          ExaminationStatus.FINISHED ||
+                          bookingModel?.data.status ===
+                            ExaminationStatus.RESULTED
+                      ) && (
+                        <IonButton
+                          onClick={() => {
+                            history.replace({
+                              pathname: "/evaluate",
+                              state: bookingModel?.data?.id,
+                            });
+                          }}
+                        >
+                          {t("Evaluate")}
+                        </IonButton>
+                      )
+                    )}
+
+                    {Boolean(
+                      bookingModel?.data?.status ===
+                        ExaminationStatus.UNFINISHED &&
+                        bookingModel?.data?.service?.id ===
+                          ExaminationService.TESTING &&
+                        !testingContent.isPickUpAtTheFacility
+                    ) && (
+                      <IonButton
+                        // color=""
+                        onClick={() => {
+                          setExamId(bookingModel?.data?.id!);
+                          setShowModalConfirm(true);
+                        }}
+                      >
+                        {t("Received")}
+                      </IonButton>
+                    )}
+                  </div>
+                </IonItem>
+                <IonItem>
+                  <button
+                    className={styles.btnExamination}
+                    onClick={() => history.replace("/examinationList")}
+                  >
+                    {t("View Examination List")}
+                  </button>
+                </IonItem>
+                <IonItem>
+                  {Boolean(
+                    // moment(
+                    //   moment(bookingModel?.data?.date).format("YYYY-MM-DD") +
+                    //     " " +
+                    //     bookingModel?.data?.interval?.from
+                    // ).format("YYYY-MM-DD HH:mm") <
+                    //   moment(new Date()).format("YYYY-MM-DD HH:mm") ||
+                    bookingModel?.data?.status === ExaminationStatus.UNFINISHED
+                    // || bookingModel?.data?.status === ExaminationStatus.RESULTED
                   ) && (
-                    <IonButton
+                    <button
+                      className={styles.styledButtonCancel}
                       onClick={() => {
-                        history.replace({
-                          pathname: "/evaluate",
-                          state: bookingModel?.data?.id,
-                        });
+                        setExamId(bookingModel?.data?.id!);
+                        setShowModal(true);
                       }}
                     >
-                      {t("Evaluate")}
-                    </IonButton>
-                  )
-                )}
-
-                {Boolean(
-                  bookingModel?.data?.status === ExaminationStatus.UNFINISHED &&
-                    bookingModel?.data?.service?.id ===
-                      ExaminationService.TESTING &&
-                    !testingContent.isPickUpAtTheFacility
-                ) && (
-                  <IonButton
-                    // color=""
-                    onClick={() => {
-                      setExamId(bookingModel?.data?.id!);
-                      setShowModalConfirm(true);
-                    }}
-                  >
-                    {t("Received")}
-                  </IonButton>
-                )}
-              </div>
-              <button
-                className={styles.btnExamination}
-                onClick={() => history.replace("/examinationList")}
-              >
-                {t("View Examination List")}
-              </button>
-              {Boolean(
-                // moment(
-                //   moment(bookingModel?.data?.date).format("YYYY-MM-DD") +
-                //     " " +
-                //     bookingModel?.data?.interval?.from
-                // ).format("YYYY-MM-DD HH:mm") <
-                //   moment(new Date()).format("YYYY-MM-DD HH:mm") ||
-                bookingModel?.data?.status === ExaminationStatus.UNFINISHED
-                // || bookingModel?.data?.status === ExaminationStatus.RESULTED
-              ) && (
-                <button
-                  className={styles.styledButtonCancel}
-                  onClick={() => {
-                    setExamId(bookingModel?.data?.id!);
-                    setShowModal(true);
-                  }}
-                >
-                  {t("Cancel appointment")}
-                </button>
-              )}
-              {/* </IonContent> */}
+                      {t("Cancel appointment")}
+                    </button>
+                  )}
+                </IonItem>
+              </IonList>
             </>
           ) : (
             <IonHeader className={styles.header}>

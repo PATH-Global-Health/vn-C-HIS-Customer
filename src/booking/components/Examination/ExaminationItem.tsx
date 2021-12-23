@@ -140,9 +140,9 @@ const ExaminationItem: React.FC<Props> = (props) => {
             })}
           >
             <p>
-              {e?.unit?.name?.length! <= 20
+              {e?.unit?.name?.length! <= 35
                 ? e?.unit?.name
-                : e?.unit?.name?.slice(0, 20) + " ..."}
+                : e?.unit?.name?.slice(0, 32) + " ..."}
             </p>
             <p
               className={classNames({
@@ -155,9 +155,9 @@ const ExaminationItem: React.FC<Props> = (props) => {
                   moment(new Date()).format("YYYY-MM-DD HH:mm"),
               })}
             >
-              {e?.unit?.address?.length! <= 20
+              {e?.unit?.address?.length! <= 35
                 ? e?.unit?.address
-                : e?.unit?.address?.slice(0, 20) + " ..."}
+                : e?.unit?.address?.slice(0, 32) + " ..."}
             </p>
           </IonCardContent>
           <IonCardHeader className={styles.headerBottomCard}>

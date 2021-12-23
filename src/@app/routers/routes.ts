@@ -52,7 +52,7 @@ interface Route {
 
 const routes: Route[] = [
   {
-    component: AuthPage,
+    component: LoginPage,
     path: '/',
     exact: true,
   },

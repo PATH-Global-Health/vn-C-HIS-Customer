@@ -73,7 +73,7 @@ const AppRoute: React.FC<Props> = (props) => {
           return (
             <Redirect
               to={{
-                pathname: "/",
+                pathname: "/auth",
                 state: {
                   from: componentProps.location,
                 },

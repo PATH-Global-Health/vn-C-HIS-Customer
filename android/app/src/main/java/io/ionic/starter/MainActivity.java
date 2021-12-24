@@ -7,6 +7,7 @@ import com.getcapacitor.Plugin;
 
 import java.util.ArrayList;
 import com.codetrixstudio.capacitor.GoogleAuth.GoogleAuth;
+import com.whitestein.securestorage.SecureStoragePlugin;
 
 public class MainActivity extends BridgeActivity {
   @Override
@@ -18,6 +19,7 @@ public class MainActivity extends BridgeActivity {
       // Ex: add(TotallyAwesomePlugin.class);
       add(GoogleAuth.class);
       add(com.getcapacitor.community.facebooklogin.FacebookLogin.class);
+      add(SecureStoragePlugin.class);
     }});
     
   }

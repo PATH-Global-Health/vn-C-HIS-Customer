@@ -90,7 +90,7 @@ const useAuth = (): UseAuth => {
   }, [dispatch]);
 
   const isRegistered = useCallback((): boolean => {
-    const token = store.getState().auth.token;
+    const token = store.getState().auth?.token;
     if (token && token?.username && token.username.length !== 36) {
       return true;
     }

@@ -1,0 +1,21 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "chis-customer",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "build",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    },
+    "GoogleAuth": {
+      "scopes": [
+        "profile",
+        "email"
+      ],
+      "serverClientId": "923539945042-62rnqafhjeaj8s9mg24ssns4uls9u1br.apps.googleusercontent.com",
+      "forceCodeForRefreshToken": true
+    }
+  },
+  "cordova": {}
+}

@@ -1,0 +1,116 @@
+.btnCustom {
+    width: 90%;
+    height: 50px;
+    background: white;
+    text-align: center;
+    color: black;
+    border: 1px solid #d7d8da;
+    border-radius: 11px;
+    position: relative;
+    font-family: system-ui;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.btnCustomHeader {
+    background: white; 
+    left: 10px;
+    top: 20px;
+    position: absolute;
+}
+
+.headerLabel{
+    font-weight: bold;
+    font-size: 23px;
+}
+
+.header {
+    height: 60px;
+    border-bottom: 1px solid #b3b3b3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    position: relative,
+}
+
+.iconRight {
+    font-size: larger;
+    color: #b3b3b3;
+    right: 10px;
+    position: absolute;
+}
+
+.iconLeft {
+    font-size: x-large;
+    color: #b3b3b3;
+    left: 10px;
+    position: absolute;
+}
+
+.content {
+    text-align: center;
+}
+
+.styledContent{
+    text-align: center;
+}
+
+.styledLabelContent{
+    font-weight: bold;
+    font-size: px;
+    color: #a09b9b;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.btnSelect{
+    width: 25%;
+    height: 45px;
+    background-color: white;
+    text-align: center;
+    color: black;
+    border: 1px solid #d7d8da;
+    border-radius: 11px;
+    position: relative;
+    font-family: system-ui;
+    font-size: 18px;
+    margin: 10px;
+}
+
+.btnSelected {
+    background-color: rgb(26, 177, 214);
+    color: white;
+}
+
+.styledButtonSubmit {
+    background-color: #293978;
+   margin: 20px auto;
+    width: 80%;
+    height: 50px;
+    color: white;
+    border-radius: 10px;
+}
+
+.styledItem {
+    width: 125px;
+    height: 45px;
+    background-color: white;
+    text-align: center;
+    color: black;
+    border: 1px solid #d7d8da;
+    border-radius: 11px;
+    position: relative;
+    font-family: system-ui;
+    font-size: 18px;
+    margin: 10px;
+    display: inline-block;
+}
+
+.btnRadio {
+    --color-checked: rgb(26, 177, 214);
+}
+
+.styledPage {
+    margin-top: 10%;
+}

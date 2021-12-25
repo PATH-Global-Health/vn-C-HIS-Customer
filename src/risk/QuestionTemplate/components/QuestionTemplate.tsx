@@ -84,7 +84,8 @@ const QuestionTemplatePage: React.FC = () => {
   const [pageSize, setPageSize] = useState<number>(50);
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const { data } = useSelector((s) => s.risk.questionTemplateList);
+  const { questionTemplateList, getQuestionTemplateLoading } = useSelector((s) => s.risk);
+  const { data } = questionTemplateList;
   const getData = useCallback(() => {
     dispatch(
       getQuestionTemplates({
@@ -129,54 +130,49 @@ const QuestionTemplatePage: React.FC = () => {
   useEffect(getData, [getData]);
   return (
     <IonContent>
-      {(data || []).map((o, i) => (
-        <IonRow key={i} className="ion-justify-content-center">
-          <IonCol size="12">
-            <Card>
-              <IonCard>
-                <img src={virus} alt="" />
-                <IonCardHeader className="card-content">
-                  <IonCardTitle className="title">
-                    {o?.title ?? ""}
-                  </IonCardTitle>
-                  <IonNote className="description">{"..."}</IonNote>
-                </IonCardHeader>
-                {o?.isCompleted ? (
-                  <IonButton
-                    className="btn done"
-                    onClick={() => handleReview(o?.id, "ans-history")}
-                  >
-                    {t("Accomplished")}
-                  </IonButton>
-                ) : (
-                  <IonButton
-                    className="btn"
-                    onClick={() => handleTest(o?.id, "answer")}
-                  >
-                    {t("Do now")}
-                  </IonButton>
-                )}
-              </IonCard>
-            </Card>
-          </IonCol>
-        </IonRow>
-      ))}
+      {
+        getQuestionTemplateLoading ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%', top: '30%' }}></IonSpinner>
+          :
+          (data || []).map((o, i) => (
+            <IonRow key={i} className="ion-justify-content-center">
+              <IonCol size="12">
+                <Card>
+                  <IonCard>
+                    <img src={virus} alt="" />
+                    <IonCardHeader className="card-content">
+                      <IonCardTitle className="title">
+                        {o?.title ?? ""}
+                      </IonCardTitle>
+                      <IonNote className="description">{"..."}</IonNote>
+                    </IonCardHeader>
+                    {o?.isCompleted ? (
+                      <IonButton
+                        className="btn done"
+                        onClick={() => handleReview(o?.id, "ans-history")}
+                      >
+                        {t("Accomplished")}
+                      </IonButton>
+                    ) : (
+                      <IonButton
+                        className="btn"
+                        onClick={() => handleTest(o?.id, "answer")}
+                      >
+                        {t("Do now")}
+                      </IonButton>
+                    )}
+                  </IonCard>
+                </Card>
+              </IonCol>
+            </IonRow>
+          ))}
       <div>
-        <IonInfiniteScroll
-          threshold="100px"
-          onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}
-        >
+        <IonInfiniteScroll threshold="100px"
+          onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
           <IonInfiniteScrollContent
             loadingSpinner="bubbles"
             loadingText="Loading more data..."
           >
-            {loading ? (
-              <IonSpinner
-                name="bubbles"
-                color="primary"
-                style={{ left: "50%" }}
-              ></IonSpinner>
-            ) : null}
+            {loading ? <IonSpinner name='bubbles' color='primary' style={{ left: '50%' }}></IonSpinner> : null}
           </IonInfiniteScrollContent>
         </IonInfiniteScroll>
       </div>

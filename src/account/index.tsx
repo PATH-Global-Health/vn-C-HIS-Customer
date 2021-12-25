@@ -38,11 +38,13 @@ import logo from "@app/assets/img/logo.png";
 import avatar from "@app/assets/img/avatar.png";
 import { useTranslation } from "react-i18next";
 import { useAuth, useDispatch, useSelector } from "@app/hooks";
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { getProfile } from "./profile/profile.slice";
 import { getUserInfo } from "@app/slices/auth";
 import authService from "@app/services/auth";
 import { useForm } from "react-hook-form";
 import OtpModal from "@app/components/otp";
+
 
 const StyledItem = styled(IonItem)`
   margin: 0px 15px;
@@ -148,8 +150,17 @@ const Account: React.FC = () => {
       color: "#3ac6e1",
     },
   ];
+  const logoutGoogle = async (): Promise<void> => {
+    GoogleAuth.init();
+    try {
+      await GoogleAuth.signOut();
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const handleLogOut = async (): Promise<void> => {
     await authService.logOut();
+    logoutGoogle();
     logout();
     setTimeout(() => {
       history.replace("/login");
@@ -271,14 +282,14 @@ const Account: React.FC = () => {
                         name === "change-password"
                           ? history.replace("/change-password")
                           : name === "account"
-                          ? history.replace("/account-update")
-                          : name === "profile"
-                          ? history.replace("/profile")
-                          : name === "security"
-                          ? history.replace("/security-question")
-                          : name === "qr"
-                          ? history.replace("/qr-code")
-                          : history.replace("/account");
+                            ? history.replace("/account-update")
+                            : name === "profile"
+                              ? history.replace("/profile")
+                              : name === "security"
+                                ? history.replace("/security-question")
+                                : name === "qr"
+                                  ? history.replace("/qr-code")
+                                  : history.replace("/account");
                       }}
                     >
                       <StyledIcon
@@ -286,14 +297,14 @@ const Account: React.FC = () => {
                           name === "profile"
                             ? newspaperOutline
                             : name === "account"
-                            ? person
-                            : name === "change-password"
-                            ? linkOutline
-                            : name === "security"
-                            ? lockClosed
-                            : icon === "security"
-                            ? shieldCheckmark
-                            : qrCodeOutline
+                              ? person
+                              : name === "change-password"
+                                ? linkOutline
+                                : name === "security"
+                                  ? lockClosed
+                                  : icon === "security"
+                                    ? shieldCheckmark
+                                    : qrCodeOutline
                         }
                         style={{ backgroundColor: color }}
                       ></StyledIcon>
@@ -358,7 +369,7 @@ const Account: React.FC = () => {
               <StyledSocialButton
                 type="submit"
                 onClick={() => setShowAlert(true)}
-                // onClick={() => setShowModal(true)}
+              // onClick={() => setShowModal(true)}
               >
                 <IonIcon
                   icon={logOutOutline}

@@ -3,8 +3,8 @@
 // const cmsApi = 'https://mini-cms.bakco.vn/api';
 // const apiBookingService = 'https://booking-management.bakco.vn/api';
 
-const gatewayUrl = 'https://api.chis.vn/v1';
-// const gatewayUrl = 'https://chis-api.bakco.vn/v1';
+//const gatewayUrl = 'https://api.chis.vn/v1';
+const gatewayUrl = 'https://chis-api.bakco.vn/v1';
 const userUrl = `${gatewayUrl}/auth`;
 const smapi = `${gatewayUrl}/schedule`;
 const cmsApi = `${gatewayUrl}/mini-cms`;

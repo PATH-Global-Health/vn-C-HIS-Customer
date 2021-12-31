@@ -171,20 +171,26 @@ extension AppDelegate {
 // MARK: - trustkit
 extension AppDelegate {
     func setupTrustkit() {
+        let webChisDomainPublicKey = "98G5NBTBZiyJlS5HweFYN5QmXgIbk15AoEP3U0SKtAQ=" // From Web Domain Chis
+//        let serverSidePublicKey = "9YOIfc8bRYx79LCLkG/sxZbjuGAPJe+Wy9Kga8qoXG4=" // Server Side Key
+//        let secondPublicKey = "4a6cPehI7OG6cuDZka5NDZ7FR8a60d3auda+sKfg4Ng="
+        let userTrustRSACertKey = "x4QzPSC810K5/cMjb05Qm4k3Bw5zBn4lTdO/nEW/Td4="
+        let pinnedDomain = "https://chiscustomer.bakco.vn"
+
         TrustKit.setLoggerBlock { (message) in
             print("TrustKit log: \(message)")
         }
         let trustKitConfig: [String: Any] = [
             kTSKSwizzleNetworkDelegates: false,
             kTSKPinnedDomains: [
-                "202.78.227.174": [
+                pinnedDomain: [
                     kTSKEnforcePinning: true,
                     kTSKIncludeSubdomains: true,
                     kTSKPublicKeyHashes: [
                         //First public key -> Obtained from the Python script
-                        "9YOIfc8bRYx79LCLkG/sxZbjuGAPJe+Wy9Kga8qoXG4=",
+                        userTrustRSACertKey,
                         //Second public key in case of the first one will expire
-                        "4a6cPehI7OG6cuDZka5NDZ7FR8a60d3auda+sKfg4Ng="
+                        webChisDomainPublicKey
                     ],
                     kTSKReportUris:        ["https://overmind.datatheorem.com/trustkit/report"],
                 ]
@@ -202,15 +208,15 @@ extension URLSession {
             completionHandler(.performDefaultHandling, nil)
         }
     }
-    
-    static func isServerCertValid(_ challenge: URLAuthenticationChallenge) -> Bool {
-        guard let serverTrust = challenge.protectionSpace.serverTrust else {
-            return false
-        }
-        
-        let pinningValidator = TrustKit.sharedInstance().pinningValidator
-        let trustDecision = pinningValidator.evaluateTrust(serverTrust, forHostname: "202.78.227.174")
-        
-        return trustDecision == .shouldAllowConnection
-    }
+//
+//    static func isServerCertValid(_ challenge: URLAuthenticationChallenge) -> Bool {
+//        guard let serverTrust = challenge.protectionSpace.serverTrust else {
+//            return false
+//        }
+//
+//        let pinningValidator = TrustKit.sharedInstance().pinningValidator
+//        let trustDecision = pinningValidator.evaluateTrust(serverTrust, forHostname: "202.78.227.174")
+//
+//        return trustDecision == .shouldAllowConnection
+//    }
 }

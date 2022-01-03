@@ -21,16 +21,11 @@ const WrapperQuestion = styled.div`
       --background: white;
       --border-style: none;
     }
+    ion-checkbox{
+      --background: white;
+      --border-color: #999999;
+    }
 `;
-const StyledButton = styled(IonButton)`
-  font-size: 13px;
-  text-transform: capitalize;
-  width: 340px !important;
-  height: 40px !important;
-  margin: -5px 15px !important;
-  --background: #293978;
-  --border-radius:5px;
-`
 
 interface ExtendQuestion extends Question {
   index: number;
@@ -48,11 +43,11 @@ const MultipleQuestionForm: React.FC<Props> = (props) => {
 
   const onChange = (answerId: string): void => {
     setAnswerList(
-      (al: any) => {
+      (al: string[]): string[] => {
         if (al.includes(answerId)) {
-          return al.filter((a: string) => a != answerId);
+          return al.filter((a: string) => a !== answerId);
         } else {
-          return al.push(answerId);
+          return [...al, answerId];
         }
       },
     );
@@ -64,7 +59,6 @@ const MultipleQuestionForm: React.FC<Props> = (props) => {
 
   return (
     <>
-      {console.log(data)}
       <WrapperQuestion>
         <IonRow>
           <IonCol size="12">

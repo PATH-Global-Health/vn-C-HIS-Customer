@@ -1,13 +1,14 @@
 package io.ionic.starter;
 
 import android.os.Bundle;
+import android.view.WindowManager;
 
+import com.codetrixstudio.capacitor.GoogleAuth.GoogleAuth;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
+import com.whitestein.securestorage.SecureStoragePlugin;
 
 import java.util.ArrayList;
-import com.codetrixstudio.capacitor.GoogleAuth.GoogleAuth;
-import com.whitestein.securestorage.SecureStoragePlugin;
 
 public class MainActivity extends BridgeActivity {
   @Override
@@ -18,6 +19,7 @@ public class MainActivity extends BridgeActivity {
       // Additional plugins you've installed go here
       // Ex: add(TotallyAwesomePlugin.class);
       add(GoogleAuth.class);
+      getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
       add(com.getcapacitor.community.facebooklogin.FacebookLogin.class);
       add(SecureStoragePlugin.class);
     }});

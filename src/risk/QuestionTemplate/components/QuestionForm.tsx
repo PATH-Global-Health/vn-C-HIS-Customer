@@ -17,6 +17,7 @@ import { setHandeRisk } from '../question-template.slice';
 import surveySessionService from 'risk/SurveySession/survey-session.service';
 import MultipleQuestionSection from './MultipleQuestionSection';
 import SingleQuestionSection from './SingleQuestionSection';
+import { SurveySessionResult } from 'risk/SurveySession/survey-session.model';
 
 const WrapperQuestion = styled.div`
     ion-label{
@@ -45,19 +46,30 @@ const QuestionForm: React.FC = () => {
   const detailData = useSelector((s) => s.risk.questionTemplateDetail);
   const userId = useSelector(s => s.auth.token?.userId);
   const handleData = async (data: any): Promise<void> => {
-    console.log(data);
     try {
-      const surveySessionResults = Object.entries(data).map((o, i) => {
-        return {
-          questionId: o[0] ?? '',
-          answerId: o?.[1] ?? '',
+      const surveySessionResults = Object.keys(data).reduce((results: SurveySessionResult[], key: string): SurveySessionResult[] => {
+        if (data[key]) {
+          if (typeof data[key] === "string") {
+            return [...results, {
+              questionId: key,
+              answerId: data[key]
+            }];
+          } else if (Array.isArray(data[key])) {
+            const items = data[key].map((answerId: string) => ({
+              questionId: key,
+              answerId
+            }));
+            return [...results, ...items];
+          }
         }
-      })
+        return results;
+      }, []);
+
       const params = {
         questionTemplateId: detailData?.id ?? '',
-        userId: userId,
+        userId,
         result: '',
-        surveySessionResults: surveySessionResults,
+        surveySessionResults,
       }
       const response = await surveySessionService.createSurveySession(params);
       dispatch(setHandeRisk({
@@ -67,7 +79,6 @@ const QuestionForm: React.FC = () => {
 
     } catch (error) {
       console.log(error);
-      //setShowFailedToast(true);
     }
   };
 
@@ -80,10 +91,9 @@ const QuestionForm: React.FC = () => {
             name={o?.id ?? ''}
             control={control}
             render={({ field: { onChange, onBlur, value } }) =>
-              // o.isMultipleChoice
-              //   ? <MultipleQuestionSection data={{ ...o, index: i }} onChange={(ids: string[]) => onChange(ids)} />
-              //   : <SingleQuestionSection data={{ ...o, index: i }} onChange={(id: string) => onChange(id)} />
-              <SingleQuestionSection data={{ ...o, index: i }} onChange={(id: string) => onChange(id)} />
+              o.isMultipleChoice
+                ? <MultipleQuestionSection data={{ ...o, index: i }} onChange={(ids: string[]) => onChange(ids)} />
+                : <SingleQuestionSection data={{ ...o, index: i }} onChange={(id: string) => onChange(id)} />
             }
           />
         ))}

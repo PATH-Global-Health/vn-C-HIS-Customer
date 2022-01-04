@@ -35,6 +35,8 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation project(':capacitor-cordova-android-plugins')
+    implementation 'com.datatheorem.android.trustkit:trustkit:1.1.1'
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.0"))
 }
 
 apply from: 'capacitor.build.gradle'

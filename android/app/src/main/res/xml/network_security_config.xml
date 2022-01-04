@@ -2,6 +2,9 @@
 <network-security-config>
 <!-- Pin the domain www.datatheorem.com -->
 <!-- Official Android N API -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">secure.example.com</domain>
+    </domain-config>
 <domain-config cleartextTrafficPermitted="false">
     <domain includeSubdomains="true">bakco.vn</domain>
     <pin-set>

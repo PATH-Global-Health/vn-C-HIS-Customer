@@ -41,9 +41,8 @@ const SingleQuestionForm: React.FC<Props> = (props) => {
           <IonCol size="12">
             <IonItem color="light" lines="inset" className="group-item">
               <IonRadioGroup>
-                <IonItem>{`Câu ${data.index + 1}: ${
-                  data?.description ?? ""
-                } ?`}</IonItem>
+                <IonItem>{`Câu ${data.index + 1}: ${data?.description ?? ""
+                  } ?`}</IonItem>
                 {data?.answers?.map(({ id, description }, idx) => (
                   <IonItem key={idx}>
                     <IonRadio

@@ -119,6 +119,9 @@ const ChangePasswordPage: React.FC = () => {
       await authService.changePassword(params);
       setSuccess(true);
       setShowAlert(true);
+      setTimeout(() => {
+        history.replace("/login");
+      }, 1500);
     } catch (error) {
       setSuccess(false);
       setShowAlert(true);
@@ -188,12 +191,12 @@ const ChangePasswordPage: React.FC = () => {
                                     ? "text"
                                     : "password"
                                   : name === "newPassword"
-                                  ? newPasswordVisible === true
-                                    ? "text"
-                                    : "password"
-                                  : confirmNewPasswordVisible === true
-                                  ? "text"
-                                  : "password"
+                                    ? newPasswordVisible === true
+                                      ? "text"
+                                      : "password"
+                                    : confirmNewPasswordVisible === true
+                                      ? "text"
+                                      : "password"
                               }
                             ></StyledInput>
                             {name === "oldPassword" ? (
@@ -312,7 +315,7 @@ const ChangePasswordPage: React.FC = () => {
               ? t("Change password successfully")
               : t("Old password is incorrect! Change password failed")
           }
-          buttons={[
+          buttons={!success ? [
             {
               text: t("Back to account"),
               handler: () => {
@@ -329,7 +332,9 @@ const ChangePasswordPage: React.FC = () => {
                 setShowAlert(false);
               },
             },
-          ]}
+          ]
+            : []
+          }
         />
       </IonContent>
     </IonPage>

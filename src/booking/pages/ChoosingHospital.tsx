@@ -99,15 +99,15 @@ const ChoosingHospital: React.FC = () => {
   const searchByText = hospitals.filter((hos) =>
     deburr(
       hos.name +
-        hos.address +
-        location.find((item) => item.value === hos.province)?.label +
-        location
-          .find((item) => item.value === hos.province)
-          ?.districts.find((di) => di.value === hos.district)?.label +
-        location
-          .find((item) => item.value === hos.province)
-          ?.districts.find((di) => di.value === hos.district)
-          ?.wards.find((w) => w.value === hos.ward)?.label
+      hos.address +
+      location.find((item) => item.value === hos.province)?.label +
+      location
+        .find((item) => item.value === hos.province)
+        ?.districts.find((di) => di.value === hos.district)?.label +
+      location
+        .find((item) => item.value === hos.province)
+        ?.districts.find((di) => di.value === hos.district)
+        ?.wards.find((w) => w.value === hos.ward)?.label
     ).includes(deburr(textSearch))
   );
   const searchByUnitType = hospitals.filter((hos) =>
@@ -177,7 +177,6 @@ const ChoosingHospital: React.FC = () => {
                     setCity(e.detail.value);
                     setDistricts(undefined);
                     setTypeSearch("unitTypeCity");
-                    console.log(districts);
                   }}
                 >
                   {listCitySelect.map((hos) =>
@@ -230,24 +229,24 @@ const ChoosingHospital: React.FC = () => {
                     {location
                       .filter((lo) => lo.value === city)[0]
                       .districts.filter((dis) => dis.value === districts)[0] !==
-                    undefined
+                      undefined
                       ? listCitySelect.map((hos) =>
-                          location
-                            .filter((lo) => lo.value === city)[0]
-                            .districts.filter(
-                              (dis) => dis.value === districts
-                            )[0]
-                            .wards.filter((w) =>
-                              hos.districts.find((item) =>
-                                item.wards.find((wa) => wa.value === w.value)
-                              )
+                        location
+                          .filter((lo) => lo.value === city)[0]
+                          .districts.filter(
+                            (dis) => dis.value === districts
+                          )[0]
+                          .wards.filter((w) =>
+                            hos.districts.find((item) =>
+                              item.wards.find((wa) => wa.value === w.value)
                             )
-                            .map((ward) => (
-                              <IonSelectOption value={ward.value}>
-                                {ward.label}
-                              </IonSelectOption>
-                            ))
-                        )
+                          )
+                          .map((ward) => (
+                            <IonSelectOption value={ward.value}>
+                              {ward.label}
+                            </IonSelectOption>
+                          ))
+                      )
                       : ""}
                   </IonSelect>
                 )}
@@ -263,20 +262,20 @@ const ChoosingHospital: React.FC = () => {
 
               {typeSearch === "unitTypeCity"
                 ? searchByUnitTypeAndCity.map((hos) => (
-                    <HospitalItem hospital={hos} />
-                  ))
+                  <HospitalItem hospital={hos} />
+                ))
                 : ""}
 
               {typeSearch === "unitTypeCityDistrict"
                 ? searchByUnitTypeAndCityAndDistrict.map((hos) => (
-                    <HospitalItem hospital={hos} />
-                  ))
+                  <HospitalItem hospital={hos} />
+                ))
                 : ""}
 
               {typeSearch === "unitTypeCityDistrictWard"
                 ? searchByUnitTypeAndCityAndDistrictAndWard.map((hos) => (
-                    <HospitalItem hospital={hos} />
-                  ))
+                  <HospitalItem hospital={hos} />
+                ))
                 : ""}
             </StyledContent>
             <button

@@ -5,18 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.datatheorem.android.trustkit.reporting.BackgroundReporter;
 import com.datatheorem.android.trustkit.reporting.PinningFailureReport;
+import com.codetrixstudio.capacitor.GoogleAuth.GoogleAuth;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
+import com.whitestein.securestorage.SecureStoragePlugin;
 
 import java.util.ArrayList;
-import com.codetrixstudio.capacitor.GoogleAuth.GoogleAuth;
-import com.whitestein.securestorage.SecureStoragePlugin;
 
 public class MainActivity extends BridgeActivity {
   PinningFailureReportBroadcastReceiver pinningFailureReportBroadcastReceiver;
@@ -37,6 +38,7 @@ public class MainActivity extends BridgeActivity {
       // Additional plugins you've installed go here
       // Ex: add(TotallyAwesomePlugin.class);
       add(GoogleAuth.class);
+      getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
       add(com.getcapacitor.community.facebooklogin.FacebookLogin.class);
       add(SecureStoragePlugin.class);
     }});

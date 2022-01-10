@@ -4,6 +4,8 @@
 <!-- Official Android N API -->
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">secure.example.com</domain>
+        <domain includeSubdomains="true">cdn.example.com</domain>
+        <domain includeSubdomains="true">localhost</domain>
     </domain-config>
 <domain-config cleartextTrafficPermitted="false">
     <domain includeSubdomains="true">bakco.vn</domain>

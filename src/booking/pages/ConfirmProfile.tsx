@@ -51,7 +51,6 @@ const ConfirmProfile: React.FC = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data: TestingContent) => {
-    console.log(data);
     dispatch(
       postExaminations({
         interval: interval!,
@@ -79,13 +78,13 @@ const ConfirmProfile: React.FC = () => {
         date: workingCalendarBooking?.date,
         testingContent: Boolean(serviceId.includes(ExaminationService.TESTING))
           ? {
-              ...data,
-              districtCode: districts!,
-              provinceCode: city!,
-              wardCode: wards!,
-              quantity: parseInt(data?.quantity?.toString()),
-              isPickUpAtTheFacility: checked ? false : true,
-            }
+            ...data,
+            districtCode: districts!,
+            provinceCode: city!,
+            wardCode: wards!,
+            quantity: parseInt(data?.quantity?.toString()),
+            isPickUpAtTheFacility: checked ? false : true,
+          }
           : {},
         consultingContent: {},
       })
@@ -181,8 +180,8 @@ const ConfirmProfile: React.FC = () => {
                         },
                       })}
                       placeholder={t("Receiver")}
-                      // onIonChange={(e) => setPhoneNumber(e.detail.value!)}
-                      // value={phoneNumber}
+                    // onIonChange={(e) => setPhoneNumber(e.detail.value!)}
+                    // value={phoneNumber}
                     ></IonInput>
                     {errors.receiver && (
                       <IonBadge color="danger">
@@ -292,12 +291,12 @@ const ConfirmProfile: React.FC = () => {
                               location.find((lo) => lo.value === city)
                             ) === true
                               ? location
-                                  .filter((lo) => lo.value === city)[0]
-                                  .districts.map((districts) => (
-                                    <IonSelectOption value={districts.value}>
-                                      {districts.label}
-                                    </IonSelectOption>
-                                  ))
+                                .filter((lo) => lo.value === city)[0]
+                                .districts.map((districts) => (
+                                  <IonSelectOption value={districts.value}>
+                                    {districts.label}
+                                  </IonSelectOption>
+                                ))
                               : ""}
                           </IonSelect>
                         )}
@@ -319,21 +318,21 @@ const ConfirmProfile: React.FC = () => {
                             {Boolean(
                               location.find((lo) => lo.value === city)
                             ) === true &&
-                            location
-                              .filter((lo) => lo.value === city)[0]
-                              .districts.filter(
-                                (dis) => dis.value === districts
-                              )[0] !== undefined
+                              location
+                                .filter((lo) => lo.value === city)[0]
+                                .districts.filter(
+                                  (dis) => dis.value === districts
+                                )[0] !== undefined
                               ? location
-                                  .filter((lo) => lo.value === city)[0]
-                                  .districts.filter(
-                                    (dis) => dis.value === districts
-                                  )[0]
-                                  .wards.map((ward) => (
-                                    <IonSelectOption value={ward.value}>
-                                      {ward.label}
-                                    </IonSelectOption>
-                                  ))
+                                .filter((lo) => lo.value === city)[0]
+                                .districts.filter(
+                                  (dis) => dis.value === districts
+                                )[0]
+                                .wards.map((ward) => (
+                                  <IonSelectOption value={ward.value}>
+                                    {ward.label}
+                                  </IonSelectOption>
+                                ))
                               : ""}
                           </IonSelect>
                         )}

@@ -1,29 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-<!-- Pin the domain www.datatheorem.com -->
-<!-- Official Android N API -->
+    <!-- Pin the domain www.datatheorem.com -->
+    <!-- Official Android N API -->
+    <domain-config>
+        <domain includeSubdomains="true">content.guardianapis.com</domain>>
+    </domain-config>
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">secure.example.com</domain>
         <domain includeSubdomains="true">cdn.example.com</domain>
         <domain includeSubdomains="true">localhost</domain>
     </domain-config>
-<domain-config cleartextTrafficPermitted="false">
-    <domain includeSubdomains="true">bakco.vn</domain>
-    <pin-set>
-        <pin digest="SHA-256">x4QzPSC810K5/cMjb05Qm4k3Bw5zBn4lTdO/nEW/Td4=</pin>
-        <pin digest="SHA-256">98G5NBTBZiyJlS5HweFYN5QmXgIbk15AoEP3U0SKtAQ=</pin>
-    </pin-set>
-    <!-- TrustKit Android API -->
-    <!-- Do not enforce pinning validation -->
-    <trustkit-config enforcePinning="false">
-        <!-- Add a reporting URL for pin validation reports -->
-        <report-uri>http://report.datatheorem.com/log_report</report-uri>
-    </trustkit-config>
-</domain-config>
-<debug-overrides>
-    <trust-anchors>
-        <!-- For debugging purposes, add a debug CA and override pins -->
-        <certificates overridePins="true" src="@raw/bakco" />
-    </trust-anchors>
-</debug-overrides>
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">bakco.vn</domain>
+        <pin-set>
+            <pin digest="SHA-256">x4QzPSC810K5/cMjb05Qm4k3Bw5zBn4lTdO/nEW/Td4=</pin>
+            <pin digest="SHA-256">98G5NBTBZiyJlS5HweFYN5QmXgIbk15AoEP3U0SKtAQ=</pin>
+        </pin-set>
+        <!-- TrustKit Android API -->
+        <!-- Do not enforce pinning validation -->
+        <trustkit-config enforcePinning="false">
+            <!-- Add a reporting URL for pin validation reports -->
+            <report-uri>http://report.datatheorem.com/log_report</report-uri>
+        </trustkit-config>
+    </domain-config>
+    <debug-overrides>
+        <trust-anchors>
+            <!-- For debugging purposes, add a debug CA and override pins -->
+            <certificates
+                overridePins="true"
+                src="@raw/bakco" />
+        </trust-anchors>
+    </debug-overrides>
 </network-security-config>
